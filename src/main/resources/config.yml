@@ -1,0 +1,5 @@
+prefix: '§8[§bMultiWorld§8]§r '
+no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
+player-not-found: '%prefix% §cThis player cannot be found'
+
+default-world: world

@@ -1,0 +1,24 @@
+api-version: 1.16
+author: Dev7ex
+database: false
+depend:
+description: ${project.description}
+load: POSTWORLD
+loadbefore: []
+main: com.dev7ex.multiworld.MultiWorldPlugin
+name: ${project.name}
+prefix: ${project.name}
+softdepend: []
+version: ${project.version}
+website: ${project.url}
+commands:
+  back:
+    aliases:
+    description:
+    usage:
+    permissions:
+  world:
+    aliases: [w, multiworld, mw]
+    description:
+    usage:
+    permissions:
