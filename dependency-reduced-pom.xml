@@ -4,7 +4,9 @@
   <groupId>com.dev7ex</groupId>
   <artifactId>multiworld-plugin</artifactId>
   <name>MultiWorld</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.1.0-SNAPSHOT</version>
+  <description>World Mangement for Minecraft</description>
+  <url>https://www.spigotmc.org/resources/multiworld.92559/</url>
   <build>
     <defaultGoal>clean package</defaultGoal>
     <resources>
