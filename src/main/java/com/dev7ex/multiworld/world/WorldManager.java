@@ -138,6 +138,11 @@ public final class WorldManager {
             worldCreator.environment(worldProperties.getWorldType().getEnvironment());
         }
 
+        switch (worldProperties.getWorldType()) {
+            case VOID: worldCreator.generator(new VoidChunkGenerator()); break;
+            case FLAT: worldCreator.generator(new FlatChunkGenerator()); break;
+        }
+
         final World world = Bukkit.createWorld(worldCreator);
         world.setDifficulty(worldProperties.getDifficulty());
         commandSender.sendMessage(this.configuration.getWorldMessage("loading.finished").replaceAll("%world%", worldName));
