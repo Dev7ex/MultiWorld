@@ -1,5 +1,55 @@
 prefix: '§8[§bMultiWorld§8]§r '
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
-player-not-found: '%prefix% §cThis player cannot be found'
+player-not-found: '%prefix%§cThis player cannot be found'
+only-player-command: '%prefix% This command can only performed by a player'
+usage: '%prefix%§cUsage: %command%'
 
-default-world: world
+defaults:
+  world: world
+  difficulty: PEACEFUL
+  gameMode: SURVIVAL
+  pvp-enabled: true
+
+messages:
+  back:
+    world-already-there: '%prefix%§§7You are already in this world'
+    world-not-loaded: '%prefix%§7This world is no longer active'
+    world-not-found: '%prefix%§7There is no world you can be teleported'
+  world:
+    general:
+      already-exists: '%prefix%§7This world already exists!'
+      type-not-available: '%prefix%§7This world type does not exist'
+      waiting: '%prefix%§cPlease wait a moment...'
+      cannot-deleted: '%prefix%§cThis world cannot be deleted!'
+      cannot-unloaded: '%prefix%§cThis world cannot be unloaded!'
+      not-exists: '%prefix%§7This world dont exist!'
+      error-message: '%prefix%§cAn error has occurred! Contact an Administrator!'
+    create:
+      starting: '%prefix%§7The world §a%world% §7is being created...'
+      finished: '%prefix%§7The world §a%world% §7was successfully created!'
+    delete:
+      starting: '%prefix%§7The world §a%world% §7will be deleted...'
+      finished: '%prefix%§7The world §a%world% §7has been deleted!'
+    list:
+      message: '%prefix%§7Worlds: %worlds%'
+    unloading:
+      starting: '%prefix%§7Trying to unload the world §a%world%'
+      finished: '%prefix%§7The World §a%world% §7has been unloaded!'
+      chunk-starting: '%prefix%§7Trying to unload all chunks...'
+      chunk-finished: '%prefix%§7All chunks are unloaded'
+      chunk-teleport: '%prefix%§7This world has been unloaded you will be teleported'
+    loading:
+      starting: '%prefix%§7The world §a%world% §7is loading...'
+      finished: '%prefix%§7The world §a%world% §7was successfully loaded!'
+      already-loaded: '%prefix%§7This world is loaded'
+      not-loaded: '%prefix%§7This world is not loaded!'
+    options:
+      updating: '%prefix%§7Updating §a%option% §7with value §a%value% §7in §a%world%'
+      value-wrong: '%prefix%§7The value §a%value% §7is not present'
+      not-available: '%prefix%§7This world option does not exist'
+    teleport:
+      message: '%prefix%§7Teleporting §a%player% §7to %world%'
+      component-message: '%prefix%§8[§aTeleport§8]'
+      component-hover-text: '%prefix%§7Click to teleport'
+      target-already-in-world: '%prefix%§7Player §a%target% already in this world'
+      sender-already-in-world: '%prefix%§7You already in this world!'
