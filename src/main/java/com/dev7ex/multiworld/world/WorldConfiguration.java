@@ -4,7 +4,6 @@ import com.dev7ex.common.bukkit.configuration.SimpleConfiguration;
 
 import com.google.common.collect.Maps;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.ConfigurationSection;
@@ -25,9 +24,6 @@ public final class WorldConfiguration extends SimpleConfiguration {
     }
 
     public final void registerWorld(final String worldName, final WorldProperties worldProperties) {
-        if (Bukkit.getWorld(worldName) == null) {
-            return;
-        }
         super.yamlConfiguration.set(worldName + ".creator", worldProperties.getWorldCreator());
         super.yamlConfiguration.set(worldName + ".creation-time", worldProperties.getCreationTime());
         super.yamlConfiguration.set(worldName + ".last-world-interaction", worldProperties.getLastWorldInteraction());

@@ -151,6 +151,20 @@ public final class WorldManager {
         this.worldProperties.put(worldName, worldProperties);
     }
 
+    public final void importWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {
+        commandSender.sendMessage(this.configuration.getWorldMessage("import.starting").replaceAll("%world%", worldName));
+
+        final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
+                System.currentTimeMillis(), System.currentTimeMillis(), worldType,
+                Difficulty.valueOf(this.configuration.getValues().getString("defaults.difficulty")),
+                GameMode.valueOf(this.configuration.getValues().getString("defaults.gameMode")),
+                this.configuration.getValues().getBoolean("defaults.pvp-enabled"));
+
+        this.worldConfiguration.registerWorld(worldName, worldProperties);
+        this.worldProperties.put(worldName, worldProperties);
+        commandSender.sendMessage(this.configuration.getWorldMessage("import.finished").replaceAll("%world%", worldName));
+    }
+
     public final void teleportWorld(final CommandSender commandSender, final Player target, final Location teleportLocation) {
         final WorldUser worldUser = this.worldUserService.getUsers().get(target.getUniqueId());
         final WorldUserProperties userProperties = worldUser.getProperties();

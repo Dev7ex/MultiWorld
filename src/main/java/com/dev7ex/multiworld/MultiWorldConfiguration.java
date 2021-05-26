@@ -4,6 +4,8 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.bukkit.plugin.configuration.PluginConfiguration;
 import com.dev7ex.common.java.map.ParsedMap;
 
+import java.util.List;
+
 /**
  * @author Dev7ex
  * @since 19.05.2021
@@ -38,12 +40,16 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("messages.world.general.cannot-unloaded", super.fileConfiguration.getString("messages.world.general.cannot-unloaded"));
         super.values.put("messages.world.general.not-exists", super.fileConfiguration.getString("messages.world.general.not-exists"));
         super.values.put("messages.world.general.error-message", super.fileConfiguration.getString("messages.world.general.error-message"));
+        super.values.put("messages.world.general.folder-not-exists", super.fileConfiguration.getString("messages.world.general.folder-not-exists"));
 
         super.values.put("messages.world.create.starting", super.fileConfiguration.getString("messages.world.create.starting"));
         super.values.put("messages.world.create.finished", super.fileConfiguration.getString("messages.world.create.finished"));
         super.values.put("messages.world.delete.starting", super.fileConfiguration.getString("messages.world.delete.starting"));
         super.values.put("messages.world.delete.finished", super.fileConfiguration.getString("messages.world.delete.finished"));
         super.values.put("messages.world.list.message", super.fileConfiguration.getString("messages.world.list.message"));
+        super.values.put("messages.world.import.already-imported", super.fileConfiguration.getString("messages.world.import.already-imported"));
+        super.values.put("messages.world.import.starting", super.fileConfiguration.getString("messages.world.import.starting"));
+        super.values.put("messages.world.import.finished", super.fileConfiguration.getString("messages.world.import.finished"));
         super.values.put("messages.world.unloading.starting", super.fileConfiguration.getString("messages.world.unloading.starting"));
         super.values.put("messages.world.unloading.finished", super.fileConfiguration.getString("messages.world.unloading.finished"));
         super.values.put("messages.world.unloading.chunk-starting", super.fileConfiguration.getString("messages.world.unloading.chunk-starting"));
@@ -53,6 +59,7 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("messages.world.loading.finished", super.fileConfiguration.getString("messages.world.loading.finished"));
         super.values.put("messages.world.loading.already-loaded", super.fileConfiguration.getString("messages.world.loading.already-loaded"));
         super.values.put("messages.world.loading.not-loaded", super.fileConfiguration.getString("messages.world.loading.not-loaded"));
+        super.values.put("messages.world.loading.not-registered", super.fileConfiguration.getString("messages.world.loading.not-registered"));
         super.values.put("messages.world.options.updating", super.fileConfiguration.getString("messages.world.options.updating"));
         super.values.put("messages.world.options.value-wrong", super.fileConfiguration.getString("messages.world.options.value-wrong"));
         super.values.put("messages.world.options.not-available", super.fileConfiguration.getString("messages.world.options.not-available"));
@@ -61,6 +68,7 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("messages.world.teleport.component-hover-text", super.fileConfiguration.getString("messages.world.teleport.component-hover-text"));
         super.values.put("messages.world.teleport.target-already-in-world", super.fileConfiguration.getString("messages.world.teleport.target-already-in-world"));
         super.values.put("messages.world.teleport.sender-already-in-world", super.fileConfiguration.getString("messages.world.teleport.sender-already-in-world"));
+        super.values.put("protected-folder", super.fileConfiguration.getStringList("protected-folder"));
     }
 
     @Override
@@ -76,6 +84,14 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
     @Override
     public final String getPlayerNotFoundMessage() {
         return super.getMessageSafe("player-not-found").replaceAll("%prefix%", this.getPrefix());
+    }
+
+    public final List<String> getAutoLoadableWorlds() {
+        return super.fileConfiguration.getStringList("auto-load");
+    }
+
+    public final List<String> getProtectedFolders() {
+        return super.values.getValue("protected-folder");
     }
 
     public final String getUsage() {

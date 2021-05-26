@@ -1,9 +1,24 @@
+#     __  ___      ____  _ _       __           __    __
+#   /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
+#  / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
+# / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
+#/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
+#
+# Copyright (c) 2021 by Dev7ex
+# Version: 1.1.1
+
 prefix: '§8[§bMultiWorld§8]§r '
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
 player-not-found: '%prefix%§cThis player cannot be found'
 only-player-command: '%prefix% This command can only performed by a player'
 usage: '%prefix%§cUsage: %command%'
 
+# Worlds that should be loaded when the server starts
+# WARNING: When the world is not registered by MultiWorld the world will not bee loaded
+# The world has to be imported manually! (Attention choose the correct WorldType)
+auto-load: []
+
+# Standard values for new worlds
 defaults:
   world: world
   difficulty: PEACEFUL
@@ -23,6 +38,7 @@ messages:
       cannot-deleted: '%prefix%§cThis world cannot be deleted!'
       cannot-unloaded: '%prefix%§cThis world cannot be unloaded!'
       not-exists: '%prefix%§7This world dont exist!'
+      folder-not-exists: '%prefix%§7World folder %folder% was not found'
       error-message: '%prefix%§cAn error has occurred! Contact an Administrator!'
     create:
       starting: '%prefix%§7The world §a%world% §7is being created...'
@@ -30,6 +46,10 @@ messages:
     delete:
       starting: '%prefix%§7The world §a%world% §7will be deleted...'
       finished: '%prefix%§7The world §a%world% §7has been deleted!'
+    import:
+      already-imported: '%prefix%§7Skipped §a%world% §7already imported'
+      starting: '%prefix%§7Starting import of §a%world%§7...'
+      finished: '%prefix%§7Finished import of §a%world%§7!'
     list:
       message: '%prefix%§7Worlds: %worlds%'
     unloading:
@@ -43,6 +63,7 @@ messages:
       finished: '%prefix%§7The world §a%world% §7was successfully loaded!'
       already-loaded: '%prefix%§7This world is loaded'
       not-loaded: '%prefix%§7This world is not loaded!'
+      not-registered: '%prefix%§7Couldnt load the world §a%world%§7. Use /world import'
     options:
       updating: '%prefix%§7Updating §a%option% §7with value §a%value% §7in §a%world%'
       value-wrong: '%prefix%§7The value §a%value% §7is not present'

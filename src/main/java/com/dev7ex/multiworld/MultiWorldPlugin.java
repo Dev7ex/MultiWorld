@@ -67,9 +67,4 @@ public final class MultiWorldPlugin extends BukkitPlugin {
         return JavaPlugin.getPlugin(MultiWorldPlugin.class);
     }
 
-    @Override
-    public final ChunkGenerator getDefaultWorldGenerator(final String worldName, final String id) {
-        return new VoidChunkGenerator();
-    }
-
 }

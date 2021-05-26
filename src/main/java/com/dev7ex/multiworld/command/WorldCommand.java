@@ -28,6 +28,7 @@ public final class WorldCommand extends SimpleCommand implements TabCompleter {
         super.registerSubCommand(new DeleteCommand(plugin));
         super.registerSubCommand(new InfoCommand(plugin));
         super.registerSubCommand(new HelpCommand(plugin));
+        super.registerSubCommand(new ImportCommand(plugin));
         super.registerSubCommand(new ListCommand(plugin));
         super.registerSubCommand(new LoadCommand(plugin));
         super.registerSubCommand(new OptionsCommand(plugin));
