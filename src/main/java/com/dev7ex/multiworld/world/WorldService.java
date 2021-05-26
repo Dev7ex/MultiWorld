@@ -3,11 +3,12 @@ package com.dev7ex.multiworld.world;
 import com.dev7ex.common.bukkit.plugin.service.PluginService;
 
 import com.dev7ex.multiworld.MultiWorldConfiguration;
-import com.dev7ex.multiworld.MultiWorldPlugin;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.GameMode;
 import org.bukkit.World;
+
+import java.io.File;
+import java.util.Objects;
 
 /**
  * @author Dev7ex
@@ -29,18 +30,18 @@ public final class WorldService implements PluginService {
     @Override
     public final void onEnable() {
         for (final World worlds : Bukkit.getWorlds()) {
-            System.out.println(worlds.getName());
             if (this.worldConfiguration.isWorldRegistered(worlds.getName())) {
                 continue;
             }
-            final WorldProperties worldProperties = new WorldProperties(worlds.getName(), "CONSOLE",
-                    System.currentTimeMillis(), System.currentTimeMillis(), WorldType.getByEnvironment(worlds.getEnvironment()),
-                    Difficulty.valueOf(this.configuration.getValues().getString("defaults.difficulty")),
-                    GameMode.valueOf(this.configuration.getValues().getString("defaults.gameMode")),
-                    this.configuration.getValues().getBoolean("defaults.pvp-enabled"));
+            this.worldManager.importWorld(Bukkit.getConsoleSender(), worlds.getName(), WorldType.getByEnvironment(worlds.getEnvironment()));
+        }
 
-            Bukkit.getLogger().info("Register World: " + worlds.getName());
-            this.worldConfiguration.registerWorld(worlds.getName(), worldProperties);
+        for(final String worlds : this.configuration.getAutoLoadableWorlds()) {
+            if (!this.worldConfiguration.isWorldRegistered(worlds)) {
+                Bukkit.getConsoleSender().sendMessage(this.configuration.getWorldMessage("loading.not-registered").replaceAll("%world%", worlds));
+                continue;
+            }
+            this.worldManager.loadWorld(Bukkit.getConsoleSender(), worlds);
         }
 
         for (final String worlds : this.worldConfiguration.getWorlds()) {
