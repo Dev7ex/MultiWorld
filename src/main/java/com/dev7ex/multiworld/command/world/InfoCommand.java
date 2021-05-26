@@ -4,14 +4,22 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.world.WorldProperties;
 
+import com.google.common.collect.Lists;
+
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+
+import java.util.List;
 
 /**
+ *
  * @author Dev7ex
  * @since 24.05.2021
+ *
  */
 
-public final class InfoCommand extends WorldSubCommand {
+public final class InfoCommand extends WorldSubCommand implements TabCompleter {
 
     public InfoCommand(final MultiWorldPlugin plugin) {
         super(plugin);
@@ -52,6 +60,11 @@ public final class InfoCommand extends WorldSubCommand {
         commandSender.sendMessage("§f§m------------------§r§r §b" + worldProperties.getWorldName() + " §f§m------------------");
         commandSender.sendMessage(" ");
         return true;
+    }
+
+    @Override
+    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+        return Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
     }
 
 }

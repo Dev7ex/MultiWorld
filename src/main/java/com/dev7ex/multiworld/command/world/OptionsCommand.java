@@ -7,7 +7,7 @@ import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.event.world.WorldOptionUpdateEvent;
 import com.dev7ex.multiworld.world.WorldOption;
 import com.dev7ex.multiworld.world.WorldProperties;
-import com.dev7ex.multiworld.world.WorldType;
+
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

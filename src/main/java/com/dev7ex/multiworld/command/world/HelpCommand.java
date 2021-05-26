@@ -24,6 +24,7 @@ public final class HelpCommand extends SubCommand {
         commandSender.sendMessage("§7- §7/multiworld §bcreate §7<Name> <WorldType>");
         commandSender.sendMessage("§7- §7/multiworld §bdelete §7<Name>");
         commandSender.sendMessage("§7- §7/multiworld §bhelp");
+        commandSender.sendMessage("§7- §7/multiworld §bimport §7<World>");
         commandSender.sendMessage("§7- §7/multiworld §binfo §7<World>");
         commandSender.sendMessage("§7- §7/multiworld §blist");
         commandSender.sendMessage("§7- §7/multiworld §bload §7<World>");

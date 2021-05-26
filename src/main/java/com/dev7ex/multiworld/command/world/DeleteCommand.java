@@ -1,14 +1,17 @@
 package com.dev7ex.multiworld.command.world;
 
+import com.dev7ex.common.java.util.FileUtil;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 
 import com.google.common.collect.Lists;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -36,6 +39,18 @@ public final class DeleteCommand extends WorldSubCommand implements TabCompleter
             return true;
         }
 
+        final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
+
+        if(!worldFolder.exists()) {
+            commandSender.sendMessage(super.configuration.getWorldMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
+            return true;
+        }
+
+        if(!FileUtil.containsFile(worldFolder, "level.dat")) {
+            commandSender.sendMessage(super.configuration.getWorldMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
+            return true;
+        }
+
         if (arguments[1].equalsIgnoreCase(MultiWorldPlugin.getInstance().getConfiguration().getDefaultWorldName())) {
             commandSender.sendMessage(super.configuration.getWorldMessage("general.cannot-deleted").replaceAll("%world%", arguments[1]));
             return true;
@@ -56,9 +71,9 @@ public final class DeleteCommand extends WorldSubCommand implements TabCompleter
 
     @Override
     public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
-        final List<String> loadedWorlds = Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
-        loadedWorlds.remove(super.plugin.getConfiguration().getMessageSafe("defaults.world"));
-        return loadedWorlds;
+        final List<String> worlds = Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
+        worlds.remove(super.plugin.getConfiguration().getMessageSafe("defaults.world"));
+        return worlds;
     }
 
 }
