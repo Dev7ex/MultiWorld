@@ -5,7 +5,7 @@
 #/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
 #
 # Copyright (c) 2021 by Dev7ex
-# Version: 1.1.1
+# Version: 1.1.2
 
 prefix: '§8[§bMultiWorld§8]§r '
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
@@ -30,6 +30,9 @@ messages:
     world-already-there: '%prefix%§§7You are already in this world'
     world-not-loaded: '%prefix%§7This world is no longer active'
     world-not-found: '%prefix%§7There is no world you can be teleported'
+  difficulty:
+    changing: '%prefix% §7Difficulty is now %difficulty%'
+    not-exists: '%prefix%§7This difficulty type does not exists!'
   world:
     general:
       already-exists: '%prefix%§7This world already exists!'
@@ -46,10 +49,43 @@ messages:
     delete:
       starting: '%prefix%§7The world §a%world% §7will be deleted...'
       finished: '%prefix%§7The world §a%world% §7has been deleted!'
+    help:
+      - ''
+      - '§f§m------------------§r§r %prefix% §f§m------------------'
+      - ''
+      - '§7- §7/multiworld §bback'
+      - '§7- §7/multiworld §bcreate §7<Name> <WorldType>'
+      - '§7- §7/multiworld §bdelete §7<Name>'
+      - '§7- §7/multiworld §bhelp'
+      - '§7- §7/multiworld §bimport §7<World>'
+      - '§7- §7/multiworld §binfo §7<World>'
+      - '§7- §7/multiworld §blist'
+      - '§7- §7/multiworld §bload §7<World>'
+      - '§7- §7/multiworld §boption §7<World> <Option> <Value>'
+      - '§7- §7/multiworld §bteleport §7<World>'
+      - '§7- §7/multiworld §bunload §7<World>'
+      - ''
+      - '§f§m------------------§r§r %prefix% §f§m------------------'
+      - ''
     import:
       already-imported: '%prefix%§7Skipped §a%world% §7already imported'
       starting: '%prefix%§7Starting import of §a%world%§7...'
       finished: '%prefix%§7Finished import of §a%world%§7!'
+    info:
+      - ''
+      - '§f§m------------------§r§r §b%world% §f§m------------------'
+      - ''
+      - '§7- Creator: §b%worldCreator%'
+      - '§7- CreationTime: §b%creationDate%'
+      - '§7- Loaded: §b%loaded%'
+      - '§7- WorldType: §b%worldType%'
+      - '§7- Environment: §b%environment%'
+      - '§7- Difficulty: §b%difficulty%'
+      - '§7- GameMode: §b%gameMode%'
+      - '§7- PvP: §b%pvpEnabled%'
+      - ''
+      - '§f§m------------------§r§r §b%world% §f§m------------------'
+      - ''
     list:
       message: '%prefix%§7Worlds: %worlds%'
     unloading:
