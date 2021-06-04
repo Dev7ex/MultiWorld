@@ -18,7 +18,6 @@ import java.util.List;
  * @since 24.05.2021
  *
  */
-
 public final class InfoCommand extends WorldSubCommand implements TabCompleter {
 
     public InfoCommand(final MultiWorldPlugin plugin) {
@@ -45,20 +44,15 @@ public final class InfoCommand extends WorldSubCommand implements TabCompleter {
         }
         final WorldProperties worldProperties = super.worldManager.getWorldProperties().get(arguments[1]);
 
-        commandSender.sendMessage(" ");
-        commandSender.sendMessage("§f§m------------------§r§r §b" + worldProperties.getWorldName() + " §f§m------------------");
-        commandSender.sendMessage(" ");
-        commandSender.sendMessage("§7- Creator: §b" + worldProperties.getWorldCreator());
-        commandSender.sendMessage("§7- CreationTime: §b" + worldProperties.formatCreationDate());
-        commandSender.sendMessage("§7- Loaded: §b" + (worldProperties.isLoaded() ? "true" : "false"));
-        commandSender.sendMessage("§7- WorldType: §b" + worldProperties.getWorldType().toString());
-        commandSender.sendMessage("§7- Environment: §b" + worldProperties.getWorldType().getEnvironment().toString());
-        commandSender.sendMessage("§7- Difficulty: §b" + worldProperties.getDifficulty().toString());
-        commandSender.sendMessage("§7- GameMode: §b" + worldProperties.getGameMode().toString());
-        commandSender.sendMessage("§7- PvP: §b" + (worldProperties.isPvpEnabled() ? "true" : "false"));
-        commandSender.sendMessage(" ");
-        commandSender.sendMessage("§f§m------------------§r§r §b" + worldProperties.getWorldName() + " §f§m------------------");
-        commandSender.sendMessage(" ");
+        super.configuration.getStringList("messages.world.info").forEach(message ->
+                commandSender.sendMessage(message.replaceAll("%world%", arguments[1]).replaceAll("%worldCreator%", worldProperties.getWorldCreator())
+                        .replaceAll("%creationDate%", worldProperties.formatCreationDate(worldProperties.getCreationTime()))
+                        .replaceAll("%loaded%", worldProperties.isLoaded() ? "true" : "false")
+                        .replaceAll("%worldType%", worldProperties.getWorldType().toString())
+                        .replaceAll("%environment%", worldProperties.getWorldType().getEnvironment().toString())
+                        .replaceAll("%difficulty%", worldProperties.getDifficulty().toString())
+                        .replaceAll("%gameMode%", worldProperties.getGameMode().toString())
+                        .replaceAll("%pvpEnabled%", worldProperties.isPvpEnabled() ? "true" : "false")));
         return true;
     }
 
