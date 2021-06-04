@@ -1,51 +1,42 @@
-package com.dev7ex.multiworld.command;
+package com.dev7ex.multiworld.command.world;
 
-import com.dev7ex.common.bukkit.command.SimpleCommand;
-
-import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.user.WorldUser;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- *
  * @author Dev7ex
  * @since 20.05.2021
- *
  */
-
-public final class BackCommand extends SimpleCommand {
-
-    private final MultiWorldConfiguration configuration;
+public final class BackCommand extends WorldSubCommand {
 
     public BackCommand(final MultiWorldPlugin plugin) {
         super(plugin);
-        super.setUsage(plugin.getConfiguration().getMessage("usage").replaceAll("%command%", "/back"));
-        super.setPermission("multiworld.command.back");
-        this.configuration = plugin.getConfiguration();
+        super.setUsage(plugin.getConfiguration().getUsage().replaceAll("%command%", "back"));
+        super.setPermission("multiworld.command.world.back");
     }
 
     @Override
-    public final boolean onCommand(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(super.getConfiguration().getMessageSafe("only-player-command"));
+            commandSender.sendMessage(super.configuration.getMessage("only-player-command"));
             return true;
         }
         final Player player = (Player) commandSender;
-        final WorldUser worldUser = MultiWorldPlugin.getInstance().getWorldUserService().getUsers().get(player.getUniqueId());
+        final WorldUser worldUser = super.getWorldUser(player.getUniqueId());
 
         if (!player.hasPermission(super.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
         }
 
-        if (arguments.length != 0) {
+        if (arguments.length != 1) {
             commandSender.sendMessage(super.getUsage());
             return true;
         }
@@ -67,7 +58,7 @@ public final class BackCommand extends SimpleCommand {
             return true;
         }
         final Location teleportLocation = (worldUser.getProperties().getLastWorldLocation() == null ? world.getSpawnLocation() : worldUser.getProperties().getLastWorldLocation());
-        MultiWorldPlugin.getInstance().getWorldManager().teleportWorld(player, teleportLocation);
+        super.worldManager.teleportWorld(player, teleportLocation);
         return true;
     }
 
