@@ -9,13 +9,10 @@ import org.bukkit.generator.ChunkGenerator;
 import java.util.Random;
 
 /**
- *
  * @author Dev7ex
  * @since 20.05.2021
- *
  */
-
-public class VoidChunkGenerator extends ChunkGenerator {
+public final class VoidChunkGenerator extends ChunkGenerator {
 
     @Override
     public final ChunkData generateChunkData(final World world, final Random random, final int x, final int z, final BiomeGrid biome) {

@@ -1,7 +1,7 @@
 package com.dev7ex.multiworld.command.world;
 
-import com.dev7ex.common.bukkit.command.SubCommand;
 import com.dev7ex.common.java.reference.Reference;
+
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.event.world.WorldOptionUpdateEvent;
@@ -9,6 +9,7 @@ import com.dev7ex.multiworld.world.WorldOption;
 import com.dev7ex.multiworld.world.WorldProperties;
 
 import com.google.common.collect.Lists;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,7 +21,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 24.05.2021
  */
-
 public final class OptionsCommand extends WorldSubCommand implements TabCompleter {
 
     public OptionsCommand(final MultiWorldPlugin plugin) {
@@ -45,7 +45,6 @@ public final class OptionsCommand extends WorldSubCommand implements TabComplete
             commandSender.sendMessage(super.configuration.getWorldMessage("general.not-exists").replaceAll("%world%", arguments[1]));
             return true;
         }
-
         final Reference<WorldOption> optionReference = new Reference<>();
 
         try {
@@ -83,8 +82,7 @@ public final class OptionsCommand extends WorldSubCommand implements TabComplete
 
         try {
             optionReference.setValue(WorldOption.valueOf(arguments[2].toUpperCase()));
-        } catch (final IllegalArgumentException ignored) {
-        }
+        } catch (final IllegalArgumentException ignored) {}
 
         if (optionReference.getValue() == null) {
             return null;

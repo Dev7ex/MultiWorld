@@ -19,12 +19,9 @@ import java.io.File;
 import java.util.List;
 
 /**
- *
  * @author Dev7ex
  * @since 25.05.2021
- *
  */
-
 public final class ImportCommand extends WorldSubCommand implements TabCompleter {
 
     public ImportCommand(final MultiWorldPlugin plugin) {
@@ -44,7 +41,6 @@ public final class ImportCommand extends WorldSubCommand implements TabCompleter
             commandSender.sendMessage(super.getUsage());
             return true;
         }
-
         final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
 
         if(!FileUtil.containsFile(worldFolder, "level.dat")) {
@@ -56,7 +52,6 @@ public final class ImportCommand extends WorldSubCommand implements TabCompleter
             commandSender.sendMessage(this.configuration.getWorldMessage("import.already-imported").replaceAll("%world%", arguments[1]));
             return true;
         }
-
         final Reference<WorldType> worldTypeReference = new Reference<>();
 
         try {

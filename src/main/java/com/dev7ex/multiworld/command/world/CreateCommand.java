@@ -17,7 +17,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class CreateCommand extends WorldSubCommand implements TabCompleter {
 
     public CreateCommand(final MultiWorldPlugin plugin) {
@@ -42,7 +41,6 @@ public final class CreateCommand extends WorldSubCommand implements TabCompleter
             commandSender.sendMessage(super.configuration.getWorldMessage("general.already-exists").replaceAll("%world%", arguments[1]));
             return true;
         }
-
         final Reference<WorldType> worldTypeReference = new Reference<>();
 
         try {

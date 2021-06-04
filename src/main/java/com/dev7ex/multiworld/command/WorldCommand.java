@@ -17,13 +17,13 @@ import java.util.List;
  * @author Dev7ex
  * @since 19.05.2021
  */
-
 public final class WorldCommand extends SimpleCommand implements TabCompleter {
 
     public WorldCommand(final MultiWorldPlugin plugin) {
         super(plugin);
         super.setPermission("multiworld.command.world");
 
+        super.registerSubCommand(new BackCommand(plugin));
         super.registerSubCommand(new CreateCommand(plugin));
         super.registerSubCommand(new DeleteCommand(plugin));
         super.registerSubCommand(new InfoCommand(plugin));

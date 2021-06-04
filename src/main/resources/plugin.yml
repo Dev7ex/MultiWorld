@@ -1,7 +1,7 @@
 api-version: 1.16
 author: Dev7ex
 database: false
-depend: []
+depend:
 description: ${project.description}
 load: POSTWORLD
 loadbefore: [ ]
@@ -12,11 +12,6 @@ softdepend: [ ]
 version: ${project.version}
 website: ${project.url}
 commands:
-  back:
-    aliases:
-    description:
-    usage:
-    permissions:
   world:
     aliases: [w, multiworld, mw]
     description:

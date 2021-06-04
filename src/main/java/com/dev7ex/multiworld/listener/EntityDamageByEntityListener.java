@@ -16,7 +16,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
  * @author Dev7ex
  * @since 24.05.2021
  */
-
 public final class EntityDamageByEntityListener extends MultiWorldListener {
 
     public EntityDamageByEntityListener(final MultiWorldPlugin multiWorldPlugin) {

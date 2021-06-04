@@ -16,7 +16,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class UnloadCommand extends WorldSubCommand implements TabCompleter {
 
     public UnloadCommand(final MultiWorldPlugin plugin) {

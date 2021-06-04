@@ -14,7 +14,6 @@ import java.util.UUID;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public abstract class WorldSubCommand extends SubCommand {
 
     protected final WorldUserService worldUserService;

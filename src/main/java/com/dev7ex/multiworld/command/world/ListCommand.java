@@ -14,7 +14,6 @@ import java.util.Set;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class ListCommand extends WorldSubCommand {
 
     public ListCommand(final MultiWorldPlugin plugin) {

@@ -3,6 +3,7 @@ package com.dev7ex.multiworld.world;
 import com.google.common.collect.Lists;
 
 import lombok.Getter;
+
 import org.bukkit.World;
 
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 @Getter
 public enum WorldType {
 

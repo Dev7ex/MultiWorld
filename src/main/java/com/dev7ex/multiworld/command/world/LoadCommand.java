@@ -52,8 +52,8 @@ public final class LoadCommand extends WorldSubCommand implements TabCompleter {
             commandSender.sendMessage(super.configuration.getWorldMessage("general.not-exists").replaceAll("%world%", arguments[1]));
             return true;
         }
-
         super.worldManager.loadWorld(commandSender, arguments[1]);
+
         if (commandSender instanceof Player) {
             final Player player = (Player) commandSender;
             player.spigot().sendMessage(this.getTeleportComponent(player, arguments[1]));

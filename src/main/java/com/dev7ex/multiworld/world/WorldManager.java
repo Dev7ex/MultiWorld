@@ -2,10 +2,8 @@ package com.dev7ex.multiworld.world;
 
 import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
-
 import com.dev7ex.multiworld.generator.FlatChunkGenerator;
 import com.dev7ex.multiworld.generator.VoidChunkGenerator;
-
 import com.dev7ex.multiworld.user.WorldUser;
 import com.dev7ex.multiworld.user.WorldUserProperties;
 import com.dev7ex.multiworld.user.WorldUserService;
@@ -28,7 +26,6 @@ import java.util.Map;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 @Getter
 public final class WorldManager {
 
@@ -72,13 +69,13 @@ public final class WorldManager {
         }
         this.serverCreatingWorld = true;
         commandSender.sendMessage(this.configuration.getWorldMessage("create.starting").replaceAll("%world%", worldName));
-        final World world = worldCreator.createWorld();
         final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
                 System.currentTimeMillis(), System.currentTimeMillis(), worldType,
                 Difficulty.valueOf(this.configuration.getValues().getString("defaults.difficulty")),
                 GameMode.valueOf(this.configuration.getValues().getString("defaults.gameMode")),
                 this.configuration.getValues().getBoolean("defaults.pvp-enabled"));
         commandSender.sendMessage(this.configuration.getWorldMessage("create.finished").replaceAll("%world%", worldName));
+        final World world = worldCreator.createWorld();
         worldProperties.setLoaded(true);
         world.setDifficulty(worldProperties.getDifficulty());
         this.worldConfiguration.registerWorld(worldName, worldProperties);

@@ -11,12 +11,9 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 /**
- *
  * @author Dev7ex
  * @since 20.05.2021
- *
  */
-
 @Getter @Setter
 public final class WorldUser {
 

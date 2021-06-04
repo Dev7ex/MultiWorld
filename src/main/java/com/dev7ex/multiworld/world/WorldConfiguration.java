@@ -16,7 +16,6 @@ import java.util.Set;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class WorldConfiguration extends SimpleConfiguration {
 
     public WorldConfiguration(final Plugin plugin, final String fileName) {

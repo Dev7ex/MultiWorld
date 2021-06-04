@@ -10,7 +10,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 19.05.2021
  */
-
 public final class MultiWorldConfiguration extends PluginConfiguration {
 
     public MultiWorldConfiguration(final BukkitPlugin bukkitPlugin) {
@@ -32,6 +31,9 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("messages.back.world-already-there", super.fileConfiguration.getString("messages.back.world-already-there"));
         super.values.put("messages.back.world-not-loaded", super.fileConfiguration.getString("messages.back.world-not-loaded"));
         super.values.put("messages.back.world-not-found", super.fileConfiguration.getString("messages.back.world-not-found"));
+
+        super.values.put("messages.difficulty.changing", super.fileConfiguration.getString("messages.difficulty.changing"));
+        super.values.put("messages.difficulty.not-exists", super.fileConfiguration.getString("messages.difficulty.not-exist"));
 
         super.values.put("messages.world.general.already-exists", super.fileConfiguration.getString("messages.world.general.already-exists"));
         super.values.put("messages.world.general.type-not-available", super.fileConfiguration.getString("messages.world.general.type-not-available"));
@@ -68,7 +70,10 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("messages.world.teleport.component-hover-text", super.fileConfiguration.getString("messages.world.teleport.component-hover-text"));
         super.values.put("messages.world.teleport.target-already-in-world", super.fileConfiguration.getString("messages.world.teleport.target-already-in-world"));
         super.values.put("messages.world.teleport.sender-already-in-world", super.fileConfiguration.getString("messages.world.teleport.sender-already-in-world"));
-        super.values.put("protected-folder", super.fileConfiguration.getStringList("protected-folder"));
+
+
+        super.values.put("messages.world.info", super.fileConfiguration.getStringList("messages.world.info"));
+        super.values.put("messages.world.help", super.fileConfiguration.getStringList("messages.world.help"));
     }
 
     @Override
@@ -86,12 +91,12 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         return super.getMessageSafe("player-not-found").replaceAll("%prefix%", this.getPrefix());
     }
 
-    public final List<String> getAutoLoadableWorlds() {
-        return super.fileConfiguration.getStringList("auto-load");
+    public final List<String> getStringList(final String key) {
+        return super.values.getValue(key);
     }
 
-    public final List<String> getProtectedFolders() {
-        return super.values.getValue("protected-folder");
+    public final List<String> getAutoLoadableWorlds() {
+        return super.fileConfiguration.getStringList("auto-load");
     }
 
     public final String getUsage() {

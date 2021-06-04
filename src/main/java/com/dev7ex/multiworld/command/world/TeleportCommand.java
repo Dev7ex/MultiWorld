@@ -19,7 +19,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class TeleportCommand extends WorldSubCommand implements TabCompleter {
 
     public TeleportCommand(final MultiWorldPlugin plugin) {
@@ -40,6 +39,7 @@ public final class TeleportCommand extends WorldSubCommand implements TabComplet
             commandSender.sendMessage(super.getUsage());
             return true;
         }
+
         if (!super.worldManager.getWorldProperties().containsKey(arguments[2])) {
             commandSender.sendMessage(super.configuration.getWorldMessage("general.not-exists").replaceAll("%world%", arguments[1]));
             return true;
@@ -50,7 +50,6 @@ public final class TeleportCommand extends WorldSubCommand implements TabComplet
             commandSender.sendMessage(super.configuration.getWorldMessage("loading.not-loaded").replaceAll("%world%", arguments[1]));
             return true;
         }
-
         final Player target = Bukkit.getPlayer(arguments[1]);
 
         if (target == null) {

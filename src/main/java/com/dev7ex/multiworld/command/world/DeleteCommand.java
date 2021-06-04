@@ -38,7 +38,6 @@ public final class DeleteCommand extends WorldSubCommand implements TabCompleter
             commandSender.sendMessage(super.getPrefix() + super.getUsage());
             return true;
         }
-
         final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
 
         if(!worldFolder.exists()) {

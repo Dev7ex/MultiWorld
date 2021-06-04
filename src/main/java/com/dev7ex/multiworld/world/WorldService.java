@@ -7,14 +7,10 @@ import com.dev7ex.multiworld.MultiWorldConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import java.io.File;
-import java.util.Objects;
-
 /**
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class WorldService implements PluginService {
 
     private final WorldConfiguration worldConfiguration;
@@ -36,7 +32,7 @@ public final class WorldService implements PluginService {
             this.worldManager.importWorld(Bukkit.getConsoleSender(), worlds.getName(), WorldType.getByEnvironment(worlds.getEnvironment()));
         }
 
-        for(final String worlds : this.configuration.getAutoLoadableWorlds()) {
+        for (final String worlds : this.configuration.getAutoLoadableWorlds()) {
             if (!this.worldConfiguration.isWorldRegistered(worlds)) {
                 Bukkit.getConsoleSender().sendMessage(this.configuration.getWorldMessage("loading.not-registered").replaceAll("%world%", worlds));
                 continue;
@@ -47,6 +43,7 @@ public final class WorldService implements PluginService {
         for (final String worlds : this.worldConfiguration.getWorlds()) {
             final WorldProperties worldProperties = this.worldConfiguration.getWorldProperties(worlds);
             if (Bukkit.getWorld(worlds) != null) {
+                Bukkit.getWorld(worlds).setDifficulty(this.worldConfiguration.getWorldProperties(worlds).getDifficulty());
                 worldProperties.setLoaded(true);
             }
             this.worldManager.getWorldProperties().put(worlds, worldProperties);

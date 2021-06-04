@@ -15,9 +15,7 @@ import java.util.Objects;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
-@Setter
-@Getter
+@Getter @Setter
 public final class WorldProperties {
 
     private final String worldName;
@@ -64,8 +62,8 @@ public final class WorldProperties {
         }
     }
 
-    public final String formatCreationDate() {
-        return new SimpleDateFormat("dd.MM.yyyy").format(new Date());
+    public final String formatCreationDate(final long value) {
+        return new SimpleDateFormat("dd.MM.yyyy").format(new Date(value));
     }
 
 }

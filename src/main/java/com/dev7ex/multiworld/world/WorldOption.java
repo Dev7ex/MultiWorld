@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.world;
 
 import com.google.common.collect.Lists;
+
 import lombok.Getter;
 
 import java.util.List;
@@ -9,7 +10,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 23.05.2021
  */
-
 @Getter
 public enum WorldOption {
 
@@ -33,15 +33,6 @@ public enum WorldOption {
             constants.add(option.name());
         }
         return constants;
-    }
-
-    public static List<String> valuesToStringList(final WorldOption worldOption) {
-        final List<String> values = Lists.newArrayList();
-
-        for (final String value : worldOption.getValues()) {
-            values.add(value);
-        }
-        return values;
     }
 
 }
