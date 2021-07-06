@@ -28,9 +28,9 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("defaults.gameMode", super.fileConfiguration.getString("defaults.gameMode"));
         super.values.put("defaults.pvp-enabled", super.fileConfiguration.getBoolean("defaults.pvp-enabled"));
 
-        super.values.put("messages.back.world-already-there", super.fileConfiguration.getString("messages.back.world-already-there"));
-        super.values.put("messages.back.world-not-loaded", super.fileConfiguration.getString("messages.back.world-not-loaded"));
-        super.values.put("messages.back.world-not-found", super.fileConfiguration.getString("messages.back.world-not-found"));
+        super.values.put("messages.world.back.world-already-there", super.fileConfiguration.getString("messages.back.world-already-there"));
+        super.values.put("messages.world.back.world-not-loaded", super.fileConfiguration.getString("messages.back.world-not-loaded"));
+        super.values.put("messages.world.back.world-not-found", super.fileConfiguration.getString("messages.back.world-not-found"));
 
         super.values.put("messages.difficulty.changing", super.fileConfiguration.getString("messages.difficulty.changing"));
         super.values.put("messages.difficulty.not-exists", super.fileConfiguration.getString("messages.difficulty.not-exist"));
@@ -70,7 +70,6 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("messages.world.teleport.component-hover-text", super.fileConfiguration.getString("messages.world.teleport.component-hover-text"));
         super.values.put("messages.world.teleport.target-already-in-world", super.fileConfiguration.getString("messages.world.teleport.target-already-in-world"));
         super.values.put("messages.world.teleport.sender-already-in-world", super.fileConfiguration.getString("messages.world.teleport.sender-already-in-world"));
-
 
         super.values.put("messages.world.info", super.fileConfiguration.getStringList("messages.world.info"));
         super.values.put("messages.world.help", super.fileConfiguration.getStringList("messages.world.help"));
