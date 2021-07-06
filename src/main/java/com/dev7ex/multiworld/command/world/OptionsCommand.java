@@ -61,7 +61,6 @@ public final class OptionsCommand extends WorldSubCommand implements TabComplete
             commandSender.sendMessage(super.configuration.getWorldMessage("options.value-wrong").replaceAll("%value%", arguments[3]));
             return true;
         }
-
         commandSender.sendMessage(super.configuration.getWorldMessage("options.updating").replaceAll("%option%", optionReference.getValue().toString())
                 .replaceAll("%value%", arguments[3]).replaceAll("%world%", arguments[1]));
         Bukkit.getPluginManager().callEvent(new WorldOptionUpdateEvent(worldProperties, optionReference.getValue(), arguments[3]));

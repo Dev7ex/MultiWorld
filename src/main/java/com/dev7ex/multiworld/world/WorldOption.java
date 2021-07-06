@@ -13,7 +13,9 @@ import java.util.List;
 @Getter
 public enum WorldOption {
 
-    GAME_MODE("gameMode", Lists.newArrayList("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
+    SPAWN_MONSTERS("spawn-monsters", Lists.newArrayList("false", "true")),
+    SPAWN_ANIMALS("spawn-animals", Lists.newArrayList("false", "true")),
+    GAME_MODE("game-mode", Lists.newArrayList("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
     PVP("pvp-enabled", Lists.newArrayList("false", "true")),
     DIFFICULTY("difficulty", Lists.newArrayList("EASY", "HARD", "NORMAL", "PEACEFUL")),
     WORLD_TYPE("world-type", WorldType.toStringList());

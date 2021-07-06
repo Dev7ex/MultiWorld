@@ -73,7 +73,10 @@ public final class WorldManager {
                 System.currentTimeMillis(), System.currentTimeMillis(), worldType,
                 Difficulty.valueOf(this.configuration.getValues().getString("defaults.difficulty")),
                 GameMode.valueOf(this.configuration.getValues().getString("defaults.gameMode")),
-                this.configuration.getValues().getBoolean("defaults.pvp-enabled"));
+                this.configuration.getValues().getBoolean("defaults.pvp-enabled"),
+                this.configuration.getValues().getBoolean("defaults.spawn-monsters", false),
+                this.configuration.getValues().getBoolean("defaults.spawn-monsters", false));
+
         commandSender.sendMessage(this.configuration.getWorldMessage("create.finished").replaceAll("%world%", worldName));
         final World world = worldCreator.createWorld();
         worldProperties.setLoaded(true);
@@ -155,7 +158,9 @@ public final class WorldManager {
                 System.currentTimeMillis(), System.currentTimeMillis(), worldType,
                 Difficulty.valueOf(this.configuration.getValues().getString("defaults.difficulty")),
                 GameMode.valueOf(this.configuration.getValues().getString("defaults.gameMode")),
-                this.configuration.getValues().getBoolean("defaults.pvp-enabled"));
+                this.configuration.getValues().getBoolean("defaults.pvp-enabled"),
+                this.configuration.getValues().getBoolean("defaults.spawn-monsters", false),
+                this.configuration.getValues().getBoolean("defaults.spawn-monsters", false));
 
         this.worldConfiguration.registerWorld(worldName, worldProperties);
         this.worldProperties.put(worldName, worldProperties);

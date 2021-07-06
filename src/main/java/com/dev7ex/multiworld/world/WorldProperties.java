@@ -1,11 +1,13 @@
 package com.dev7ex.multiworld.world;
 
+import com.dev7ex.multiworld.util.DifficultyUtil;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
+import org.bukkit.World;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,8 +29,12 @@ public final class WorldProperties {
     private GameMode gameMode;
     private Difficulty difficulty;
     private boolean pvpEnabled;
+    private boolean spawnAnimals;
+    private boolean spawnMonsters;
 
-    public WorldProperties(final String worldName, final String worldCreator, final long creationTime, final long lastWorldInteraction, final WorldType worldType, final Difficulty difficulty, final GameMode gameMode, final boolean pvpEnabled) {
+    public WorldProperties(final String worldName, final String worldCreator, final long creationTime,
+                           final long lastWorldInteraction, final WorldType worldType, final Difficulty difficulty,
+                           final GameMode gameMode, final boolean pvpEnabled, final boolean spawnAnimals, final boolean spawnMonsters) {
         this.worldName = worldName;
         this.worldCreator = worldCreator;
         this.creationTime = creationTime;
@@ -53,6 +59,20 @@ public final class WorldProperties {
                 this.difficulty = Difficulty.valueOf(String.valueOf(value));
                 if (this.loaded) {
                     Objects.requireNonNull(Bukkit.getWorld(this.worldName)).setDifficulty(this.difficulty);
+                }
+                break;
+
+            case SPAWN_ANIMALS:
+                this.spawnAnimals = Boolean.parseBoolean(value);
+                if (this.loaded) {
+                    Objects.requireNonNull(Bukkit.getWorld(this.worldName)).setSpawnFlags(this.spawnMonsters, this.spawnAnimals);
+                }
+                break;
+
+            case SPAWN_MONSTERS:
+                this.spawnMonsters = Boolean.parseBoolean(value);
+                if (this.loaded) {
+                    Objects.requireNonNull(Bukkit.getWorld(this.worldName)).setSpawnFlags(this.spawnMonsters, this.spawnAnimals);
                 }
                 break;
 

@@ -43,7 +43,8 @@ public final class WorldService implements PluginService {
         for (final String worlds : this.worldConfiguration.getWorlds()) {
             final WorldProperties worldProperties = this.worldConfiguration.getWorldProperties(worlds);
             if (Bukkit.getWorld(worlds) != null) {
-                Bukkit.getWorld(worlds).setDifficulty(this.worldConfiguration.getWorldProperties(worlds).getDifficulty());
+                final World currentWorld = Bukkit.getWorld(worlds);
+                currentWorld.setDifficulty(this.worldConfiguration.getWorldProperties(worlds).getDifficulty());
                 worldProperties.setLoaded(true);
             }
             this.worldManager.getWorldProperties().put(worlds, worldProperties);

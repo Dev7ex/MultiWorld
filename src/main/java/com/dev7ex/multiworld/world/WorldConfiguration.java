@@ -50,7 +50,9 @@ public final class WorldConfiguration extends SimpleConfiguration {
         final Difficulty difficulty = Difficulty.valueOf(super.yamlConfiguration.getString(worldName + ".difficulty"));
         final GameMode gameMode = GameMode.valueOf(super.yamlConfiguration.getString(worldName + ".gameMode"));
         final boolean pvpEnabled = super.yamlConfiguration.getBoolean(worldName + ".pvp-enabled");
-        return new WorldProperties(worldName, creator, creationTime, lastWorldInteraction, worldType, difficulty, gameMode, pvpEnabled);
+        final boolean spawnAnimals = super.yamlConfiguration.getBoolean(worldName + "spawn-animals", false);
+        final boolean spawnMonsters = super.yamlConfiguration.getBoolean(worldName + "spawn-monsters", false);
+        return new WorldProperties(worldName, creator, creationTime, lastWorldInteraction, worldType, difficulty, gameMode, pvpEnabled, spawnAnimals, spawnMonsters);
     }
 
     public final void updateWorldOption(final String worldName, final WorldOption worldOption, final String value) {
@@ -75,7 +77,9 @@ public final class WorldConfiguration extends SimpleConfiguration {
             final Difficulty difficulty = Difficulty.valueOf(section.getString("difficulty"));
             final GameMode gameMode = GameMode.valueOf(section.getString("gameMode"));
             final boolean pvpEnabled = section.getBoolean("pvp-enabled");
-            worlds.put(world, new WorldProperties(world, creator, creationTime, lastWorldInteraction, worldType, difficulty, gameMode, pvpEnabled));
+            final boolean spawnAnimals = section.getBoolean("spawn-animals", false);
+            final boolean spawnMonsters = section.getBoolean("spawn-monsters", false);
+            worlds.put(world, new WorldProperties(world, creator, creationTime, lastWorldInteraction, worldType, difficulty, gameMode, pvpEnabled, spawnAnimals, spawnMonsters));
         }
         return worlds;
     }

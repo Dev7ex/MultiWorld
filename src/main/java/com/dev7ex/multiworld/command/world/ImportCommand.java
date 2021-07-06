@@ -17,6 +17,7 @@ import org.bukkit.command.TabCompleter;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Dev7ex
@@ -77,7 +78,7 @@ public final class ImportCommand extends WorldSubCommand implements TabCompleter
         final List<String> files = FileUtil.foldersToStringList(Bukkit.getWorldContainer());
         final List<String> completions = Lists.newArrayList(files);
 
-        for(final File folder : Bukkit.getWorldContainer().listFiles()) {
+        for(final File folder : Objects.requireNonNull(Bukkit.getWorldContainer().listFiles())) {
             if(FileUtil.containsFile(folder, "level.dat")) {
                 continue;
             }
