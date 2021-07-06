@@ -4,6 +4,9 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.user.WorldUser;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -42,19 +45,19 @@ public final class BackCommand extends WorldSubCommand {
         }
 
         if (worldUser.getProperties().getLastWorld() == null) {
-            player.sendMessage(this.configuration.getMessage("back.world-not-found"));
+            player.sendMessage(this.configuration.getWorldMessage("back.world-not-found"));
             return true;
         }
         final World world = Bukkit.getWorld(worldUser.getProperties().getLastWorld());
 
         if (world == null) {
             worldUser.getProperties().setLastWorld(null);
-            player.sendMessage(this.configuration.getMessage(this.configuration.getMessage("back.world-not-found")));
+            player.sendMessage(this.configuration.getWorldMessage(this.configuration.getMessage("back.world-not-found")));
             return true;
         }
 
         if (worldUser.getProperties().getLastWorld().equalsIgnoreCase(player.getWorld().getName())) {
-            player.sendMessage(this.configuration.getMessage("back.world-already-there"));
+            player.sendMessage(this.configuration.getWorldMessage("back.world-already-there"));
             return true;
         }
         final Location teleportLocation = (worldUser.getProperties().getLastWorldLocation() == null ? world.getSpawnLocation() : worldUser.getProperties().getLastWorldLocation());
