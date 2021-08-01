@@ -1,6 +1,5 @@
 package com.dev7ex.multiworld.world;
 
-import com.dev7ex.multiworld.util.DifficultyUtil;
 import lombok.Getter;
 import lombok.Setter;
 
