@@ -27,6 +27,8 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("defaults.difficulty", super.fileConfiguration.getString("defaults.difficulty"));
         super.values.put("defaults.gameMode", super.fileConfiguration.getString("defaults.gameMode"));
         super.values.put("defaults.pvp-enabled", super.fileConfiguration.getBoolean("defaults.pvp-enabled"));
+        super.values.put("defaults.spawn-animals", super.fileConfiguration.getBoolean("defaults.spawn-animals"));
+        super.values.put("defaults.spawn-monsters", super.fileConfiguration.getBoolean("defaults.spawn-monsters"));
 
         super.values.put("messages.world.back.world-already-there", super.fileConfiguration.getString("messages.back.world-already-there"));
         super.values.put("messages.world.back.world-not-loaded", super.fileConfiguration.getString("messages.back.world-not-loaded"));

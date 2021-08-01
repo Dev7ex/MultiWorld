@@ -159,7 +159,7 @@ public final class WorldManager {
                 Difficulty.valueOf(this.configuration.getValues().getString("defaults.difficulty")),
                 GameMode.valueOf(this.configuration.getValues().getString("defaults.gameMode")),
                 this.configuration.getValues().getBoolean("defaults.pvp-enabled"),
-                this.configuration.getValues().getBoolean("defaults.spawn-monsters", false),
+                this.configuration.getValues().getBoolean("defaults.spawn-animals", false),
                 this.configuration.getValues().getBoolean("defaults.spawn-monsters", false));
 
         this.worldConfiguration.registerWorld(worldName, worldProperties);
