@@ -8,10 +8,8 @@ import org.bukkit.generator.ChunkGenerator;
 import java.util.Random;
 
 /**
- *
  * @author Dev7ex
  * @since 20.05.2021
- *
  */
 public final class FlatChunkGenerator extends ChunkGenerator {
 

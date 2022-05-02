@@ -4,6 +4,7 @@ import com.dev7ex.common.bukkit.plugin.service.PluginService;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,13 +18,11 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- *
  * @author Dev7ex
  * @since 19.05.2021
- *
  */
 
-@Getter
+@Getter(AccessLevel.PUBLIC)
 public final class WorldUserService implements PluginService {
 
     private final Map<UUID, WorldUser> users = Maps.newHashMap();

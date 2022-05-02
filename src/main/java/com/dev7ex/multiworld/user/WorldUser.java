@@ -2,6 +2,7 @@ package com.dev7ex.multiworld.user;
 
 import com.dev7ex.multiworld.MultiWorldPlugin;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,8 @@ import java.util.UUID;
  * @author Dev7ex
  * @since 20.05.2021
  */
-@Getter @Setter
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
 public final class WorldUser {
 
     private final UUID uniqueId;
