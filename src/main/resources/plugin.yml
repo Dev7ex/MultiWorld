@@ -8,7 +8,7 @@ loadbefore: []
 main: com.dev7ex.multiworld.MultiWorldPlugin
 name: ${project.name}
 prefix: ${project.name}
-softdepend: [ ]
+softdepend: []
 version: ${project.version}
 website: ${project.url}
 commands:
