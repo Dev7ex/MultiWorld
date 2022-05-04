@@ -28,7 +28,7 @@ public final class BackCommand extends WorldSubCommand {
     @Override
     public final boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(super.configuration.getMessage("only-player-command"));
+            commandSender.sendMessage(super.configuration.getOnlyPlayerCommandMessage());
             return true;
         }
         final Player player = (Player) commandSender;
