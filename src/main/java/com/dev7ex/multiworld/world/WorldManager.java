@@ -77,8 +77,8 @@ public final class WorldManager {
                 this.configuration.getValues().getBoolean("defaults.spawn-animals", false),
                 this.configuration.getValues().getBoolean("defaults.spawn-monsters", false));
 
-        commandSender.sendMessage(this.configuration.getWorldMessage("create.finished").replaceAll("%world%", worldName));
         final World world = worldCreator.createWorld();
+        commandSender.sendMessage(this.configuration.getWorldMessage("create.finished").replaceAll("%world%", worldName));
         worldProperties.setLoaded(true);
         world.setDifficulty(worldProperties.getDifficulty());
         this.worldConfiguration.registerWorld(worldName, worldProperties);
