@@ -30,12 +30,9 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("defaults.spawn-animals", super.fileConfiguration.getBoolean("defaults.spawn-animals"));
         super.values.put("defaults.spawn-monsters", super.fileConfiguration.getBoolean("defaults.spawn-monsters"));
 
-        super.values.put("messages.world.back.world-already-there", super.fileConfiguration.getString("messages.back.world-already-there"));
-        super.values.put("messages.world.back.world-not-loaded", super.fileConfiguration.getString("messages.back.world-not-loaded"));
-        super.values.put("messages.world.back.world-not-found", super.fileConfiguration.getString("messages.back.world-not-found"));
-
-        super.values.put("messages.difficulty.changing", super.fileConfiguration.getString("messages.difficulty.changing"));
-        super.values.put("messages.difficulty.not-exists", super.fileConfiguration.getString("messages.difficulty.not-exist"));
+        super.values.put("messages.world.back.world-already-there", super.fileConfiguration.getString("messages.world.back.world-already-there"));
+        super.values.put("messages.world.back.world-not-loaded", super.fileConfiguration.getString("messages.world.back.world-not-loaded"));
+        super.values.put("messages.world.back.world-not-found", super.fileConfiguration.getString("messages.world.back.world-not-found"));
 
         super.values.put("messages.world.general.already-exists", super.fileConfiguration.getString("messages.world.general.already-exists"));
         super.values.put("messages.world.general.type-not-available", super.fileConfiguration.getString("messages.world.general.type-not-available"));
@@ -48,25 +45,32 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
 
         super.values.put("messages.world.create.starting", super.fileConfiguration.getString("messages.world.create.starting"));
         super.values.put("messages.world.create.finished", super.fileConfiguration.getString("messages.world.create.finished"));
+
         super.values.put("messages.world.delete.starting", super.fileConfiguration.getString("messages.world.delete.starting"));
         super.values.put("messages.world.delete.finished", super.fileConfiguration.getString("messages.world.delete.finished"));
+
         super.values.put("messages.world.list.message", super.fileConfiguration.getString("messages.world.list.message"));
+
         super.values.put("messages.world.import.already-imported", super.fileConfiguration.getString("messages.world.import.already-imported"));
         super.values.put("messages.world.import.starting", super.fileConfiguration.getString("messages.world.import.starting"));
         super.values.put("messages.world.import.finished", super.fileConfiguration.getString("messages.world.import.finished"));
+
         super.values.put("messages.world.unloading.starting", super.fileConfiguration.getString("messages.world.unloading.starting"));
         super.values.put("messages.world.unloading.finished", super.fileConfiguration.getString("messages.world.unloading.finished"));
         super.values.put("messages.world.unloading.chunk-starting", super.fileConfiguration.getString("messages.world.unloading.chunk-starting"));
         super.values.put("messages.world.unloading.chunk-finished", super.fileConfiguration.getString("messages.world.unloading.chunk-finished"));
         super.values.put("messages.world.unloading.chunk-teleport", super.fileConfiguration.getString("messages.world.unloading.chunk-teleport"));
+
         super.values.put("messages.world.loading.starting", super.fileConfiguration.getString("messages.world.loading.starting"));
         super.values.put("messages.world.loading.finished", super.fileConfiguration.getString("messages.world.loading.finished"));
         super.values.put("messages.world.loading.already-loaded", super.fileConfiguration.getString("messages.world.loading.already-loaded"));
         super.values.put("messages.world.loading.not-loaded", super.fileConfiguration.getString("messages.world.loading.not-loaded"));
         super.values.put("messages.world.loading.not-registered", super.fileConfiguration.getString("messages.world.loading.not-registered"));
+
         super.values.put("messages.world.options.updating", super.fileConfiguration.getString("messages.world.options.updating"));
         super.values.put("messages.world.options.value-wrong", super.fileConfiguration.getString("messages.world.options.value-wrong"));
         super.values.put("messages.world.options.not-available", super.fileConfiguration.getString("messages.world.options.not-available"));
+
         super.values.put("messages.world.teleport.message", super.fileConfiguration.getString("messages.world.teleport.message"));
         super.values.put("messages.world.teleport.component-message", super.fileConfiguration.getString("messages.world.teleport.component-message"));
         super.values.put("messages.world.teleport.component-hover-text", super.fileConfiguration.getString("messages.world.teleport.component-hover-text"));
@@ -79,17 +83,21 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
 
     @Override
     public final String getPrefix() {
-        return super.getMessageSafe("prefix");
+        return super.getValueSafe("prefix");
     }
 
     @Override
     public final String getNoPermissionMessage() {
-        return super.getMessageSafe("no-permission").replaceAll("%prefix%", this.getPrefix());
+        return super.getStringSafe("no-permission").replaceAll("%prefix%", this.getPrefix());
     }
 
     @Override
     public final String getPlayerNotFoundMessage() {
-        return super.getMessageSafe("player-not-found").replaceAll("%prefix%", this.getPrefix());
+        return super.getStringSafe("player-not-found").replaceAll("%prefix%", this.getPrefix());
+    }
+
+    public final String getOnlyPlayerCommandMessage() {
+        return super.getStringSafe("only-player-command").replaceAll("%prefix%", this.getPrefix());
     }
 
     public final List<String> getStringList(final String key) {
@@ -101,7 +109,7 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
     }
 
     public final String getUsage() {
-        return super.getMessageSafe("usage").replaceAll("%prefix%", this.getPrefix());
+        return super.getStringSafe("usage").replaceAll("%prefix%", this.getPrefix());
     }
 
     public final String getDefaultWorldName() {
@@ -113,7 +121,7 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
     }
 
     public final String getMessage(final String key) {
-        return super.getMessageSafe("messages." + key).replaceAll("%prefix%", this.getPrefix());
+        return super.getStringSafe("messages." + key).replaceAll("%prefix%", this.getPrefix());
     }
 
     public final ParsedMap<String, Object> getValues() {
