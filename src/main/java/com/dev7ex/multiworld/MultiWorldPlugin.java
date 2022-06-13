@@ -9,6 +9,7 @@ import com.dev7ex.multiworld.user.WorldUserService;
 import com.dev7ex.multiworld.world.WorldManager;
 import com.dev7ex.multiworld.world.WorldService;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,8 +18,10 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Dev7ex
  * @since 19.05.2021
  */
-@Getter
+@Getter(AccessLevel.PUBLIC)
 public final class MultiWorldPlugin extends BukkitPlugin {
+
+    private static final int SERVICE_ID = 15446;
 
     private MultiWorldConfiguration configuration;
     private WorldConfiguration worldConfiguration;
@@ -27,14 +30,14 @@ public final class MultiWorldPlugin extends BukkitPlugin {
     private WorldUserService worldUserService;
 
     @Override
-    public final void onLoad() {
+    public void onLoad() {
         this.configuration = new MultiWorldConfiguration(this);
         super.onLoad();
         this.worldConfiguration = new WorldConfiguration(this, "worlds.yml");
     }
 
     @Override
-    public final void onEnable() {
+    public void onEnable() {
         super.registerService(this.worldUserService = new WorldUserService());
         this.worldManager = new WorldManager(this.configuration, this.worldConfiguration, this.worldUserService);
         super.registerService(this.worldService = new WorldService(this.worldManager, this.worldConfiguration));
@@ -42,15 +45,15 @@ public final class MultiWorldPlugin extends BukkitPlugin {
     }
 
     @Override
-    public final void registerCommands() {
+    public void registerCommands() {
         super.registerCommand("world").setExecutor(new WorldCommand(this));
     }
 
     @Override
-    public final void registerListeners() {
-        super.registerListener(new PlayerChangeWorldListener(this));
+    public void registerListeners() {
         super.registerListener(new EntityDamageByEntityListener(this));
-        super.registerListener(new PlayerChangeWorldListener(this));
+        super.registerListenerIf(new PlayerChangeWorldListener(this),
+                enable -> this.configuration.getBooleanSafe("settings.auto-gamemode"));
         super.registerListener(new PlayerConnectionListener(this));
     }
 

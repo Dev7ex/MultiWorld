@@ -17,7 +17,7 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
     }
 
     @Override
-    public final void load() {
+    public void load() {
         super.values.put("prefix", super.fileConfiguration.getString("prefix"));
         super.values.put("no-permission", super.fileConfiguration.getString("no-permission"));
         super.values.put("player-not-found", super.fileConfiguration.getString("player-not-found"));
@@ -29,6 +29,8 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("defaults.pvp-enabled", super.fileConfiguration.getBoolean("defaults.pvp-enabled"));
         super.values.put("defaults.spawn-animals", super.fileConfiguration.getBoolean("defaults.spawn-animals"));
         super.values.put("defaults.spawn-monsters", super.fileConfiguration.getBoolean("defaults.spawn-monsters"));
+
+        super.values.put("settings.auto-gamemode", super.fileConfiguration.getBoolean("settings.auto-gamemode"));
 
         super.values.put("messages.world.back.world-already-there", super.fileConfiguration.getString("messages.world.back.world-already-there"));
         super.values.put("messages.world.back.world-not-loaded", super.fileConfiguration.getString("messages.world.back.world-not-loaded"));
@@ -82,49 +84,49 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
     }
 
     @Override
-    public final String getPrefix() {
+    public String getPrefix() {
         return super.getValueSafe("prefix");
     }
 
     @Override
-    public final String getNoPermissionMessage() {
+    public String getNoPermissionMessage() {
         return super.getStringSafe("no-permission").replaceAll("%prefix%", this.getPrefix());
     }
 
     @Override
-    public final String getPlayerNotFoundMessage() {
+    public String getPlayerNotFoundMessage() {
         return super.getStringSafe("player-not-found").replaceAll("%prefix%", this.getPrefix());
     }
 
-    public final String getOnlyPlayerCommandMessage() {
+    public String getOnlyPlayerCommandMessage() {
         return super.getStringSafe("only-player-command").replaceAll("%prefix%", this.getPrefix());
     }
 
-    public final List<String> getStringList(final String key) {
+    public List<String> getStringList(final String key) {
         return super.values.getValue(key);
     }
 
-    public final List<String> getAutoLoadableWorlds() {
+    public List<String> getAutoLoadableWorlds() {
         return super.fileConfiguration.getStringList("auto-load");
     }
 
-    public final String getUsage() {
+    public String getUsage() {
         return super.getStringSafe("usage").replaceAll("%prefix%", this.getPrefix());
     }
 
-    public final String getDefaultWorldName() {
+    public String getDefaultWorldName() {
         return super.values.getString("defaults.world");
     }
 
-    public final String getWorldMessage(final String key) {
+    public String getWorldMessage(final String key) {
         return this.getMessage("world." + key);
     }
 
-    public final String getMessage(final String key) {
+    public String getMessage(final String key) {
         return super.getStringSafe("messages." + key).replaceAll("%prefix%", this.getPrefix());
     }
 
-    public final ParsedMap<String, Object> getValues() {
+    public ParsedMap<String, Object> getValues() {
         return super.values;
     }
 
