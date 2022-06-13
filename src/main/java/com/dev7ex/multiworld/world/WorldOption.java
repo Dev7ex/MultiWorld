@@ -2,6 +2,7 @@ package com.dev7ex.multiworld.world;
 
 import com.google.common.collect.Lists;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Dev7ex
  * @since 23.05.2021
  */
-@Getter
+@Getter(AccessLevel.PUBLIC)
 public enum WorldOption {
 
     SPAWN_MONSTERS("spawn-monsters", Lists.newArrayList("false", "true")),

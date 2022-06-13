@@ -4,9 +4,6 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.user.WorldUser;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -26,7 +23,7 @@ public final class BackCommand extends WorldSubCommand {
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage(super.configuration.getOnlyPlayerCommandMessage());
             return true;

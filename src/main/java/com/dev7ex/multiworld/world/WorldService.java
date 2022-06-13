@@ -24,7 +24,7 @@ public final class WorldService implements PluginService {
     }
 
     @Override
-    public final void onEnable() {
+    public void onEnable() {
         for (final World worlds : Bukkit.getWorlds()) {
             if (this.worldConfiguration.isWorldRegistered(worlds.getName())) {
                 continue;
@@ -52,7 +52,7 @@ public final class WorldService implements PluginService {
     }
 
     @Override
-    public final void onDisable() {
+    public void onDisable() {
         this.worldManager.getWorldProperties().clear();
     }
 

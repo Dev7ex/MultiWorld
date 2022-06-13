@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
  * @author Dev7ex
  * @since 18.05.2021
  */
-
 public final class HelpCommand extends WorldSubCommand {
 
     public HelpCommand(final MultiWorldPlugin plugin) {

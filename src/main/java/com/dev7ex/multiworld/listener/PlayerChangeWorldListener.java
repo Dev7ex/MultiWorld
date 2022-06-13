@@ -20,7 +20,7 @@ public final class PlayerChangeWorldListener extends MultiWorldListener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public final void handlePlayerChangeWorld(final PlayerChangedWorldEvent event) {
+    public void handlePlayerChangeWorld(final PlayerChangedWorldEvent event) {
         final Player player = event.getPlayer();
         final WorldProperties worldProperties = super.getWorldManager().getWorldProperties().get(player.getWorld().getName());
 

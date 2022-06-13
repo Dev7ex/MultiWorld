@@ -22,7 +22,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class LoadCommand extends WorldSubCommand implements TabCompleter {
 
     public LoadCommand(final MultiWorldPlugin plugin) {
@@ -32,7 +31,7 @@ public final class LoadCommand extends WorldSubCommand implements TabCompleter {
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
@@ -61,7 +60,7 @@ public final class LoadCommand extends WorldSubCommand implements TabCompleter {
         return true;
     }
 
-    public final TextComponent getTeleportComponent(final Player player, final String world) {
+    public TextComponent getTeleportComponent(final Player player, final String world) {
         final TextComponent textComponent = new TextComponent(super.configuration.getWorldMessage("teleport.component-message"));
         textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(super.configuration.getWorldMessage("teleport.component-hover-text"))));
         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/world teleport " + player.getName() + " " + world));
@@ -69,7 +68,7 @@ public final class LoadCommand extends WorldSubCommand implements TabCompleter {
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         return Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
     }
 

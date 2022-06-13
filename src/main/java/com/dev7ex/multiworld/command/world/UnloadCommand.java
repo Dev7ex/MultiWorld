@@ -25,7 +25,7 @@ public final class UnloadCommand extends WorldSubCommand implements TabCompleter
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
@@ -55,9 +55,9 @@ public final class UnloadCommand extends WorldSubCommand implements TabCompleter
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         final List<String> loadedWorlds = Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
-        loadedWorlds.remove(super.plugin.getConfiguration().getMessageSafe("defaults.world"));
+        loadedWorlds.remove(super.plugin.getConfiguration().getStringSafe("defaults.world"));
         return loadedWorlds;
     }
 

@@ -29,7 +29,7 @@ public final class TeleportCommand extends WorldSubCommand implements TabComplet
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
@@ -70,7 +70,7 @@ public final class TeleportCommand extends WorldSubCommand implements TabComplet
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         if (arguments.length != 3) {
             return null;
         }

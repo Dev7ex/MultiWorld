@@ -15,7 +15,7 @@ import java.util.Random;
 public final class VoidChunkGenerator extends ChunkGenerator {
 
     @Override
-    public final ChunkData generateChunkData(final World world, final Random random, final int x, final int z, final BiomeGrid biome) {
+    public ChunkData generateChunkData(final World world, final Random random, final int x, final int z, final BiomeGrid biome) {
         final ChunkData chunkData = super.createChunkData(world);
 
         if ((x == 0) && (z == 0)) {

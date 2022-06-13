@@ -18,7 +18,6 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
-
 public final class DeleteCommand extends WorldSubCommand implements TabCompleter {
 
     public DeleteCommand(final MultiWorldPlugin plugin) {
@@ -28,7 +27,7 @@ public final class DeleteCommand extends WorldSubCommand implements TabCompleter
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
@@ -69,7 +68,7 @@ public final class DeleteCommand extends WorldSubCommand implements TabCompleter
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         final List<String> worlds = Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
         worlds.remove(super.plugin.getConfiguration().getMessageSafe("defaults.world"));
         return worlds;

@@ -27,11 +27,11 @@ public final class WorldUser {
         this.properties = new WorldUserProperties();
     }
 
-    public final void sendMessage(final String message) {
+    public void sendMessage(final String message) {
         this.getPlayer().sendMessage(MultiWorldPlugin.getInstance().getConfiguration().getPrefix() + message);
     }
 
-    public final Player getPlayer() {
+    public Player getPlayer() {
         return Bukkit.getPlayer(this.uniqueId);
     }
 

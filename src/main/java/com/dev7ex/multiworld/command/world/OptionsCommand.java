@@ -1,16 +1,13 @@
 package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.common.java.reference.Reference;
-
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
-import com.dev7ex.multiworld.event.world.WorldOptionUpdateEvent;
 import com.dev7ex.multiworld.world.WorldOption;
 import com.dev7ex.multiworld.world.WorldProperties;
 
 import com.google.common.collect.Lists;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -30,7 +27,7 @@ public final class OptionsCommand extends WorldSubCommand implements TabComplete
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(super.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
@@ -63,14 +60,13 @@ public final class OptionsCommand extends WorldSubCommand implements TabComplete
         }
         commandSender.sendMessage(super.configuration.getWorldMessage("options.updating").replaceAll("%option%", optionReference.getValue().toString())
                 .replaceAll("%value%", arguments[3]).replaceAll("%world%", arguments[1]));
-        Bukkit.getPluginManager().callEvent(new WorldOptionUpdateEvent(worldProperties, optionReference.getValue(), arguments[3]));
         worldProperties.updateWorldOption(optionReference.getValue(), arguments[3]);
         super.worldManager.getWorldConfiguration().updateWorldOption(worldProperties.getWorldName(), optionReference.getValue(), arguments[3]);
         return true;
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         if (arguments.length == 2) {
             return Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
         }

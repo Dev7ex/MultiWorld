@@ -13,10 +13,8 @@ import org.bukkit.command.TabCompleter;
 import java.util.List;
 
 /**
- *
  * @author Dev7ex
  * @since 24.05.2021
- *
  */
 public final class InfoCommand extends WorldSubCommand implements TabCompleter {
 
@@ -27,7 +25,7 @@ public final class InfoCommand extends WorldSubCommand implements TabCompleter {
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(super.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;

@@ -37,7 +37,7 @@ public final class WorldCommand extends SimpleCommand implements TabCompleter {
     }
 
     @Override
-    public final boolean onCommand(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public boolean onCommand(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         if (!commandSender.hasPermission(super.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
@@ -56,7 +56,7 @@ public final class WorldCommand extends SimpleCommand implements TabCompleter {
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         if (arguments.length == 1) {
             return Lists.newArrayList(super.commandMap.keySet());
         }

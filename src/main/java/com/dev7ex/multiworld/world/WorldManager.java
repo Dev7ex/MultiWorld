@@ -10,6 +10,7 @@ import com.dev7ex.multiworld.user.WorldUserService;
 
 import com.google.common.collect.Maps;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 
@@ -26,7 +27,7 @@ import java.util.Map;
  * @author Dev7ex
  * @since 20.05.2021
  */
-@Getter
+@Getter(AccessLevel.PUBLIC)
 public final class WorldManager {
 
     private boolean serverCreatingWorld = false;
@@ -43,7 +44,7 @@ public final class WorldManager {
         this.worldUserService = worldUserService;
     }
 
-    public final void createWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {
+    public void createWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {
         final WorldCreator worldCreator = new WorldCreator(worldName);
 
         switch (worldType) {
@@ -86,7 +87,7 @@ public final class WorldManager {
         this.serverCreatingWorld = false;
     }
 
-    public final void unloadWorld(final CommandSender commandSender, final String worldName) {
+    public void unloadWorld(final CommandSender commandSender, final String worldName) {
         final World world = Bukkit.getWorld(worldName);
 
         for (final Player player : Bukkit.getOnlinePlayers()) {
@@ -106,7 +107,7 @@ public final class WorldManager {
         this.worldProperties.get(worldName).setLoaded(false);
     }
 
-    public final void deleteWorld(final CommandSender commandSender, final String worldName) {
+    public void deleteWorld(final CommandSender commandSender, final String worldName) {
         this.serverDeletingWorld = true;
         commandSender.sendMessage(this.configuration.getWorldMessage("delete.starting").replaceAll("%world%", worldName));
 
@@ -128,7 +129,7 @@ public final class WorldManager {
         this.serverDeletingWorld = false;
     }
 
-    public final void loadWorld(final CommandSender commandSender, final String worldName) {
+    public void loadWorld(final CommandSender commandSender, final String worldName) {
         final WorldProperties worldProperties = this.worldConfiguration.getWorldProperties(worldName);
         final WorldCreator worldCreator = new WorldCreator(worldName);
 
@@ -151,7 +152,7 @@ public final class WorldManager {
         this.worldProperties.put(worldName, worldProperties);
     }
 
-    public final void importWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {
+    public void importWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {
         commandSender.sendMessage(this.configuration.getWorldMessage("import.starting").replaceAll("%world%", worldName));
 
         final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
@@ -167,7 +168,7 @@ public final class WorldManager {
         commandSender.sendMessage(this.configuration.getWorldMessage("import.finished").replaceAll("%world%", worldName));
     }
 
-    public final void teleportWorld(final CommandSender commandSender, final Player target, final Location teleportLocation) {
+    public void teleportWorld(final CommandSender commandSender, final Player target, final Location teleportLocation) {
         final WorldUser worldUser = this.worldUserService.getUsers().get(target.getUniqueId());
         final WorldUserProperties userProperties = worldUser.getProperties();
         final WorldProperties worldProperties = this.worldProperties.get(teleportLocation.getWorld().getName());
@@ -182,7 +183,7 @@ public final class WorldManager {
         this.worldConfiguration.updateLastWorldInteraction(worldProperties);
     }
 
-    public final void teleportWorld(final Player target, final Location teleportLocation) {
+    public void teleportWorld(final Player target, final Location teleportLocation) {
         final WorldUser worldUser = this.worldUserService.getUsers().get(target.getUniqueId());
         final WorldUserProperties userProperties = worldUser.getProperties();
         final WorldProperties worldProperties = this.worldProperties.get(teleportLocation.getWorld().getName());

@@ -2,10 +2,8 @@ package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.common.java.reference.Reference;
 import com.dev7ex.common.java.util.FileUtil;
-
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
-
 import com.dev7ex.multiworld.world.WorldType;
 
 import com.google.common.collect.Lists;
@@ -32,7 +30,7 @@ public final class ImportCommand extends WorldSubCommand implements TabCompleter
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;
@@ -67,7 +65,7 @@ public final class ImportCommand extends WorldSubCommand implements TabCompleter
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
+    public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         if((arguments.length < 2) || (arguments.length > 3)) {
             return null;
         }

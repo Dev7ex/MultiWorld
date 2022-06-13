@@ -1,12 +1,12 @@
 package com.dev7ex.multiworld.world;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
-import org.bukkit.World;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +16,8 @@ import java.util.Objects;
  * @author Dev7ex
  * @since 20.05.2021
  */
-@Getter @Setter
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
 public final class WorldProperties {
 
     private final String worldName;
@@ -44,7 +45,7 @@ public final class WorldProperties {
         this.pvpEnabled = pvpEnabled;
     }
 
-    public final void updateWorldOption(final WorldOption worldOption, final String value) {
+    public void updateWorldOption(final WorldOption worldOption, final String value) {
         switch (worldOption) {
             case PVP:
                 this.pvpEnabled = Boolean.parseBoolean(value);
@@ -81,7 +82,7 @@ public final class WorldProperties {
         }
     }
 
-    public final String formatCreationDate(final long value) {
+    public String formatCreationDate(final long value) {
         return new SimpleDateFormat("dd.MM.yyyy").format(new Date(value));
     }
 

@@ -2,7 +2,6 @@ package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
-
 import com.dev7ex.multiworld.world.WorldProperties;
 
 import org.bukkit.ChatColor;
@@ -23,7 +22,7 @@ public final class ListCommand extends WorldSubCommand {
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;

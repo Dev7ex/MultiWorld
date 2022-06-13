@@ -1,9 +1,7 @@
 package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.common.java.reference.Reference;
-
 import com.dev7ex.multiworld.MultiWorldPlugin;
-
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.world.WorldType;
 
@@ -26,7 +24,7 @@ public final class CreateCommand extends WorldSubCommand implements TabCompleter
     }
 
     @Override
-    public final boolean execute(final CommandSender commandSender, final String[] arguments) {
+    public boolean execute(final CommandSender commandSender, final String[] arguments) {
         if (!commandSender.hasPermission(this.getPermission())) {
             commandSender.sendMessage(super.getNoPermissionMessage());
             return true;

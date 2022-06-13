@@ -7,7 +7,6 @@ import com.dev7ex.multiworld.world.WorldProperties;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -23,7 +22,7 @@ public final class EntityDamageByEntityListener extends MultiWorldListener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public final void handleEntityDamageByEntity(final EntityDamageByEntityEvent event) {
+    public void handleEntityDamageByEntity(final EntityDamageByEntityEvent event) {
         if (event.getEntity().getType() != EntityType.PLAYER) {
             return;
         }

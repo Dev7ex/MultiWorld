@@ -20,12 +20,12 @@ public final class PlayerConnectionListener extends MultiWorldListener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public final void handlePlayerLogin(final PlayerLoginEvent event) {
+    public void handlePlayerLogin(final PlayerLoginEvent event) {
         super.getWorldUserService().registerUser(new WorldUser(event.getPlayer().getUniqueId()));
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public final void handlePlayerQuit(final PlayerQuitEvent event) {
+    public void handlePlayerQuit(final PlayerQuitEvent event) {
         super.getWorldUserService().removeUser(event.getPlayer().getUniqueId());
     }
 

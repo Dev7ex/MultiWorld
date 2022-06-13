@@ -22,7 +22,7 @@ public final class WorldConfiguration extends SimpleConfiguration {
         super(plugin, fileName);
     }
 
-    public final void registerWorld(final String worldName, final WorldProperties worldProperties) {
+    public void registerWorld(final String worldName, final WorldProperties worldProperties) {
         super.yamlConfiguration.set(worldName + ".creator", worldProperties.getWorldCreator());
         super.yamlConfiguration.set(worldName + ".creation-time", worldProperties.getCreationTime());
         super.yamlConfiguration.set(worldName + ".last-world-interaction", worldProperties.getLastWorldInteraction());
@@ -33,16 +33,16 @@ public final class WorldConfiguration extends SimpleConfiguration {
         super.saveFile();
     }
 
-    public final void unregisterWorld(final String worldName) {
+    public void unregisterWorld(final String worldName) {
         super.yamlConfiguration.set(worldName, null);
         super.saveFile();
     }
 
-    public final boolean isWorldRegistered(final String worldName) {
+    public boolean isWorldRegistered(final String worldName) {
         return super.yamlConfiguration.contains(worldName);
     }
 
-    public final WorldProperties getWorldProperties(final String worldName) {
+    public WorldProperties getWorldProperties(final String worldName) {
         final String creator = super.yamlConfiguration.getString(worldName + ".creator");
         final long creationTime = super.yamlConfiguration.getLong(worldName + ".creation-time");
         final long lastWorldInteraction = super.yamlConfiguration.getLong(worldName + ".last-world-interaction");
@@ -52,20 +52,22 @@ public final class WorldConfiguration extends SimpleConfiguration {
         final boolean pvpEnabled = super.yamlConfiguration.getBoolean(worldName + ".pvp-enabled");
         final boolean spawnAnimals = super.yamlConfiguration.getBoolean(worldName + "spawn-animals", false);
         final boolean spawnMonsters = super.yamlConfiguration.getBoolean(worldName + "spawn-monsters", false);
-        return new WorldProperties(worldName, creator, creationTime, lastWorldInteraction, worldType, difficulty, gameMode, pvpEnabled, spawnAnimals, spawnMonsters);
+        return new WorldProperties(worldName, creator, creationTime,
+                lastWorldInteraction, worldType, difficulty,
+                gameMode, pvpEnabled, spawnAnimals, spawnMonsters);
     }
 
-    public final void updateWorldOption(final String worldName, final WorldOption worldOption, final String value) {
+    public void updateWorldOption(final String worldName, final WorldOption worldOption, final String value) {
         super.yamlConfiguration.set(worldName + "." + worldOption.getConfigEntry(), value);
         super.saveFile();
     }
 
-    public final void updateLastWorldInteraction(final WorldProperties worldProperties) {
+    public void updateLastWorldInteraction(final WorldProperties worldProperties) {
         super.yamlConfiguration.set(worldProperties.getWorldName() + ".last-world-interaction", worldProperties.getLastWorldInteraction());
         super.saveFile();
     }
 
-    public final Map<String, WorldProperties> getWorldProperties() {
+    public Map<String, WorldProperties> getWorldProperties() {
         final Map<String, WorldProperties> worlds = Maps.newHashMap();
 
         for (final String world : super.yamlConfiguration.getKeys(false)) {
@@ -84,7 +86,7 @@ public final class WorldConfiguration extends SimpleConfiguration {
         return worlds;
     }
 
-    public final Set<String> getWorlds() {
+    public Set<String> getWorlds() {
         return super.yamlConfiguration.getKeys(false);
     }
 
