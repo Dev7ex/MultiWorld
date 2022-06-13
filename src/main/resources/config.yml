@@ -5,7 +5,7 @@
 #/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
 #
 # Copyright (c) 2021 by Dev7ex
-# Version: 1.1.5
+# Version: 1.1.6
 
 prefix: '§8[§bMultiWorld§8]§r '
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
@@ -26,6 +26,11 @@ defaults:
   pvp-enabled: true
   spawn-animals: false
   spawn-monsters: false
+
+# Settings
+settings:
+  # Should the auto-gamemode per world work?
+  auto-gamemode: true
 
 messages:
   world:
