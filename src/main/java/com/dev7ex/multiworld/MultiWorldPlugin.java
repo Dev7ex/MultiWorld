@@ -33,7 +33,7 @@ public final class MultiWorldPlugin extends BukkitPlugin {
     public void onLoad() {
         this.configuration = new MultiWorldConfiguration(this);
         super.onLoad();
-        this.worldConfiguration = new WorldConfiguration(this, "worlds.yml");
+        this.worldConfiguration = new WorldConfiguration(this);
     }
 
     @Override

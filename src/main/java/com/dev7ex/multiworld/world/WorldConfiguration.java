@@ -1,7 +1,10 @@
 package com.dev7ex.multiworld.world;
 
+import com.dev7ex.common.bukkit.configuration.ConfigurationBase;
 import com.dev7ex.common.bukkit.configuration.SimpleConfiguration;
 
+import com.dev7ex.common.bukkit.configuration.annotation.Configuration;
+import com.dev7ex.common.java.io.FileExtension;
 import com.google.common.collect.Maps;
 
 import org.bukkit.Difficulty;
@@ -16,10 +19,11 @@ import java.util.Set;
  * @author Dev7ex
  * @since 20.05.2021
  */
-public final class WorldConfiguration extends SimpleConfiguration {
+@Configuration(fileName = "world", fileExtension = FileExtension.YAML)
+public final class WorldConfiguration extends ConfigurationBase {
 
-    public WorldConfiguration(final Plugin plugin, final String fileName) {
-        super(plugin, fileName);
+    public WorldConfiguration(final Plugin plugin) {
+        super(plugin);
     }
 
     public void registerWorld(final String worldName, final WorldProperties worldProperties) {
