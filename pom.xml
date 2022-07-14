@@ -10,7 +10,7 @@
 
     <groupId>com.dev7ex</groupId>
     <artifactId>multiworld-plugin</artifactId>
-    <version>1.1.7-SNAPSHOT</version>
+    <version>1.1.8-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>

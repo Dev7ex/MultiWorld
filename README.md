@@ -1,17 +1,20 @@
 # Multiworld
-
-MultiWorld is a World Management plugin for Minecraft Servers.  
-It allows to create a lot of worlds of different types
+***
+MultiWorld is a World plugin for Minecraft Servers.  
+It allows creating a lot of worlds of different types
 
 # Download
+***
 * https://www.spigotmc.org/resources/multiworld.92559/
 
 # Features
+***
 * GameMode per World - if you change the world your gamemode change also! (can be deactivated)
 * PvP per World - allow to deactivate pvp in specific worlds
 * Almost all configurable!
 
 # Commands
+***
 ```
 * /world                                      [multiworld.command.world]
 * /world back                                 [multiworld.command.world.back]
@@ -27,7 +30,8 @@ It allows to create a lot of worlds of different types
 * /world unload <World>                       [multiworld.command.world.unload]
 ```
 
-## Configuration
+# Configuration
+***
 ```
 #     __  ___      ____  _ _       __           __    __
 #   /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
@@ -35,8 +39,8 @@ It allows to create a lot of worlds of different types
 # / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
 #/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
 #
-# Copyright (c) 2021 by Dev7ex
-# Version: 1.1.7
+# Copyright (c) 2022 by Dev7ex
+# Version: 1.1.8
 
 prefix: '§8[§bMultiWorld§8]§r '
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
