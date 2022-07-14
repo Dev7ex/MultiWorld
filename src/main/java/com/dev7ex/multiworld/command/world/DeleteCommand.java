@@ -70,7 +70,7 @@ public final class DeleteCommand extends WorldSubCommand implements TabCompleter
     @Override
     public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
         final List<String> worlds = Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
-        worlds.remove(super.plugin.getConfiguration().getMessageSafe("defaults.world"));
+        worlds.remove(super.plugin.getConfiguration().getStringSafe("defaults.world"));
         return worlds;
     }
 
