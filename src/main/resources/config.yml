@@ -1,17 +1,16 @@
-  #     __  ___      ____  _ _       __           __    __
-  #   /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
-  #  / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
-  # / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
-  #/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
-  #
-  # Copyright (c) 2022 by Dev7ex
-  # Version: 1.1.8
-
-  prefix: '§8[§bMultiWorld§8]§r '
-  no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
-  player-not-found: '%prefix%§cThis player cannot be found'
-  only-player-command: '%prefix%This command can only performed by a player'
-  usage: '%prefix%§cUsage: %command%'
+#     __  ___      ____  _ _       __           __    __
+#   /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
+#  / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
+# / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
+#/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
+#
+# Copyright (c) 2022 by Dev7ex
+# Version: 1.1.8
+prefix: '§8[§bMultiWorld§8]§r '
+no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
+player-not-found: '%prefix%§cThis player cannot be found'
+only-player-command: '%prefix%This command can only performed by a player'
+usage: '%prefix%§cUsage: %command%'
 
 # Worlds that should be loaded when the server starts
 # WARNING: When the world is not registered by MultiWorld the world will not bee loaded
