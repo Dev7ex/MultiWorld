@@ -2,6 +2,8 @@ package com.dev7ex.multiworld.world;
 
 import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.api.event.world.WorldCreateEvent;
+import com.dev7ex.multiworld.api.event.world.WorldDeleteEvent;
 import com.dev7ex.multiworld.generator.FlatChunkGenerator;
 import com.dev7ex.multiworld.generator.VoidChunkGenerator;
 import com.dev7ex.multiworld.user.WorldUser;
@@ -78,6 +80,12 @@ public final class WorldManager {
                 this.configuration.getValues().getBoolean("defaults.spawn-animals", false),
                 this.configuration.getValues().getBoolean("defaults.spawn-monsters", false));
 
+        final WorldCreateEvent event = new WorldCreateEvent(worldProperties);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
         final World world = worldCreator.createWorld();
         commandSender.sendMessage(this.configuration.getWorldMessage("create.finished").replaceAll("%world%", worldName));
         worldProperties.setLoaded(true);
@@ -111,6 +119,13 @@ public final class WorldManager {
         this.serverDeletingWorld = true;
         commandSender.sendMessage(this.configuration.getWorldMessage("delete.starting").replaceAll("%world%", worldName));
 
+        final WorldDeleteEvent event = new WorldDeleteEvent(this.worldConfiguration.getWorldProperties(worldName));
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            return;
+        }
+
         if (Bukkit.getWorld(worldName) != null) {
             this.unloadWorld(commandSender, worldName);
         }
@@ -140,8 +155,15 @@ public final class WorldManager {
         }
 
         switch (worldProperties.getWorldType()) {
-            case VOID: worldCreator.generator(new VoidChunkGenerator()); break;
-            case FLAT: worldCreator.generator(new FlatChunkGenerator()); break;
+            case VOID:
+                worldCreator.generator(new VoidChunkGenerator());
+                worldCreator.generateStructures(false);
+                break;
+
+            case FLAT:
+                worldCreator.generator(new FlatChunkGenerator());
+                worldCreator.generateStructures(false);
+                break;
         }
 
         final World world = Bukkit.createWorld(worldCreator);

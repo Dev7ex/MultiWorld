@@ -4,6 +4,7 @@ import com.dev7ex.common.bukkit.plugin.service.PluginService;
 
 import com.dev7ex.multiworld.MultiWorldConfiguration;
 
+import com.dev7ex.multiworld.api.event.plugin.MultiWorldStartupCompleteEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -25,6 +26,8 @@ public final class WorldService implements PluginService {
 
     @Override
     public void onEnable() {
+        final long startTime = System.currentTimeMillis();
+
         for (final World worlds : Bukkit.getWorlds()) {
             if (this.worldConfiguration.isWorldRegistered(worlds.getName())) {
                 continue;
@@ -49,6 +52,8 @@ public final class WorldService implements PluginService {
             }
             this.worldManager.getWorldProperties().put(worlds, worldProperties);
         }
+
+        Bukkit.getPluginManager().callEvent(new MultiWorldStartupCompleteEvent(System.currentTimeMillis() - startTime));
     }
 
     @Override
