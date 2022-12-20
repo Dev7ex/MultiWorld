@@ -44,7 +44,7 @@ public final class DeleteCommand extends WorldSubCommand implements TabCompleter
             return true;
         }
 
-        if(!FileUtil.containsFile(worldFolder, "level.dat")) {
+        if(!FileUtil.containsFile(worldFolder, "session.lock")) {
             commandSender.sendMessage(super.configuration.getWorldMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
             return true;
         }
