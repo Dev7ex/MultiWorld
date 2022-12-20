@@ -2,6 +2,8 @@ package com.dev7ex.multiworld;
 
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 
+import com.dev7ex.multiworld.api.MultiWorldApi;
+import com.dev7ex.multiworld.api.MultiWorldProvider;
 import com.dev7ex.multiworld.command.WorldCommand;
 import com.dev7ex.multiworld.listener.*;
 import com.dev7ex.multiworld.world.WorldConfiguration;
@@ -12,6 +14,7 @@ import com.dev7ex.multiworld.world.WorldService;
 import lombok.AccessLevel;
 import lombok.Getter;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -19,7 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @since 19.05.2021
  */
 @Getter(AccessLevel.PUBLIC)
-public final class MultiWorldPlugin extends BukkitPlugin {
+public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldApi {
 
     private static final int SERVICE_ID = 15446;
 
@@ -38,10 +41,21 @@ public final class MultiWorldPlugin extends BukkitPlugin {
 
     @Override
     public void onEnable() {
+        MultiWorldProvider.registerApi(this);
+
+        final Metrics metrics = new Metrics(this, MultiWorldPlugin.SERVICE_ID);
+
         super.registerService(this.worldUserService = new WorldUserService());
         this.worldManager = new WorldManager(this.configuration, this.worldConfiguration, this.worldUserService);
         super.registerService(this.worldService = new WorldService(this.worldManager, this.worldConfiguration));
         super.onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        MultiWorldProvider.unregisterApi();
+
+        super.onDisable();
     }
 
     @Override
