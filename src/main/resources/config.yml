@@ -5,7 +5,7 @@
 #/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
 #
 # Copyright (c) 2022 by Dev7ex
-# Version: 1.1.9
+# Version: 1.2.0
 prefix: '§8[§bMultiWorld§8]§r '
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
 player-not-found: '%prefix%§cThis player cannot be found'
@@ -23,11 +23,14 @@ defaults:
   difficulty: PEACEFUL
   gameMode: SURVIVAL
   pvp-enabled: true
-  spawn-animals: false
-  spawn-monsters: false
+  spawn-animals: true
+  spawn-monsters: true
 
 # Settings
 settings:
+  # Should all players with the permission (multiworld.notify.update)
+  # get a message when entering server
+  update-message: true
   # Should the auto-gamemode per world work?
   auto-gamemode: true
 
@@ -42,6 +45,7 @@ messages:
       not-exists: '%prefix%§7This world dont exist!'
       folder-not-exists: '%prefix%§7World folder %folder% was not found'
       error-message: '%prefix%§cAn error has occurred! Contact an Administrator!'
+      update-message-player: '%prefix%§7There is a new update available. https://www.spigotmc.org/resources/multiworld.92559/'
     back:
       world-already-there: '%prefix%§§7You are already in this world'
       world-not-loaded: '%prefix%§7This world is no longer active'
