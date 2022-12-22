@@ -15,7 +15,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Scanner;
 
 /**
  * @author Dev7ex
@@ -25,6 +31,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldApi {
 
     private static final int SERVICE_ID = 15446;
+    private static final int RESOURCE_ID = 92559;
+
+    private boolean updateAvailable = false;
 
     private MultiWorldConfiguration configuration;
     private WorldConfiguration worldConfiguration;
@@ -42,6 +51,8 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldAp
     @Override
     public void onEnable() {
         MultiWorldProvider.registerApi(this);
+
+        this.checkUpdates();
 
         final Metrics metrics = new Metrics(this, MultiWorldPlugin.SERVICE_ID);
 
@@ -69,6 +80,28 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldAp
         super.registerListenerIf(new PlayerChangeWorldListener(this),
                 enable -> this.configuration.getBooleanSafe("settings.auto-gamemode"));
         super.registerListener(new PlayerConnectionListener(this));
+    }
+
+    public void checkUpdates() {
+        super.getServer().getScheduler().runTaskAsynchronously(this, () -> {
+            try (final InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + MultiWorldPlugin.RESOURCE_ID).openStream()) {
+                try (final Scanner scanner = new Scanner(inputStream)) {
+                    if (scanner.hasNext()) {
+                        if (!this.getDescription().getVersion().equalsIgnoreCase(scanner.next())) {
+                            this.updateAvailable = true;
+                            super.getServer().getScheduler().runTask(this, () -> {
+                                super.getLogger().info("There is a new update available.");
+                            });
+
+                        }
+                    }
+                }
+            } catch (final IOException exception) {
+                super.getServer().getScheduler().runTask(this, () -> {
+                    super.getLogger().info("Unable to check for updates: " + exception.getMessage());
+                });
+            }
+        });
     }
 
     public static MultiWorldPlugin getInstance() {

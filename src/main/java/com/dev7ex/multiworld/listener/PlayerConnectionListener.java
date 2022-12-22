@@ -7,8 +7,10 @@ import com.dev7ex.multiworld.event.MultiWorldListener;
 import com.dev7ex.multiworld.user.WorldUser;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -24,11 +26,22 @@ public final class PlayerConnectionListener extends MultiWorldListener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerLogin(final PlayerLoginEvent event) {
-        final WorldUser user = new WorldUser(event.getPlayer().getUniqueId());
+        final Player player = event.getPlayer();
+        final WorldUser user = new WorldUser(player.getUniqueId());
 
         Bukkit.getPluginManager().callEvent(new UserLoginEvent(user));
 
         super.getWorldUserService().registerUser(user);
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handlePlayerJoin(final PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
+
+        if ((super.getConfiguration().getBooleanSafe("settings.update-message")) && (player.hasPermission("multiworld.update.notify"))) {
+            player.sendMessage(super.getConfiguration().getMessage("world.general.update-message-player"));
+            return;
+        }
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

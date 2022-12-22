@@ -30,6 +30,7 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("defaults.spawn-animals", super.fileConfiguration.getBoolean("defaults.spawn-animals"));
         super.values.put("defaults.spawn-monsters", super.fileConfiguration.getBoolean("defaults.spawn-monsters"));
 
+        super.values.put("settings.update-message", super.fileConfiguration.getBoolean("settings.update-message"));
         super.values.put("settings.auto-gamemode", super.fileConfiguration.getBoolean("settings.auto-gamemode"));
 
         super.values.put("messages.world.back.world-already-there", super.fileConfiguration.getString("messages.world.back.world-already-there"));
@@ -44,6 +45,7 @@ public final class MultiWorldConfiguration extends PluginConfiguration {
         super.values.put("messages.world.general.not-exists", super.fileConfiguration.getString("messages.world.general.not-exists"));
         super.values.put("messages.world.general.error-message", super.fileConfiguration.getString("messages.world.general.error-message"));
         super.values.put("messages.world.general.folder-not-exists", super.fileConfiguration.getString("messages.world.general.folder-not-exists"));
+        super.values.put("messages.world.general.update-message-player", super.fileConfiguration.getString("messages.world.general.update-message-player"));
 
         super.values.put("messages.world.create.starting", super.fileConfiguration.getString("messages.world.create.starting"));
         super.values.put("messages.world.create.finished", super.fileConfiguration.getString("messages.world.create.finished"));
