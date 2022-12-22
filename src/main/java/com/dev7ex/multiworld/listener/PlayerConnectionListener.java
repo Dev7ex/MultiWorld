@@ -38,7 +38,7 @@ public final class PlayerConnectionListener extends MultiWorldListener {
     public void handlePlayerJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
-        if ((super.getConfiguration().getBooleanSafe("settings.update-message")) && (player.hasPermission("multiworld.update.notify"))) {
+        if ((super.getConfiguration().getBooleanSafe("settings.update-message")) && (player.hasPermission("multiworld.update.notify")) && (super.multiWorldPlugin.isUpdateAvailable())) {
             player.sendMessage(super.getConfiguration().getMessage("world.general.update-message-player"));
             return;
         }

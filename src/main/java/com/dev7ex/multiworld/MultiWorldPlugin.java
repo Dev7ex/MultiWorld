@@ -86,8 +86,10 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldAp
         super.getServer().getScheduler().runTaskAsynchronously(this, () -> {
             try (final InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + MultiWorldPlugin.RESOURCE_ID).openStream()) {
                 try (final Scanner scanner = new Scanner(inputStream)) {
+                    final String newVersion = scanner.next();
+
                     if (scanner.hasNext()) {
-                        if (!this.getDescription().getVersion().equalsIgnoreCase(scanner.next())) {
+                        if (!this.getDescription().getVersion().equalsIgnoreCase(newVersion)) {
                             this.updateAvailable = true;
                             super.getServer().getScheduler().runTask(this, () -> {
                                 super.getLogger().info("There is a new update available.");
