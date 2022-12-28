@@ -1,8 +1,8 @@
 package com.dev7ex.multiworld.listener;
 
 import com.dev7ex.multiworld.MultiWorldPlugin;
-import com.dev7ex.multiworld.api.event.user.UserLoginEvent;
-import com.dev7ex.multiworld.api.event.user.UserLogoutEvent;
+import com.dev7ex.multiworld.api.event.user.WorldUserLoginEvent;
+import com.dev7ex.multiworld.api.event.user.WorldUserLogoutEvent;
 import com.dev7ex.multiworld.event.MultiWorldListener;
 import com.dev7ex.multiworld.user.WorldUser;
 
@@ -29,7 +29,7 @@ public final class PlayerConnectionListener extends MultiWorldListener {
         final Player player = event.getPlayer();
         final WorldUser user = new WorldUser(player.getUniqueId());
 
-        Bukkit.getPluginManager().callEvent(new UserLoginEvent(user));
+        Bukkit.getPluginManager().callEvent(new WorldUserLoginEvent(user));
 
         super.getWorldUserService().registerUser(user);
     }
@@ -48,7 +48,7 @@ public final class PlayerConnectionListener extends MultiWorldListener {
     public void handlePlayerQuit(final PlayerQuitEvent event) {
         final WorldUser user = super.getWorldUser(event.getPlayer().getUniqueId());
 
-        Bukkit.getPluginManager().callEvent(new UserLogoutEvent(user));
+        Bukkit.getPluginManager().callEvent(new WorldUserLogoutEvent(user));
 
         super.getWorldUserService().removeUser(event.getPlayer().getUniqueId());
     }

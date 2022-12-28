@@ -1,6 +1,5 @@
 package com.dev7ex.multiworld.api.event.user;
 
-import com.dev7ex.multiworld.api.event.user.UserEvent;
 import com.dev7ex.multiworld.user.WorldUser;
 import org.bukkit.event.HandlerList;
 
@@ -8,11 +7,11 @@ import org.bukkit.event.HandlerList;
  * @author Dev7ex
  * @since 20.12.2022
  */
-public class UserLoginEvent extends UserEvent {
+public class WorldUserLoginEvent extends WorldUserEvent {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    public UserLoginEvent(final WorldUser user) {
+    public WorldUserLoginEvent(final WorldUser user) {
         super(user);
     }
 

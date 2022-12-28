@@ -12,11 +12,11 @@ import org.bukkit.event.Event;
  * @since 20.12.2022
  */
 @Getter(AccessLevel.PUBLIC)
-public abstract class UserEvent extends Event {
+public abstract class WorldUserEvent extends Event {
 
     private final WorldUser user;
 
-    public UserEvent(final WorldUser user) {
+    public WorldUserEvent(final WorldUser user) {
         this.user = user;
     }
 
