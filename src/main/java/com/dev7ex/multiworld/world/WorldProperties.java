@@ -47,11 +47,11 @@ public final class WorldProperties {
 
     public void updateWorldOption(final WorldOption worldOption, final String value) {
         switch (worldOption) {
-            case PVP:
+            case PVP_ENABLED:
                 this.pvpEnabled = Boolean.parseBoolean(value);
                 break;
 
-            case GAME_MODE:
+            case GAMEMODE:
                 this.gameMode = GameMode.valueOf(String.valueOf(value));
                 break;
 

@@ -5,7 +5,9 @@ import com.google.common.collect.Lists;
 import lombok.AccessLevel;
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Dev7ex
@@ -16,16 +18,16 @@ public enum WorldOption {
 
     SPAWN_MONSTERS("spawn-monsters", Lists.newArrayList("false", "true")),
     SPAWN_ANIMALS("spawn-animals", Lists.newArrayList("false", "true")),
-    GAME_MODE("game-mode", Lists.newArrayList("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
-    PVP("pvp-enabled", Lists.newArrayList("false", "true")),
+    GAMEMODE("gamemode", Lists.newArrayList("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
+    PVP_ENABLED("pvp", Lists.newArrayList("false", "true")),
     DIFFICULTY("difficulty", Lists.newArrayList("EASY", "HARD", "NORMAL", "PEACEFUL")),
     WORLD_TYPE("world-type", WorldType.toStringList());
 
-    private final String configEntry;
+    private final String storagePath;
     private final List<String> values;
 
-    WorldOption(final String configEntry, final List<String> values) {
-        this.configEntry = configEntry;
+    WorldOption(final String storagePath, final List<String> values) {
+        this.storagePath = storagePath;
         this.values = values;
     }
 
@@ -36,6 +38,10 @@ public enum WorldOption {
             constants.add(option.name());
         }
         return constants;
+    }
+
+    public static Optional<WorldOption> fromString(final String name) {
+        return Arrays.stream(WorldOption.values()).filter(worldOption -> worldOption.name().equalsIgnoreCase(name)).findFirst();
     }
 
 }

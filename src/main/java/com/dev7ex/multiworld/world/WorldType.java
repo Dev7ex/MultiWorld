@@ -7,7 +7,10 @@ import lombok.Getter;
 
 import org.bukkit.World;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Dev7ex
@@ -31,23 +34,19 @@ public enum WorldType {
     }
 
     public static WorldType getByEnvironment(final World.Environment environment) {
-        switch (environment) {
-            case NETHER:
-                return WorldType.NETHER;
-            case THE_END:
-                return WorldType.END;
-            default:
-                return WorldType.NORMAL;
-        }
+        return switch (environment) {
+            case NETHER -> WorldType.NETHER;
+            case THE_END -> WorldType.END;
+            default -> WorldType.NORMAL;
+        };
     }
 
     public static List<String> toStringList() {
-        final List<String> constants = Lists.newArrayList();
+        return Arrays.stream(WorldType.values()).map(Enum::name).collect(Collectors.toList());
+    }
 
-        for (final WorldType type : WorldType.values()) {
-            constants.add(type.name());
-        }
-        return constants;
+    public static Optional<WorldType> fromString(final String name) {
+        return Arrays.stream(WorldType.values()).filter(worldType -> worldType.name().equalsIgnoreCase(name)).findFirst();
     }
 
 }

@@ -37,7 +37,7 @@ public final class WorldService implements PluginService {
 
         for (final String worlds : this.configuration.getAutoLoadableWorlds()) {
             if (!this.worldConfiguration.isWorldRegistered(worlds)) {
-                Bukkit.getConsoleSender().sendMessage(this.configuration.getWorldMessage("loading.not-registered").replaceAll("%world%", worlds));
+                Bukkit.getConsoleSender().sendMessage(this.configuration.getMessage("loading.not-registered").replaceAll("%world%", worlds));
                 continue;
             }
             this.worldManager.loadWorld(Bukkit.getConsoleSender(), worlds);
