@@ -1,7 +1,7 @@
 package com.dev7ex.multiworld.listener;
 
 import com.dev7ex.multiworld.MultiWorldPlugin;
-import com.dev7ex.multiworld.event.MultiWorldListener;
+import com.dev7ex.multiworld.api.event.MultiWorldListener;
 import com.dev7ex.multiworld.world.WorldProperties;
 
 import org.bukkit.entity.Arrow;

@@ -2,7 +2,6 @@ package com.dev7ex.multiworld.world;
 
 import com.dev7ex.common.bukkit.configuration.ConfigurationBase;
 import com.dev7ex.common.bukkit.configuration.ConfigurationProperties;
-import com.dev7ex.common.java.io.FileExtension;
 import com.google.common.collect.Maps;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
@@ -16,7 +15,7 @@ import java.util.Set;
  * @author Dev7ex
  * @since 20.05.2021
  */
-@ConfigurationProperties(fileName = "worlds", fileExtension = FileExtension.YAML)
+@ConfigurationProperties(fileName = "worlds.yml")
 public final class WorldConfiguration extends ConfigurationBase {
 
     public WorldConfiguration(final Plugin plugin) {
@@ -24,61 +23,61 @@ public final class WorldConfiguration extends ConfigurationBase {
     }
 
     public void registerWorld(final String worldName, final WorldProperties worldProperties) {
-        super.yamlConfiguration.set(worldName + ".creator", worldProperties.getWorldCreator());
-        super.yamlConfiguration.set(worldName + ".creation-time", worldProperties.getCreationTime());
-        super.yamlConfiguration.set(worldName + ".last-world-interaction", worldProperties.getLastWorldInteraction());
-        super.yamlConfiguration.set(worldName + ".world-type", worldProperties.getWorldType().toString());
-        super.yamlConfiguration.set(worldName + ".difficulty", worldProperties.getDifficulty().toString());
-        super.yamlConfiguration.set(worldName + ".gameMode", worldProperties.getGameMode().toString());
-        super.yamlConfiguration.set(worldName + ".pvp-enabled", worldProperties.isPvpEnabled());
+        super.getFileConfiguration().set(worldName + ".creator", worldProperties.getWorldCreator());
+        super.getFileConfiguration().set(worldName + ".creation-time", worldProperties.getCreationTime());
+        super.getFileConfiguration().set(worldName + ".last-world-interaction", worldProperties.getLastWorldInteraction());
+        super.getFileConfiguration().set(worldName + ".world-type", worldProperties.getWorldType().toString());
+        super.getFileConfiguration().set(worldName + ".difficulty", worldProperties.getDifficulty().toString());
+        super.getFileConfiguration().set(worldName + ".gamemode", worldProperties.getGameMode().toString());
+        super.getFileConfiguration().set(worldName + ".pvp-enabled", worldProperties.isPvpEnabled());
         super.saveFile();
     }
 
     public void unregisterWorld(final String worldName) {
-        super.yamlConfiguration.set(worldName, null);
+        super.getFileConfiguration().set(worldName, null);
         super.saveFile();
     }
 
     public boolean isWorldRegistered(final String worldName) {
-        return super.yamlConfiguration.contains(worldName);
+        return super.getFileConfiguration().contains(worldName);
     }
 
     public WorldProperties getWorldProperties(final String worldName) {
-        final String creator = super.yamlConfiguration.getString(worldName + ".creator");
-        final long creationTime = super.yamlConfiguration.getLong(worldName + ".creation-time");
-        final long lastWorldInteraction = super.yamlConfiguration.getLong(worldName + ".last-world-interaction");
-        final WorldType worldType = WorldType.valueOf(super.yamlConfiguration.getString(worldName + ".world-type"));
-        final Difficulty difficulty = Difficulty.valueOf(super.yamlConfiguration.getString(worldName + ".difficulty"));
-        final GameMode gameMode = GameMode.valueOf(super.yamlConfiguration.getString(worldName + ".gameMode"));
-        final boolean pvpEnabled = super.yamlConfiguration.getBoolean(worldName + ".pvp-enabled");
-        final boolean spawnAnimals = super.yamlConfiguration.getBoolean(worldName + "spawn-animals", false);
-        final boolean spawnMonsters = super.yamlConfiguration.getBoolean(worldName + "spawn-monsters", false);
+        final String creator = super.getFileConfiguration().getString(worldName + ".creator");
+        final long creationTime = super.getFileConfiguration().getLong(worldName + ".creation-time");
+        final long lastWorldInteraction = super.getFileConfiguration().getLong(worldName + ".last-world-interaction");
+        final WorldType worldType = WorldType.valueOf(super.getFileConfiguration().getString(worldName + ".world-type"));
+        final Difficulty difficulty = Difficulty.valueOf(super.getFileConfiguration().getString(worldName + ".difficulty"));
+        final GameMode gameMode = GameMode.valueOf(super.getFileConfiguration().getString(worldName + ".gamemode"));
+        final boolean pvpEnabled = super.getFileConfiguration().getBoolean(worldName + ".pvp-enabled");
+        final boolean spawnAnimals = super.getFileConfiguration().getBoolean(worldName + "spawn-animals", false);
+        final boolean spawnMonsters = super.getFileConfiguration().getBoolean(worldName + "spawn-monsters", false);
         return new WorldProperties(worldName, creator, creationTime,
                 lastWorldInteraction, worldType, difficulty,
                 gameMode, pvpEnabled, spawnAnimals, spawnMonsters);
     }
 
     public void updateWorldOption(final String worldName, final WorldOption worldOption, final String value) {
-        super.yamlConfiguration.set(worldName + "." + worldOption.getConfigEntry(), value);
+        super.getFileConfiguration().set(worldName + "." + worldOption.getStoragePath(), value);
         super.saveFile();
     }
 
     public void updateLastWorldInteraction(final WorldProperties worldProperties) {
-        super.yamlConfiguration.set(worldProperties.getWorldName() + ".last-world-interaction", worldProperties.getLastWorldInteraction());
+        super.getFileConfiguration().set(worldProperties.getWorldName() + ".last-world-interaction", worldProperties.getLastWorldInteraction());
         super.saveFile();
     }
 
     public Map<String, WorldProperties> getWorldProperties() {
         final Map<String, WorldProperties> worlds = Maps.newHashMap();
 
-        for (final String world : super.yamlConfiguration.getKeys(false)) {
-            final ConfigurationSection section = super.yamlConfiguration.getConfigurationSection(world);
+        for (final String world : super.getFileConfiguration().getKeys(false)) {
+            final ConfigurationSection section = super.getFileConfiguration().getConfigurationSection(world);
             final String creator = section.getString("creator");
             final long creationTime = section.getLong("creation-time");
             final long lastWorldInteraction = section.getLong("last-world-interaction");
             final WorldType worldType = WorldType.valueOf(section.getString("world-type"));
             final Difficulty difficulty = Difficulty.valueOf(section.getString("difficulty"));
-            final GameMode gameMode = GameMode.valueOf(section.getString("gameMode"));
+            final GameMode gameMode = GameMode.valueOf(section.getString("gamemode"));
             final boolean pvpEnabled = section.getBoolean("pvp-enabled");
             final boolean spawnAnimals = section.getBoolean("spawn-animals", false);
             final boolean spawnMonsters = section.getBoolean("spawn-monsters", false);
@@ -88,7 +87,7 @@ public final class WorldConfiguration extends ConfigurationBase {
     }
 
     public Set<String> getWorlds() {
-        return super.yamlConfiguration.getKeys(false);
+        return super.getFileConfiguration().getKeys(false);
     }
 
 }
