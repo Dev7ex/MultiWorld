@@ -1,7 +1,7 @@
 api-version: 1.16
 author: Dev7ex
 database: false
-depend: []
+depend: [FacilisCommon]
 description: ${project.description}
 load: POSTWORLD
 loadbefore: []
