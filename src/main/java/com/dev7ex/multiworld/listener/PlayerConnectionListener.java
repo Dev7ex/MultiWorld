@@ -3,9 +3,10 @@ package com.dev7ex.multiworld.listener;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.event.user.WorldUserLoginEvent;
 import com.dev7ex.multiworld.api.event.user.WorldUserLogoutEvent;
-import com.dev7ex.multiworld.event.MultiWorldListener;
+import com.dev7ex.multiworld.api.event.MultiWorldListener;
 import com.dev7ex.multiworld.user.WorldUser;
 
+import com.dev7ex.multiworld.world.WorldProperties;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,10 +38,15 @@ public final class PlayerConnectionListener extends MultiWorldListener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
+        final WorldProperties worldProperties = super.getWorldManager().getWorldProperties().get(player.getWorld().getName());
 
-        if ((super.getConfiguration().getBooleanSafe("settings.update-message")) && (player.hasPermission("multiworld.update.notify")) && (super.multiWorldPlugin.isUpdateAvailable())) {
+        if ((super.getConfiguration().getBoolean("settings.update-message")) && (player.hasPermission("multiworld.update.notify")) && (super.multiWorldPlugin.isUpdateAvailable())) {
             player.sendMessage(super.getConfiguration().getMessage("world.general.update-message-player"));
             return;
+        }
+
+        if ((worldProperties != null) && (super.getConfiguration().getBoolean("settings.auto-gamemode"))) {
+            player.setGameMode(worldProperties.getGameMode());
         }
     }
 
