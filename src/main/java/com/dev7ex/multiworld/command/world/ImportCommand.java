@@ -1,7 +1,8 @@
 package com.dev7ex.multiworld.command.world;
 
-import com.dev7ex.common.java.reference.Reference;
-import com.dev7ex.common.java.util.FileUtil;
+import com.dev7ex.common.bukkit.command.CommandProperties;
+import com.dev7ex.common.io.Files;
+import com.dev7ex.common.util.NumberUtil;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.world.WorldType;
@@ -16,17 +17,17 @@ import org.bukkit.command.TabCompleter;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author Dev7ex
  * @since 25.05.2021
  */
+@CommandProperties(name = "import", permission = "multiworld.command.world.import")
 public final class ImportCommand extends WorldSubCommand implements TabCompleter {
 
     public ImportCommand(final MultiWorldPlugin plugin) {
         super(plugin);
-        super.setUsage(plugin.getConfiguration().getUsage().replaceAll("%command%", "/world import <Name> <WorldType>"));
-        super.setPermission("multiworld.command.world.import");
     }
 
     @Override
@@ -37,30 +38,27 @@ public final class ImportCommand extends WorldSubCommand implements TabCompleter
         }
 
         if (arguments.length != 3) {
-            commandSender.sendMessage(super.getUsage());
+            commandSender.sendMessage(super.getConfiguration().getCommandUsage(this));
             return true;
         }
         final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
 
-        if(!FileUtil.containsFile(worldFolder, "level.dat")) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
+        if(!Files.containsFile(worldFolder, "level.dat")) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
             return true;
         }
 
-        if(super.worldManager.getWorldProperties().containsKey(arguments[1])) {
-            commandSender.sendMessage(this.configuration.getWorldMessage("import.already-imported").replaceAll("%world%", arguments[1]));
+        if(super.getWorldManager().getWorldProperties().containsKey(arguments[1])) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("import.already-imported").replaceAll("%world%", arguments[1]));
             return true;
         }
-        final Reference<WorldType> worldTypeReference = new Reference<>();
+        final Optional<WorldType> optional = WorldType.fromString(arguments[2].toUpperCase());
 
-        try {
-            worldTypeReference.setValue(WorldType.valueOf(arguments[2].toUpperCase()));
-
-        } catch (final IllegalArgumentException exception) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.type-not-available"));
+        if ((optional.isEmpty())) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("general.invalid-input"));
             return true;
         }
-        super.worldManager.importWorld(commandSender, arguments[1], worldTypeReference.getValue());
+        super.getWorldManager().importWorld(commandSender, arguments[1], optional.get());
         return true;
     }
 
@@ -73,11 +71,11 @@ public final class ImportCommand extends WorldSubCommand implements TabCompleter
         if(arguments.length == 3) {
             return WorldType.toStringList();
         }
-        final List<String> files = FileUtil.foldersToStringList(Bukkit.getWorldContainer());
+        final List<String> files = Files.toStringList(Bukkit.getWorldContainer());
         final List<String> completions = Lists.newArrayList(files);
 
         for(final File folder : Objects.requireNonNull(Bukkit.getWorldContainer().listFiles())) {
-            if(FileUtil.containsFile(folder, "level.dat")) {
+            if(Files.containsFile(folder, "level.dat")) {
                 continue;
             }
             completions.remove(folder.getName());

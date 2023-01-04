@@ -1,5 +1,6 @@
 package com.dev7ex.multiworld.command.world;
 
+import com.dev7ex.common.bukkit.command.CommandProperties;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 
@@ -22,12 +23,11 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
+@CommandProperties(name = "load", permission = "multiworld.command.world.load")
 public final class LoadCommand extends WorldSubCommand implements TabCompleter {
 
     public LoadCommand(final MultiWorldPlugin plugin) {
         super(plugin);
-        super.setUsage(plugin.getConfiguration().getUsage().replaceAll("%command%", "/world load <World>"));
-        super.setPermission("multiworld.command.world.load");
     }
 
     @Override
@@ -38,20 +38,20 @@ public final class LoadCommand extends WorldSubCommand implements TabCompleter {
         }
 
         if (arguments.length != 2) {
-            commandSender.sendMessage(super.getUsage());
+            commandSender.sendMessage(super.getConfiguration().getCommandUsage(this));
             return true;
         }
 
         if (Bukkit.getWorld(arguments[1]) != null) {
-            commandSender.sendMessage(this.configuration.getWorldMessage("loading.already-loaded").replaceAll("%world%", arguments[1]));
+            commandSender.sendMessage(super.getConfiguration().getMessage("load.already-loaded").replaceAll("%world%", arguments[1]));
             return true;
         }
 
-        if (!super.worldManager.getWorldConfiguration().isWorldRegistered(arguments[1])) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.not-exists").replaceAll("%world%", arguments[1]));
+        if (!super.getWorldManager().getWorldConfiguration().isWorldRegistered(arguments[1])) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("general.not-exists").replaceAll("%world%", arguments[1]));
             return true;
         }
-        super.worldManager.loadWorld(commandSender, arguments[1]);
+        super.getWorldManager().loadWorld(commandSender, arguments[1]);
 
         if (commandSender instanceof Player) {
             final Player player = (Player) commandSender;
@@ -61,15 +61,15 @@ public final class LoadCommand extends WorldSubCommand implements TabCompleter {
     }
 
     public TextComponent getTeleportComponent(final Player player, final String world) {
-        final TextComponent textComponent = new TextComponent(super.configuration.getWorldMessage("teleport.component-message"));
-        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(super.configuration.getWorldMessage("teleport.component-hover-text"))));
+        final TextComponent textComponent = new TextComponent(super.getConfiguration().getMessage("teleport.component-message"));
+        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(super.getConfiguration().getMessage("teleport.component-hover-text"))));
         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/world teleport " + player.getName() + " " + world));
         return textComponent;
     }
 
     @Override
     public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
-        return Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
+        return Lists.newArrayList(super.getWorldManager().getWorldProperties().keySet());
     }
 
 }

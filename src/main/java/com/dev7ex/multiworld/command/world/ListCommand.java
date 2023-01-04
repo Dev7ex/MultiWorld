@@ -1,5 +1,6 @@
 package com.dev7ex.multiworld.command.world;
 
+import com.dev7ex.common.bukkit.command.CommandProperties;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.world.WorldProperties;
@@ -13,12 +14,11 @@ import java.util.Set;
  * @author Dev7ex
  * @since 20.05.2021
  */
+@CommandProperties(name = "list", permission = "multiworld.command.world.list")
 public final class ListCommand extends WorldSubCommand {
 
     public ListCommand(final MultiWorldPlugin plugin) {
         super(plugin);
-        super.setUsage(plugin.getConfiguration().getUsage().replaceAll("%command%", "/world list"));
-        super.setPermission("multiworld.command.world.list");
     }
 
     @Override
@@ -29,15 +29,15 @@ public final class ListCommand extends WorldSubCommand {
         }
 
         if (arguments.length != 1) {
-            commandSender.sendMessage(super.getUsage());
+            commandSender.sendMessage(super.getConfiguration().getCommandUsage(this));
             return true;
         }
 
         final StringBuilder stringBuilder = new StringBuilder();
-        final Set<String> worldSet = super.worldManager.getWorldProperties().keySet();
+        final Set<String> worldSet = super.getWorldManager().getWorldProperties().keySet();
 
         for (final String world : worldSet) {
-            final WorldProperties worldProperties = super.worldManager.getWorldProperties().get(world);
+            final WorldProperties worldProperties = super.getWorldManager().getWorldProperties().get(world);
 
             if (stringBuilder.length() > 0) {
                 stringBuilder.append(ChatColor.WHITE);
@@ -45,7 +45,7 @@ public final class ListCommand extends WorldSubCommand {
             }
             stringBuilder.append(worldProperties.isLoaded() ? ChatColor.GREEN : ChatColor.RED).append(world);
         }
-        commandSender.sendMessage(super.configuration.getWorldMessage("list.message").replaceAll("%worlds%", stringBuilder.toString()));
+        commandSender.sendMessage(super.getConfiguration().getMessage("list.message").replaceAll("%worlds%", stringBuilder.toString()));
         return true;
     }
 

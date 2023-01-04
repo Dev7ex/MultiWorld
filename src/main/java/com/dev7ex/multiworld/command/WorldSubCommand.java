@@ -1,12 +1,14 @@
 package com.dev7ex.multiworld.command;
 
-import com.dev7ex.common.bukkit.command.SubCommand;
+import com.dev7ex.common.bukkit.command.BukkitCommand;
 
 import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.user.WorldUser;
 import com.dev7ex.multiworld.user.WorldUserService;
 import com.dev7ex.multiworld.world.WorldManager;
+import lombok.AccessLevel;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -14,11 +16,12 @@ import java.util.UUID;
  * @author Dev7ex
  * @since 20.05.2021
  */
-public abstract class WorldSubCommand extends SubCommand {
+@Getter(AccessLevel.PUBLIC)
+public abstract class WorldSubCommand extends BukkitCommand {
 
-    protected final WorldUserService worldUserService;
-    protected final WorldManager worldManager;
-    protected final MultiWorldConfiguration configuration;
+    private final WorldUserService worldUserService;
+    private final WorldManager worldManager;
+    private final MultiWorldConfiguration configuration;
 
     public WorldSubCommand(final MultiWorldPlugin plugin) {
         super(plugin);

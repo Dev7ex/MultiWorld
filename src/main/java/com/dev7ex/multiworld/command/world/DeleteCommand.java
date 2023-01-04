@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.command.world;
 
-import com.dev7ex.common.java.util.FileUtil;
+import com.dev7ex.common.bukkit.command.CommandProperties;
+import com.dev7ex.common.io.Files;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 
@@ -18,59 +19,48 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
+@CommandProperties(name = "delete", permission = "multiworld.command.world.delete")
 public final class DeleteCommand extends WorldSubCommand implements TabCompleter {
 
     public DeleteCommand(final MultiWorldPlugin plugin) {
         super(plugin);
-        super.setUsage(plugin.getConfiguration().getUsage().replaceAll("%command%", "/world delete <Name>"));
-        super.setPermission("multiworld.command.world.delete");
     }
 
     @Override
     public boolean execute(final CommandSender commandSender, final String[] arguments) {
-        if (!commandSender.hasPermission(this.getPermission())) {
-            commandSender.sendMessage(super.getNoPermissionMessage());
-            return true;
-        }
-
         if (arguments.length != 2) {
-            commandSender.sendMessage(super.getPrefix() + super.getUsage());
+            commandSender.sendMessage(super.getConfiguration().getCommandUsage(this));
             return true;
         }
         final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
 
         if(!worldFolder.exists()) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
+            commandSender.sendMessage(super.getConfiguration().getMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
             return true;
         }
 
-        if(!FileUtil.containsFile(worldFolder, "session.lock")) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
+        if(!Files.containsFile(worldFolder, "session.lock")) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("general.folder-not-exists").replaceAll("%folder%", arguments[1]));
             return true;
         }
 
-        if (arguments[1].equalsIgnoreCase(MultiWorldPlugin.getInstance().getConfiguration().getDefaultWorldName())) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.cannot-deleted").replaceAll("%world%", arguments[1]));
+        if (arguments[1].equalsIgnoreCase(MultiWorldPlugin.getInstance().getConfiguration().getString("defaults.world"))) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("general.cannot-deleted").replaceAll("%world%", arguments[1]));
             return true;
         }
 
-        if (super.worldManager.isServerDeletingWorld()) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.waiting"));
+        if (!super.getWorldManager().getWorldConfiguration().isWorldRegistered(arguments[1])) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("general.not-exists").replaceAll("%world%", arguments[1]));
             return true;
         }
-
-        if (!super.worldManager.getWorldConfiguration().isWorldRegistered(arguments[1])) {
-            commandSender.sendMessage(super.configuration.getWorldMessage("general.not-exists").replaceAll("%world%", arguments[1]));
-            return true;
-        }
-        super.worldManager.deleteWorld(commandSender, arguments[1]);
+        super.getWorldManager().deleteWorld(commandSender, arguments[1]);
         return true;
     }
 
     @Override
     public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
-        final List<String> worlds = Lists.newArrayList(super.worldManager.getWorldProperties().keySet());
-        worlds.remove(super.plugin.getConfiguration().getStringSafe("defaults.world"));
+        final List<String> worlds = Lists.newArrayList(super.getWorldManager().getWorldProperties().keySet());
+        worlds.remove(super.getPlugin().getConfiguration().getString("defaults.world"));
         return worlds;
     }
 
