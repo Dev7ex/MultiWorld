@@ -15,6 +15,8 @@ import com.dev7ex.multiworld.world.WorldService;
 import lombok.AccessLevel;
 import lombok.Getter;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -49,6 +51,15 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldAp
     @Override
     public void onEnable() {
         MultiWorldProvider.registerApi(this);
+
+        final Plugin facilisCommonPlugin = super.getServer().getPluginManager().getPlugin("FacilisCommon");
+
+        if (!facilisCommonPlugin.getDescription().getVersion().equalsIgnoreCase("1.0.0-b002-SNAPSHOT")) {
+            super.getLogger().severe("MultiWorld need FacilisCommon 1.0.0-b002-SNAPSHOT");
+            super.getLogger().severe("https://www.spigotmc.org/resources/faciliscommon.107198/");
+            super.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         this.checkUpdates();
 
