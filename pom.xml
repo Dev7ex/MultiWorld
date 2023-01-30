@@ -10,11 +10,17 @@
 
     <groupId>com.dev7ex</groupId>
     <artifactId>multiworld-plugin</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>${project.source.version}</maven.compiler.source>
         <maven.compiler.target>${project.source.version}</maven.compiler.target>
+
+        <dependency-spigot-api-version>1.16.5-R0.1-SNAPSHOT</dependency-spigot-api-version>
+        <dependency-maven-artifact-version>3.6.0</dependency-maven-artifact-version>
+        <dependency-commons-io-version>2.11.0</dependency-commons-io-version>
+        <dependency-lombok-version>1.18.24</dependency-lombok-version>
+        <dependency-facilis-common-version>1.0.0-SNAPSHOT</dependency-facilis-common-version>
 
         <project.source.version>15</project.source.version>
     </properties>
@@ -30,28 +36,35 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <version>${dependency-spigot-api-version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
+            <version>${dependency-commons-io-version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.dev7ex</groupId>
             <artifactId>facilis-common-bukkit</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${dependency-facilis-common-version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-artifact</artifactId>
+            <version>${dependency-maven-artifact-version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>${dependency-lombok-version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -73,28 +86,6 @@
         </resources>
 
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>com.dev7ex.multiworld.metrics</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
