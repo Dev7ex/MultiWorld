@@ -12,6 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,11 @@ public final class CreateCommand extends WorldSubCommand implements TabCompleter
             return true;
         }
 
+        if (super.getWorldService().getWorldGenerators().containsValue(arguments[2])) {
+            super.getWorldManager().createWorld(commandSender, arguments[1], arguments[2]);
+            return true;
+        }
+
         final Optional<WorldType> optional = WorldType.fromString(arguments[2].toUpperCase());
 
         if ((optional.isEmpty())) {
@@ -61,7 +67,18 @@ public final class CreateCommand extends WorldSubCommand implements TabCompleter
 
     @Override
     public List<String> onTabComplete(final CommandSender commandSender, final Command command, final String commandLabel, final String[] arguments) {
-        return (arguments.length == 3 ? WorldType.toStringList() : Collections.emptyList());
+        if (arguments.length != 3) {
+            return Collections.emptyList();
+        }
+
+        if (super.getWorldService().getWorldGenerators().isEmpty()) {
+            return WorldType.toStringList();
+        }
+        final List<String> completions = new ArrayList<>();
+        completions.addAll(WorldType.toStringList());
+        completions.addAll(super.getWorldService().getWorldGenerators().values());
+
+        return completions;
     }
 
 }
