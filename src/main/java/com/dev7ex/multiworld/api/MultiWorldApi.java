@@ -16,4 +16,6 @@ public interface MultiWorldApi {
 
     WorldUserService getWorldUserService();
 
+    MultiWorldApiConfiguration getConfiguration();
+
 }
