@@ -1,7 +1,5 @@
 package com.dev7ex.multiworld.world;
 
-import com.google.common.collect.Lists;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 
