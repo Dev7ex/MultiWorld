@@ -20,7 +20,7 @@
         <dependency-maven-artifact-version>3.6.0</dependency-maven-artifact-version>
         <dependency-commons-io-version>2.11.0</dependency-commons-io-version>
         <dependency-lombok-version>1.18.24</dependency-lombok-version>
-        <dependency-facilis-common-version>1.0.0-SNAPSHOT</dependency-facilis-common-version>
+        <dependency-facilis-common-version>1.0.0-b003-SNAPSHOT</dependency-facilis-common-version>
 
         <project.source.version>15</project.source.version>
     </properties>
@@ -33,6 +33,13 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.dev7ex</groupId>
+            <artifactId>multiworld-plugin</artifactId>
+            <version>1.3.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
