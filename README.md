@@ -12,7 +12,6 @@ MultiWorld is a World Management plugin for Minecraft Server.
 * GameMode per World - if you change the world your gamemode change also! (can be deactivated)
 
 ## Links
-***
 * https://www.spigotmc.org/resources/multiworld.92559/
 * https://bstats.org/plugin/bukkit/MultiWorld/15446
 
