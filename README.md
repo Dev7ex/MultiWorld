@@ -1,11 +1,10 @@
 # Multiworld
-***
+
 ![SpigotMC Downloads](https://img.shields.io/spiget/downloads/92559?label=Downloads)
 ![Spiget Rating](https://img.shields.io/spiget/rating/92559?label=Rating&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/dev7ex/multiworld)
 
 ## What is MultiWorld?
-***
 MultiWorld is a World Management plugin for Minecraft Server.
 
 * Almost 100% configurable
@@ -18,7 +17,6 @@ MultiWorld is a World Management plugin for Minecraft Server.
 * https://bstats.org/plugin/bukkit/MultiWorld/15446
 
 # Commands
-***
 ```
 * /world                                      [multiworld.command.world]
 * /world back                                 [multiworld.command.world.back]
@@ -37,7 +35,6 @@ MultiWorld is a World Management plugin for Minecraft Server.
 ```
 
 # Configuration
-***
 ```
 #      __  ___      ____  _ _       __           __    __
 #    /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
