@@ -1,18 +1,21 @@
 # Multiworld
 ***
-MultiWorld is a World plugin for Minecraft Servers.  
-It allows creating a lot of worlds of different types
+![SpigotMC Downloads](https://img.shields.io/spiget/downloads/92559?label=Downloads)
+![Spiget Rating](https://img.shields.io/spiget/rating/92559?label=Rating&style=flat-square)
+![GitHub](https://img.shields.io/github/license/dev7ex/multiworld)
 
-# Links
+## What is MultiWorld?
+***
+MultiWorld is a World Management plugin for Minecraft Server.
+
+* Almost 100% configurable
+* Pvp is adjustable for each world
+* GameMode per World - if you change the world your gamemode change also! (can be deactivated)
+
+## Links
 ***
 * https://www.spigotmc.org/resources/multiworld.92559/
 * https://bstats.org/plugin/bukkit/MultiWorld/15446
-
-# Features
-***
-* GameMode per World - if you change the world your gamemode change also! (can be deactivated)
-* PvP per World - allow to deactivate pvp in specific worlds
-* Almost all configurable!
 
 # Commands
 ***
@@ -36,14 +39,16 @@ It allows creating a lot of worlds of different types
 # Configuration
 ***
 ```
-#     __  ___      ____  _ _       __           __    __
-#   /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
-#  / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
-# / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
-#/_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
+#      __  ___      ____  _ _       __           __    __
+#    /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
+#   / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
+#  / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
+# /_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
 #
-# Copyright (c) 2022 by Dev7ex
-# Version: 1.3.0
+# Copyright (c) 2023 by Dev7ex
+# Version: ${project.version}
+config-version: ${project.version}
+# General
 prefix: '§8[§bMultiWorld§8]§r'
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
 player-not-found: '%prefix% §cThis player cannot be found'
@@ -82,7 +87,7 @@ messages:
     starting: '%prefix% §7The world §a%world% §7will be cloned..'
     finished: '%prefix% §7The world §a%world% §7was successfully cloned!'
   create:
-    usage: '%prefix% §cUsage: /world create <Name> <WorldType | Seed>'
+    usage: '%prefix% §cUsage: /world create <Name> <WorldType | Seed | Generator>'
     starting: '%prefix% §7The world §a%world% §7is being created...'
     finished: '%prefix% §7The world §a%world% §7was successfully created!'
   delete:
@@ -95,17 +100,17 @@ messages:
       - '§f§m               §r§r %prefix% §f§m               '
       - ''
       - '§7» §7/world §bback'
-      - '§7» §7/world §bclone §7<Name> <Clone>'
-      - '§7» §7/world §bcreate §7<Name> <WorldType | Seed>'
-      - '§7» §7/world §bdelete §7<Name>'
+      - '§7» §7/world §bclone §7<World> <Name>'
+      - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
+      - '§7» §7/world §bdelete §7<World>'
       - '§7» §7/world §bhelp'
       - '§7» §7/world §bimport §7<World> <WorldType>'
       - '§7» §7/world §binfo §7<World>'
       - '§7» §7/world §blist'
       - '§7» §7/world §bload §7<World>'
-      - '§7» §7/world §boption §7<World> <Option> <Value>'
+      - '§7» §7/world §boptions §7<World> <Option> <Value>'
       - '§7» §7/world §breload'
-      - '§7» §7/world §bteleport §7<World>'
+      - '§7» §7/world §bteleport §7<Player> <World>'
       - '§7» §7/world §bunload §7<World>'
       - ''
       - '§f§m               §r§r %prefix% §f§m               '
@@ -158,6 +163,7 @@ messages:
     usage: '%prefix% §cUsage: /world reload'
     successfully-reloaded: '%prefix% §7The config was §asuccessfully §7reloaded'
   teleport:
+    usage: '%prefix% §cUsage: /world teleport <Player> <World>'
     message: '%prefix% §7Teleporting §a%player% §7to %world%'
     component-message: '%prefix% §8[§aTeleport§8]'
     component-hover-text: '%prefix% §7Click to teleport'
@@ -175,3 +181,7 @@ messages:
     folder-not-exists: '%prefix% §7World folder %folder% was not found'
     error-message: '%prefix% §cAn error has occurred! Contact an Administrator!'
 ```
+# Developer
+
+1. Install the the project in your local repository
+2. Add the dependency to your project
