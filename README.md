@@ -1,9 +1,9 @@
-# Multiworld
+# MultiWorld
 
 ![SpigotMC Downloads](https://img.shields.io/spiget/downloads/92559?label=Downloads)
 ![Spiget Rating](https://img.shields.io/spiget/rating/92559?label=Rating&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/dev7ex/multiworld)
-[![CodeFactor](https://www.codefactor.io/repository/github/dev7ex/faciliscommon/badge)](https://www.codefactor.io/repository/github/dev7ex/faciliscommon)
+[![CodeFactor](https://www.codefactor.io/repository/github/dev7ex/multiworld/badge)](https://www.codefactor.io/repository/github/dev7ex/multiworld)
 
 ## What is MultiWorld?
 MultiWorld is a World Management plugin for Minecraft Server.
