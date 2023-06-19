@@ -3,6 +3,7 @@ package com.dev7ex.multiworld.command.world;
 import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.CommandProperties;
 import com.dev7ex.common.util.NumberUtil;
+import com.dev7ex.common.util.Numbers;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.WorldSubCommand;
 import com.dev7ex.multiworld.world.WorldType;
@@ -45,7 +46,7 @@ public final class CreateCommand extends WorldSubCommand implements TabCompleter
             return true;
         }
 
-        if (NumberUtil.isNumber(arguments[2])) {
+        if (Numbers.isLong(arguments[2])) {
             super.getWorldManager().createWorld(commandSender, arguments[1], Long.parseLong(arguments[2]));
             return true;
         }
