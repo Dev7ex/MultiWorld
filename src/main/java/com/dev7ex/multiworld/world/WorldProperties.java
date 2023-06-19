@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.world;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +19,9 @@ import java.util.Objects;
  */
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-public final class WorldProperties {
+public class WorldProperties {
 
-    private final String worldName;
+    private String worldName;
     private String worldCreator;
     private long creationTime;
     private long lastWorldInteraction;
@@ -43,6 +44,8 @@ public final class WorldProperties {
         this.difficulty = difficulty;
         this.gameMode = gameMode;
         this.pvpEnabled = pvpEnabled;
+        this.spawnAnimals = spawnAnimals;
+        this.spawnMonsters = spawnMonsters;
     }
 
     public void updateWorldOption(final WorldOption worldOption, final String value) {
