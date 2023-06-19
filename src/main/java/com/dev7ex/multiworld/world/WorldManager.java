@@ -25,7 +25,11 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -44,6 +48,39 @@ public final class WorldManager {
         this.configuration = configuration;
         this.worldConfiguration = worldConfiguration;
         this.worldUserService = worldUserService;
+    }
+
+    public void createBackup(final CommandSender commandSender, final String worldName) {
+        final File sourceFolder = new File(Bukkit.getWorldContainer(), worldName);
+        final File destinationFolder = new File(MultiWorldPlugin.getInstance().getSubFolder("backup"),
+                worldName + "-" + new SimpleDateFormat("MM-dd-yyyy-HH-mm-ss").format(Calendar.getInstance().getTime()));
+
+        commandSender.sendMessage(this.configuration.getMessage("backup.starting").replaceAll("%world%", worldName));
+
+        try {
+            final File sessionFile = new File(sourceFolder, "session.lock");
+
+            if (sessionFile.exists()) {
+                sessionFile.delete();
+            }
+            FileUtils.copyDirectory(sourceFolder, destinationFolder);
+
+            for (final File file : Files.getFiles(destinationFolder)) {
+                if (!file.isFile()) {
+                    continue;
+                }
+                if (!file.getName().equalsIgnoreCase("uid.dat")) {
+                    continue;
+                }
+                file.delete();
+            }
+            commandSender.sendMessage(this.configuration.getMessage("backup.finished").replaceAll("%world%", worldName));
+
+        } catch (final IOException exception) {
+            commandSender.sendMessage("§cAn error has occurred. View the logs");
+            exception.printStackTrace();
+        }
+
     }
 
     public void createWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {

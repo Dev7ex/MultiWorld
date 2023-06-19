@@ -42,6 +42,10 @@ messages:
     world-already-there: '%prefix%§ §7You are already in this world'
     world-not-loaded: '%prefix% §7This world is not longer active'
     world-not-found: '%prefix% §7There is no world you can be teleported'
+  backup:
+    usage: '%prefix% §cUsage: /world backup <World>'
+    starting: '%prefix% §7Creating a backup of §a%world%§7...'
+    finished: '%prefix% §7Backup successfully created!'
   clone:
     usage: '%prefix% §cUsage: /world clone <Name> <Clone>'
     starting: '%prefix% §7The world §a%world% §7will be cloned..'
@@ -60,6 +64,7 @@ messages:
       - '§f§m               §r§r %prefix% §f§m               '
       - ''
       - '§7» §7/world §bback'
+      - '§7» §7/world §bbackup §7<World>'
       - '§7» §7/world §bclone §7<World> <Name>'
       - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
       - '§7» §7/world §bdelete §7<World>'
