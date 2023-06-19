@@ -108,13 +108,12 @@ public final class WorldManager {
                 break;
         }
         commandSender.sendMessage(this.configuration.getMessage("create.starting").replaceAll("%world%", worldName));
+
         final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
-                System.currentTimeMillis(), System.currentTimeMillis(), worldType,
-                Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
-                GameMode.valueOf(this.configuration.getString("defaults.gamemode")),
-                this.configuration.getBoolean("defaults.pvp-enabled"),
-                this.configuration.getBoolean("defaults.spawn-animals"),
-                this.configuration.getBoolean("defaults.spawn-monsters"));
+                System.currentTimeMillis(), System.currentTimeMillis(),
+                worldType, Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
+                GameMode.valueOf(this.configuration.getString("defaults.gamemode")), this.configuration.getBoolean("defaults.pvp-enabled"),
+                this.configuration.getBoolean("defaults.spawn-animals"), this.configuration.getBoolean("defaults.spawn-monsters"));
 
         final WorldCreateEvent event = new WorldCreateEvent(worldProperties);
         Bukkit.getPluginManager().callEvent(event);
@@ -125,8 +124,11 @@ public final class WorldManager {
         final World world = worldCreator.createWorld();
 
         commandSender.sendMessage(this.configuration.getMessage("create.finished").replaceAll("%world%", worldName));
+
         worldProperties.setLoaded(true);
         world.setDifficulty(worldProperties.getDifficulty());
+        world.setSpawnFlags(worldProperties.isSpawnMonsters(), worldProperties.isSpawnAnimals());
+
         this.worldConfiguration.registerWorld(worldName, worldProperties);
         this.worldProperties.put(worldName, worldProperties);
     }
@@ -136,13 +138,12 @@ public final class WorldManager {
         worldCreator.seed(seed);
 
         commandSender.sendMessage(this.configuration.getMessage("create.starting").replaceAll("%world%", worldName));
+
         final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
-                System.currentTimeMillis(), System.currentTimeMillis(), WorldType.NORMAL,
-                Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
-                GameMode.valueOf(this.configuration.getString("defaults.gamemode")),
-                this.configuration.getBoolean("defaults.pvp-enabled"),
-                this.configuration.getBoolean("defaults.spawn-animals"),
-                this.configuration.getBoolean("defaults.spawn-monsters"));
+                System.currentTimeMillis(), System.currentTimeMillis(),
+                WorldType.NORMAL, Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
+                GameMode.valueOf(this.configuration.getString("defaults.gamemode")), this.configuration.getBoolean("defaults.pvp-enabled"),
+                this.configuration.getBoolean("defaults.spawn-animals"), this.configuration.getBoolean("defaults.spawn-monsters"));
 
         final WorldCreateEvent event = new WorldCreateEvent(worldProperties);
         Bukkit.getPluginManager().callEvent(event);
@@ -153,8 +154,11 @@ public final class WorldManager {
         final World world = worldCreator.createWorld();
 
         commandSender.sendMessage(this.configuration.getMessage("create.finished").replaceAll("%world%", worldName));
+
         worldProperties.setLoaded(true);
         world.setDifficulty(worldProperties.getDifficulty());
+        world.setSpawnFlags(worldProperties.isSpawnMonsters(), worldProperties.isSpawnAnimals());
+
         this.worldConfiguration.registerWorld(worldName, worldProperties);
         this.worldProperties.put(worldName, worldProperties);
     }
@@ -164,13 +168,12 @@ public final class WorldManager {
         worldCreator.generator(generator);
 
         commandSender.sendMessage(this.configuration.getMessage("create.starting").replaceAll("%world%", worldName));
+
         final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
-                System.currentTimeMillis(), System.currentTimeMillis(), WorldType.NORMAL,
-                Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
-                GameMode.valueOf(this.configuration.getString("defaults.gamemode")),
-                this.configuration.getBoolean("defaults.pvp-enabled"),
-                this.configuration.getBoolean("defaults.spawn-animals"),
-                this.configuration.getBoolean("defaults.spawn-monsters"));
+                System.currentTimeMillis(), System.currentTimeMillis(),
+                WorldType.NORMAL, Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
+                GameMode.valueOf(this.configuration.getString("defaults.gamemode")), this.configuration.getBoolean("defaults.pvp-enabled"),
+                this.configuration.getBoolean("defaults.spawn-animals"), this.configuration.getBoolean("defaults.spawn-monsters"));
 
         final WorldCreateEvent event = new WorldCreateEvent(worldProperties);
         Bukkit.getPluginManager().callEvent(event);
@@ -181,8 +184,11 @@ public final class WorldManager {
         final World world = worldCreator.createWorld();
 
         commandSender.sendMessage(this.configuration.getMessage("create.finished").replaceAll("%world%", worldName));
+
         worldProperties.setLoaded(true);
         world.setDifficulty(worldProperties.getDifficulty());
+        world.setSpawnFlags(worldProperties.isSpawnMonsters(), worldProperties.isSpawnAnimals());
+
         this.worldConfiguration.registerWorld(worldName, worldProperties);
         this.worldProperties.put(worldName, worldProperties);
     }
@@ -226,26 +232,6 @@ public final class WorldManager {
         }
     }
 
-    public void unloadWorld(final CommandSender commandSender, final String worldName) {
-        final World world = Bukkit.getWorld(worldName);
-
-        for (final Player player : Bukkit.getOnlinePlayers()) {
-            if (!player.getWorld().getName().equalsIgnoreCase(worldName)) {
-                continue;
-            }
-            player.sendMessage(this.configuration.getMessage("unload.chunk-teleport").replaceAll("%world%", worldName));
-            player.teleport(Bukkit.getWorld(MultiWorldPlugin.getInstance().getConfiguration().getString("defaults.world")).getSpawnLocation());
-        }
-        commandSender.sendMessage(this.configuration.getMessage("unload.chunk-starting").replaceAll("%world%", worldName));
-        Arrays.stream(world.getLoadedChunks()).forEach(Chunk::unload);
-        commandSender.sendMessage(this.configuration.getMessage("unload.chunk-finished").replaceAll("%world%", worldName));
-
-        commandSender.sendMessage(this.configuration.getMessage("unload.starting").replaceAll("%world%", worldName));
-        Bukkit.unloadWorld(world.getName(), true);
-        commandSender.sendMessage(this.configuration.getMessage("unload.finished").replaceAll("%world%", worldName));
-        this.worldProperties.get(worldName).setLoaded(false);
-    }
-
     public void deleteWorld(final CommandSender commandSender, final String worldName) {
         commandSender.sendMessage(this.configuration.getMessage("delete.starting").replaceAll("%world%", worldName));
 
@@ -273,6 +259,22 @@ public final class WorldManager {
         commandSender.sendMessage(this.configuration.getMessage("delete.finished").replaceAll("%world%", worldName));
     }
 
+    public void importWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {
+        commandSender.sendMessage(this.configuration.getMessage("import.starting").replaceAll("%world%", worldName));
+
+        final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
+                System.currentTimeMillis(), System.currentTimeMillis(), worldType,
+                Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
+                GameMode.valueOf(this.configuration.getString("defaults.gamemode")),
+                this.configuration.getBoolean("defaults.pvp-enabled"),
+                this.configuration.getBoolean("defaults.spawn-animals"),
+                this.configuration.getBoolean("defaults.spawn-monsters"));
+
+        this.worldConfiguration.registerWorld(worldName, worldProperties);
+        this.worldProperties.put(worldName, worldProperties);
+        commandSender.sendMessage(this.configuration.getMessage("import.finished").replaceAll("%world%", worldName));
+    }
+
     public void loadWorld(final CommandSender commandSender, final String worldName) {
         final WorldProperties worldProperties = this.worldConfiguration.getWorldProperties(worldName);
         final WorldCreator worldCreator = new WorldCreator(worldName);
@@ -297,26 +299,32 @@ public final class WorldManager {
 
         final World world = Bukkit.createWorld(worldCreator);
         world.setDifficulty(worldProperties.getDifficulty());
+        world.setSpawnFlags(worldProperties.isSpawnMonsters(), worldProperties.isSpawnAnimals());
+
         commandSender.sendMessage(this.configuration.getMessage("load.finished").replaceAll("%world%", worldName));
 
         worldProperties.setLoaded(true);
         this.worldProperties.put(worldName, worldProperties);
     }
 
-    public void importWorld(final CommandSender commandSender, final String worldName, final WorldType worldType) {
-        commandSender.sendMessage(this.configuration.getMessage("import.starting").replaceAll("%world%", worldName));
+    public void unloadWorld(final CommandSender commandSender, final String worldName) {
+        final World world = Bukkit.getWorld(worldName);
 
-        final WorldProperties worldProperties = new WorldProperties(worldName, commandSender.getName(),
-                System.currentTimeMillis(), System.currentTimeMillis(), worldType,
-                Difficulty.valueOf(this.configuration.getString("defaults.difficulty")),
-                GameMode.valueOf(this.configuration.getString("defaults.gamemode")),
-                this.configuration.getBoolean("defaults.pvp-enabled"),
-                this.configuration.getBoolean("defaults.spawn-animals"),
-                this.configuration.getBoolean("defaults.spawn-monsters"));
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            if (!player.getWorld().getName().equalsIgnoreCase(worldName)) {
+                continue;
+            }
+            player.sendMessage(this.configuration.getMessage("unload.chunk-teleport").replaceAll("%world%", worldName));
+            player.teleport(Bukkit.getWorld(MultiWorldPlugin.getInstance().getConfiguration().getString("defaults.world")).getSpawnLocation());
+        }
+        commandSender.sendMessage(this.configuration.getMessage("unload.chunk-starting").replaceAll("%world%", worldName));
+        Arrays.stream(world.getLoadedChunks()).forEach(Chunk::unload);
+        commandSender.sendMessage(this.configuration.getMessage("unload.chunk-finished").replaceAll("%world%", worldName));
 
-        this.worldConfiguration.registerWorld(worldName, worldProperties);
-        this.worldProperties.put(worldName, worldProperties);
-        commandSender.sendMessage(this.configuration.getMessage("import.finished").replaceAll("%world%", worldName));
+        commandSender.sendMessage(this.configuration.getMessage("unload.starting").replaceAll("%world%", worldName));
+        Bukkit.unloadWorld(world.getName(), true);
+        commandSender.sendMessage(this.configuration.getMessage("unload.finished").replaceAll("%world%", worldName));
+        this.worldProperties.get(worldName).setLoaded(false);
     }
 
     public void teleportWorld(final CommandSender commandSender, final Player target, final Location teleportLocation) {
