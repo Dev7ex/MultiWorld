@@ -35,6 +35,9 @@ settings:
   receive-update-message: true
   # Should the auto-gamemode per world work?
   auto-gamemode: true
+  # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
+  access-nether-via-command: true
+  access-end-via-command: true
 
 messages:
   back:
@@ -134,6 +137,8 @@ messages:
     component-hover-text: '%prefix% §7Click to teleport'
     target-already-in-world: '%prefix% §7Player §a%target% already in this world'
     sender-already-in-world: '%prefix% §7You already in this world!'
+    nether-not-accessible: '%prefix% §cEntering Nether World via command is disabled'
+    end-not-accessible: '%prefix% §cEntering End World via command is disabled'
   general:
     update-message-player: '%prefix% §7There is a new update available. https://www.spigotmc.org/resources/multiworld.92559/'
     invalid-input: '%prefix% §cThis is not a valid value'

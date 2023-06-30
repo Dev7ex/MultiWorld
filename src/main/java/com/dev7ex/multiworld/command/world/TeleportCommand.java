@@ -49,6 +49,17 @@ public final class TeleportCommand extends WorldSubCommand implements TabComplet
             commandSender.sendMessage(super.getConfiguration().getMessage("load.not-loaded").replaceAll("%world%", arguments[1]));
             return true;
         }
+
+        if ((world.getEnvironment() == World.Environment.NETHER) && (!super.getConfiguration().getBoolean("settings.access-nether-via-command"))) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("teleport.nether-not-accessible"));
+            return true;
+        }
+
+        if ((world.getEnvironment() == World.Environment.THE_END) && (!super.getConfiguration().getBoolean("settings.access-end-via-command"))) {
+            commandSender.sendMessage(super.getConfiguration().getMessage("teleport.end-not-accessible"));
+            return true;
+        }
+
         final Player target = Bukkit.getPlayer(arguments[1]);
 
         if (target == null) {
