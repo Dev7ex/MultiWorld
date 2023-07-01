@@ -33,7 +33,7 @@ MultiWorld is a World Management plugin for Minecraft Server.
 * /world help                                                           [multiworld.command.world]
 * /world import <Name> <WorldType>                                      [multiworld.command.world.import]
 * /world info <World>                                                   [multiworld.command.world.info]
-* /world link <World> <Nether|End> <World>                              [multiworld.command.world.list]
+* /world link <World> <Nether|End> <World>                              [multiworld.command.world.link]
 * /world list                                                           [multiworld.command.world.list]
 * /world load <World>                                                   [multiworld.command.world.load]
 * /world reload                                                         [multiworld.command.world.reload]
