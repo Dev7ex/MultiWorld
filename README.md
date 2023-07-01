@@ -39,7 +39,7 @@ MultiWorld is a World Management plugin for Minecraft Server.
 * /world reload                                                         [multiworld.command.world.reload]
 * /world teleport <Player> <World>                                      [multiworld.command.world.teleport]
 * /world unload <World>                                                 [multiworld.command.world.unload]
-* /world whitelist <World> <Enable|Disable|Add|Remove|List> <Name>       [multiworld.command.world.unload]
+* /world whitelist <World> <Enable|Disable|Add|Remove|List> <Name>      [multiworld.command.world.whitelist]
 ```
 
 # Configuration
