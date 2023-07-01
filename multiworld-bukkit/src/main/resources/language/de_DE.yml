@@ -1,0 +1,130 @@
+messages:
+  general:
+    update-message-player: '%prefix% §7Es ist ein neues Update verfügbar. §8[§bhttps://www.spigotmc.org/resources/multiworld.92559§8]'
+    world-not-exists: '%prefix% §cDie angegebene Welt existiert nicht!'
+    world-not-loaded: '%prefix% §cDie angegebene Welt ist nicht geladen!'
+    world-already-exists: '%prefix% §cDie angegebene Welt existiert bereits!'
+    world-type-not-exists: '%prefix% §cDer angegebene Welten-Typ existiert nicht'
+    world-folder-not-exists: '%prefix% §cEs konnte kein Welten Ordner gefunden werden!'
+    world-whitelist-block-trespassing: '%prefix% §7Du bist nicht auf der Whitelist dieser Welt!'
+  commands:
+    back:
+      usage: '%prefix% §cSyntax: /world back'
+      world-not-exists: '%prefix% §cEs gibt keine Welt in die du gehen kannst!'
+      sender-already-there: '%prefix% Du bist bereits in der Welt §b%world_name%'
+    backup:
+      usage: '%prefix% §cSyntax: /world backup <Welt>'
+      starting: '%prefix% §7Es wird ein Backup von der Welt §b%world_name% §7erstellt...'
+      finished: '%prefix% §7Das Backup der Welt §b%world_name% §7wurde erfolgreich erstellt!'
+    clone:
+      usage: '%prefix% §cSyntax: /world clone <Welt> <Name>'
+      starting: '%prefix% §7Die Welt §b%world_name% §7wird kopiert...'
+      finished: '%prefix% §7Die Welt §b%world_name% §7wurde erfolgreich kopiert!'
+    create:
+      usage: '%prefix% §cSyntax: /world create <Name> <Generator | Seed | WorldType>'
+      starting: '%prefix% §7Die Welt §b%world_name% §7wird erstellt...'
+      finished: '%prefix% §7Die Welt §b%world_name% §7wurde erfolgreich erstellt!'
+    delete:
+      usage: '%prefix% §cSyntax: /world delete <Welt>'
+      world-cannot-deleted: '%prefix% §cDie angegebene Welt darf nicht gelöscht werden!'
+      starting: '%prefix% §7Die Welt §b%world_name% §7wird gelöscht...'
+      finished: '%prefix% §7Die Welt §b%world_name% §7wurde erfolgreich gelöscht!'
+    flag:
+      usage: '%prefix% §cSyntax: /world flag <Welt> <Flag> <Wert>'
+      not-existing: '%prefix% §cDiese Flag existiert nicht'
+      value-not-existing: '%prefix% §cDieser Wert existiert nicht für die Flag §b%flag%'
+      successfully-set: '%prefix% §7Die Flag §b%flag% §7wurde auf §b%value% §7gesetzt!'
+    help:
+      message:
+        - ''
+        - '§f§m                    §r§r %prefix% §f§m                    '
+        - ''
+        - '§7» §7/world §bback'
+        - '§7» §7/world §bbackup §7<Welt>'
+        - '§7» §7/world §bclone §7<Welt> <Name>'
+        - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
+        - '§7» §7/world §bdelete §7<Welt>'
+        - '§7» §7/world §bflag §7<Welt> <Eigenschaft> <Eintrag>'
+        - '§7» §7/world §bhelp'
+        - '§7» §7/world §bimport §7<Welt> <WorldType>'
+        - '§7» §7/world §binfo §7<Welt>'
+        - '§7» §7/world §blist'
+        - '§7» §7/world §blink §7<Welt> <Nether | End> <Welt>'
+        - '§7» §7/world §bload §7<Welt>'
+        - '§7» §7/world §breload'
+        - '§7» §7/world §bteleport §7<Spieler> <Welt>'
+        - '§7» §7/world §bunload §7<Welt>'
+        - '§7» §7/world §bwhitelist §7<Welt> <Enable | Disable | Add | Remove | List> <Name>'
+        - ''
+        - '§f§m                    §r§r %prefix% §f§m                    '
+        - ''
+    import:
+      usage: '%prefix% §cSyntax: /world import <Name> <WorldType | Generator>'
+      world-already-imported: '%prefix% §7Die Welt §b%world_name% §7ist bereits importiert!'
+      starting: '%prefix% §7Die Welt §b%world_name% §7wird importiert...'
+      finished: '%prefix% §7Die Welt §b%world_name% §7wurde erfolgreich importiert!'
+    info:
+      usage: '%prefix% §cSyntax: /world info <Welt>'
+      message:
+        - ''
+        - '§f§m               §r§r §b%world_name% §f§m               '
+        - ''
+        - '§7» Ersteller: §b%world_creator_name%'
+        - '§7» Erstellt am: §b%creation_timestamp%'
+        - '§7» Geladen: §b%loaded%'
+        - '§7» Welten-Typ: §b%world_type%'
+        - '§7» Umgebung: §b%environment%'
+        - '§7» Schwierigkeit: §b%difficulty%'
+        - '§7» Spielmodus: §b%gamemode%'
+        - '§7» Pvp: §b%pvp_enabled%'
+        - '§7» Whitelist: §b%whitelist_enabled%'
+        - ''
+        - '§f§m               §r§r §b%world_name% §f§m               '
+        - ''
+    list:
+      usage: '%prefix% §cSyntax: /world list'
+      message: '%prefix% §aWelten: %worlds%'
+    link:
+      usage: '%prefix% §cSyntax: /world link <Welt> <End | Nether> <Welt>'
+      environment-not-exists: '%prefix% §cDie angegebene Umgebung existiert nicht!'
+      successfully-set: '%prefix% §7Du hast das Portal der Umgebung §b%environment_name% §7in der Welt §b%world_name% §7mit der Welt §b%target_world_name% §7verbunden'
+    load:
+      usage: '%prefix% §cSyntax: /world load <Name>'
+      world-already-loaded: '%prefix% §7Die Welt §bworld_name% §7ist bereits geladen!'
+      starting: '%prefix% §7Die Welt §b%world_name% §7wird geladen...'
+      finished: '%prefix% §7Die Welt §b%world_name% §7wurde erfolgreich geladen!'
+    reload:
+      usage: '%prefix% §cSyntax: /world reload'
+      message: '%prefix% §7Die Konfigurationen wurde neu geladen!'
+    teleport:
+      usage: '%prefix% §cSyntax: /world teleport <Spieler> <Welt>'
+      message: '%prefix% §a%player_name% §7wird in die Welt §b%world_name% §7teleportiert!'
+      sender-already-there: '%prefix% §7Du bist bereits in der Welt §b%world_name%'
+      target-already-there: '%prefix% §7Der Spieler §a%player_name% §7ist bereits in der Welt §b%world_name%'
+      nether-not-accessible: '%prefix% §cDu kannst den Nether nicht über den Befehl betreten!'
+      end-not-accessible: '%prefix% §cDu kannst das End nicht über den Befehl betreten!'
+    unload:
+      usage: '%prefix% §cSyntax: /world unload <Welt>'
+      world-cannot-unloaded: '%prefix% §cDie angegebene Welt darf nicht entladen werden!'
+      starting: '%prefix% §7Die Welt §b%world_name% §7wird entladen...'
+      finished: '%prefix% §7Die Welt §b%world_name% §7wurde erfolgreich entladen!'
+      chunk-starting: '%prefix% §7Die Chunks in §b%world_name% §7werden entladen...'
+      chunk-finished: '%prefix% §7Die Chunks in §b%world_name% §7wurde erfolgreich entladen!'
+      chunk-teleport: '%prefix% §7Die Welt in der du warst wird entladen. Du wirst teleportiert!'
+    whitelist:
+      usage: '%prefix% §cSyntax: /world whitelist <Welt> <On | Off | Add | List | Remove> <Spieler>'
+      add:
+        already-added: '%prefix% §7Der Spieler %player_name% §7befindet sich §abereits §7auf der Whitelist!'
+        successfully-added: '%prefix% §7Du hast %player_name% §7zur Whitelist der Welt §b%world_name% §7hinzugefügt'
+      list:
+        empty: '%prefix% §7Die Whitelist für die Welt §b%world_name% §7ist leer'
+        message: '%prefix% §7Whitelist: %player_names%'
+      disable:
+        already-disabled: '%prefix% §7Die Whitelist der Welt §b%world_name% §7ist bereits deaktiviert!'
+        successfully-disabled: '%prefix% §7Du hast die Whitelist in der Welt §b%world_name% §7deaktiviert!'
+      enable:
+        already-enabled: '%prefix% §7Die Whitelist der Welt §b%world_name% §7ist bereits aktiviert!'
+        successfully-enabled: '%prefix% §7Du hast die Whitelist in der Welt §b%world_name% §7aktiviert!'
+      remove:
+        already-removed: '%prefix% §7Der Spieler %player_name% §7befindet sich §anicht §7auf der Whitelist!'
+        successfully-removed: '%prefix% §7Du hast %player_name% §7von der Whitelist der Welt §b%world_name% §7entfernt'

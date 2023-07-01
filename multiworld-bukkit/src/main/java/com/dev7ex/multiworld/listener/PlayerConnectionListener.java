@@ -1,0 +1,70 @@
+package com.dev7ex.multiworld.listener;
+
+import com.dev7ex.common.map.ParsedMap;
+import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
+import com.dev7ex.multiworld.api.bukkit.event.MultiWorldListener;
+import com.dev7ex.multiworld.api.user.WorldUser;
+import com.dev7ex.multiworld.api.user.WorldUserConfiguration;
+import com.dev7ex.multiworld.api.user.WorldUserProperty;
+import com.dev7ex.multiworld.user.User;
+import com.dev7ex.multiworld.user.UserConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * @author Dev7ex
+ * @since 18.06.2023
+ */
+public class PlayerConnectionListener extends MultiWorldListener {
+
+    public PlayerConnectionListener(@NotNull final MultiWorldBukkitApi multiWorldApi) {
+        super(multiWorldApi);
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handlePlayerLogin(final PlayerLoginEvent event) {
+        final Player player = event.getPlayer();
+        final WorldUser user = new User(player.getUniqueId(), player.getName());
+        final WorldUserConfiguration userConfiguration = new UserConfiguration(user);
+        final ParsedMap<WorldUserProperty, Object> userData = userConfiguration.read(WorldUserProperty.LAST_LOCATION);
+
+        user.setLastLocation(userData.getValue(WorldUserProperty.LAST_LOCATION));
+        user.setConfiguration(userConfiguration);
+
+        super.getUserProvider().registerUser(user);
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handlePlayerLogin(final PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
+
+        if ((super.getConfiguration().getBoolean("settings.receive-update-message"))
+                && (player.hasPermission("multiworld.update.notify"))
+                && (MultiWorldPlugin.getInstance().getUpdateChecker().isUpdateAvailable())) {
+
+            player.sendMessage(super.getConfiguration().getString("messages.general.update-message-player")
+                    .replaceAll("%prefix%", super.getPrefix()));
+            player.sendMessage(super.getConfiguration().getString("messages.general.update-message-version-player")
+                    .replaceAll("%prefix%", super.getPrefix())
+                    .replaceAll("%current_version%", MultiWorldPlugin.getInstance().getDescription().getVersion())
+                    .replaceAll("%new_version%", MultiWorldPlugin.getInstance().getUpdateChecker().getNewVersion()));
+            return;
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handlePlayerQuit(final PlayerQuitEvent event) {
+        final Player player = event.getPlayer();
+        final WorldUser user = super.getUserProvider().getUser(player.getUniqueId()).orElseThrow();
+
+        super.getUserProvider().saveUser(user, WorldUserProperty.LAST_LOCATION);
+        super.getUserProvider().unregisterUser(player.getUniqueId());
+    }
+
+}
