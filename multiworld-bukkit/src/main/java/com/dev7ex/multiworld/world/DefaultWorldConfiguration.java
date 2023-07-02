@@ -83,7 +83,12 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
 
     @Override
     public void updateFlag(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldFlag worldFlag, @NotNull final String value) {
-        super.getFileConfiguration().set(worldHolder.getName() + "." + worldFlag.getStoragePath(), value);
+        if ((value.equalsIgnoreCase("true")) || (value.equalsIgnoreCase("false"))) {
+            super.getFileConfiguration().set(worldHolder.getName() + "." + worldFlag.getStoragePath(), Boolean.valueOf(value));
+
+        } else {
+            super.getFileConfiguration().set(worldHolder.getName() + "." + worldFlag.getStoragePath(), value);
+        }
         super.saveFile();
     }
 
@@ -121,8 +126,19 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
     }
 
     @Override
-    public void write(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldProperty property, @NotNull final Object data) {
-        super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), data);
+    public void write(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldProperty property, @NotNull final Object value) {
+        if (value instanceof Boolean booleanValue) {
+            super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), booleanValue);
+
+        } else if (value instanceof final String stringValue) {
+            if ((stringValue.equalsIgnoreCase("true")) || (stringValue.equalsIgnoreCase("false"))) {
+                final boolean booleanValue = (boolean) value;
+                super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), booleanValue);
+            }
+
+        } else {
+            super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), value);
+        }
         super.saveFile();
     }
 
