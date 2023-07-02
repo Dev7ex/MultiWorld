@@ -40,7 +40,9 @@ public class ListCommand extends BukkitCommand {
             }
             stringBuilder.append(worldHolder.isLoaded() ? ChatColor.GREEN : ChatColor.RED).append(worldEntry);
         }
-        commandSender.sendMessage(super.getPrefix() + "§7Worlds: " + stringBuilder);
+        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.list.message")
+                .replaceAll("%prefix%", super.getPrefix())
+                .replaceAll("%world_names%", stringBuilder.toString()));
         return true;
 
     }
