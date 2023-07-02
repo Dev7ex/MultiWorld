@@ -8,7 +8,7 @@ loadbefore: [ ]
 main: com.dev7ex.multiworld.MultiWorldPlugin
 name: MultiWorld
 prefix: MultiWorld
-softdepend: [ ]
+softdepend: [ PlaceholderAPI ]
 version: ${project.version}
 website: ${project.url}
 commands:

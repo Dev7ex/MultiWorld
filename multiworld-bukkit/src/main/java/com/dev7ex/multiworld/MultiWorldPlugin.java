@@ -4,6 +4,7 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.bukkit.plugin.PluginProperties;
 import com.dev7ex.multiworld.api.MultiWorldApiProvider;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
+import com.dev7ex.multiworld.api.bukkit.expansion.MultiWorldExpansion;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.command.WorldCommand;
 import com.dev7ex.multiworld.listener.PlayerConnectionListener;
@@ -64,6 +65,9 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         this.updateChecker.getVersion(updateAvailable -> {
         });
 
+        if (super.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new MultiWorldExpansion(this).register();
+        }
         ConfigurationSerialization.registerClass(BukkitWorldLocation.class);
     }
 

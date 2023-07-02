@@ -30,6 +30,7 @@
         <dependency.lombok-version>1.18.26</dependency.lombok-version>
         <dependency-spigot-api-version>1.16.5-R0.1-SNAPSHOT</dependency-spigot-api-version>
         <dependency-maven-artifact-version>3.9.0</dependency-maven-artifact-version>
+        <dependency-placeholder-api-version>2.11.3</dependency-placeholder-api-version>
 
         <project.source.version>16</project.source.version>
     </properties>

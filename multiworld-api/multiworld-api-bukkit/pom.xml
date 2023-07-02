@@ -18,6 +18,13 @@
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -30,6 +37,13 @@
             <groupId>com.dev7ex</groupId>
             <artifactId>facilis-common-bukkit</artifactId>
             <version>${dependency.facilis-common-version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>${dependency-placeholder-api-version}</version>
             <scope>provided</scope>
         </dependency>
 

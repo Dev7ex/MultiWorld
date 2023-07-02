@@ -23,6 +23,11 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -48,12 +53,18 @@
         </dependency>
 
         <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>${dependency-placeholder-api-version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${dependency-commons-io-version}</version>
             <scope>provided</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -61,7 +72,6 @@
             <version>${dependency.lombok-version}</version>
             <scope>provided</scope>
         </dependency>
-
 
         <dependency>
             <groupId>org.jetbrains</groupId>
