@@ -77,13 +77,15 @@ messages:
         - '§7» Schwierigkeit: §b%difficulty%'
         - '§7» Spielmodus: §b%gamemode%'
         - '§7» Pvp: §b%pvp_enabled%'
+        - '§7» Spawn-Monsters: §b%spawn_monsters%'
+        - '§7» Spawn-Animals: §b%spawn_animals%'
         - '§7» Whitelist: §b%whitelist_enabled%'
         - ''
         - '§f§m               §r§r §b%world_name% §f§m               '
         - ''
     list:
       usage: '%prefix% §cSyntax: /world list'
-      message: '%prefix% §aWelten: %worlds%'
+      message: '%prefix% §aWorlds: %world_names%'
     link:
       usage: '%prefix% §cSyntax: /world link <Welt> <End | Nether> <Welt>'
       environment-not-exists: '%prefix% §cDie angegebene Umgebung existiert nicht!'
