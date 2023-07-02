@@ -43,8 +43,6 @@ public class InfoCommand extends BukkitCommand implements TabCompleter {
         }
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).get();
 
-        // TODO: 29.06.2023 NullPointerException if world not loaded [55]
-
         super.getConfiguration().getStringList("messages.commands.info.message").forEach(message -> {
             commandSender.sendMessage(message
                     .replaceAll("%world_name%", worldHolder.getName())
@@ -56,6 +54,8 @@ public class InfoCommand extends BukkitCommand implements TabCompleter {
                     .replaceAll("%difficulty%", worldHolder.getDifficulty().toString())
                     .replaceAll("%gamemode%", worldHolder.getGameMode().toString())
                     .replaceAll("%pvp_enabled%", (worldHolder.isPvpEnabled() ? "true" : "false"))
+                    .replaceAll("%spawn_animals%", (worldHolder.isSpawnAnimals() ? "true" : "false"))
+                    .replaceAll("%spawn_monsters%", (worldHolder.isSpawnMonsters() ? "true" : "false"))
                     .replaceAll("%whitelist_enabled%", (worldHolder.isWhitelistEnabled() ? "true" : "false")));
         });
         return true;
