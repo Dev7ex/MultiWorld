@@ -5,6 +5,7 @@ import com.dev7ex.multiworld.api.world.WorldConfiguration;
 import com.dev7ex.multiworld.api.world.WorldGeneratorProvider;
 import com.dev7ex.multiworld.api.world.WorldManager;
 import com.dev7ex.multiworld.api.world.WorldProvider;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -14,16 +15,22 @@ import java.io.File;
  */
 public interface MultiWorldApi {
 
+    @NotNull
     MultiWorldApiConfiguration getConfiguration();
 
+    @NotNull
     WorldConfiguration<?> getWorldConfiguration();
 
+    @NotNull
     WorldProvider<?> getWorldProvider();
 
+    @NotNull
     WorldManager getWorldManager();
 
+    @NotNull
     WorldGeneratorProvider getWorldGeneratorProvider();
 
+    @NotNull
     WorldUserProvider getUserProvider();
 
     File getUserFolder();
