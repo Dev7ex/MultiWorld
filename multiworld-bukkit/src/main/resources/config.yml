@@ -36,8 +36,8 @@ settings:
     difficulty: PEACEFUL
     game-mode: SURVIVAL
     pvp-enabled: true
-    spawn-animals: false
-    spawn-monsters: false
+    spawn-animals: true
+    spawn-monsters: true
     whitelist-enabled: false
 
 messages:
