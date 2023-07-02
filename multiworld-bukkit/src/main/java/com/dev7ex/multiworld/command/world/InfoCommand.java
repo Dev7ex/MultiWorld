@@ -5,6 +5,7 @@ import com.dev7ex.common.bukkit.command.CommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
+import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -51,7 +52,7 @@ public class InfoCommand extends BukkitCommand implements TabCompleter {
                     .replaceAll("%creation_timestamp%", new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(worldHolder.getCreationTimeStamp())))
                     .replaceAll("%loaded%", (worldHolder.isLoaded() ? "true" : "false"))
                     .replaceAll("%world_type%", worldHolder.getType().toString())
-                    .replaceAll("%environment%", worldHolder.getWorld().getEnvironment().toString())
+                    .replaceAll("%environment%", WorldEnvironment.fromType(worldHolder.getType()).name())
                     .replaceAll("%difficulty%", worldHolder.getDifficulty().toString())
                     .replaceAll("%gamemode%", worldHolder.getGameMode().toString())
                     .replaceAll("%pvp_enabled%", (worldHolder.isPvpEnabled() ? "true" : "false"))
