@@ -1,6 +1,7 @@
 messages:
   general:
     update-message-player: '%prefix% §7There is a new update available. §8[§bhttps://www.spigotmc.org/resources/multiworld.92559§8]'
+    update-message-version-player: '%prefix% §7Current Version: §b%current_version% §7New Version §b%new_version%'
     world-not-exists: '%prefix% §cThe specified world does not exist!'
     world-not-loaded: '%prefix% §cThe specified world is not loaded!'
     world-already-exists: '%prefix% §cThe specified world already exists!'
@@ -49,7 +50,7 @@ messages:
         - '§7» §7/world §bimport §7<World> <WorldType>'
         - '§7» §7/world §binfo §7<World>'
         - '§7» §7/world §blist'
-        - '§7» §7/world §blink §7<World> <Nether | End> <Welt>'
+        - '§7» §7/world §blink §7<World> <Nether | End> <World>'
         - '§7» §7/world §bload §7<World>'
         - '§7» §7/world §breload'
         - '§7» §7/world §bteleport §7<Player> <World>'
@@ -77,13 +78,15 @@ messages:
         - '§7» Difficulty: §b%difficulty%'
         - '§7» GameMode: §b%gamemode%'
         - '§7» Pvp: §b%pvp_enabled%'
+        - '§7» Spawn-Monster: §b%spawn_monsters%'
+        - '§7» Spawn-Animals: §b%spawn_animals%'
         - '§7» Whitelist: §b%whitelist_enabled%'
         - ''
         - '§f§m               §r§r §b%world_name% §f§m               '
         - ''
     list:
       usage: '%prefix% §cUsage: /world list'
-      message: '%prefix% §aWorlds: %worlds%'
+      message: '%prefix% §aWorlds: %world_names%'
     link:
       usage: '%prefix% §cUsage: /world link <World> <End | Nether> <World>'
       environment-not-exists: '%prefix% §cThe specified environment does not exist!'
@@ -110,7 +113,7 @@ messages:
       finished: '%prefix% §7The world §b%world_name% §7was successfully unloaded!'
       chunk-starting: '%prefix% §7The chunks in §b%world_name% §7are unloaded...'
       chunk-finished: '%prefix% §7The chunks in §b%world_name% §7were successfully unloaded!'
-      chunk-teleport: '%prefix% §The world you were in will be unloaded. You will be teleported!'
+      chunk-teleport: '%prefix% §7The world you were in will be unloaded. You will be teleported!'
     whitelist:
       usage: '%prefix% §cUsage: /world whitelist <World> <On | Off | Add | List | Remove> <Player>'
       add:
@@ -121,7 +124,7 @@ messages:
         message: '%prefix% §7Whitelist: %player_names%'
       disable:
         already-disabled: '%prefix% §7World whitelist §b%world_name% §7is already disabled!'
-        successfully-disabled: '%prefix% §7You have disabled the whitelist in the world §b%world_name% §7deactivated!'
+        successfully-disabled: '%prefix% §7You have disabled the whitelist in the world §b%world_name%§7!'
       enable:
         already-enabled: '%prefix% §7The world whitelist §b%world_name% §7is already activated!'
         successfully-enabled: '%prefix% §7You have activated the whitelist in the world §b%world_name% §7!'
