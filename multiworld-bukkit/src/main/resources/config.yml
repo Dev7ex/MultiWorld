@@ -120,6 +120,8 @@ messages:
         - '§7» Difficulty: §b%difficulty%'
         - '§7» GameMode: §b%gamemode%'
         - '§7» Pvp: §b%pvp_enabled%'
+        - '§7» Spawn-Monster: §b%spawn_monsters%'
+        - '§7» Spawn-Animals: §b%spawn_animals%'
         - '§7» Whitelist: §b%whitelist_enabled%'
         - ''
         - '§f§m               §r§r §b%world_name% §f§m               '
@@ -153,7 +155,7 @@ messages:
       finished: '%prefix% §7The world §b%world_name% §7was successfully unloaded!'
       chunk-starting: '%prefix% §7The chunks in §b%world_name% §7are unloaded...'
       chunk-finished: '%prefix% §7The chunks in §b%world_name% §7were successfully unloaded!'
-      chunk-teleport: '%prefix% §The world you were in will be unloaded. You will be teleported!'
+      chunk-teleport: '%prefix% §7The world you were in will be unloaded. You will be teleported!'
     whitelist:
       usage: '%prefix% §cUsage: /world whitelist <World> <On | Off | Add | List | Remove> <Player>'
       add:
