@@ -3,7 +3,6 @@ package com.dev7ex.multiworld.api.world;
 import com.dev7ex.common.map.ParsedMap;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 
 /**
