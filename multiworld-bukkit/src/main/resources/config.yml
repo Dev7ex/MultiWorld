@@ -28,6 +28,8 @@ settings:
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
   access-end-world-via-command: true
+  # Should MultiWorld connect the worlds with each other via the registered data?
+  world-link-enabled: true
   # Standard values for new worlds
   defaults:
     normal-world: world

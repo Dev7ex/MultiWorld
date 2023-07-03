@@ -20,6 +20,8 @@ public interface MultiWorldApiConfiguration {
 
     boolean isAutoGameModeEnabled();
 
+    boolean isWorldLinkEnabled();
+
     String getString(@NotNull final String path);
 
     boolean getBoolean(@NotNull final String path);

@@ -2,20 +2,15 @@ package com.dev7ex.multiworld;
 
 import com.dev7ex.common.bukkit.configuration.ConfigurationProperties;
 import com.dev7ex.common.bukkit.plugin.configuration.DefaultPluginConfiguration;
-import com.dev7ex.common.bukkit.plugin.configuration.LocalizedConfiguration;
 import com.dev7ex.common.map.ParsedMap;
 import com.dev7ex.multiworld.api.MultiWorldApiConfiguration;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
-import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.apache.commons.lang.LocaleUtils;
-import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author Dev7ex
@@ -49,6 +44,11 @@ public final class MultiWorldConfiguration extends DefaultPluginConfiguration im
     @Override
     public boolean isAutoGameModeEnabled() {
         return super.getBoolean("settings.auto-game-mode-enabled");
+    }
+
+    @Override
+    public boolean isWorldLinkEnabled() {
+        return super.getBoolean("settings.world-link-enabled");
     }
 
 }
