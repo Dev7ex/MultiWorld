@@ -130,11 +130,9 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
         if (value instanceof Boolean booleanValue) {
             super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), booleanValue);
 
-        } else if (value instanceof final String stringValue) {
-            if ((stringValue.equalsIgnoreCase("true")) || (stringValue.equalsIgnoreCase("false"))) {
-                final boolean booleanValue = (boolean) value;
-                super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), booleanValue);
-            }
+        } else if ((value instanceof final String stringValue) && (stringValue.equalsIgnoreCase("true") || (stringValue.equalsIgnoreCase("false")))) {
+            final boolean booleanValue = (boolean) value;
+            super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), booleanValue);
 
         } else {
             super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), value);
