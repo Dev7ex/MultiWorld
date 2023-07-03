@@ -10,7 +10,7 @@ name: MultiWorld
 prefix: MultiWorld
 softdepend: [ PlaceholderAPI ]
 version: ${project.version}
-website: ${project.url}
+website: https://www.spigotmc.org/resources/multiworld.92559/
 commands:
   world:
     aliases: [ multiworld, mw, w ]
