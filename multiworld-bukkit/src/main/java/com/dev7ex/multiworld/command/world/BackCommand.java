@@ -4,8 +4,10 @@ import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.CommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserTeleportWorldEvent;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.user.WorldUser;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -48,12 +50,13 @@ public class BackCommand extends BukkitCommand {
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(user.getLastLocation().getWorldName()).isEmpty()) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getPrefix())
-                    .replaceAll("%world_name%", arguments[1]));
+                    .replaceAll("%world_name%", player.getWorld().getName()));
             return true;
         }
-        final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(user.getLastLocation().getWorldName()).orElseThrow();
+        final BukkitWorldHolder currentWorldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(player.getWorld().getName()).orElseThrow();
+        final BukkitWorldHolder nextWorldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(user.getLastLocation().getWorldName()).orElseThrow();
 
-        if (!worldHolder.isLoaded()) {
+        if (!nextWorldHolder.isLoaded()) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-loaded")
                     .replaceAll("%prefix%", super.getPrefix())
                     .replaceAll("%world_name%", user.getLastLocation().getWorldName()));
@@ -66,7 +69,14 @@ public class BackCommand extends BukkitCommand {
                     .replaceAll("%world_name%", player.getWorld().getName()));
             return true;
         }
-        final Location teleportLocation = worldHolder.getWorld().getSpawnLocation();
+        final WorldUserTeleportWorldEvent event = new WorldUserTeleportWorldEvent(user, currentWorldHolder, nextWorldHolder);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            return true;
+        }
+
+        final Location teleportLocation = nextWorldHolder.getWorld().getSpawnLocation();
         player.teleport(teleportLocation);
         return true;
     }
