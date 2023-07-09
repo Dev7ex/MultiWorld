@@ -137,6 +137,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         switch (type) {
             case FLAT:
                 worldCreator.generator(new FlatChunkGenerator());
+                worldCreator.generateStructures(false);
                 break;
 
             case NETHER:
@@ -149,6 +150,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
 
             case VOID:
                 worldCreator.generator(new VoidChunkGenerator());
+                worldCreator.generateStructures(false);
                 break;
 
             default:
@@ -310,8 +312,12 @@ public class DefaultWorldManager implements BukkitWorldManager {
         commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.delete.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
-        this.unloadWorld(creatorName, name);
 
+
+        if (worldHolder.isLoaded()) {
+            this.unloadWorld(creatorName, name);
+        }
+        
         try {
             FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer() + File.separator + name));
 
