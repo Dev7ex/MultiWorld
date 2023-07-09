@@ -16,7 +16,7 @@ only-player-command: '%prefix% §cThis command can only performed by a player'
 
 settings:
   # Worlds that should be loaded when the server starts
-  # WARNING: When the world is not registered by MultiWorld the world will not bee loaded
+  # WARNING: When the world is not registered by MultiWorld the world will not be loaded
   # The world has to be imported manually! (Attention choose the correct WorldType)
   # Example: auto-load: [world1, world2, world3]
   auto-load: [ ]
