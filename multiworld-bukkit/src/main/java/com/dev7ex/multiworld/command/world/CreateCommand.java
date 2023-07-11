@@ -46,7 +46,7 @@ public class CreateCommand extends BukkitCommand implements TabCompleter {
             return true;
         }
 
-        if (MultiWorldPlugin.getInstance().getWorldGeneratorProvider().exists(arguments[1])) {
+        if (MultiWorldPlugin.getInstance().getWorldGeneratorProvider().exists(arguments[2])) {
             MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], arguments[2]);
             return true;
         }
