@@ -84,8 +84,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     @Override
     public void registerListeners() {
         super.registerListener(new PlayerConnectionListener(this));
-        super.registerListenerIf(new PlayerEnterPortalListener(this),
-                enableIf -> this.configuration.isWorldLinkEnabled());
+        super.registerListener(new PlayerEnterPortalListener(this));
         super.registerListener(new PlayerDamagePlayerListener(this));
 
         super.registerListener(new UserTeleportWorldListener(this));
