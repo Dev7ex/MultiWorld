@@ -19,6 +19,10 @@ public interface WorldConfiguration<T extends WorldHolder> {
 
     boolean contains(@NotNull final String name);
 
+    boolean hasProperty(@NotNull final String name, @NotNull final WorldProperty property);
+
+    void addMissingProperty(@NotNull final T worldHolder, @NotNull final WorldProperty property);
+
     void updateFlag(@NotNull final T worldHolder, @NotNull final WorldFlag worldFlag, @NotNull final String value);
 
     void write(@NotNull final T worldHolder, @NotNull final ParsedMap<WorldProperty, Object> worldData);

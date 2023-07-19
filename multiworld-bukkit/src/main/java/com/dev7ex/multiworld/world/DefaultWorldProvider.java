@@ -6,6 +6,7 @@ import com.dev7ex.multiworld.api.bukkit.event.plugin.MultiWorldStartupCompleteEv
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldType;
+import com.dev7ex.multiworld.api.world.WorldProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -46,6 +47,15 @@ public class DefaultWorldProvider implements PluginService, BukkitWorldProvider 
 
         for (final String worldEntry : this.configuration.getWorldHolders().keySet()) {
             final BukkitWorldHolder worldHolder = this.configuration.getWorldHolder(worldEntry);
+
+            /*
+              Check if the worldHolder entry has missing values from new updates
+             */
+            for (final WorldProperty property : WorldProperty.values()) {
+                if (!this.configuration.hasProperty(worldEntry, property)) {
+                    this.configuration.addMissingProperty(worldHolder, property);
+                }
+            }
 
             if (Bukkit.getWorld(worldEntry) != null) {
                 final World world = worldHolder.getWorld();
