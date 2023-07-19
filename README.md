@@ -85,6 +85,8 @@ settings:
     pvp-enabled: true
     spawn-animals: false
     spawn-monsters: false
+    end-portal-accessible: true
+    nether-portal-accessible: true
     whitelist-enabled: false
 
 messages:
