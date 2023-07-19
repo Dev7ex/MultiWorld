@@ -46,87 +46,48 @@ public class MultiWorldExpansion extends PlaceholderExpansion {
 
     @Nullable
     private String onPlaceholderRequest(@NotNull final String parameter) {
-        if (parameter.contains("_player_count")) {
-            final Optional<BukkitWorldHolder> optional = this.multiWorldApi
-                    .getWorldProvider()
-                    .getWorldHolder(parameter.replaceAll("_player_count", ""));
+        final Optional<MultiWorldExpansionType> typeOptional = MultiWorldExpansionType.getByParameter(parameter);
 
-            if (optional.isEmpty()) {
-                return "world-not-exists";
-            }
+        if (typeOptional.isEmpty()) {
+            return null;
+        }
+        final MultiWorldExpansionType type = typeOptional.get();
 
-            if (!optional.get().isLoaded()) {
-                return "world-not-loaded";
-            }
-            return String.valueOf(optional.get().getWorld().getEntities().stream().filter(entity -> entity.getType() == EntityType.PLAYER).toList().size());
+        final Optional<BukkitWorldHolder> optional = this.multiWorldApi
+                .getWorldProvider()
+                .getWorldHolder(parameter.replaceAll(type.getParameter(), ""));
+
+        if (optional.isEmpty()) {
+            return "world-not-exists";
+        }
+        final BukkitWorldHolder worldHolder = optional.get();
+
+        if ((type.isRequiresLoadedWorld()) && (!worldHolder.isLoaded())) {
+            return "world-not-loaded";
         }
 
-        if (parameter.contains("_game_mode")) {
-            final Optional<BukkitWorldHolder> optional = this.multiWorldApi
-                    .getWorldProvider()
-                    .getWorldHolder(parameter.replaceAll("_game_mode", ""));
+        switch (type) {
+            case PLAYER_COUNT:
+                return String.valueOf(worldHolder.getWorld().getEntities().stream().filter(entity -> entity.getType() == EntityType.PLAYER).toList().size());
 
-            if (optional.isEmpty()) {
-                return "world-not-exists";
-            }
-            return optional.get().getGameMode().name();
+            case GAME_MODE:
+                return worldHolder.getGameMode().name();
+
+            case DIFFICULTY:
+                return worldHolder.getDifficulty().name();
+
+            case SPAWN_ANIMALS:
+                return String.valueOf(optional.get().isSpawnAnimals());
+
+            case SPAWN_MONSTERS:
+                return String.valueOf(optional.get().isSpawnMonsters());
+
+            case TYPE:
+                return String.valueOf(optional.get().getType().toString());
+
+            case PVP_ENABLED:
+                return String.valueOf(optional.get().isPvpEnabled());
         }
-
-        if (parameter.contains("_difficulty")) {
-            final Optional<BukkitWorldHolder> optional = this.multiWorldApi
-                    .getWorldProvider()
-                    .getWorldHolder(parameter.replaceAll("_difficulty", ""));
-
-            if (optional.isEmpty()) {
-                return "world-not-exists";
-            }
-            return optional.get().getDifficulty().name();
-        }
-
-        if (parameter.contains("_spawn_monsters")) {
-            final Optional<BukkitWorldHolder> optional = this.multiWorldApi
-                    .getWorldProvider()
-                    .getWorldHolder(parameter.replaceAll("_spawn_monsters", ""));
-
-            if (optional.isEmpty()) {
-                return "world-not-exists";
-            }
-            return String.valueOf(optional.get().isSpawnMonsters());
-        }
-
-        if (parameter.contains("_spawn_animals")) {
-            final Optional<BukkitWorldHolder> optional = this.multiWorldApi
-                    .getWorldProvider()
-                    .getWorldHolder(parameter.replaceAll("_spawn_animals", ""));
-
-            if (optional.isEmpty()) {
-                return "world-not-exists";
-            }
-            return String.valueOf(optional.get().isSpawnAnimals());
-        }
-
-        if (parameter.contains("_pvp-enabled")) {
-            final Optional<BukkitWorldHolder> optional = this.multiWorldApi
-                    .getWorldProvider()
-                    .getWorldHolder(parameter.replaceAll("_pvp-enabled", ""));
-
-            if (optional.isEmpty()) {
-                return "world-not-exists";
-            }
-            return String.valueOf(optional.get().isPvpEnabled());
-        }
-
-        if (parameter.contains("_type")) {
-            final Optional<BukkitWorldHolder> optional = this.multiWorldApi
-                    .getWorldProvider()
-                    .getWorldHolder(parameter.replaceAll("_type", ""));
-
-            if (optional.isEmpty()) {
-                return "world-not-exists";
-            }
-            return String.valueOf(optional.get().getType().toString());
-        }
-
         return null;
     }
 
