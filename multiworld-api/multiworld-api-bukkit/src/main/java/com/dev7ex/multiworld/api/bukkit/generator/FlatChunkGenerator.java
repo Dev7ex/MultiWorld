@@ -20,9 +20,12 @@ public final class FlatChunkGenerator extends ChunkGenerator {
         chunkData.setRegion(0, 0, 0, 16, 1, 16, Material.BEDROCK);
         chunkData.setRegion(0, 1, 0, 16, 64, 16, Material.GRASS_BLOCK);
 
-        for (int chunkX = 0; chunkX < 16; chunkX++) {
-            for (int chunkZ = 0; chunkZ < 16; chunkZ++) {
-                biome.setBiome(x, z, Biome.PLAINS);
+        for (int chunkX = 0; chunkX < 15; chunkX++) {
+            for (int chunkZ = 0; chunkZ < 15; chunkZ++) {
+                if (biome.getBiome(chunkX, chunkZ) != Biome.PLAINS) {
+                    biome.setBiome(chunkX, chunkZ, Biome.PLAINS);
+                }
+
             }
         }
         return chunkData;

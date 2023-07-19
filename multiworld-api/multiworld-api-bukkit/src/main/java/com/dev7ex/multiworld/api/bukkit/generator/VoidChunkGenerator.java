@@ -25,7 +25,9 @@ public final class VoidChunkGenerator extends ChunkGenerator {
         }
         for (int chunkX = 0; chunkX < 16; chunkX++) {
             for (int chunkZ = 0; chunkZ < 16; chunkZ++) {
-                biome.setBiome(x, z, Biome.PLAINS);
+                if (biome.getBiome(chunkX, chunkZ) != Biome.PLAINS) {
+                    biome.setBiome(chunkX, chunkZ, Biome.PLAINS);
+                }
             }
         }
         return chunkData;
