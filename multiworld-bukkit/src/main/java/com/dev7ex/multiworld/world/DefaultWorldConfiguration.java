@@ -12,7 +12,6 @@ import com.dev7ex.multiworld.api.world.WorldProperty;
 import com.dev7ex.multiworld.api.world.WorldType;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -26,8 +25,12 @@ import java.util.Map;
 @ConfigurationProperties(fileName = "world.yml")
 public class DefaultWorldConfiguration extends ConfigurationBase implements BukkitWorldConfiguration {
 
-    public DefaultWorldConfiguration(@NotNull final Plugin plugin) {
+    private final ParsedMap<WorldDefaultProperty, Object> defaultProperties;
+
+    public DefaultWorldConfiguration(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.defaultProperties = plugin.getConfiguration().getDefaultProperties();
     }
 
     @Override
@@ -40,28 +43,13 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.PVP_ENABLED.getStoragePath(), worldHolder.isPvpEnabled());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.SPAWN_ANIMALS.getStoragePath(), worldHolder.isSpawnAnimals());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.SPAWN_MONSTERS.getStoragePath(), worldHolder.isSpawnMonsters());
-
-        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.END_WORLD.getStoragePath(), MultiWorldPlugin.getInstance()
-                .getConfiguration()
-                .getDefaultProperties()
-                .getString(WorldDefaultProperty.END_WORLD));
-
-        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NETHER_WORLD.getStoragePath(), MultiWorldPlugin.getInstance()
-                .getConfiguration()
-                .getDefaultProperties()
-                .getString(WorldDefaultProperty.NETHER_WORLD));
-
-        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NORMAL_WORLD.getStoragePath(), MultiWorldPlugin.getInstance()
-                .getConfiguration()
-                .getDefaultProperties()
-                .getString(WorldDefaultProperty.NORMAL_WORLD));
-
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.END_PORTAL_ACCESSIBLE.getStoragePath(), worldHolder.isEndPortalAccessible());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NETHER_PORTAL_ACCESSIBLE.getStoragePath(), worldHolder.isNetherPortalAccessible());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.END_WORLD.getStoragePath(), worldHolder.getEndWorldName());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NETHER_WORLD.getStoragePath(), worldHolder.getNetherWorldName());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NORMAL_WORLD.getStoragePath(), worldHolder.getNormalWorldName());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.WHITELIST.getStoragePath(), Collections.emptyList());
-        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.WHITELIST_ENABLED.getStoragePath(), MultiWorldPlugin.getInstance()
-                .getConfiguration()
-                .getDefaultProperties()
-                .getBoolean(WorldDefaultProperty.WHITELIST_ENABLED));
-
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.WHITELIST_ENABLED.getStoragePath(), worldHolder.isWhitelistEnabled());
         super.saveFile();
     }
 
@@ -79,6 +67,89 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
     @Override
     public boolean contains(@NotNull final String name) {
         return super.getFileConfiguration().contains(name);
+    }
+
+    @Override
+    public boolean hasProperty(@NotNull final String name, @NotNull final WorldProperty property) {
+        return super.getFileConfiguration().contains(name + "." + property.getStoragePath());
+    }
+
+    @Override
+    public void addMissingProperty(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldProperty property) {
+        switch (property) {
+            case CREATOR_NAME:
+                this.write(worldHolder, property, "CONSOLE");
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case CREATION_TIMESTAMP:
+                this.write(worldHolder, property, System.currentTimeMillis());
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case TYPE:
+                break;
+
+            case GAME_MODE:
+                this.write(worldHolder, property, this.defaultProperties.getString(WorldDefaultProperty.GAME_MODE));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case DIFFICULTY:
+                this.write(worldHolder, property, this.defaultProperties.getString(WorldDefaultProperty.DIFFICULTY));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case PVP_ENABLED:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.PVP_ENABLED));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case SPAWN_ANIMALS:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case SPAWN_MONSTERS:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case END_PORTAL_ACCESSIBLE:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case NETHER_PORTAL_ACCESSIBLE:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case END_WORLD:
+                this.write(worldHolder, property, this.defaultProperties.getString(WorldDefaultProperty.END_WORLD));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case NETHER_WORLD:
+                this.write(worldHolder, property, this.defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case NORMAL_WORLD:
+                this.write(worldHolder, property, this.defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case WHITELIST:
+                this.write(worldHolder, property, Collections.emptyList());
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
+            case WHITELIST_ENABLED:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+        }
     }
 
     @Override
@@ -114,6 +185,8 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
                 case SPAWN_ANIMALS:
                 case SPAWN_MONSTERS:
                 case WHITELIST_ENABLED:
+                case END_PORTAL_ACCESSIBLE:
+                case NETHER_PORTAL_ACCESSIBLE:
                     super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), worldData.getBoolean(property));
                     break;
 
@@ -152,6 +225,8 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
                 .setPvpEnabled(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.PVP_ENABLED.getStoragePath()))
                 .setSpawnAnimals(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.SPAWN_ANIMALS.getStoragePath()))
                 .setSpawnMonsters(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.SPAWN_MONSTERS.getStoragePath()))
+                .setEndPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.END_PORTAL_ACCESSIBLE.getStoragePath(), true))
+                .setNetherPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.NETHER_PORTAL_ACCESSIBLE.getStoragePath(), true))
                 .setEndWorldName(super.getFileConfiguration().getString(name + "." + WorldProperty.END_WORLD.getStoragePath()))
                 .setNetherWorldName(super.getFileConfiguration().getString(name + "." + WorldProperty.NETHER_WORLD.getStoragePath()))
                 .setNormalWorldName(super.getFileConfiguration().getString(name + "." + WorldProperty.NORMAL_WORLD.getStoragePath()))

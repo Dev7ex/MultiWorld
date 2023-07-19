@@ -26,6 +26,10 @@ public class PlayerEnterPortalListener extends MultiWorldListener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerPortal(final PlayerPortalEvent event) {
+        if (super.getConfiguration().isWorldLinkEnabled()) {
+            return;
+        }
+
         final BukkitWorldHolder fromWorldHolder = super.getWorldProvider().getWorldHolder(event.getFrom().getWorld().getName()).orElseThrow();
         final Player player = event.getPlayer();
         final WorldUser user = super.getUserProvider().getUser(player.getUniqueId()).orElseThrow();
@@ -107,7 +111,36 @@ public class PlayerEnterPortalListener extends MultiWorldListener {
                 event.setTo(endWorldHolder.getWorld().getSpawnLocation());
                 break;
         }
+    }
 
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handlePlayerEnterBlockPortal(final PlayerPortalEvent event) {
+        final BukkitWorldHolder fromWorldHolder = super.getWorldProvider().getWorldHolder(event.getFrom().getWorld().getName()).orElseThrow();
+        final Player player = event.getPlayer();
+
+        if (event.getTo() == null) {
+            return;
+        }
+
+        if (event.getTo().getWorld() == null) {
+            return;
+        }
+
+        switch (event.getTo().getWorld().getEnvironment()) {
+            case NETHER:
+                if (fromWorldHolder.isNetherPortalAccessible()) {
+                    return;
+                }
+                event.setCancelled(true);
+                break;
+
+            case THE_END:
+                if (fromWorldHolder.isEndPortalAccessible()) {
+                    return;
+                }
+                event.setCancelled(true);
+                break;
+        }
     }
 
 }

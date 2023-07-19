@@ -56,6 +56,8 @@ public class InfoCommand extends BukkitCommand implements TabCompleter {
                     .replaceAll("%pvp_enabled%", (worldHolder.isPvpEnabled() ? "true" : "false"))
                     .replaceAll("%spawn_animals%", (worldHolder.isSpawnAnimals() ? "true" : "false"))
                     .replaceAll("%spawn_monsters%", (worldHolder.isSpawnMonsters() ? "true" : "false"))
+                    .replaceAll("%end-portal-accessible%", (worldHolder.isEndPortalAccessible() ? "true" : "false"))
+                    .replaceAll("%nether-portal-accessible%", (worldHolder.isNetherPortalAccessible() ? "true" : "false"))
                     .replaceAll("%whitelist_enabled%", (worldHolder.isWhitelistEnabled() ? "true" : "false")));
         });
         return true;

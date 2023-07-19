@@ -19,6 +19,8 @@ public enum WorldProperty {
     PVP_ENABLED("pvp-enabled", true),
     SPAWN_ANIMALS("spawn-animals", true),
     SPAWN_MONSTERS("spawn-monsters", true),
+    END_PORTAL_ACCESSIBLE("end-portal-accessible", true),
+    NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", true),
     END_WORLD("end-world", true),
     NETHER_WORLD("nether-world", true),
     NORMAL_WORLD("normal-world", true),

@@ -170,6 +170,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setLoaded(false)
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
@@ -220,6 +222,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setLoaded(false)
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
@@ -269,6 +273,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setLoaded(false)
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
@@ -317,7 +323,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         if (worldHolder.isLoaded()) {
             this.unloadWorld(creatorName, name);
         }
-        
+
         try {
             FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer() + File.separator + name));
 
@@ -354,6 +360,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setLoaded(false)
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))

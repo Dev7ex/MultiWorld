@@ -6,6 +6,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
+ * Returns an Object who holds the world instance of the server software
+ *
  * @author Dev7ex
  * @since 18.06.2023
  */
@@ -30,6 +32,14 @@ public interface WorldHolder {
     boolean isSpawnAnimals();
 
     boolean isSpawnMonsters();
+
+    boolean isEndPortalAccessible();
+
+    void setEndPortalAccessible(final boolean accessible);
+
+    boolean isNetherPortalAccessible();
+
+    void setNetherPortalAccessible(final boolean accessible);
 
     List<String> getWhitelist();
 

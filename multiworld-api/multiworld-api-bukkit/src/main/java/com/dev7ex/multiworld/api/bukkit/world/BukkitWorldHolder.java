@@ -35,6 +35,8 @@ public class BukkitWorldHolder implements WorldHolder {
     private boolean loaded;
     private boolean spawnAnimals;
     private boolean spawnMonsters;
+    private boolean endPortalAccessible;
+    private boolean netherPortalAccessible;
     private String endWorldName;
     private String netherWorldName;
     private String normalWorldName;
@@ -75,6 +77,14 @@ public class BukkitWorldHolder implements WorldHolder {
                 if (this.loaded) {
                     this.getWorld().setSpawnFlags(this.spawnMonsters, this.spawnAnimals);
                 }
+                break;
+
+            case END_PORTAL_ACCESSIBLE:
+                this.endPortalAccessible = Boolean.parseBoolean(value);
+                break;
+
+            case NETHER_PORTAL_ACCESSIBLE:
+                this.netherPortalAccessible = Boolean.parseBoolean(value);
                 break;
 
             case WORLD_TYPE:

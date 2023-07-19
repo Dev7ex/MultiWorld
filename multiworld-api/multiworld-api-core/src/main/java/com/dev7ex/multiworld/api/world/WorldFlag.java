@@ -19,6 +19,8 @@ public enum WorldFlag {
     GAMEMODE("game-mode", List.of("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
     SPAWN_MONSTERS("spawn-monsters", List.of("false", "true")),
     SPAWN_ANIMALS("spawn-animals", List.of("false", "true")),
+    END_PORTAL_ACCESSIBLE("end-portal-accessible", List.of("false", "true")),
+    NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", List.of("false", "true")),
     PVP_ENABLED("pvp-enabled", List.of("false", "true")),
     WORLD_TYPE("world-type", WorldType.toStringList());
 
