@@ -40,6 +40,8 @@ settings:
     pvp-enabled: true
     spawn-animals: true
     spawn-monsters: true
+    end-portal-accessible: true
+    nether-portal-accessible: true
     whitelist-enabled: false
 
 messages:
@@ -124,6 +126,8 @@ messages:
         - '§7» Pvp: §b%pvp_enabled%'
         - '§7» Spawn-Monster: §b%spawn_monsters%'
         - '§7» Spawn-Animals: §b%spawn_animals%'
+        - '§7» End-Portal-Accessible: §b%end-portal-accessible%'
+        - '§7» Nether-Portal-Accessible: §b%nether-portal-accessible%'
         - '§7» Whitelist: §b%whitelist_enabled%'
         - ''
         - '§f§m               §r§r §b%world_name% §f§m               '
