@@ -11,7 +11,7 @@ MultiWorld is a World Management plugin for Minecraft Server.
 
 * Almost 100% configurable
 * Pvp is adjustable for each world
-* GameMode per World - if you change the world your gamemode change also! (can be deactivated)
+* GameMode per World - if you change the world, your gamemode also changes! (can be deactivated)
 * Link Worlds with each other
 * Whitelist per World
 
