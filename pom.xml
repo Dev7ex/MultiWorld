@@ -23,9 +23,10 @@
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
+        <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
 
         <dependency.annotations-version>24.0.1</dependency.annotations-version>
-        <dependency.facilis-common-version>1.0.1-SNAPSHOT</dependency.facilis-common-version>
+        <dependency.facilis-common-version>1.0.2-SNAPSHOT</dependency.facilis-common-version>
         <dependency-commons-io-version>2.11.0</dependency-commons-io-version>
         <dependency.lombok-version>1.18.26</dependency.lombok-version>
         <dependency-spigot-api-version>1.16.5-R0.1-SNAPSHOT</dependency-spigot-api-version>
