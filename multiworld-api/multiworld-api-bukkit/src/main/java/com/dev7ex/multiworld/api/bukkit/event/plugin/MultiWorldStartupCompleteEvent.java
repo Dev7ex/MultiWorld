@@ -9,6 +9,9 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author itsTyrion
  * @since 29.11.2022
+ *
+ * Called when MultiWorld has finished loading
+ *
  */
 @Getter(AccessLevel.PUBLIC)
 public class MultiWorldStartupCompleteEvent extends MultiWorldEvent {

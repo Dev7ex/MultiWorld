@@ -9,6 +9,9 @@ import java.util.UUID;
 /**
  * @author Dev7ex
  * @since 18.06.2023
+ *
+ * Represents a User
+ *
  */
 public interface WorldUser {
 
