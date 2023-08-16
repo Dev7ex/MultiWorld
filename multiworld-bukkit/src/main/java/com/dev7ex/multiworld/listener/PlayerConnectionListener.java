@@ -1,8 +1,11 @@
 package com.dev7ex.multiworld.listener;
 
 import com.dev7ex.common.map.ParsedMap;
+import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.api.MultiWorldApiConfiguration;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
+import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApiConfiguration;
 import com.dev7ex.multiworld.api.bukkit.event.MultiWorldListener;
 import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.api.user.WorldUserConfiguration;
@@ -48,9 +51,9 @@ public class PlayerConnectionListener extends MultiWorldListener {
                 && (player.hasPermission("multiworld.update.notify"))
                 && (MultiWorldPlugin.getInstance().getUpdateChecker().isUpdateAvailable())) {
 
-            player.sendMessage(super.getConfiguration().getString("messages.general.update-message-player")
+            player.sendMessage(super.getConfiguration().getString(MultiWorldBukkitApiConfiguration.Entry.MESSAGES_GENERAL_UPDATE_MESSAGE_PLAYER.getPath())
                     .replaceAll("%prefix%", super.getPrefix()));
-            player.sendMessage(super.getConfiguration().getString("messages.general.update-message-version-player")
+            player.sendMessage(super.getConfiguration().getString(MultiWorldBukkitApiConfiguration.Entry.MESSAGES_GENERAL_UPDATE_MESSAGE_VERSION_PLAYER.getPath())
                     .replaceAll("%prefix%", super.getPrefix())
                     .replaceAll("%current_version%", MultiWorldPlugin.getInstance().getDescription().getVersion())
                     .replaceAll("%new_version%", MultiWorldPlugin.getInstance().getUpdateChecker().getNewVersion()));
