@@ -7,7 +7,7 @@
     <parent>
         <artifactId>multiworld</artifactId>
         <groupId>com.dev7ex</groupId>
-        <version>1.4.3-SNAPSHOT</version>
+        <version>1.4.4-SNAPSHOT</version>
     </parent>
 
     <name>MultiWorld-Bukkit</name>
@@ -46,17 +46,16 @@
         </dependency>
 
         <dependency>
-            <groupId>com.dev7ex</groupId>
-            <artifactId>multiworld-api-bukkit</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>${dependency-placeholder-api-version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dev7ex</groupId>
+            <artifactId>multiworld-api-bukkit</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
