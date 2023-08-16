@@ -138,7 +138,7 @@ messages:
     link:
       usage: '%prefix% §cUsage: /world link <World> <End | Nether> <World>'
       environment-not-exists: '%prefix% §cThe specified environment does not exist!'
-      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name% §7'
+      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
       world-already-loaded: '%prefix% §7The world §bworld_name% §7is already loaded!'
@@ -166,7 +166,7 @@ messages:
       usage: '%prefix% §cUsage: /world whitelist <World> <On | Off | Add | List | Remove> <Player>'
       add:
         already-added: '%prefix% §The player %player_name% §7is already §7on the whitelist!'
-        successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name% §7'
+        successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name%'
       list:
         empty: '%prefix% §7The whitelist for world §b%world_name% §7is empty'
         message: '%prefix% §7Whitelist: %player_names%'
