@@ -63,10 +63,10 @@ only-player-command: '%prefix% §cThis command can only performed by a player'
 
 settings:
   # Worlds that should be loaded when the server starts
-  # WARNING: When the world is not registered by MultiWorld the world will not bee loaded
+  # WARNING: When the world is not registered by MultiWorld the world will not be loaded
   # The world has to be imported manually! (Attention choose the correct WorldType)
   # Example: auto-load: [world1, world2, world3]
-  auto-load: []
+  auto-load: [ ]
   # Should all players with the permission (multiworld.notify.update)
   # get a message when entering server
   receive-update-message: true
@@ -75,6 +75,8 @@ settings:
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
   access-end-world-via-command: true
+  # Should MultiWorld connect the worlds with each other via the registered data?
+  world-link-enabled: true
   # Standard values for new worlds
   defaults:
     normal-world: world
@@ -83,8 +85,8 @@ settings:
     difficulty: PEACEFUL
     game-mode: SURVIVAL
     pvp-enabled: true
-    spawn-animals: false
-    spawn-monsters: false
+    spawn-animals: true
+    spawn-monsters: true
     end-portal-accessible: true
     nether-portal-accessible: true
     whitelist-enabled: false
@@ -92,6 +94,7 @@ settings:
 messages:
   general:
     update-message-player: '%prefix% §7There is a new update available. §8[§bhttps://www.spigotmc.org/resources/multiworld.92559§8]'
+    update-message-version-player: '%prefix% §7Current Version: §b%current_version% §7New Version §b%new_version%'
     world-not-exists: '%prefix% §cThe specified world does not exist!'
     world-not-loaded: '%prefix% §cThe specified world is not loaded!'
     world-already-exists: '%prefix% §cThe specified world already exists!'
@@ -168,17 +171,21 @@ messages:
         - '§7» Difficulty: §b%difficulty%'
         - '§7» GameMode: §b%gamemode%'
         - '§7» Pvp: §b%pvp_enabled%'
+        - '§7» Spawn-Monster: §b%spawn_monsters%'
+        - '§7» Spawn-Animals: §b%spawn_animals%'
+        - '§7» End-Portal-Accessible: §b%end-portal-accessible%'
+        - '§7» Nether-Portal-Accessible: §b%nether-portal-accessible%'
         - '§7» Whitelist: §b%whitelist_enabled%'
         - ''
         - '§f§m               §r§r §b%world_name% §f§m               '
         - ''
     list:
       usage: '%prefix% §cUsage: /world list'
-      message: '%prefix% §aWorlds: %worlds%'
+      message: '%prefix% §aWorlds: %world_names%'
     link:
       usage: '%prefix% §cUsage: /world link <World> <End | Nether> <World>'
       environment-not-exists: '%prefix% §cThe specified environment does not exist!'
-      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name% §7'
+      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
       world-already-loaded: '%prefix% §7The world §bworld_name% §7is already loaded!'
@@ -201,18 +208,18 @@ messages:
       finished: '%prefix% §7The world §b%world_name% §7was successfully unloaded!'
       chunk-starting: '%prefix% §7The chunks in §b%world_name% §7are unloaded...'
       chunk-finished: '%prefix% §7The chunks in §b%world_name% §7were successfully unloaded!'
-      chunk-teleport: '%prefix% §The world you were in will be unloaded. You will be teleported!'
+      chunk-teleport: '%prefix% §7The world you were in will be unloaded. You will be teleported!'
     whitelist:
       usage: '%prefix% §cUsage: /world whitelist <World> <On | Off | Add | List | Remove> <Player>'
       add:
         already-added: '%prefix% §The player %player_name% §7is already §7on the whitelist!'
-        successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name% §7'
+        successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name%'
       list:
         empty: '%prefix% §7The whitelist for world §b%world_name% §7is empty'
         message: '%prefix% §7Whitelist: %player_names%'
       disable:
         already-disabled: '%prefix% §7World whitelist §b%world_name% §7is already disabled!'
-        successfully-disabled: '%prefix% §7You have disabled the whitelist in the world §b%world_name% §7deactivated!'
+        successfully-disabled: '%prefix% §7You have disabled the whitelist in the world §b%world_name%§7!'
       enable:
         already-enabled: '%prefix% §7The world whitelist §b%world_name% §7is already activated!'
         successfully-enabled: '%prefix% §7You have activated the whitelist in the world §b%world_name% §7!'
