@@ -2,7 +2,10 @@ package com.dev7ex.multiworld.api;
 
 import com.dev7ex.common.map.ParsedMap;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -25,5 +28,7 @@ public interface MultiWorldApiConfiguration {
     String getString(@NotNull final String path);
 
     boolean getBoolean(@NotNull final String path);
+
+    List<String> getStringList(@NotNull final String path);
 
 }
