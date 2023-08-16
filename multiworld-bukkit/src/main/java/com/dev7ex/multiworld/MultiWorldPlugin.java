@@ -2,24 +2,25 @@ package com.dev7ex.multiworld;
 
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.bukkit.plugin.PluginProperties;
+
 import com.dev7ex.multiworld.api.MultiWorldApiProvider;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.expansion.MultiWorldExpansion;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.command.WorldCommand;
-import com.dev7ex.multiworld.listener.PlayerConnectionListener;
-import com.dev7ex.multiworld.listener.PlayerDamagePlayerListener;
-import com.dev7ex.multiworld.listener.PlayerEnterPortalListener;
-import com.dev7ex.multiworld.listener.UserTeleportWorldListener;
+import com.dev7ex.multiworld.listener.*;
 import com.dev7ex.multiworld.user.UserService;
 import com.dev7ex.multiworld.util.UpdateChecker;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
 import com.dev7ex.multiworld.world.DefaultWorldGeneratorProvider;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
 import com.dev7ex.multiworld.world.DefaultWorldProvider;
+
 import lombok.AccessLevel;
 import lombok.Getter;
+
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -60,14 +61,16 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     public void onEnable() {
         MultiWorldApiProvider.registerApi(this);
 
+        super.getServer().getServicesManager().register(MultiWorldBukkitApi.class, this, this, ServicePriority.Normal);
+
         this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration);
 
-        this.updateChecker.getVersion(updateAvailable -> {
-        });
+        this.updateChecker.getVersion(updateAvailable -> {});
 
         if (super.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new MultiWorldExpansion(this).register();
         }
+
         ConfigurationSerialization.registerClass(BukkitWorldLocation.class);
     }
 
