@@ -13,7 +13,7 @@ version: ${project.version}
 website: https://www.spigotmc.org/resources/multiworld.92559/
 commands:
   world:
-    aliases: [ multiworld, mw, w ]
+    aliases: [multiworld, mw]
     description: Main Command for all World Commands
-    permissions: multiworld.command.world
+    permission: multiworld.command.world
     usage: /world
