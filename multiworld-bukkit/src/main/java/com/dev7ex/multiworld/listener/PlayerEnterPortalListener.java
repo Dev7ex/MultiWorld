@@ -26,7 +26,7 @@ public class PlayerEnterPortalListener extends MultiWorldListener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerPortal(final PlayerPortalEvent event) {
-        if (super.getConfiguration().isWorldLinkEnabled()) {
+        if (!super.getConfiguration().isWorldLinkEnabled()) {
             return;
         }
 
