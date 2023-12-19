@@ -57,6 +57,8 @@ public class DefaultWorldProvider implements PluginService, BukkitWorldProvider 
                 }
             }
 
+            this.configuration.removeUnusableProperties(worldEntry);
+
             if (Bukkit.getWorld(worldEntry) != null) {
                 final World world = worldHolder.getWorld();
                 world.setDifficulty(worldHolder.getDifficulty());

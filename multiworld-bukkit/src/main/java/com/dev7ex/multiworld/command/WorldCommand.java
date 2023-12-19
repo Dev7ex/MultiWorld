@@ -37,7 +37,6 @@ public final class WorldCommand extends BukkitCommand implements TabCompleter {
         super.registerSubCommand(new HelpCommand(plugin));
         super.registerSubCommand(new ImportCommand(plugin));
         super.registerSubCommand(new InfoCommand(plugin));
-        super.registerSubCommand(new LinkCommand(plugin));
         super.registerSubCommand(new ListCommand(plugin));
         super.registerSubCommand(new LoadCommand(plugin));
         super.registerSubCommand(new ReloadCommand(plugin));

@@ -172,9 +172,6 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
                 .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
-                .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
-                .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
-                .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
                 .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
@@ -224,9 +221,6 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
                 .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
-                .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
-                .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
-                .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
                 .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
@@ -275,9 +269,6 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
                 .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
-                .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
-                .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
-                .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
                 .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
@@ -362,9 +353,6 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
                 .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
-                .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
-                .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
-                .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
                 .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();

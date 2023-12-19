@@ -47,15 +47,6 @@ public interface WorldHolder {
 
     void setWhitelistEnabled(final boolean enabled);
 
-    @Nullable
-    String getEndWorldName();
-
-    @Nullable
-    String getNetherWorldName();
-
-    @Nullable
-    String getNormalWorldName();
-
     void updateFlag(@NotNull final WorldFlag flag, @NotNull final String value);
 
 }

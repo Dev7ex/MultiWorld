@@ -23,6 +23,7 @@ public interface MultiWorldApiConfiguration {
 
     boolean isAutoGameModeEnabled();
 
+    @Deprecated
     boolean isWorldLinkEnabled();
 
     String getString(@NotNull final String path);
