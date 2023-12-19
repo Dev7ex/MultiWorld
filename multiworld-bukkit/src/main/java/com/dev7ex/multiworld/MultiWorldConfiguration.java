@@ -33,10 +33,15 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
         super.load();
 
         for (final MultiWorldBukkitApiConfiguration.Entry entry : MultiWorldBukkitApiConfiguration.Entry.values()) {
-            if (super.getFileConfiguration().contains(entry.getPath())) {
+            if ((entry.isRemoved()) && (super.getFileConfiguration().contains(entry.getPath()))) {
+                super.getFileConfiguration().set(entry.getPath(), null);
+                super.getPlugin().getLogger().info("Remove unnecessary config entry: " + entry.getPath());
+            }
+
+            if ((entry.isRemoved()) || (super.getFileConfiguration().contains(entry.getPath()))) {
                 continue;
             }
-            super.getPlugin().getLogger().info("Adding Missing Config Entry: " + entry.getPath());
+            super.getPlugin().getLogger().info("Adding missing config entry: " + entry.getPath());
             super.getFileConfiguration().set(entry.getPath(), entry.getDefaultValue());
         }
 
@@ -44,7 +49,6 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
                 .stream()
                 .forEach(entry -> this.defaultProperties.put(WorldDefaultProperty.valueOf(entry.replaceAll("-", "_").toUpperCase()), super.getFileConfiguration().get("settings.defaults." + entry)));
         super.saveFile();
-
     }
 
     @Override
@@ -57,6 +61,7 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
         return super.getBoolean("settings.auto-game-mode-enabled");
     }
 
+    @Deprecated
     @Override
     public boolean isWorldLinkEnabled() {
         return super.getBoolean("settings.world-link-enabled");

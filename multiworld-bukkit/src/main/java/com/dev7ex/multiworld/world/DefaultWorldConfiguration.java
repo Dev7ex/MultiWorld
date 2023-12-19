@@ -132,6 +132,20 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
         }
     }
 
+    public void removeUnusableProperties(@NotNull final String worldName) {
+        if (super.getFileConfiguration().getConfigurationSection(worldName) == null) {
+            return;
+        }
+
+        for (final String property : super.getFileConfiguration().getConfigurationSection(worldName).getKeys(false)) {
+            if (WorldProperty.fromStoragePath(property).isPresent()) {
+               continue;
+            }
+            super.getFileConfiguration().set(worldName + "." + property, null);
+        }
+        super.saveFile();
+    }
+
     @Override
     public void updateFlag(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldFlag worldFlag, @NotNull final String value) {
         if ((value.equalsIgnoreCase("true")) || (value.equalsIgnoreCase("false"))) {
