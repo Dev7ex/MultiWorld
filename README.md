@@ -33,7 +33,6 @@ MultiWorld is a World Management plugin for Minecraft Server.
 * /world help                                                           [multiworld.command.world]
 * /world import <Name> <WorldType>                                      [multiworld.command.world.import]
 * /world info <World>                                                   [multiworld.command.world.info]
-* /world link <World> <Nether|End> <World>                              [multiworld.command.world.link]
 * /world list                                                           [multiworld.command.world.list]
 * /world load <World>                                                   [multiworld.command.world.load]
 * /world reload                                                         [multiworld.command.world.reload]
@@ -75,8 +74,6 @@ settings:
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
   access-end-world-via-command: true
-  # Should MultiWorld connect the worlds with each other via the registered data?
-  world-link-enabled: true
   # Standard values for new worlds
   defaults:
     normal-world: world
@@ -182,10 +179,6 @@ messages:
     list:
       usage: '%prefix% §cUsage: /world list'
       message: '%prefix% §aWorlds: %world_names%'
-    link:
-      usage: '%prefix% §cUsage: /world link <World> <End | Nether> <World>'
-      environment-not-exists: '%prefix% §cThe specified environment does not exist!'
-      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
       world-already-loaded: '%prefix% §7The world §bworld_name% §7is already loaded!'
