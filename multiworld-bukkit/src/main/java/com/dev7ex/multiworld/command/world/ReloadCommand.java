@@ -24,7 +24,9 @@ public class ReloadCommand extends BukkitCommand {
                     .replaceAll("%prefix%", super.getPrefix()));
             return true;
         }
+
         super.getConfiguration().load();
+
         commandSender.sendMessage(super.getConfiguration().getString("messages.commands.reload.message")
                 .replaceAll("%prefix%", super.getPrefix()));
         return true;
