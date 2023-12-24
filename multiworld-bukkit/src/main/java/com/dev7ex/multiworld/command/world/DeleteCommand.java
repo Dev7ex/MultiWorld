@@ -35,6 +35,10 @@ public class DeleteCommand extends BukkitCommand implements TabCompleter {
             return true;
         }
 
+        if (arguments[1].equalsIgnoreCase("%creator_name%")) {
+            arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
+        }
+
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getPrefix())

@@ -32,6 +32,10 @@ public class CloneCommand extends BukkitCommand implements TabCompleter {
             return true;
         }
 
+        if (arguments[2].equalsIgnoreCase("%creator_name%")) {
+            arguments[2] = arguments[2].replaceAll("%creator_name%", commandSender.getName());
+        }
+
         if (MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[2])) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-already-exists")
                     .replaceAll("%prefix%", super.getPrefix()));

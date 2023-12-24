@@ -35,6 +35,10 @@ public class CreateCommand extends BukkitCommand implements TabCompleter {
             return true;
         }
 
+        if (arguments[1].equalsIgnoreCase("%creator_name%")) {
+            arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
+        }
+
         if (MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[1])) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-already-exists")
                     .replaceAll("%prefix%", super.getPrefix()));
@@ -65,10 +69,14 @@ public class CreateCommand extends BukkitCommand implements TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command,
                                       @NotNull final String commandLabel, @NotNull final String[] arguments) {
-        if (arguments.length != 3) {
+
+        if ((arguments.length < 2) || (arguments.length > 3)) {
             return Collections.emptyList();
         }
 
+        if (arguments.length == 2) {
+            return List.of("%creator_name%");
+        }
         if (MultiWorldPlugin.getInstance().getWorldGeneratorProvider().getCustomGenerators().isEmpty()) {
             return WorldType.toStringList();
         }

@@ -33,6 +33,10 @@ public class BackupCommand extends BukkitCommand implements TabCompleter {
             return true;
         }
 
+        if (arguments[1].equalsIgnoreCase("%creator_name%")) {
+            arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
+        }
+
         if (!MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[1])) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getPrefix()));
