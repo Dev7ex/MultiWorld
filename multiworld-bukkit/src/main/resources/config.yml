@@ -134,7 +134,7 @@ messages:
       message: '%prefix% §aWorlds: %world_names%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
-      world-already-loaded: '%prefix% §7The world §bworld_name% §7is already loaded!'
+      world-already-loaded: '%prefix% §7The world §b%world_name% §7is already loaded!'
       starting: '%prefix% §7The world §b%world_name% §7will loaded...'
       finished: '%prefix% §7The world §b%world_name% §7was successfully loaded!'
     reload:
