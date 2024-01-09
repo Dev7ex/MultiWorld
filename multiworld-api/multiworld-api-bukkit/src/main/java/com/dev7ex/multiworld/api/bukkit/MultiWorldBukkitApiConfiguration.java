@@ -45,7 +45,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_DEFAULTS_SPAWN_ANIMALS("settings.defaults.spawn-animals", true, false),
         SETTINGS_DEFAULTS_SPAWN_MONSTERS("settings.defaults.spawn-monsters", true, false),
         SETTINGS_DEFAULTS_END_PORTAL_ACCESSIBLE("settings.defaults.end-portal-accessible", true, false),
-        SETTINGS_DEFAULTS_NETHER_PORTAL_ACCESSIBLE("defaults.nether-portal-accessible", true, false),
+        SETTINGS_DEFAULTS_NETHER_PORTAL_ACCESSIBLE("settings.defaults.nether-portal-accessible", true, false),
         SETTINGS_DEFAULTS_WHITELIST_ENABLED("settings.defaults.whitelist-enabled", false, false),
 
         MESSAGES_GENERAL_UPDATE_MESSAGE_PLAYER("messages.general.update-message-player", "%prefix% §7There is a new update available. §8[§bhttps://www.spigotmc.org/resources/multiworld.92559§8]", false),
