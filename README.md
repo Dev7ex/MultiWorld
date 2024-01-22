@@ -4,16 +4,20 @@
 ![Spiget Rating](https://img.shields.io/spiget/rating/92559?label=Rating&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/dev7ex/multiworld)
 [![CodeFactor](https://www.codefactor.io/repository/github/dev7ex/multiworld/badge)](https://www.codefactor.io/repository/github/dev7ex/multiworld)
+![GitHub Release](https://img.shields.io/github/v/release/Dev7ex/MultiWorld)
+
 
 ## What is MultiWorld?
 
 MultiWorld is a World Management plugin for Minecraft Server.
 
-* Almost 100% configurable
-* Pvp is adjustable for each world
-* GameMode per World - if you change the world, your gamemode also changes! (can be deactivated)
-* Link Worlds with each other
-* Whitelist per World
+* This plugin is almost 100% adjustable
+* PVP is adjustable for each world
+* GameMode setting for each world. When you change the world your game mode will be changed automatically (Deactivatable)
+* Custom Generator Support. If you want to use another plugin to generate worlds then MultiWorld will detect this and add it to the create command
+* Each world has its own whitelist. You don't want Dev7ex to enter your world to destroy your buildings? Then activate the whitelist and add only trusted people to it. (Deactivatable)
+* It is possible to disable access to the Nether or End with the Teleport command
+* It is also possible to disable the portals completely
 
 ## Links
 
