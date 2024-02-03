@@ -44,6 +44,7 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
             super.getPlugin().getLogger().info("Adding missing config entry: " + entry.getPath());
             super.getFileConfiguration().set(entry.getPath(), entry.getDefaultValue());
         }
+        super.saveFile();
 
         super.getFileConfiguration().getConfigurationSection("settings.defaults").getKeys(false)
                 .stream()
@@ -51,7 +52,7 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
         super.saveFile();
     }
 
-    @Override
+    @Override @Deprecated
     public List<String> getAutoLoadableWorlds() {
         return super.getStringList("settings.auto-load");
     }
