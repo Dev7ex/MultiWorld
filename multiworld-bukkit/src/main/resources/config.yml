@@ -16,15 +16,10 @@ no-player-command: '%prefix% §cThis command can only performed by the console'
 no-player-found: '%prefix% §cThis player could not be found'
 
 settings:
-  # Worlds that should be loaded when the server starts
-  # WARNING: When the world is not registered by MultiWorld the world will not be loaded
-  # The world has to be imported manually! (Attention choose the correct WorldType)
-  # Example: auto-load: [world1, world2, world3]
-  auto-load: [ ]
   # Should all players with the permission (multiworld.notify.update)
   # get a message when entering server
   receive-update-message: true
-  # Should the auto-gamemode per world work?
+  # Should the auto-game-mode per world work?
   auto-game-mode-enabled: true
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
