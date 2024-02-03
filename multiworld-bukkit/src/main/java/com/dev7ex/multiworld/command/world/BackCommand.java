@@ -27,7 +27,7 @@ public class BackCommand extends BukkitCommand {
     @Override
     public boolean execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(super.getConfiguration().getString("only-player-command")
+            commandSender.sendMessage(super.getConfiguration().getString("no-console-command")
                     .replaceAll("%prefix%", super.getPrefix()));
             return true;
         }
