@@ -15,8 +15,9 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldFlag {
 
+    LOAD_AUTO("load-auto", List.of("false", "true")),
     DIFFICULTY("difficulty", List.of("EASY", "HARD", "NORMAL", "PEACEFUL")),
-    GAMEMODE("game-mode", List.of("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
+    GAME_MODE("game-mode", List.of("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
     SPAWN_MONSTERS("spawn-monsters", List.of("false", "true")),
     SPAWN_ANIMALS("spawn-animals", List.of("false", "true")),
     END_PORTAL_ACCESSIBLE("end-portal-accessible", List.of("false", "true")),

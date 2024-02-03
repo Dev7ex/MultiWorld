@@ -39,6 +39,7 @@ public class BukkitWorldHolder implements WorldHolder {
     private boolean netherPortalAccessible;
     private List<String> whitelist = new ArrayList<>();
     private boolean whitelistEnabled;
+    private boolean autoLoaded = false;
 
     public World getWorld() {
         return Bukkit.getWorld(this.name);
@@ -51,7 +52,7 @@ public class BukkitWorldHolder implements WorldHolder {
                 this.pvpEnabled = Boolean.parseBoolean(value);
                 break;
 
-            case GAMEMODE:
+            case GAME_MODE:
                 this.gameMode = GameMode.valueOf(value);
                 break;
 

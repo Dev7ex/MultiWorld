@@ -5,14 +5,15 @@
 #  / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
 # /_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
 #
-# Copyright (c) 2023 by Dev7ex
+# Copyright (c) 2021 - 2024 by Dev7ex
 # Version: ${project.version}
 config-version: ${project.version}
 # General
 prefix: '§8[§bMultiWorld§8]§r'
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
-player-not-found: '%prefix% §cThis player could not be found'
-only-player-command: '%prefix% §cThis command can only performed by a player'
+no-console-command: '%prefix% §cThis command can only performed by a player'
+no-player-command: '%prefix% §cThis command can only performed by the console'
+no-player-found: '%prefix% §cThis player could not be found'
 
 settings:
   # Worlds that should be loaded when the server starts
@@ -31,8 +32,7 @@ settings:
   # Standard values for new worlds
   defaults:
     normal-world: world
-    end-world: world_the_end
-    nether_world: world_nether
+    load-auto: false
     difficulty: PEACEFUL
     game-mode: SURVIVAL
     pvp-enabled: true
@@ -115,6 +115,7 @@ messages:
         - ''
         - '§7» Creator: §b%world_creator_name%'
         - '§7» Created at: §b%creation_timestamp%'
+        - '§7» Load-Auto: §b%load_auto%'
         - '§7» Loaded: §b%loaded%'
         - '§7» WorldType: §b%world_type%'
         - '§7» Environment: §b%environment%'

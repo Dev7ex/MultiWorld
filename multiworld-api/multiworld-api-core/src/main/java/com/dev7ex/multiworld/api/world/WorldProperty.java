@@ -14,6 +14,7 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldProperty {
 
+    LOAD_AUTO("load-auto", false),
     CREATOR_NAME("creator-name", true),
     CREATION_TIMESTAMP("creation-timestamp", true),
     TYPE("type", true),

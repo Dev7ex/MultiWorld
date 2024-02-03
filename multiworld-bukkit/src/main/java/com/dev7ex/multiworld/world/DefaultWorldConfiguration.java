@@ -72,6 +72,11 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
     @Override
     public void addMissingProperty(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldProperty property) {
         switch (property) {
+            case LOAD_AUTO:
+                this.write(worldHolder, property, false);
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
             case CREATOR_NAME:
                 this.write(worldHolder, property, "CONSOLE");
                 MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
@@ -170,6 +175,7 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
                     break;
 
                 case PVP_ENABLED: case SPAWN_ANIMALS: case SPAWN_MONSTERS: case WHITELIST_ENABLED: case END_PORTAL_ACCESSIBLE: case NETHER_PORTAL_ACCESSIBLE:
+                case LOAD_AUTO:
                     super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), worldData.getBoolean(property));
                     break;
 
@@ -202,6 +208,7 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
                 .setName(name)
                 .setCreatorName(super.getFileConfiguration().getString(name + "." + WorldProperty.CREATOR_NAME.getStoragePath()))
                 .setCreationTimeStamp(super.getFileConfiguration().getLong(name + "." + WorldProperty.CREATION_TIMESTAMP.getStoragePath()))
+                .setAutoLoaded(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.LOAD_AUTO.getStoragePath(), false))
                 .setType(WorldType.fromString(super.getFileConfiguration().getString(name + "." + WorldProperty.TYPE.getStoragePath())).orElseThrow())
                 .setGameMode(GameMode.valueOf(super.getFileConfiguration().getString(name + "." + WorldProperty.GAME_MODE.getStoragePath())))
                 .setDifficulty(Difficulty.valueOf(super.getFileConfiguration().getString(name + "." + WorldProperty.DIFFICULTY.getStoragePath())))

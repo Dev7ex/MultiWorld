@@ -49,4 +49,6 @@ public interface WorldHolder {
 
     void updateFlag(@NotNull final WorldFlag flag, @NotNull final String value);
 
+    boolean isAutoLoaded();
+
 }

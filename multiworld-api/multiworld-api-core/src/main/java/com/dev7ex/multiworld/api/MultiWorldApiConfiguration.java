@@ -19,6 +19,7 @@ public interface MultiWorldApiConfiguration {
 
     ParsedMap<WorldDefaultProperty, Object> getDefaultProperties();
 
+    @Deprecated
     List<String> getAutoLoadableWorlds();
 
     boolean isAutoGameModeEnabled();

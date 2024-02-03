@@ -68,14 +68,12 @@ public class DefaultWorldProvider implements PluginService, BukkitWorldProvider 
             this.register(worldHolder);
         }
 
-        for (final String worldName : MultiWorldPlugin.getInstance().getConfiguration().getAutoLoadableWorlds()) {
-            if (!this.configuration.contains(worldName)) {
-                Bukkit.getConsoleSender().sendMessage("%prefix% §7Couldnt load the world §a%world%§7. Use /world import");
+        for (final BukkitWorldHolder worldHolder : MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().values()) {
+            if (!worldHolder.isAutoLoaded()) {
                 continue;
             }
-            this.worldManager.loadWorld(Bukkit.getConsoleSender().getName(), worldName);
+            this.worldManager.loadWorld(Bukkit.getConsoleSender().getName(), worldHolder.getName());
         }
-
         MultiWorldPlugin.getInstance().getLogger().info("Found: [" + this.worldHolders.size() + "] Worlds");
         Bukkit.getPluginManager().callEvent(new MultiWorldStartupCompleteEvent(MultiWorldPlugin.getInstance(), (System.currentTimeMillis() - startTime)));
     }

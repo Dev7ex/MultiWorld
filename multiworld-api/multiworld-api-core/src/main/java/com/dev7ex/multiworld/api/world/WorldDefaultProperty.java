@@ -14,6 +14,7 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldDefaultProperty {
 
+    LOAD_AUTO("load-auto", "settings.defaults.load-auto"),
     DIFFICULTY("difficulty", "settings.defaults.difficulty"),
     GAME_MODE("game-mode", "settings.defaults.game-mode"),
     PVP_ENABLED("pvp-enabled", "settings.defaults.pvp-enabled"),
