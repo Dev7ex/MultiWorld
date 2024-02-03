@@ -25,7 +25,7 @@ import java.util.List;
  * @author Dev7ex
  * @since 20.05.2021
  */
-@CommandProperties(name = "teleport", permission = "multiworld.command.world.teleport")
+@CommandProperties(name = "teleport", permission = "multiworld.command.world.teleport", aliases = "tp")
 public class TeleportCommand extends BukkitCommand implements TabCompleter {
 
     public TeleportCommand(@NotNull final BukkitPlugin plugin) {
@@ -44,7 +44,7 @@ public class TeleportCommand extends BukkitCommand implements TabCompleter {
 
         if (arguments.length == 2) {
             if (!(commandSender instanceof Player)) {
-                commandSender.sendMessage(super.getConfiguration().getString("only-player-command")
+                commandSender.sendMessage(super.getConfiguration().getString("no-console-command")
                         .replaceAll("%prefix%", super.getPrefix()));
                 return true;
             }
@@ -100,7 +100,7 @@ public class TeleportCommand extends BukkitCommand implements TabCompleter {
         final Player target = Bukkit.getPlayer(arguments[1]);
 
         if (target == null) {
-            commandSender.sendMessage(super.getConfiguration().getString("player-not-found")
+            commandSender.sendMessage(super.getConfiguration().getString("no-player-found")
                     .replaceAll("%prefix%", super.getPrefix()));
             return true;
         }
