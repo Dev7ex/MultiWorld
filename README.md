@@ -55,14 +55,15 @@ MultiWorld is a World Management plugin for Minecraft Server.
 #  / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
 # /_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
 #
-# Copyright (c) 2023 by Dev7ex
+# Copyright (c) 2021 - 2024 by Dev7ex
 # Version: ${project.version}
 config-version: ${project.version}
 # General
 prefix: '§8[§bMultiWorld§8]§r'
 no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
-player-not-found: '%prefix% §cThis player could not be found'
-only-player-command: '%prefix% §cThis command can only performed by a player'
+no-console-command: '%prefix% §cThis command can only performed by a player'
+no-player-command: '%prefix% §cThis command can only performed by the console'
+no-player-found: '%prefix% §cThis player could not be found'
 
 settings:
   # Worlds that should be loaded when the server starts
@@ -81,8 +82,7 @@ settings:
   # Standard values for new worlds
   defaults:
     normal-world: world
-    end-world: world_the_end
-    nether_world: world_nether
+    load-auto: false
     difficulty: PEACEFUL
     game-mode: SURVIVAL
     pvp-enabled: true
@@ -144,7 +144,6 @@ messages:
         - '§7» §7/world §bimport §7<World> <WorldType>'
         - '§7» §7/world §binfo §7<World>'
         - '§7» §7/world §blist'
-        - '§7» §7/world §blink §7<World> <Nether | End> <Welt>'
         - '§7» §7/world §bload §7<World>'
         - '§7» §7/world §breload'
         - '§7» §7/world §bteleport §7<Player> <Welt>'
@@ -166,6 +165,7 @@ messages:
         - ''
         - '§7» Creator: §b%world_creator_name%'
         - '§7» Created at: §b%creation_timestamp%'
+        - '§7» Load-Auto: §b%load_auto%'
         - '§7» Loaded: §b%loaded%'
         - '§7» WorldType: §b%world_type%'
         - '§7» Environment: §b%environment%'
@@ -185,7 +185,7 @@ messages:
       message: '%prefix% §aWorlds: %world_names%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
-      world-already-loaded: '%prefix% §7The world §bworld_name% §7is already loaded!'
+      world-already-loaded: '%prefix% §7The world §b%world_name% §7is already loaded!'
       starting: '%prefix% §7The world §b%world_name% §7will loaded...'
       finished: '%prefix% §7The world §b%world_name% §7was successfully loaded!'
     reload:
