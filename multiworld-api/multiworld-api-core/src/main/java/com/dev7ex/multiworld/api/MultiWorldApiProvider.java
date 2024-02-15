@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Dev7ex
  * @since 20.12.2022
+ *
+ * This class acts as a gateway, allowing users to obtain an instance
+ * of the {@code MultiWorldApi} for managing various aspects across different worlds.
  */
 public class MultiWorldApiProvider {
 
