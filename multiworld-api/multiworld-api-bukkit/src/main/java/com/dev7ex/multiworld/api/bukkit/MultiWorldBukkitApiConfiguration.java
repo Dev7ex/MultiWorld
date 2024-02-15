@@ -137,7 +137,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         MESSAGES_COMMANDS_WHITELIST_SUCCESSFULLY_DISABLED("messages.commands.whitelist.disable.successfully-disabled", "%prefix% §7You have disabled the whitelist in the world §b%world_name%§7!", false),
         MESSAGES_COMMANDS_WHITELIST_ALREADY_ENABLED("messages.commands.whitelist.enable.already-enabled", "%prefix% §7The world whitelist §b%world_name% §7is already activated!", false),
         MESSAGES_COMMANDS_WHITELIST_SUCCESSFULLY_ENABLED("messages.commands.whitelist.enable.successfully-enabled", "%prefix% §7You have activated the whitelist in the world §b%world_name% §7!", false),
-        MESSAGES_COMMANDS_WHITELIST_ALREADY_REMOVED("messages.commands.whitelist.remove.already-removed", "%prefix% §7The player %player_name% §7is §not §7on the whitelist!", false),
+        MESSAGES_COMMANDS_WHITELIST_ALREADY_REMOVED("messages.commands.whitelist.remove.already-removed", "%prefix% §7The player %player_name% §7is §cnot §7on the whitelist!", false),
         MESSAGES_COMMANDS_WHITELIST_SUCCESSFULLY_REMOVED("messages.commands.whitelist.remove.successfully-removed", "%prefix% §7You have %player_name% §7removed from the §b%world_name% §7whitelist", false);
 
 
