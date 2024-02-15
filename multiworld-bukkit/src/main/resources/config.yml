@@ -1,9 +1,8 @@
-#
-#      __  ___      ____  _ _       __           __    __
-#    /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
-#   / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
-#  / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
-# /_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
+#     __  ___      ____  _ ____             __        __
+#    /  |/  /_  __/ / /_(_) __ \____  _____/ /_____ _/ /
+#   / /|_/ / / / / / __/ / /_/ / __ \/ ___/ __/ __ `/ /
+#  / /  / / /_/ / / /_/ / ____/ /_/ / /  / /_/ /_/ / /
+# /_/  /_/\__,_/_/\__/_/_/    \____/_/   \__/\__,_/_/
 #
 # Copyright (c) 2021 - 2024 by Dev7ex
 # Version: ${project.version}
@@ -91,7 +90,7 @@ messages:
         - '§7» §7/world §blist'
         - '§7» §7/world §bload §7<World>'
         - '§7» §7/world §breload'
-        - '§7» §7/world §bteleport §7<Player> <Welt>'
+        - '§7» §7/world §bteleport §7<Player> <World>'
         - '§7» §7/world §bunload §7<World>'
         - '§7» §7/world §bwhitelist §7<World> <Enable | Disable | Add | Remove | List> <Name>'
         - ''
@@ -154,7 +153,7 @@ messages:
     whitelist:
       usage: '%prefix% §cUsage: /world whitelist <World> <On | Off | Add | List | Remove> <Player>'
       add:
-        already-added: '%prefix% §The player %player_name% §7is already §7on the whitelist!'
+        already-added: '%prefix% §7The player %player_name% §7is already §7on the whitelist!'
         successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name%'
       list:
         empty: '%prefix% §7The whitelist for world §b%world_name% §7is empty'
@@ -166,5 +165,5 @@ messages:
         already-enabled: '%prefix% §7The world whitelist §b%world_name% §7is already activated!'
         successfully-enabled: '%prefix% §7You have activated the whitelist in the world §b%world_name% §7!'
       remove:
-        already-removed: '%prefix% §7The player %player_name% §7is §not §7on the whitelist!'
+        already-removed: '%prefix% §7The player %player_name% §7is §cnot §7on the whitelist!'
         successfully-removed: '%prefix% §7You have %player_name% §7removed from the §b%world_name% §7whitelist'
