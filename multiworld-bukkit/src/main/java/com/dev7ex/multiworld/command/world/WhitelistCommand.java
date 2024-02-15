@@ -6,7 +6,10 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldProperty;
+import com.dev7ex.multiworld.command.world.whitelist.*;
+import com.dev7ex.multiworld.command.world.whitelist.ListCommand;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
+import com.google.common.collect.Lists;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Dev7ex
@@ -29,6 +33,13 @@ public class WhitelistCommand extends BukkitCommand implements TabCompleter {
 
     public WhitelistCommand(@NotNull final BukkitPlugin plugin) {
         super(plugin);
+
+        super.registerSubCommand(new AddCommand(plugin));
+        super.registerSubCommand(new DisableCommand(plugin));
+        super.registerSubCommand(new EnableCommand(plugin));
+        super.registerSubCommand(new HelpCommand(plugin));
+        super.registerSubCommand(new ListCommand(plugin));
+        super.registerSubCommand(new RemoveCommand(plugin));
     }
 
     @Override
@@ -39,125 +50,24 @@ public class WhitelistCommand extends BukkitCommand implements TabCompleter {
             return true;
         }
 
-        if (arguments[1].equalsIgnoreCase("%creator_name%")) {
-            arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
-        }
-
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return true;
         }
-        final DefaultWorldConfiguration worldConfiguration = MultiWorldPlugin.getInstance().getWorldConfiguration();
-        final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).orElseThrow();
+        final Optional<BukkitCommand> commandOptional = super.getSubCommand(arguments[2].toLowerCase());
 
-        if (arguments.length == 3) {
-            switch (arguments[2]) {
-                case "enable":
-                case "on":
-                    if (worldHolder.isWhitelistEnabled()) {
-                        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.enable.already-enabled")
-                                .replaceAll("%prefix%", super.getPrefix())
-                                .replaceAll("%world_name%", arguments[1]));
-                        return true;
-                    }
-                    worldHolder.setWhitelistEnabled(true);
-                    worldConfiguration.write(worldHolder, WorldProperty.WHITELIST_ENABLED, true);
-                    commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.enable.successfully-enabled")
-                            .replaceAll("%prefix%", super.getPrefix())
-                            .replaceAll("%world_name%", arguments[1]));
-                    return true;
-
-                case "disable":
-                case "off":
-                    if (!worldHolder.isWhitelistEnabled()) {
-                        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.disable.already-disabled")
-                                .replaceAll("%prefix%", super.getPrefix())
-                                .replaceAll("%world_name%", arguments[1]));
-                        return true;
-                    }
-                    worldHolder.setWhitelistEnabled(false);
-                    worldConfiguration.write(worldHolder, WorldProperty.WHITELIST_ENABLED, false);
-                    commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.disable.successfully-disabled")
-                            .replaceAll("%prefix%", super.getPrefix())
-                            .replaceAll("%world_name%", arguments[1]));
-                    return true;
-
-                case "list":
-                    if (worldHolder.getWhitelist().isEmpty()) {
-                        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.list.empty")
-                                .replaceAll("%prefix%", super.getPrefix())
-                                .replaceAll("%world_name%", arguments[1]));
-                        return true;
-                    }
-                    final StringBuilder stringBuilder = new StringBuilder();
-
-                    for (final String name : worldHolder.getWhitelist()) {
-                        if (stringBuilder.length() > 0) {
-                            stringBuilder.append(ChatColor.GRAY);
-                            stringBuilder.append(", ");
-                        }
-                        stringBuilder.append(Bukkit.getPlayer(name) != null ? ChatColor.GREEN : ChatColor.RED).append(name);
-                    }
-                    commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.list.message")
-                            .replaceAll("%prefix%", super.getPrefix())
-                            .replaceAll("%world_name%", arguments[1])
-                            .replaceAll("%player_names%", stringBuilder.toString()));
-                    return true;
-
-                default:
-                    commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.usage")
-                            .replaceAll("%prefix%", super.getPrefix()));
-                    return true;
-            }
+        if (commandOptional.isEmpty()) {
+            return super.getSubCommand("help").orElseThrow().execute(commandSender, arguments);
         }
-
-        switch (arguments[2]) {
-            case "add":
-                if (worldHolder.getWhitelist().contains(arguments[3])) {
-                    commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.add.already-added")
-                            .replaceAll("%prefix%", super.getPrefix())
-                            .replaceAll("%world_name%", arguments[1])
-                            .replaceAll("%player_name%", arguments[3]));
-                    return true;
-                }
-                worldHolder.getWhitelist().add(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.WHITELIST, worldHolder.getWhitelist());
-                commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.add.successfully-added")
-                        .replaceAll("%prefix%", super.getPrefix())
-                        .replaceAll("%world_name%", arguments[1])
-                        .replaceAll("%player_name%", arguments[3]));
-                return true;
-
-            case "remove":
-                if (!worldHolder.getWhitelist().contains(arguments[3])) {
-                    commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.remove.already-removed")
-                            .replaceAll("%prefix%", super.getPrefix())
-                            .replaceAll("%world_name%", arguments[1])
-                            .replaceAll("%player_name%", arguments[3]));
-                    return true;
-                }
-                worldHolder.getWhitelist().remove(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.WHITELIST, worldHolder.getWhitelist());
-                commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.remove.successfully-removed")
-                        .replaceAll("%prefix%", super.getPrefix())
-                        .replaceAll("%world_name%", arguments[1])
-                        .replaceAll("%player_name%", arguments[3]));
-                return true;
-
-            default:
-                commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.usage")
-                        .replaceAll("%prefix%", super.getPrefix()));
-                return true;
-        }
+        return commandOptional.get().execute(commandSender, arguments);
     }
 
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command,
                                       @NotNull final String commandLabel, @NotNull final String[] arguments) {
-
         if ((arguments.length < 2) || (arguments.length > 4)) {
             return Collections.emptyList();
         }
@@ -167,9 +77,15 @@ public class WhitelistCommand extends BukkitCommand implements TabCompleter {
         }
 
         if (arguments.length == 3) {
-            return List.of("enable", "disable", "add", "list", "remove");
+            return Lists.newArrayList(super.getSubCommands().keySet());
         }
-        return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).toList();
+
+        final Optional<BukkitCommand> commandOptional = super.getSubCommand(arguments[2].toLowerCase());
+
+        if ((commandOptional.isEmpty()) || (!(commandOptional.get() instanceof TabCompleter))) {
+            return null;
+        }
+        return ((TabCompleter) commandOptional.get()).onTabComplete(commandSender, command, commandLabel, arguments);
     }
 
 }
