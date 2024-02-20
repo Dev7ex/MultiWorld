@@ -3,6 +3,7 @@ package com.dev7ex.multiworld;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.bukkit.plugin.PluginProperties;
 
+import com.dev7ex.common.bukkit.plugin.metrics.Metrics;
 import com.dev7ex.multiworld.api.MultiWorldApiProvider;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.expansion.MultiWorldExpansion;
@@ -24,6 +25,9 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * @author Dev7ex
@@ -60,7 +64,6 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     @Override
     public void onEnable() {
         MultiWorldApiProvider.registerApi(this);
-
         super.getServer().getServicesManager().register(MultiWorldBukkitApi.class, this, this, ServicePriority.Normal);
 
         this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration);
@@ -70,7 +73,6 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         if (super.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new MultiWorldExpansion(this).register();
         }
-
         ConfigurationSerialization.registerClass(BukkitWorldLocation.class);
     }
 
