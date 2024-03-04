@@ -7,7 +7,7 @@
     <parent>
         <artifactId>multiworld</artifactId>
         <groupId>com.dev7ex</groupId>
-        <version>1.5.1-SNAPSHOT</version>
+        <version>1.5.2-SNAPSHOT</version>
     </parent>
 
     <name>MultiWorld-API</name>
@@ -20,8 +20,8 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.source>${project.source.version}</maven.compiler.source>
+        <maven.compiler.target>${project.source.version}</maven.compiler.target>
     </properties>
 
 </project>
