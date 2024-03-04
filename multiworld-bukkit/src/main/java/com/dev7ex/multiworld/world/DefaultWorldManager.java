@@ -1,8 +1,8 @@
 package com.dev7ex.multiworld.world;
 
 import com.dev7ex.common.bukkit.BukkitCommon;
+import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.common.io.Files;
-import com.dev7ex.common.map.ParsedMap;
 import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldCloneEvent;

@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.api.bukkit;
 
 import com.dev7ex.common.bukkit.plugin.configuration.DefaultPluginConfiguration;
+import com.dev7ex.common.io.file.configuration.ConfigurationHolder;
 import com.dev7ex.multiworld.api.MultiWorldApiConfiguration;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,8 +17,8 @@ import java.util.Collections;
  */
 public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConfiguration implements MultiWorldApiConfiguration {
 
-    public MultiWorldBukkitApiConfiguration(@NotNull final Plugin plugin) {
-        super(plugin);
+    public MultiWorldBukkitApiConfiguration(@NotNull final ConfigurationHolder configurationHolder) {
+        super(configurationHolder);
     }
 
     @Getter(AccessLevel.PUBLIC)

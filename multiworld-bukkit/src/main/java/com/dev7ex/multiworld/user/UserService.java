@@ -1,7 +1,7 @@
 package com.dev7ex.multiworld.user;
 
-import com.dev7ex.common.bukkit.plugin.service.PluginService;
-import com.dev7ex.common.map.ParsedMap;
+import com.dev7ex.common.bukkit.plugin.module.PluginModule;
+import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.api.user.WorldUserConfiguration;
 import com.dev7ex.multiworld.api.user.WorldUserProperty;
@@ -22,7 +22,7 @@ import java.util.UUID;
  * @since 18.06.2023
  */
 @Getter(AccessLevel.PUBLIC)
-public class UserService implements PluginService, WorldUserProvider {
+public class UserService implements PluginModule, WorldUserProvider {
 
     private final Map<UUID, WorldUser> users = new HashMap<>();
 

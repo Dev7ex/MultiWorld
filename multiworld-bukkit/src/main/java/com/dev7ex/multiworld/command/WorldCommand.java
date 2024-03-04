@@ -6,24 +6,24 @@ package com.dev7ex.multiworld.command;
  */
 
 import com.dev7ex.common.bukkit.command.BukkitCommand;
-import com.dev7ex.common.bukkit.command.CommandProperties;
+import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
+import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.world.*;
 import com.google.common.collect.Lists;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * @author Dev7ex
  * @since 19.05.2021
  */
-@CommandProperties(name = "world", permission = "multiworld.command.world")
-public final class WorldCommand extends BukkitCommand implements TabCompleter {
+@BukkitCommandProperties(name = "world", permission = "multiworld.command.world")
+public final class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
 
     public WorldCommand(final MultiWorldPlugin plugin) {
         super(plugin);
@@ -46,30 +46,32 @@ public final class WorldCommand extends BukkitCommand implements TabCompleter {
     }
 
     @Override
-    public boolean execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+    public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         if ((arguments.length == 0) || (arguments.length > 4)) {
-            return super.getSubCommand("help").orElseThrow().execute(commandSender, arguments);
+            Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
+            return;
         }
-        final Optional<BukkitCommand> commandOptional = super.getSubCommand(arguments[0].toLowerCase());
-
-        if (commandOptional.isEmpty()) {
-            return super.getSubCommand("help").orElseThrow().execute(commandSender, arguments);
+        if (super.getSubCommand(arguments[0].toLowerCase()).isEmpty()) {
+            Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
+            return;
         }
-        return commandOptional.get().execute(commandOptional.get(), commandSender, arguments);
+        super.getSubCommand(arguments[0].toLowerCase()).get().execute(commandSender, arguments);
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command,
-                                      @NotNull final String commandLabel, @NotNull final String[] arguments) {
+    public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         if (arguments.length == 1) {
             return Lists.newArrayList(super.getSubCommands().keySet());
         }
-        final Optional<BukkitCommand> commandOptional = super.getSubCommand(arguments[0].toLowerCase());
-
-        if ((commandOptional.isEmpty()) || (!(commandOptional.get() instanceof TabCompleter))) {
-            return null;
+        if (super.getSubCommand(arguments[0].toLowerCase()).isEmpty()) {
+            return Collections.emptyList();
         }
-        return ((TabCompleter) commandOptional.get()).onTabComplete(commandSender, command, commandLabel, arguments);
+        final BukkitCommand subCommand = super.getSubCommand(arguments[0].toLowerCase()).get();
+
+        if (!(subCommand instanceof BukkitTabCompleter)) {
+            return Collections.emptyList();
+        }
+        return ((BukkitTabCompleter) subCommand).onTabComplete(commandSender, arguments);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.dev7ex.multiworld.user;
 
-import com.dev7ex.common.map.ParsedMap;
+import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.api.user.WorldUser;

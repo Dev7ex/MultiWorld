@@ -1,8 +1,9 @@
 package com.dev7ex.multiworld.world;
 
-import com.dev7ex.common.bukkit.configuration.ConfigurationBase;
-import com.dev7ex.common.bukkit.configuration.ConfigurationProperties;
-import com.dev7ex.common.map.ParsedMap;
+import com.dev7ex.common.collect.map.ParsedMap;
+import com.dev7ex.common.io.file.configuration.Configuration;
+import com.dev7ex.common.io.file.configuration.ConfigurationProperties;
+import com.dev7ex.common.io.file.configuration.YamlConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldConfiguration;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
@@ -14,14 +15,16 @@ import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Dev7ex
  * @since 18.06.2023
  */
-@ConfigurationProperties(fileName = "world.yml")
-public class DefaultWorldConfiguration extends ConfigurationBase implements BukkitWorldConfiguration {
+@ConfigurationProperties(fileName = "world.yml", provider = YamlConfiguration.class)
+public class DefaultWorldConfiguration extends Configuration implements BukkitWorldConfiguration {
 
     private final ParsedMap<WorldDefaultProperty, Object> defaultProperties;
 
@@ -138,11 +141,11 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
     }
 
     public void removeUnusableProperties(@NotNull final String worldName) {
-        if (super.getFileConfiguration().getConfigurationSection(worldName) == null) {
+        if (super.getFileConfiguration().getSection(worldName) == null) {
             return;
         }
 
-        for (final String property : super.getFileConfiguration().getConfigurationSection(worldName).getKeys(false)) {
+        for (final String property : super.getFileConfiguration().getSection(worldName).getKeys()) {
             if (WorldProperty.fromStoragePath(property).isPresent()) {
                continue;
             }
@@ -226,7 +229,7 @@ public class DefaultWorldConfiguration extends ConfigurationBase implements Bukk
     public Map<String, BukkitWorldHolder> getWorldHolders() {
         final Map<String, BukkitWorldHolder> worlds = new HashMap<>();
 
-        for (final String entry : super.getFileConfiguration().getKeys(false)) {
+        for (final String entry : super.getFileConfiguration().getKeys()) {
             worlds.put(entry, this.getWorldHolder(entry));
         }
         return worlds;

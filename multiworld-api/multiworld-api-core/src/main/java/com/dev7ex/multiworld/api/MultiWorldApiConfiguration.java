@@ -1,11 +1,8 @@
 package com.dev7ex.multiworld.api;
 
-import com.dev7ex.common.map.ParsedMap;
+import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
-import lombok.AccessLevel;
-import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 

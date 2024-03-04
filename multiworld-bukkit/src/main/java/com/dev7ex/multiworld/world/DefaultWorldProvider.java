@@ -1,6 +1,6 @@
 package com.dev7ex.multiworld.world;
 
-import com.dev7ex.common.bukkit.plugin.service.PluginService;
+import com.dev7ex.common.bukkit.plugin.module.PluginModule;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.plugin.MultiWorldStartupCompleteEvent;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
@@ -22,7 +22,7 @@ import java.util.Optional;
  * @since 18.06.2023
  */
 @Getter(AccessLevel.PUBLIC)
-public class DefaultWorldProvider implements PluginService, BukkitWorldProvider {
+public class DefaultWorldProvider implements PluginModule, BukkitWorldProvider {
 
     private final Map<String, BukkitWorldHolder> worldHolders = new HashMap<>();
     private final DefaultWorldManager worldManager;

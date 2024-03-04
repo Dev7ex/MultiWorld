@@ -53,7 +53,7 @@ public class UserTeleportWorldListener extends MultiWorldListener {
         }
         user.setLastLocation(null);
         player.sendMessage(super.getConfiguration().getString("messages.general.world-whitelist-block-trespassing")
-                .replaceAll("%prefix%", super.getPrefix())
+                .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                 .replaceAll("%world_name%", nextWorldHolder.getName()));
         event.setCancelled(true);
     }

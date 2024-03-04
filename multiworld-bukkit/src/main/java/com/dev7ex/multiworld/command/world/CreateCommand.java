@@ -1,14 +1,13 @@
 package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.common.bukkit.command.BukkitCommand;
-import com.dev7ex.common.bukkit.command.CommandProperties;
+import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.util.Numbers;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.world.WorldType;
-import org.bukkit.command.Command;
+import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -20,19 +19,19 @@ import java.util.Optional;
  * @author Dev7ex
  * @since 20.05.2021
  */
-@CommandProperties(name = "create", permission = "multiworld.command.world.create")
-public class CreateCommand extends BukkitCommand implements TabCompleter {
+@BukkitCommandProperties(name = "create", permission = "multiworld.command.world.create")
+public class CreateCommand extends BukkitCommand implements BukkitTabCompleter {
 
     public CreateCommand(@NotNull final BukkitPlugin plugin) {
         super(plugin);
     }
 
     @Override
-    public boolean execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+    public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         if (arguments.length != 3) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.commands.create.usage")
-                    .replaceAll("%prefix%", super.getPrefix()));
-            return true;
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+            return;
         }
 
         if (arguments[1].equalsIgnoreCase("%creator_name%")) {
@@ -41,34 +40,33 @@ public class CreateCommand extends BukkitCommand implements TabCompleter {
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[1])) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-already-exists")
-                    .replaceAll("%prefix%", super.getPrefix()));
-            return true;
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+            return;
         }
 
         if (Numbers.isLong(arguments[2])) {
             MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], Long.parseLong(arguments[2]));
-            return true;
+            return;
         }
 
         if (MultiWorldPlugin.getInstance().getWorldGeneratorProvider().exists(arguments[2])) {
             MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], arguments[2]);
-            return true;
+            return;
         }
 
         final Optional<WorldType> typeOptional = WorldType.fromString(arguments[2].toUpperCase());
 
         if (typeOptional.isEmpty()) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-type-not-exists")
-                    .replaceAll("%prefix%", super.getPrefix()));
-            return true;
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+            return;
         }
         MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], typeOptional.get());
-        return true;
+        return;
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final Command command,
-                                      @NotNull final String commandLabel, @NotNull final String[] arguments) {
+    public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
 
         if ((arguments.length < 2) || (arguments.length > 3)) {
             return Collections.emptyList();

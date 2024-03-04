@@ -1,6 +1,6 @@
 package com.dev7ex.multiworld.world;
 
-import com.dev7ex.common.bukkit.plugin.service.PluginService;
+import com.dev7ex.common.bukkit.plugin.module.PluginModule;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldGeneratorProvider;
 import lombok.AccessLevel;
@@ -17,7 +17,7 @@ import java.util.Map;
  * @since 29.06.2023
  */
 @Getter(AccessLevel.PUBLIC)
-public class DefaultWorldGeneratorProvider implements PluginService, BukkitWorldGeneratorProvider {
+public class DefaultWorldGeneratorProvider implements PluginModule, BukkitWorldGeneratorProvider {
 
     private final Map<Plugin, String> customGenerators = new HashMap<>();
 

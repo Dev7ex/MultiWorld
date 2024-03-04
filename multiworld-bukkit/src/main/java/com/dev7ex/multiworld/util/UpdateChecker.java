@@ -29,7 +29,7 @@ public class UpdateChecker {
 
     public void getVersion(@NotNull final Consumer<Boolean> consumer) {
         this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, () -> {
-            try (final InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.plugin.getResourceId()).openStream()) {
+            try (final InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.plugin.getPluginIdentification().spigotResourceId()).openStream()) {
                 try (final Scanner scanner = new Scanner(inputStream)) {
                     final String currentVersion = this.plugin.getDescription().getVersion();
                     this.newVersion = scanner.next();

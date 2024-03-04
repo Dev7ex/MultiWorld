@@ -1,8 +1,9 @@
 package com.dev7ex.multiworld;
 
-import com.dev7ex.common.bukkit.configuration.ConfigurationProperties;
-import com.dev7ex.common.bukkit.plugin.configuration.DefaultPluginConfiguration;
-import com.dev7ex.common.map.ParsedMap;
+import com.dev7ex.common.collect.map.ParsedMap;
+import com.dev7ex.common.io.file.configuration.ConfigurationHolder;
+import com.dev7ex.common.io.file.configuration.ConfigurationProperties;
+import com.dev7ex.common.io.file.configuration.YamlConfiguration;
 import com.dev7ex.multiworld.api.MultiWorldApiConfiguration;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApiConfiguration;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
@@ -11,7 +12,6 @@ import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,13 +19,13 @@ import java.util.List;
  * @since 25.01.2023
  */
 @Getter(AccessLevel.PUBLIC)
-@ConfigurationProperties(fileName = "config.yml")
+@ConfigurationProperties(fileName = "config.yml", provider = YamlConfiguration.class)
 public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfiguration implements MultiWorldApiConfiguration {
 
     private final ParsedMap<WorldDefaultProperty, Object> defaultProperties = new ParsedMap<>();
 
-    public MultiWorldConfiguration(@NotNull final Plugin plugin) {
-        super(plugin);
+    public MultiWorldConfiguration(@NotNull final ConfigurationHolder configurationHolder) {
+        super(configurationHolder);
     }
 
     @Override
@@ -35,18 +35,18 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
         for (final MultiWorldBukkitApiConfiguration.Entry entry : MultiWorldBukkitApiConfiguration.Entry.values()) {
             if ((entry.isRemoved()) && (super.getFileConfiguration().contains(entry.getPath()))) {
                 super.getFileConfiguration().set(entry.getPath(), null);
-                super.getPlugin().getLogger().info("Remove unnecessary config entry: " + entry.getPath());
+                MultiWorldPlugin.getInstance().getLogger().info("Remove unnecessary config entry: " + entry.getPath());
             }
 
             if ((entry.isRemoved()) || (super.getFileConfiguration().contains(entry.getPath()))) {
                 continue;
             }
-            super.getPlugin().getLogger().info("Adding missing config entry: " + entry.getPath());
+            MultiWorldPlugin.getInstance().getLogger().info("Adding missing config entry: " + entry.getPath());
             super.getFileConfiguration().set(entry.getPath(), entry.getDefaultValue());
         }
         super.saveFile();
 
-        super.getFileConfiguration().getConfigurationSection("settings.defaults").getKeys(false)
+        super.getFileConfiguration().getSection("settings.defaults").getKeys()
                 .stream()
                 .forEach(entry -> this.defaultProperties.put(WorldDefaultProperty.valueOf(entry.replaceAll("-", "_").toUpperCase()), super.getFileConfiguration().get("settings.defaults." + entry)));
         super.saveFile();

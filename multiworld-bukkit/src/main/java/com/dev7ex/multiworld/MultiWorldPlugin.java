@@ -1,41 +1,40 @@
 package com.dev7ex.multiworld;
 
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
-import com.dev7ex.common.bukkit.plugin.PluginProperties;
-
-import com.dev7ex.common.bukkit.plugin.metrics.Metrics;
+import com.dev7ex.common.bukkit.plugin.ConfigurablePlugin;
+import com.dev7ex.common.bukkit.plugin.PluginIdentification;
+import com.dev7ex.common.bukkit.plugin.statistic.PluginStatisticProperties;
 import com.dev7ex.multiworld.api.MultiWorldApiProvider;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.expansion.MultiWorldExpansion;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.command.WorldCommand;
-import com.dev7ex.multiworld.listener.*;
+import com.dev7ex.multiworld.listener.PlayerConnectionListener;
+import com.dev7ex.multiworld.listener.PlayerDamagePlayerListener;
+import com.dev7ex.multiworld.listener.PlayerEnterPortalListener;
+import com.dev7ex.multiworld.listener.UserTeleportWorldListener;
 import com.dev7ex.multiworld.user.UserService;
 import com.dev7ex.multiworld.util.UpdateChecker;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
 import com.dev7ex.multiworld.world.DefaultWorldGeneratorProvider;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
 import com.dev7ex.multiworld.world.DefaultWorldProvider;
-
 import lombok.AccessLevel;
 import lombok.Getter;
-
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * @author Dev7ex
  * @since 19.05.2021
  */
 @Getter(AccessLevel.PUBLIC)
-@PluginProperties(resourceId = 92559, metricsId = 15446, metrics = true)
-public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitApi {
+@PluginIdentification(spigotResourceId = 92559)
+@PluginStatisticProperties(enabled = true, identification = 15446)
+public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitApi, ConfigurablePlugin {
 
     private MultiWorldConfiguration configuration;
     private DefaultWorldConfiguration worldConfiguration;
@@ -59,6 +58,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
         this.worldConfiguration = new DefaultWorldConfiguration(this);
         this.worldConfiguration.createFile();
+        this.worldConfiguration.loadFile();
     }
 
     @Override
@@ -96,10 +96,10 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     }
 
     @Override
-    public void registerServices() {
-        super.registerService(this.worldProvider = new DefaultWorldProvider(this.worldManager, this.worldConfiguration));
-        super.registerService(this.userProvider = new UserService());
-        super.registerService(this.worldGeneratorProvider = new DefaultWorldGeneratorProvider());
+    public void registerModules() {
+        super.registerModule(this.worldProvider = new DefaultWorldProvider(this.worldManager, this.worldConfiguration));
+        super.registerModule(this.userProvider = new UserService());
+        super.registerModule(this.worldGeneratorProvider = new DefaultWorldGeneratorProvider());
     }
 
     @Override
