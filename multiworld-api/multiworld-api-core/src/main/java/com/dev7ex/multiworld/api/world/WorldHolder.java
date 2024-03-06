@@ -33,6 +33,8 @@ public interface WorldHolder {
 
     boolean isSpawnMonsters();
 
+    boolean isSpawnEntities();
+
     boolean isEndPortalAccessible();
 
     void setEndPortalAccessible(final boolean accessible);

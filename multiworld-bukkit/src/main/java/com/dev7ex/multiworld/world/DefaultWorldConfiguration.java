@@ -44,6 +44,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.PVP_ENABLED.getStoragePath(), worldHolder.isPvpEnabled());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.SPAWN_ANIMALS.getStoragePath(), worldHolder.isSpawnAnimals());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.SPAWN_MONSTERS.getStoragePath(), worldHolder.isSpawnMonsters());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.SPAWN_ENTITIES.getStoragePath(), worldHolder.isSpawnEntities());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.END_PORTAL_ACCESSIBLE.getStoragePath(), worldHolder.isEndPortalAccessible());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NETHER_PORTAL_ACCESSIBLE.getStoragePath(), worldHolder.isNetherPortalAccessible());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.WHITELIST.getStoragePath(), Collections.emptyList());
@@ -118,6 +119,11 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
                 break;
 
+            case SPAWN_ENTITIES:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ENTITIES));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
             case END_PORTAL_ACCESSIBLE:
                 this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE));
                 MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
@@ -177,8 +183,8 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                     super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), worldData.getLong(property));
                     break;
 
-                case PVP_ENABLED: case SPAWN_ANIMALS: case SPAWN_MONSTERS: case WHITELIST_ENABLED: case END_PORTAL_ACCESSIBLE: case NETHER_PORTAL_ACCESSIBLE:
-                case LOAD_AUTO:
+                case PVP_ENABLED: case SPAWN_ANIMALS: case SPAWN_MONSTERS: case SPAWN_ENTITIES:
+                    case WHITELIST_ENABLED: case END_PORTAL_ACCESSIBLE: case NETHER_PORTAL_ACCESSIBLE: case LOAD_AUTO:
                     super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), worldData.getBoolean(property));
                     break;
 
@@ -218,6 +224,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 .setPvpEnabled(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.PVP_ENABLED.getStoragePath()))
                 .setSpawnAnimals(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.SPAWN_ANIMALS.getStoragePath()))
                 .setSpawnMonsters(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.SPAWN_MONSTERS.getStoragePath()))
+                .setSpawnEntities(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.SPAWN_ENTITIES.getStoragePath()))
                 .setEndPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.END_PORTAL_ACCESSIBLE.getStoragePath(), true))
                 .setNetherPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.NETHER_PORTAL_ACCESSIBLE.getStoragePath(), true))
                 .setWhitelist(super.getFileConfiguration().getStringList(name + "." + WorldProperty.WHITELIST.getStoragePath()))

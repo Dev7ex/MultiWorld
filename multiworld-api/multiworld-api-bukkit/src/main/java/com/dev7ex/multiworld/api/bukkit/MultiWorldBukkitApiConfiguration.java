@@ -50,6 +50,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_DEFAULTS_PVP_ENABLED("settings.defaults.pvp-enabled", true, false),
         SETTINGS_DEFAULTS_SPAWN_ANIMALS("settings.defaults.spawn-animals", true, false),
         SETTINGS_DEFAULTS_SPAWN_MONSTERS("settings.defaults.spawn-monsters", true, false),
+        SETTINGS_DEFAULTS_SPAWN_ENTITIES("settings.defaults.spawn-entities", true, false),
         SETTINGS_DEFAULTS_END_PORTAL_ACCESSIBLE("settings.defaults.end-portal-accessible", true, false),
         SETTINGS_DEFAULTS_NETHER_PORTAL_ACCESSIBLE("settings.defaults.nether-portal-accessible", true, false),
         SETTINGS_DEFAULTS_WHITELIST_ENABLED("settings.defaults.whitelist-enabled", false, false),

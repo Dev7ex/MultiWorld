@@ -9,10 +9,7 @@ import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.expansion.MultiWorldExpansion;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.command.WorldCommand;
-import com.dev7ex.multiworld.listener.PlayerConnectionListener;
-import com.dev7ex.multiworld.listener.PlayerDamagePlayerListener;
-import com.dev7ex.multiworld.listener.PlayerEnterPortalListener;
-import com.dev7ex.multiworld.listener.UserTeleportWorldListener;
+import com.dev7ex.multiworld.listener.*;
 import com.dev7ex.multiworld.user.UserService;
 import com.dev7ex.multiworld.util.UpdateChecker;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
@@ -91,6 +88,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         super.registerListener(new PlayerConnectionListener(this));
         super.registerListener(new PlayerEnterPortalListener(this));
         super.registerListener(new PlayerDamagePlayerListener(this));
+        super.registerListener(new EntitySpawnListener(this));
 
         super.registerListener(new UserTeleportWorldListener(this));
     }

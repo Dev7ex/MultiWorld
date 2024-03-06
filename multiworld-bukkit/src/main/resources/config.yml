@@ -32,6 +32,7 @@ settings:
     pvp-enabled: true
     spawn-animals: true
     spawn-monsters: true
+    spawn-entities: true
     end-portal-accessible: true
     nether-portal-accessible: true
     whitelist-enabled: false

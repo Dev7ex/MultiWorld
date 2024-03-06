@@ -14,7 +14,7 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldProperty {
 
-    LOAD_AUTO("load-auto", false),
+    LOAD_AUTO("load-auto", true),
     CREATOR_NAME("creator-name", true),
     CREATION_TIMESTAMP("creation-timestamp", true),
     TYPE("type", true),
@@ -23,6 +23,7 @@ public enum WorldProperty {
     PVP_ENABLED("pvp-enabled", true),
     SPAWN_ANIMALS("spawn-animals", true),
     SPAWN_MONSTERS("spawn-monsters", true),
+    SPAWN_ENTITIES("spawn-entities", true),
     END_PORTAL_ACCESSIBLE("end-portal-accessible", true),
     NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", true),
     WHITELIST("whitelist", true),

@@ -20,6 +20,7 @@ public enum WorldDefaultProperty {
     PVP_ENABLED("pvp-enabled", "settings.defaults.pvp-enabled"),
     SPAWN_ANIMALS("spawn-animals", "settings.defaults.spawn-animals"),
     SPAWN_MONSTERS("spawn-monsters", "settings.defaults.spawn-monsters"),
+    SPAWN_ENTITIES("spawn-entities", "settings.defaults.spawn-entities"),
     END_PORTAL_ACCESSIBLE("end-portal-accessible", "settings.defaults.end-portal-accessible"),
     NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", "settings.defaults.nether-portal-accessible"),
     WORLD("world", "settings.defaults.world"),
