@@ -7,7 +7,7 @@
     <groupId>com.dev7ex</groupId>
     <artifactId>multiworld</artifactId>
     <packaging>pom</packaging>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.4-SNAPSHOT</version>
     <name>MultiWorld</name>
     <description>World Management for Minecraft</description>
     <url>https://www.spigotmc.org/resources/multiworld.92559/</url>
@@ -26,7 +26,7 @@
         <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
 
         <dependency.annotations-version>24.0.1</dependency.annotations-version>
-        <dependency.facilis-common-version>1.0.3-SNAPSHOT</dependency.facilis-common-version>
+        <dependency.facilis-common-version>1.0.4-SNAPSHOT</dependency.facilis-common-version>
         <dependency-commons-io-version>2.11.0</dependency-commons-io-version>
         <dependency.lombok-version>1.18.26</dependency.lombok-version>
         <dependency-spigot-api-version>1.16.4-R0.1-SNAPSHOT</dependency-spigot-api-version>
