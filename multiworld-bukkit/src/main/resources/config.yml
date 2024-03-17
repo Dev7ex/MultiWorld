@@ -20,12 +20,16 @@ settings:
   receive-update-message: true
   # Should the auto-game-mode per world work?
   auto-game-mode-enabled: true
+  # Should MultiWorld connect the worlds with each other via the registered data?
+  world-link-enabled: true
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
   access-end-world-via-command: true
   # Standard values for new worlds
   defaults:
     normal-world: world
+    end-world: world_the_end
+    nether_world: world_nether
     load-auto: false
     difficulty: PEACEFUL
     game-mode: SURVIVAL
@@ -89,6 +93,7 @@ messages:
         - '§7» §7/world §bimport §7<World> <WorldType>'
         - '§7» §7/world §binfo §7<World>'
         - '§7» §7/world §blist'
+        - '§7» §7/world §blink §7<World> <Nether | End> <Welt>'
         - '§7» §7/world §bload §7<World>'
         - '§7» §7/world §breload'
         - '§7» §7/world §bteleport §7<Player> <World>'
@@ -128,6 +133,10 @@ messages:
     list:
       usage: '%prefix% §cUsage: /world list'
       message: '%prefix% §aWorlds: %world_names%'
+    link:
+      usage: '%prefix% §cUsage: /world link <World> <End | Nether> <World>'
+      environment-not-exists: '%prefix% §cThe specified environment does not exist!'
+      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
       world-already-loaded: '%prefix% §7The world §b%world_name% §7is already loaded!'

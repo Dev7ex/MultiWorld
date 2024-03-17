@@ -38,6 +38,9 @@ public class BukkitWorldHolder implements WorldHolder {
     private boolean spawnEntities;
     private boolean endPortalAccessible;
     private boolean netherPortalAccessible;
+    private String endWorldName;
+    private String netherWorldName;
+    private String normalWorldName;
     private List<String> whitelist = new ArrayList<>();
     private boolean whitelistEnabled;
     private boolean autoLoaded = false;

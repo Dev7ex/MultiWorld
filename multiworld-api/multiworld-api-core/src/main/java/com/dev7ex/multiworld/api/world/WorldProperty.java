@@ -26,6 +26,9 @@ public enum WorldProperty {
     SPAWN_ENTITIES("spawn-entities", true),
     END_PORTAL_ACCESSIBLE("end-portal-accessible", true),
     NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", true),
+    END_WORLD("end-world", true),
+    NETHER_WORLD("nether-world", true),
+    NORMAL_WORLD("normal-world", true),
     WHITELIST("whitelist", true),
     WHITELIST_ENABLED("whitelist-enabled", true);
 

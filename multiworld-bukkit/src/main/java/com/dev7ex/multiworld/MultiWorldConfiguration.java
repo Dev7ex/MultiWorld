@@ -62,7 +62,6 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
         return super.getBoolean("settings.auto-game-mode-enabled");
     }
 
-    @Deprecated
     @Override
     public boolean isWorldLinkEnabled() {
         return super.getBoolean("settings.world-link-enabled");

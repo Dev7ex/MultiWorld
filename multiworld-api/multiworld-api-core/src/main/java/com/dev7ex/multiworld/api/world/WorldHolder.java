@@ -53,4 +53,21 @@ public interface WorldHolder {
 
     boolean isAutoLoaded();
 
+    @Nullable
+    String getEndWorldName();
+
+    void setEndWorldName(@NotNull final String endWorldName);
+
+    @Nullable
+    String getNetherWorldName();
+
+    void setNetherWorldName(@NotNull final String netherWorldName);
+
+    @Nullable
+    String getNormalWorldName();
+
+    void setNormalWorldName(@NotNull final String normalWorldName);
+
+
+
 }

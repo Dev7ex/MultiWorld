@@ -23,10 +23,10 @@ public enum WorldDefaultProperty {
     SPAWN_ENTITIES("spawn-entities", "settings.defaults.spawn-entities"),
     END_PORTAL_ACCESSIBLE("end-portal-accessible", "settings.defaults.end-portal-accessible"),
     NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", "settings.defaults.nether-portal-accessible"),
-    WORLD("world", "settings.defaults.world"),
+    WORLD("world", "settings.defaults.normal-world"),
     END_WORLD("end-world", "settings.defaults.end-world"),
     NETHER_WORLD("nether-world", "settings.defaults.nether-world"),
-    NORMAL_WORLD("world", "settings.defaults.world"),
+    NORMAL_WORLD("world", "settings.defaults.normal-world"),
     WHITELIST_ENABLED("whitelist-enabled", "settings.defaults.whitelist-enabled");
 
     private final String name;
