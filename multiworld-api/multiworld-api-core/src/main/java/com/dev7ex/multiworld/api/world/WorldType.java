@@ -19,6 +19,7 @@ public enum WorldType {
     FLAT(true),
     NETHER(false),
     NORMAL(true),
+    WATER(true),
     VOID(true);
 
     private final boolean overWorld;
