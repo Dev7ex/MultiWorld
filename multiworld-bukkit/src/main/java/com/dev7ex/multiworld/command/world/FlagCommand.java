@@ -10,7 +10,6 @@ import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldFlag;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
-
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 

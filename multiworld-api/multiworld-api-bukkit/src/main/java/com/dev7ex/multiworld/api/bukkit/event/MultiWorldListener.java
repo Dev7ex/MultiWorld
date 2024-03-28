@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 public abstract class MultiWorldListener implements Listener {
 
     private final MultiWorldBukkitApi multiWorldApi;
-
     public MultiWorldListener(@NotNull final MultiWorldBukkitApi multiWorldApi) {
         this.multiWorldApi = multiWorldApi;
     }

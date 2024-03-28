@@ -9,7 +9,6 @@ import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApiConfiguration;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
