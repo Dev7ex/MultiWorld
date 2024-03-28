@@ -5,8 +5,6 @@ import com.dev7ex.common.io.file.configuration.ConfigurationHolder;
 import com.dev7ex.multiworld.api.MultiWorldApiConfiguration;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.experimental.NonFinal;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;

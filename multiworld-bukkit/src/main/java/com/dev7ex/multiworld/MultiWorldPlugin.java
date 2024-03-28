@@ -89,7 +89,6 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         super.registerListener(new PlayerEnterPortalListener(this));
         super.registerListener(new PlayerDamagePlayerListener(this));
         super.registerListener(new EntitySpawnListener(this));
-
         super.registerListener(new UserTeleportWorldListener(this));
     }
 
