@@ -8,11 +8,12 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldCloneEvent;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldCreateEvent;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldDeleteEvent;
-import com.dev7ex.multiworld.api.bukkit.generator.FlatChunkGenerator;
-import com.dev7ex.multiworld.api.bukkit.generator.VoidChunkGenerator;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldManager;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
+import com.dev7ex.multiworld.api.bukkit.world.generator.FlatWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.VoidWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.WaterWorldGenerator;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
 import com.dev7ex.multiworld.api.world.WorldType;
 import lombok.AccessLevel;
@@ -136,7 +137,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
 
         switch (type) {
             case FLAT:
-                worldCreator.generator(new FlatChunkGenerator());
+                worldCreator.generator(new FlatWorldGenerator());
                 worldCreator.generateStructures(false);
                 break;
 
@@ -148,8 +149,13 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 worldCreator.environment(World.Environment.THE_END);
                 break;
 
+            case WATER:
+                worldCreator.generator(new WaterWorldGenerator());
+                worldCreator.generateStructures(false);
+                break;
+
             case VOID:
-                worldCreator.generator(new VoidChunkGenerator());
+                worldCreator.generator(new VoidWorldGenerator());
                 worldCreator.generateStructures(false);
                 break;
 
@@ -388,17 +394,22 @@ public class DefaultWorldManager implements BukkitWorldManager {
 
         switch (worldHolder.getType()) {
             case VOID:
-                worldCreator.generator(new VoidChunkGenerator());
+                worldCreator.generator(new VoidWorldGenerator());
                 worldCreator.generateStructures(false);
                 break;
 
             case FLAT:
-                worldCreator.generator(new FlatChunkGenerator());
+                worldCreator.generator(new FlatWorldGenerator());
                 worldCreator.generateStructures(false);
                 break;
 
             case NETHER:
                 worldCreator.environment(World.Environment.NETHER);
+                break;
+
+            case WATER:
+                worldCreator.generator(new WaterWorldGenerator());
+                worldCreator.generateStructures(false);
                 break;
 
             case END:
