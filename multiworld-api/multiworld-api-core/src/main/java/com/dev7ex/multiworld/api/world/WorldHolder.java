@@ -68,6 +68,8 @@ public interface WorldHolder {
 
     void setNormalWorldName(@NotNull final String normalWorldName);
 
+    boolean isReceiveAchievements();
 
+    void setReceiveAchievements(final boolean receiveAchievements);
 
 }

@@ -29,7 +29,7 @@ settings:
   defaults:
     normal-world: world
     end-world: world_the_end
-    nether_world: world_nether
+    nether-world: world_nether
     load-auto: false
     difficulty: PEACEFUL
     game-mode: SURVIVAL
@@ -37,6 +37,7 @@ settings:
     spawn-animals: true
     spawn-monsters: true
     spawn-entities: true
+    receive-achievements: true
     end-portal-accessible: true
     nether-portal-accessible: true
     whitelist-enabled: false
@@ -77,7 +78,12 @@ messages:
       usage: '%prefix% §cUsage: /world flag <World> <Flag> <Value>'
       not-existing: '%prefix% §cThis flag does not exist'
       value-not-existing: '%prefix% §cThis value does not exist for the flag §b%flag%'
-      successfully-set: '%prefix% §7The flag §b%flag% §7was set to §b%value% §7!'
+      successfully-set: '%prefix% §7The flag §b%flag% §7was set to §b%value%§7!'
+    gamerule:
+      usage: '%prefix% §cUsage: /world flag <World> <Gamerule> <Value>'
+      not-existing: '%prefix% §cThis GameRule does not exist'
+      value-not-existing: '%prefix% §cThis value does not exist for the GameRule §b%gamerule%'
+      successfully-set: '%prefix% §7The GameRule §b%gamerule% §7was set to §b%value%§7!'
     help:
       message:
         - ''
@@ -89,6 +95,7 @@ messages:
         - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
         - '§7» §7/world §bdelete §7<World>'
         - '§7» §7/world §bflag §7<World> <Property> <Value>'
+        - '§7» §7/world §bgamerule §7<World> <GameRule> <Value>'
         - '§7» §7/world §bhelp'
         - '§7» §7/world §bimport §7<World> <WorldType>'
         - '§7» §7/world §binfo §7<World>'

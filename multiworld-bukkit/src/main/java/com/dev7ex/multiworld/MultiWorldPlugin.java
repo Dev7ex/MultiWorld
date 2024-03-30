@@ -4,14 +4,19 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.bukkit.plugin.ConfigurablePlugin;
 import com.dev7ex.common.bukkit.plugin.PluginIdentification;
 import com.dev7ex.common.bukkit.plugin.statistic.PluginStatisticProperties;
+import com.dev7ex.common.bukkit.util.UpdateChecker;
 import com.dev7ex.multiworld.api.MultiWorldApiProvider;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.expansion.MultiWorldExpansion;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.command.WorldCommand;
-import com.dev7ex.multiworld.listener.*;
+import com.dev7ex.multiworld.listener.entity.EntitySpawnListener;
+import com.dev7ex.multiworld.listener.player.PlayerAdvancementDoneListener;
+import com.dev7ex.multiworld.listener.player.PlayerConnectionListener;
+import com.dev7ex.multiworld.listener.player.PlayerDamagePlayerListener;
+import com.dev7ex.multiworld.listener.player.PlayerEnterPortalListener;
+import com.dev7ex.multiworld.listener.user.UserTeleportWorldListener;
 import com.dev7ex.multiworld.user.UserService;
-import com.dev7ex.multiworld.util.UpdateChecker;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
 import com.dev7ex.multiworld.world.DefaultWorldGeneratorProvider;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
@@ -90,6 +95,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         super.registerListener(new PlayerDamagePlayerListener(this));
         super.registerListener(new EntitySpawnListener(this));
         super.registerListener(new UserTeleportWorldListener(this));
+        super.registerListener(new PlayerAdvancementDoneListener(this));
     }
 
     @Override

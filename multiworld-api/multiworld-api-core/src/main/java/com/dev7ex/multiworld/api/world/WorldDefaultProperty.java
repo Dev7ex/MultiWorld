@@ -14,6 +14,7 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldDefaultProperty {
 
+    RECEIVE_ACHIEVEMENTS("receive-achievements", "settings.defaults.receive-achievements"),
     LOAD_AUTO("load-auto", "settings.defaults.load-auto"),
     DIFFICULTY("difficulty", "settings.defaults.difficulty"),
     GAME_MODE("game-mode", "settings.defaults.game-mode"),

@@ -161,6 +161,11 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED));
                 MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
                 break;
+
+            case RECEIVE_ACHIEVEMENTS:
+                this.write(worldHolder, property, this.defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
         }
     }
 

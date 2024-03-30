@@ -14,6 +14,7 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldProperty {
 
+    RECEIVE_ACHIEVEMENTS("receive-achievements", true),
     LOAD_AUTO("load-auto", true),
     CREATOR_NAME("creator-name", true),
     CREATION_TIMESTAMP("creation-timestamp", true),

@@ -38,7 +38,8 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_ACCESS_NETHER_WORLD_VIA_COMMAND("settings.access-nether-world-via-command", true, false),
         SETTINGS_ACCESS_END_WORLD_VIA_COMMAND("settings.access-end-world-via-command", true, false),
         SETTINGS_WORLD_LINK_ENABLED("settings.world-link-enabled", true, false),
-        
+
+        SETTINGS_DEFAULTS_RECEIVE_ACHIEVEMENTS("settings.defaults.receive-achievements", true, false),
         SETTINGS_DEFAULTS_LOAD_AUTO("settings.defaults.load-auto", "false", false),
         SETTINGS_DEFAULTS_NORMAL_WORLD("settings.defaults.normal-world", "world", false),
         SETTINGS_DEFAULTS_END_WORLD("settings.defaults.end-world", "world_the_end", false),

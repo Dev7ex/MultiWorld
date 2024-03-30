@@ -44,6 +44,7 @@ public class BukkitWorldHolder implements WorldHolder {
     private List<String> whitelist = new ArrayList<>();
     private boolean whitelistEnabled;
     private boolean autoLoaded = false;
+    private boolean receiveAchievements;
 
     public World getWorld() {
         return Bukkit.getWorld(this.name);
@@ -91,6 +92,10 @@ public class BukkitWorldHolder implements WorldHolder {
 
             case NETHER_PORTAL_ACCESSIBLE:
                 this.netherPortalAccessible = Boolean.parseBoolean(value);
+                break;
+
+            case RECEIVE_ACHIEVEMENTS:
+                this.receiveAchievements = Boolean.parseBoolean(value);
                 break;
 
             case WORLD_TYPE:

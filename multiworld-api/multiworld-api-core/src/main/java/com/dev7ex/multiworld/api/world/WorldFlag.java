@@ -15,6 +15,7 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldFlag {
 
+    RECEIVE_ACHIEVEMENTS("receive-achievements", List.of("false", "true")),
     LOAD_AUTO("load-auto", List.of("false", "true")),
     DIFFICULTY("difficulty", List.of("EASY", "HARD", "NORMAL", "PEACEFUL")),
     GAME_MODE("game-mode", List.of("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
