@@ -1,4 +1,4 @@
-package com.dev7ex.multiworld.listener;
+package com.dev7ex.multiworld.listener.player;
 
 import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.multiworld.MultiWorldPlugin;
@@ -55,7 +55,6 @@ public class PlayerConnectionListener extends MultiWorldListener {
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%current_version%", MultiWorldPlugin.getInstance().getDescription().getVersion())
                     .replaceAll("%new_version%", MultiWorldPlugin.getInstance().getUpdateChecker().getNewVersion()));
-            return;
         }
     }
 

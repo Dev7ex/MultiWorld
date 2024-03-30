@@ -1,4 +1,4 @@
-package com.dev7ex.multiworld.listener;
+package com.dev7ex.multiworld.listener.player;
 
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
