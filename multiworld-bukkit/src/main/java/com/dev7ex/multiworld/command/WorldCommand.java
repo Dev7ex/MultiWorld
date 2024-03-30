@@ -34,6 +34,7 @@ public final class WorldCommand extends BukkitCommand implements BukkitTabComple
         super.registerSubCommand(new CreateCommand(plugin));
         super.registerSubCommand(new DeleteCommand(plugin));
         super.registerSubCommand(new FlagCommand(plugin));
+        super.registerSubCommand(new GameRuleCommand(plugin));
         super.registerSubCommand(new HelpCommand(plugin));
         super.registerSubCommand(new ImportCommand(plugin));
         super.registerSubCommand(new InfoCommand(plugin));

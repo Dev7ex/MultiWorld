@@ -38,7 +38,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_ACCESS_NETHER_WORLD_VIA_COMMAND("settings.access-nether-world-via-command", true, false),
         SETTINGS_ACCESS_END_WORLD_VIA_COMMAND("settings.access-end-world-via-command", true, false),
         SETTINGS_WORLD_LINK_ENABLED("settings.world-link-enabled", true, false),
-
+        
         SETTINGS_DEFAULTS_LOAD_AUTO("settings.defaults.load-auto", "false", false),
         SETTINGS_DEFAULTS_NORMAL_WORLD("settings.defaults.normal-world", "world", false),
         SETTINGS_DEFAULTS_END_WORLD("settings.defaults.end-world", "world_the_end", false),
@@ -86,7 +86,12 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         MESSAGES_COMMANDS_FLAG_USAGE("messages.commands.flag.usage", "%prefix% §cUsage: /world flag <World> <Flag> <Value>", false),
         MESSAGES_COMMANDS_FLAG_NOT_EXISTING("messages.commands.flag.not-existing", "%prefix% §cThis flag does not exist", false),
         MESSAGES_COMMANDS_FLAG_VALUE_NOT_EXISTING("messages.commands.flag.value-not-existing", "%prefix% §cThis value does not exist for the flag §b%flag%", false),
-        MESSAGES_COMMANDS_FLAG_SUCCESSFULLY_SET("messages.commands.flag.successfully-set", "%prefix% §7The flag §b%flag% §7was set to §b%value% §7!", false),
+        MESSAGES_COMMANDS_FLAG_SUCCESSFULLY_SET("messages.commands.flag.successfully-set", "%prefix% §7The flag §b%flag% §7was set to §b%value%§7!", false),
+
+        MESSAGES_COMMANDS_GAMERULE_USAGE("messages.commands.gamerule.usage", "%prefix% §cUsage: /world flag <World> <Gamerule> <Value>", false),
+        MESSAGES_COMMANDS_GAMERULE_NOT_EXISTING("messages.commands.gamerule.not-existing", "%prefix% §cThis GameRule does not exist", false),
+        MESSAGES_COMMANDS_GAMERULE_VALUE_NOT_EXISTING("messages.commands.gamerule.value-not-existing", "%prefix% §cThis value does not exist for the GameRule §b%gamerule%", false),
+        MESSAGES_COMMANDS_GAMERULE_SUCCESSFULLY_SET("messages.commands.gamerule.successfully-set", "%prefix% §7The GameRule §b%gamerule% §7was set to §b%value%§7!", false),
 
         MESSAGES_COMMANDS_HELP_MESSAGE("messages.commands.help.message", "DELETE YOUR CONFIG.YML AND RELOAD", false),
 
