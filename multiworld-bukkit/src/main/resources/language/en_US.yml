@@ -34,7 +34,12 @@ messages:
       usage: '%prefix% §cUsage: /world flag <World> <Flag> <Value>'
       not-existing: '%prefix% §cThis flag does not exist'
       value-not-existing: '%prefix% §cThis value does not exist for the flag §b%flag%'
-      successfully-set: '%prefix% §7The flag §b%flag% §7was set to §b%value% §7!'
+      successfully-set: '%prefix% §7The flag §b%flag% §7was set to §b%value%§7!'
+    gamerule:
+      usage: '%prefix% §cUsage: /world flag <World> <Gamerule> <Value>'
+      not-existing: '%prefix% §cThis GameRule does not exist'
+      value-not-existing: '%prefix% §cThis value does not exist for the GameRule §b%gamerule%'
+      successfully-set: '%prefix% §7The GameRule §b%gamerule% §7was set to §b%value%§7!'
     help:
       message:
         - ''
@@ -46,11 +51,12 @@ messages:
         - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
         - '§7» §7/world §bdelete §7<World>'
         - '§7» §7/world §bflag §7<World> <Property> <Value>'
+        - '§7» §7/world §bgamerule §7<World> <GameRule> <Value>'
         - '§7» §7/world §bhelp'
         - '§7» §7/world §bimport §7<World> <WorldType>'
         - '§7» §7/world §binfo §7<World>'
         - '§7» §7/world §blist'
-        - '§7» §7/world §blink §7<World> <Nether | End> <World>'
+        - '§7» §7/world §blink §7<World> <Nether | End> <Welt>'
         - '§7» §7/world §bload §7<World>'
         - '§7» §7/world §breload'
         - '§7» §7/world §bteleport §7<Player> <World>'
@@ -72,6 +78,7 @@ messages:
         - ''
         - '§7» Creator: §b%world_creator_name%'
         - '§7» Created at: §b%creation_timestamp%'
+        - '§7» Load-Auto: §b%load_auto%'
         - '§7» Loaded: §b%loaded%'
         - '§7» WorldType: §b%world_type%'
         - '§7» Environment: §b%environment%'
@@ -80,6 +87,8 @@ messages:
         - '§7» Pvp: §b%pvp_enabled%'
         - '§7» Spawn-Monster: §b%spawn_monsters%'
         - '§7» Spawn-Animals: §b%spawn_animals%'
+        - '§7» End-Portal-Accessible: §b%end-portal-accessible%'
+        - '§7» Nether-Portal-Accessible: §b%nether-portal-accessible%'
         - '§7» Whitelist: §b%whitelist_enabled%'
         - ''
         - '§f§m               §r§r §b%world_name% §f§m               '
@@ -90,10 +99,10 @@ messages:
     link:
       usage: '%prefix% §cUsage: /world link <World> <End | Nether> <World>'
       environment-not-exists: '%prefix% §cThe specified environment does not exist!'
-      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name% §7'
+      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
-      world-already-loaded: '%prefix% §7The world §bworld_name% §7is already loaded!'
+      world-already-loaded: '%prefix% §7The world §b%world_name% §7is already loaded!'
       starting: '%prefix% §7The world §b%world_name% §7will loaded...'
       finished: '%prefix% §7The world §b%world_name% §7was successfully loaded!'
     reload:
@@ -117,8 +126,8 @@ messages:
     whitelist:
       usage: '%prefix% §cUsage: /world whitelist <World> <On | Off | Add | List | Remove> <Player>'
       add:
-        already-added: '%prefix% §The player %player_name% §7is already §7on the whitelist!'
-        successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name% §7'
+        already-added: '%prefix% §7The player %player_name% §7is already §7on the whitelist!'
+        successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name%'
       list:
         empty: '%prefix% §7The whitelist for world §b%world_name% §7is empty'
         message: '%prefix% §7Whitelist: %player_names%'
@@ -129,5 +138,5 @@ messages:
         already-enabled: '%prefix% §7The world whitelist §b%world_name% §7is already activated!'
         successfully-enabled: '%prefix% §7You have activated the whitelist in the world §b%world_name% §7!'
       remove:
-        already-removed: '%prefix% §7The player %player_name% §7is §not §7on the whitelist!'
+        already-removed: '%prefix% §7The player %player_name% §7is §cnot §7on the whitelist!'
         successfully-removed: '%prefix% §7You have %player_name% §7removed from the §b%world_name% §7whitelist'
