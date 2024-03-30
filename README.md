@@ -34,10 +34,12 @@ MultiWorld is a World Management plugin for Minecraft Server.
 * /world create <Name> <WorldType|Seed|Generator>                       [multiworld.command.world.create]
 * /world delete <World>                                                 [multiworld.command.world.delete]
 * /world flag <World> <Option> <Value>                                  [multiworld.command.world.flag]
+* /world gamerule <World> <Gamerule> <Value>                            [multiworld.command.world.gamerule]
 * /world help                                                           [multiworld.command.world]
 * /world import <Name> <WorldType>                                      [multiworld.command.world.import]
 * /world info <World>                                                   [multiworld.command.world.info]
 * /world list                                                           [multiworld.command.world.list]
+* /world link <World> <End | Nether> <World>                            [multiworld.command.world.link]
 * /world load <World>                                                   [multiworld.command.world.load]
 * /world reload                                                         [multiworld.command.world.reload]
 * /world teleport <Player> <World>                                      [multiworld.command.world.teleport]
@@ -48,12 +50,11 @@ MultiWorld is a World Management plugin for Minecraft Server.
 # Configuration
 
 ```
-#
-#      __  ___      ____  _ _       __           __    __
-#    /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
-#   / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
-#  / /  / / /_/ / / /_/ / | |/ |/ / /_/ / /  / / /_/ /
-# /_/  /_/\__,_/_/\__/_/  |__/|__/\____/_/  /_/\__,_/
+#     __  ___      ____  _ ____             __        __
+#    /  |/  /_  __/ / /_(_) __ \____  _____/ /_____ _/ /
+#   / /|_/ / / / / / __/ / /_/ / __ \/ ___/ __/ __ `/ /
+#  / /  / / /_/ / / /_/ / ____/ /_/ / /  / /_/ /_/ / /
+# /_/  /_/\__,_/_/\__/_/_/    \____/_/   \__/\__,_/_/
 #
 # Copyright (c) 2021 - 2024 by Dev7ex
 # Version: ${project.version}
@@ -71,18 +72,24 @@ settings:
   receive-update-message: true
   # Should the auto-game-mode per world work?
   auto-game-mode-enabled: true
+  # Should MultiWorld connect the worlds with each other via the registered data?
+  world-link-enabled: true
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
   access-end-world-via-command: true
   # Standard values for new worlds
   defaults:
     normal-world: world
+    end-world: world_the_end
+    nether-world: world_nether
     load-auto: false
     difficulty: PEACEFUL
     game-mode: SURVIVAL
     pvp-enabled: true
     spawn-animals: true
     spawn-monsters: true
+    spawn-entities: true
+    receive-achievements: true
     end-portal-accessible: true
     nether-portal-accessible: true
     whitelist-enabled: false
@@ -123,7 +130,12 @@ messages:
       usage: '%prefix% §cUsage: /world flag <World> <Flag> <Value>'
       not-existing: '%prefix% §cThis flag does not exist'
       value-not-existing: '%prefix% §cThis value does not exist for the flag §b%flag%'
-      successfully-set: '%prefix% §7The flag §b%flag% §7was set to §b%value% §7!'
+      successfully-set: '%prefix% §7The flag §b%flag% §7was set to §b%value%§7!'
+    gamerule:
+      usage: '%prefix% §cUsage: /world flag <World> <Gamerule> <Value>'
+      not-existing: '%prefix% §cThis GameRule does not exist'
+      value-not-existing: '%prefix% §cThis value does not exist for the GameRule §b%gamerule%'
+      successfully-set: '%prefix% §7The GameRule §b%gamerule% §7was set to §b%value%§7!'
     help:
       message:
         - ''
@@ -135,13 +147,15 @@ messages:
         - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
         - '§7» §7/world §bdelete §7<World>'
         - '§7» §7/world §bflag §7<World> <Property> <Value>'
+        - '§7» §7/world §bgamerule §7<World> <GameRule> <Value>'
         - '§7» §7/world §bhelp'
         - '§7» §7/world §bimport §7<World> <WorldType>'
         - '§7» §7/world §binfo §7<World>'
         - '§7» §7/world §blist'
+        - '§7» §7/world §blink §7<World> <Nether | End> <Welt>'
         - '§7» §7/world §bload §7<World>'
         - '§7» §7/world §breload'
-        - '§7» §7/world §bteleport §7<Player> <Welt>'
+        - '§7» §7/world §bteleport §7<Player> <World>'
         - '§7» §7/world §bunload §7<World>'
         - '§7» §7/world §bwhitelist §7<World> <Enable | Disable | Add | Remove | List> <Name>'
         - ''
@@ -178,6 +192,10 @@ messages:
     list:
       usage: '%prefix% §cUsage: /world list'
       message: '%prefix% §aWorlds: %world_names%'
+    link:
+      usage: '%prefix% §cUsage: /world link <World> <End | Nether> <World>'
+      environment-not-exists: '%prefix% §cThe specified environment does not exist!'
+      successfully-set: '%prefix% §7You have connected the portal of the environment §b%environment_name% §7in the world §b%world_name% §7with the world §b%target_world_name%'
     load:
       usage: '%prefix% §cUsage: /world load <Name>'
       world-already-loaded: '%prefix% §7The world §b%world_name% §7is already loaded!'
@@ -204,7 +222,7 @@ messages:
     whitelist:
       usage: '%prefix% §cUsage: /world whitelist <World> <On | Off | Add | List | Remove> <Player>'
       add:
-        already-added: '%prefix% §The player %player_name% §7is already §7on the whitelist!'
+        already-added: '%prefix% §7The player %player_name% §7is already §7on the whitelist!'
         successfully-added: '%prefix% §7You have added %player_name% §7to the whitelist of world §b%world_name%'
       list:
         empty: '%prefix% §7The whitelist for world §b%world_name% §7is empty'
@@ -216,7 +234,7 @@ messages:
         already-enabled: '%prefix% §7The world whitelist §b%world_name% §7is already activated!'
         successfully-enabled: '%prefix% §7You have activated the whitelist in the world §b%world_name% §7!'
       remove:
-        already-removed: '%prefix% §7The player %player_name% §7is §not §7on the whitelist!'
+        already-removed: '%prefix% §7The player %player_name% §7is §cnot §7on the whitelist!'
         successfully-removed: '%prefix% §7You have %player_name% §7removed from the §b%world_name% §7whitelist'
 ```
 
