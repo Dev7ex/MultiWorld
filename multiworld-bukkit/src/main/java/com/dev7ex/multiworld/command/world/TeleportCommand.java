@@ -156,10 +156,12 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
         if ((arguments.length < 2) || (arguments.length > 3)) {
             return Collections.emptyList();
         }
-        final List<String> completions = Lists.newArrayList(MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet());
+        final DefaultWorldProvider worldProvider = MultiWorldPlugin.getInstance().getWorldProvider();
+        final List<String> completions = Lists.newArrayList(worldProvider.getWorldHolders().keySet());
 
         if (arguments.length == 2) {
             if (commandSender instanceof Player player) {
+                completions.addAll(Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).toList());
                 completions.remove(player.getWorld().getName());
                 return completions;
 
@@ -169,6 +171,9 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
         }
 
         if (commandSender instanceof Player) {
+            if (!worldProvider.isRegistered(arguments[1])) {
+                return completions;
+            }
             return Collections.emptyList();
         }
         return completions;
