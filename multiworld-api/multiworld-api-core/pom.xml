@@ -22,21 +22,21 @@
         <dependency>
             <groupId>com.dev7ex</groupId>
             <artifactId>facilis-common-core</artifactId>
-            <version>${dependency.facilis-common-version}</version>
+            <version>${dependency.facilis.common.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${dependency.lombok-version}</version>
+            <version>${dependency.lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>${dependency.annotations-version}</version>
+            <version>${dependency.annotations.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
