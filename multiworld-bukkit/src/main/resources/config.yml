@@ -15,6 +15,8 @@ no-player-command: '%prefix% §cThis command can only performed by the console'
 no-player-found: '%prefix% §cThis player could not be found'
 
 settings:
+  # The time format in which information is displayed
+  time-format: dd.MM.yyyy HH:mm:ss
   # Should all players with the permission (multiworld.notify.update)
   # get a message when entering server
   receive-update-message: true
@@ -129,8 +131,13 @@ messages:
         - '§7» Difficulty: §b%difficulty%'
         - '§7» GameMode: §b%gamemode%'
         - '§7» Pvp: §b%pvp_enabled%'
+        - '§7» Receive-Achievements: §b%receive_achievements%'
         - '§7» Spawn-Monster: §b%spawn_monsters%'
         - '§7» Spawn-Animals: §b%spawn_animals%'
+        - '§7» Spawn-Entities: §b%spawn_entities%'
+        - '§7» Normal-World: §b%normal_world%'
+        - '§7» Nether-World: §b%nether_world%'
+        - '§7» End-World: §b%end_world%'
         - '§7» End-Portal-Accessible: §b%end-portal-accessible%'
         - '§7» Nether-Portal-Accessible: §b%nether-portal-accessible%'
         - '§7» Whitelist: §b%whitelist_enabled%'
