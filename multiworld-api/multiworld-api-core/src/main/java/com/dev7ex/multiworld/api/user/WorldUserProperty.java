@@ -13,7 +13,8 @@ public enum WorldUserProperty {
 
     UNIQUE_ID("unique-id"),
     NAME("name"),
-    LAST_LOCATION("last-location");
+    LAST_LOCATION("last-location"),
+    LAST_LOGIN("last-login");
 
     private final String storagePath;
 

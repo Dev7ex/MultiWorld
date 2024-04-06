@@ -9,9 +9,8 @@ import java.util.UUID;
 /**
  * @author Dev7ex
  * @since 18.06.2023
- *
+ * <p>
  * Represents a User
- *
  */
 public interface WorldUser {
 
@@ -27,6 +26,10 @@ public interface WorldUser {
     WorldLocation getLastLocation();
 
     void setLastLocation(@Nullable final WorldLocation location);
+
+    long getLastLogin();
+
+    void setLastLogin(final long lastLogin);
 
     void sendMessage(@NotNull final String message);
 

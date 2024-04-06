@@ -25,6 +25,7 @@ public class User implements WorldUser, EntityResolver<Player> {
     private final String name;
     private WorldUserConfiguration configuration;
     private WorldLocation lastLocation;
+    private long lastLogin;
 
     public User(@NotNull final UUID uniqueId, @NotNull final String name) {
         this.uniqueId = uniqueId;

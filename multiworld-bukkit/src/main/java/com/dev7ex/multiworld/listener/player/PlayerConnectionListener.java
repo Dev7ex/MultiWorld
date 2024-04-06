@@ -33,9 +33,10 @@ public class PlayerConnectionListener extends MultiWorldListener {
         final Player player = event.getPlayer();
         final WorldUser user = new User(player.getUniqueId(), player.getName());
         final WorldUserConfiguration userConfiguration = new UserConfiguration(user);
-        final ParsedMap<WorldUserProperty, Object> userData = userConfiguration.read(WorldUserProperty.LAST_LOCATION);
+        final ParsedMap<WorldUserProperty, Object> userData = userConfiguration.read();
 
         user.setLastLocation(userData.getValue(WorldUserProperty.LAST_LOCATION));
+        user.setLastLogin(userData.getLong(WorldUserProperty.LAST_LOGIN));
         user.setConfiguration(userConfiguration);
 
         super.getUserProvider().registerUser(user);

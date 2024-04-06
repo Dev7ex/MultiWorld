@@ -31,8 +31,9 @@ public class UserService implements PluginModule, WorldUserProvider {
         for (final Player player : Bukkit.getOnlinePlayers()) {
             final WorldUser user = new User(player.getUniqueId(), player.getName());
             final WorldUserConfiguration userConfiguration = new UserConfiguration(user);
-            final ParsedMap<WorldUserProperty, Object> userData = userConfiguration.read(WorldUserProperty.LAST_LOCATION);
+            final ParsedMap<WorldUserProperty, Object> userData = userConfiguration.read();
 
+            user.setLastLogin(userData.getLong(WorldUserProperty.LAST_LOGIN));
             user.setLastLocation(userData.getValue(WorldUserProperty.LAST_LOCATION));
             user.setConfiguration(userConfiguration);
 
@@ -72,7 +73,8 @@ public class UserService implements PluginModule, WorldUserProvider {
     public void saveUser(@NotNull final WorldUser user) {
         this.saveUser(user, WorldUserProperty.UNIQUE_ID,
                 WorldUserProperty.NAME,
-                WorldUserProperty.LAST_LOCATION);
+                WorldUserProperty.LAST_LOCATION,
+                WorldUserProperty.LAST_LOGIN);
     }
 
     @Override
@@ -91,6 +93,10 @@ public class UserService implements PluginModule, WorldUserProvider {
 
                 case LAST_LOCATION:
                     data.put(property, user.getLastLocation());
+                    break;
+
+                case LAST_LOGIN:
+                    data.put(property, user.getLastLogin());
                     break;
 
                 default:

@@ -36,6 +36,7 @@ public class UserConfiguration implements WorldUserConfiguration {
         this.fileConfiguration.addDefault(WorldUserProperty.UNIQUE_ID.getStoragePath(), user.getUniqueId().toString());
         this.fileConfiguration.addDefault(WorldUserProperty.NAME.getStoragePath(), user.getName());
         this.fileConfiguration.addDefault(WorldUserProperty.LAST_LOCATION.getStoragePath(), null);
+        this.fileConfiguration.addDefault(WorldUserProperty.LAST_LOGIN.getStoragePath(), System.currentTimeMillis());
         this.fileConfiguration.options().copyDefaults(true);
         this.saveFile();
     }
@@ -56,6 +57,10 @@ public class UserConfiguration implements WorldUserConfiguration {
 
                 case LAST_LOCATION:
                     userData.put(property, this.fileConfiguration.getSerializable(property.getStoragePath(), BukkitWorldLocation.class));
+                    break;
+
+                case LAST_LOGIN:
+                    userData.put(property, this.fileConfiguration.getLong(property.getStoragePath(), System.currentTimeMillis()));
                     break;
             }
         });
@@ -83,6 +88,10 @@ public class UserConfiguration implements WorldUserConfiguration {
                     userData.put(property, this.fileConfiguration.getSerializable(property.getStoragePath(), BukkitWorldLocation.class));
                     break;
 
+                case LAST_LOGIN:
+                    userData.put(property, this.fileConfiguration.getLong(property.getStoragePath()));
+                    break;
+
                 default:
                     break;
             }
@@ -104,6 +113,10 @@ public class UserConfiguration implements WorldUserConfiguration {
 
                 case LAST_LOCATION:
                     this.fileConfiguration.set(property.getStoragePath(), userData.get(property));
+                    break;
+
+                case LAST_LOGIN:
+                    this.fileConfiguration.set(property.getStoragePath(), userData.getLong(property));
                     break;
             }
         }
