@@ -50,6 +50,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.END_WORLD.getStoragePath(), worldHolder.getEndWorldName());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NETHER_WORLD.getStoragePath(), worldHolder.getNetherWorldName());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NORMAL_WORLD.getStoragePath(), worldHolder.getNormalWorldName());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.RECEIVE_ACHIEVEMENTS.getStoragePath(), worldHolder.isReceiveAchievements());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.WHITELIST.getStoragePath(), Collections.emptyList());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.WHITELIST_ENABLED.getStoragePath(), worldHolder.isWhitelistEnabled());
         super.saveFile();
@@ -176,7 +177,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
 
         for (final String property : super.getFileConfiguration().getSection(worldName).getKeys()) {
             if (WorldProperty.fromStoragePath(property).isPresent()) {
-               continue;
+                continue;
             }
             super.getFileConfiguration().set(worldName + "." + property, null);
         }
@@ -198,7 +199,13 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
     public void write(@NotNull final BukkitWorldHolder worldHolder, @NotNull final ParsedMap<WorldProperty, Object> worldData) {
         for (final WorldProperty property : worldData.keySet()) {
             switch (property) {
-                case CREATOR_NAME: case TYPE: case GAME_MODE: case DIFFICULTY: case END_WORLD: case NETHER_WORLD: case NORMAL_WORLD:
+                case CREATOR_NAME:
+                case TYPE:
+                case GAME_MODE:
+                case DIFFICULTY:
+                case END_WORLD:
+                case NETHER_WORLD:
+                case NORMAL_WORLD:
                     super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), worldData.getString(property));
                     break;
 
@@ -206,8 +213,15 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                     super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), worldData.getLong(property));
                     break;
 
-                case PVP_ENABLED: case SPAWN_ANIMALS: case SPAWN_MONSTERS: case SPAWN_ENTITIES:
-                    case WHITELIST_ENABLED: case END_PORTAL_ACCESSIBLE: case NETHER_PORTAL_ACCESSIBLE: case LOAD_AUTO:
+                case PVP_ENABLED:
+                case SPAWN_ANIMALS:
+                case SPAWN_MONSTERS:
+                case SPAWN_ENTITIES:
+                case WHITELIST_ENABLED:
+                case END_PORTAL_ACCESSIBLE:
+                case NETHER_PORTAL_ACCESSIBLE:
+                case LOAD_AUTO:
+                case RECEIVE_ACHIEVEMENTS:
                     super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), worldData.getBoolean(property));
                     break;
 
@@ -221,7 +235,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
 
     @Override
     public void write(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldProperty property, @NotNull final Object value) {
-        if (value instanceof Boolean booleanValue) {
+        if (value instanceof final Boolean booleanValue) {
             super.getFileConfiguration().set(worldHolder.getName() + "." + property.getStoragePath(), booleanValue);
 
         } else if ((value instanceof final String stringValue) && (stringValue.equalsIgnoreCase("true") || (stringValue.equalsIgnoreCase("false")))) {
@@ -251,6 +265,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 .setEndPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.END_PORTAL_ACCESSIBLE.getStoragePath(), true))
                 .setNetherPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.NETHER_PORTAL_ACCESSIBLE.getStoragePath(), true))
                 .setEndWorldName(super.getFileConfiguration().getString(name + "." + WorldProperty.END_WORLD.getStoragePath()))
+                .setReceiveAchievements(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.RECEIVE_ACHIEVEMENTS.getStoragePath()))
                 .setNetherWorldName(super.getFileConfiguration().getString(name + "." + WorldProperty.NETHER_WORLD.getStoragePath()))
                 .setNormalWorldName(super.getFileConfiguration().getString(name + "." + WorldProperty.NORMAL_WORLD.getStoragePath()))
                 .setWhitelist(super.getFileConfiguration().getStringList(name + "." + WorldProperty.WHITELIST.getStoragePath()))
