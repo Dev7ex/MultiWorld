@@ -11,7 +11,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Dev7ex
@@ -46,24 +46,44 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
         super.saveFile();
 
         super.getFileConfiguration().getSection("settings.defaults").getKeys()
-                .stream()
-                .forEach(entry -> this.defaultProperties.put(WorldDefaultProperty.valueOf(entry.replaceAll("-", "_").toUpperCase()), super.getFileConfiguration().get("settings.defaults." + entry)));
+                .forEach(entry -> this.defaultProperties.put(WorldDefaultProperty.valueOf(entry.replaceAll("-", "_").toUpperCase()),
+                        super.getFileConfiguration().get("settings.defaults." + entry)));
         super.saveFile();
     }
 
-    @Override @Deprecated
-    public List<String> getAutoLoadableWorlds() {
-        return super.getStringList("settings.auto-load");
+    @Override
+    public String getMessage(@NotNull final String path) {
+        return super.getString(path).replaceAll("%prefix%", this.getPrefix());
+    }
+
+    @Override
+    public SimpleDateFormat getTimeFormat() {
+        return new SimpleDateFormat(super.getFileConfiguration().getString(Entry.SETTINGS_TIME_FORMAT.getPath()));
+    }
+
+    @Override
+    public boolean isReceiveUpdateMessage() {
+        return super.getBoolean(Entry.SETTINGS_RECEIVE_UPDATE_MESSAGE.getPath());
     }
 
     @Override
     public boolean isAutoGameModeEnabled() {
-        return super.getBoolean("settings.auto-game-mode-enabled");
+        return super.getBoolean(Entry.SETTINGS_AUTO_GAME_MODE_ENABLED.getPath());
     }
 
     @Override
     public boolean isWorldLinkEnabled() {
-        return super.getBoolean("settings.world-link-enabled");
+        return super.getBoolean(Entry.SETTINGS_WORLD_LINK_ENABLED.getPath());
+    }
+
+    @Override
+    public boolean canNetherWorldAccessViaCommand() {
+        return super.getBoolean(Entry.SETTINGS_ACCESS_NETHER_WORLD_VIA_COMMAND.getPath());
+    }
+
+    @Override
+    public boolean canEndWorldAccessViaCommand() {
+        return super.getBoolean(Entry.SETTINGS_ACCESS_END_WORLD_VIA_COMMAND.getPath());
     }
 
 }

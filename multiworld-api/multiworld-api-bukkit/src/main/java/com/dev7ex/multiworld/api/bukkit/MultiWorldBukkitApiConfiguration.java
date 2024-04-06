@@ -32,6 +32,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         PLAYER_NOT_FOUND("player-not-found", "%prefix% §cThis player could not be found", true),
         ONLY_PLAYER_COMMAND("only-player-command", "%prefix% §cThis command can only performed by a player", true),
 
+        SETTINGS_TIME_FORMAT("settings.time-format", "dd.MM.yyyy HH:mm:ss", false),
         SETTINGS_AUTO_LOAD("settings.auto-load", Collections.emptyList(), true),
         SETTINGS_RECEIVE_UPDATE_MESSAGE("settings.receive-update-message", true, false),
         SETTINGS_AUTO_GAME_MODE_ENABLED("settings.auto-game-mode-enabled", true, false),

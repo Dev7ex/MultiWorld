@@ -4,6 +4,7 @@ import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -12,20 +13,29 @@ import java.util.List;
  */
 public interface MultiWorldApiConfiguration {
 
+    String getString(@NotNull final String path);
+
+    boolean getBoolean(@NotNull final String path);
+
+    int getInteger(@NotNull final String path);
+
+    String getMessage(@NotNull final String path);
+
     String getPrefix();
 
-    ParsedMap<WorldDefaultProperty, Object> getDefaultProperties();
+    SimpleDateFormat getTimeFormat();
 
-    @Deprecated
-    List<String> getAutoLoadableWorlds();
+    boolean isReceiveUpdateMessage();
 
     boolean isAutoGameModeEnabled();
 
     boolean isWorldLinkEnabled();
 
-    String getString(@NotNull final String path);
+    boolean canNetherWorldAccessViaCommand();
 
-    boolean getBoolean(@NotNull final String path);
+    boolean canEndWorldAccessViaCommand();
+
+    ParsedMap<WorldDefaultProperty, Object> getDefaultProperties();
 
     List<String> getStringList(@NotNull final String path);
 

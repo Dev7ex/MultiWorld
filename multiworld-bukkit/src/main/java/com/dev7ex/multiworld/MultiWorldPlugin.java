@@ -41,6 +41,8 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     private MultiWorldConfiguration configuration;
     private DefaultWorldConfiguration worldConfiguration;
 
+    private final WorldCommand worldCommand = new WorldCommand(this);
+
     private DefaultWorldManager worldManager;
 
     private DefaultWorldProvider worldProvider;
@@ -70,7 +72,8 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
         this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration);
 
-        this.updateChecker.getVersion(updateAvailable -> {});
+        this.updateChecker.getVersion(updateAvailable -> {
+        });
 
         if (super.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new MultiWorldExpansion(this).register();
@@ -85,7 +88,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
     @Override
     public void registerCommands() {
-        super.registerCommand(new WorldCommand(this));
+        super.registerCommand(this.worldCommand);
     }
 
     @Override

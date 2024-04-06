@@ -1,5 +1,6 @@
 package com.dev7ex.multiworld.api.bukkit;
 
+import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldConfiguration;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldGeneratorProvider;
@@ -28,4 +29,7 @@ public interface MultiWorldBukkitApi extends MultiWorldApi {
     @Override
     @NotNull
     BukkitWorldManager getWorldManager();
+
+    BukkitCommand getWorldCommand();
+
 }
