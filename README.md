@@ -50,7 +50,6 @@ MultiWorld is a World Management plugin for Minecraft Server.
 # Configuration
 
 ```
-#
 #      __  ___      ____  _ _       __           __    __
 #    /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
 #   / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
@@ -69,7 +68,7 @@ no-player-found: '%prefix% §cThis player could not be found'
 
 settings:
   # The time format in which information is displayed
-  time-format: dd.MM.yyyy-HH:mm:ss
+  time-format: dd.MM.yyyy HH:mm:ss
   # Should all players with the permission (multiworld.notify.update)
   # get a message when entering server
   receive-update-message: true
@@ -113,23 +112,7 @@ messages:
       world-not-exists: '%prefix% §cThere is no world you can go!'
       sender-already-there: '%prefix% §cYou are already in the world §b%world_name%'
     backup:
-      usage: '%prefix% §cUsage: /world backup §7<Create | Delete | List | Load> <World>'
-      create:
-        usage:
-      delete:
-        usage:
-      list:
-        usage: '%prefix% §cUsage: /world backup list <World>'
-        message:
-          - ''
-          - '§f§m                    §r§r %world_name% §f§m                    '
-          - ''
-          - '%world-backup-entries%'
-          - ''
-          - '§f§m                    §r§r %world_name% §f§m                    '
-          - ''
-      load:
-
+      usage: '%prefix% §cUsage: /world backup <World>'
       starting: '%prefix% §7A backup of the world §b%world_name% is created...'
       finished: '%prefix% §7The backup of the world §b%world_name% §7has been successfully created!'
     clone:
@@ -155,22 +138,18 @@ messages:
       not-existing: '%prefix% §cThis GameRule does not exist'
       value-not-existing: '%prefix% §cThis value does not exist for the GameRule §b%gamerule%'
       successfully-set: '%prefix% §7The GameRule §b%gamerule% §7was set to §b%value%§7!'
-    gui:
-      not-available: '%prefix% §cYou have not installed the add-on for this function.
-       On SpigotMC you can find all available addons for MultiWorld'
     help:
       message:
         - ''
         - '§f§m                    §r§r %prefix% §f§m                    '
         - ''
         - '§7» §7/world §bback'
-        - '§7» §7/world §bbackup §7<Create | Delete | List | Load> <World>'
+        - '§7» §7/world §bbackup §7<World>'
         - '§7» §7/world §bclone §7<World> <Name>'
         - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
         - '§7» §7/world §bdelete §7<World>'
         - '§7» §7/world §bflag §7<World> <Property> <Value>'
         - '§7» §7/world §bgamerule §7<World> <GameRule> <Value>'
-        - '§7» §7/world §bgui'
         - '§7» §7/world §bhelp'
         - '§7» §7/world §bimport §7<World> <WorldType>'
         - '§7» §7/world §binfo §7<World>'
