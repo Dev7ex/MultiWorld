@@ -11,13 +11,13 @@
 
 MultiWorld is a World Management plugin for Minecraft Server.
 
-* This plugin is almost 100% adjustable
-* PVP is adjustable for each world
-* GameMode setting for each world. When you change the world your game mode will be changed automatically (Deactivatable)
-* Custom Generator Support. If you want to use another plugin to generate worlds then MultiWorld will detect this and add it to the create command
-* Each world has its own whitelist. You don't want Dev7ex to enter your world to destroy your buildings? Then activate the whitelist and add only trusted people to it. (Deactivatable)
-* It is possible to disable access to the Nether or End with the Teleport command
-* It is also possible to disable the portals completely
+- This plugin is highly customizable.
+- PVP settings can be adjusted for each world individually.
+- GameMode settings for each world. Automatically changes your game mode upon entering a world (can be deactivated).
+- Custom Generator Support. Detects and integrates with other world generation plugins.
+- Each world has its own whitelist, allowing you to control access.
+- Disable access to the Nether or End with the Teleport command.
+- Option to completely disable portals.
 
 ## Links
 
