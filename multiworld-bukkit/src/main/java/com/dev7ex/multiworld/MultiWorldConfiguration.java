@@ -60,7 +60,6 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
         super.getFileConfiguration().getSection("settings.defaults").getKeys()
                 .forEach(entry -> this.defaultProperties.put(WorldDefaultProperty.valueOf(entry.replaceAll("-", "_").toUpperCase()),
                         super.getFileConfiguration().get("settings.defaults." + entry)));
-        super.saveFile();
     }
 
     @Override
