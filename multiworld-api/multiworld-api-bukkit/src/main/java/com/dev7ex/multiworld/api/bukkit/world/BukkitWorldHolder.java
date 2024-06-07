@@ -1,8 +1,10 @@
 package com.dev7ex.multiworld.api.bukkit.world;
 
+import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.api.world.WorldFlag;
 import com.dev7ex.multiworld.api.world.WorldHolder;
 import com.dev7ex.multiworld.api.world.WorldType;
+import com.dev7ex.multiworld.api.world.location.WorldLocation;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,6 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Represents a holder for Bukkit worlds in a multi-world environment.
+ * Implements WorldHolder interface.
+ * This class provides properties and methods for managing Bukkit worlds.
+ *
  * @author Dev7ex
  * @since 29.05.2023
  */
@@ -43,13 +49,29 @@ public class BukkitWorldHolder implements WorldHolder {
     private String normalWorldName;
     private List<String> whitelist = new ArrayList<>();
     private boolean whitelistEnabled;
-    private boolean autoLoaded = false;
+    private boolean autoLoadEnabled = false;
     private boolean receiveAchievements;
 
+    /**
+     * Gets the Bukkit world associated with this world holder.
+     *
+     * @return The Bukkit world, or null if not found.
+     */
     public World getWorld() {
         return Bukkit.getWorld(this.name);
     }
 
+    @Override
+    public WorldLocation getSpawnLocation() {
+        return BukkitWorldLocation.of(this.getWorld().getSpawnLocation());
+    }
+
+    /**
+     * Updates the value of the specified world flag.
+     *
+     * @param flag  The world flag to update.
+     * @param value The new value for the flag.
+     */
     @Override
     public void updateFlag(@NotNull final WorldFlag flag, @NotNull final String value) {
         switch (flag) {

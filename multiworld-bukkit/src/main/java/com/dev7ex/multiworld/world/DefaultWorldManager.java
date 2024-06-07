@@ -2,7 +2,7 @@ package com.dev7ex.multiworld.world;
 
 import com.dev7ex.common.bukkit.BukkitCommon;
 import com.dev7ex.common.collect.map.ParsedMap;
-import com.dev7ex.common.io.Files;
+import com.dev7ex.common.io.file.Files;
 import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldCloneEvent;
@@ -11,9 +11,9 @@ import com.dev7ex.multiworld.api.bukkit.event.world.WorldDeleteEvent;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldManager;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
-import com.dev7ex.multiworld.api.bukkit.world.generator.FlatWorldGenerator;
-import com.dev7ex.multiworld.api.bukkit.world.generator.VoidWorldGenerator;
-import com.dev7ex.multiworld.api.bukkit.world.generator.WaterWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.FlatWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.VoidWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.WaterWorldGenerator;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
 import com.dev7ex.multiworld.api.world.WorldType;
 import lombok.AccessLevel;
@@ -30,6 +30,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
+ * Manages world creation, deletion, cloning, and backup operations.
+ * This class implements the BukkitWorldManager interface.
+ *
  * @author Dev7ex
  * @since 18.06.2023
  */
@@ -39,12 +42,25 @@ public class DefaultWorldManager implements BukkitWorldManager {
     private final DefaultWorldConfiguration configuration;
     private final MultiWorldConfiguration pluginConfiguration;
 
+    /**
+     * Constructs a DefaultWorldManager with the specified configurations.
+     *
+     * @param configuration      The world configuration to use.
+     * @param pluginConfiguration The plugin configuration to use.
+     */
     public DefaultWorldManager(@NotNull final DefaultWorldConfiguration configuration,
                                @NotNull final MultiWorldConfiguration pluginConfiguration) {
         this.configuration = configuration;
         this.pluginConfiguration = pluginConfiguration;
     }
 
+    /**
+     * Clones an existing world to create a new one.
+     *
+     * @param creatorName The name of the creator initiating the operation.
+     * @param name        The name of the world to clone.
+     * @param clonedName  The name of the new cloned world.
+     */
     @Override
     public void cloneWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final String clonedName) {
         final File sourceFolder = new File(Bukkit.getWorldContainer(), name);
@@ -89,6 +105,12 @@ public class DefaultWorldManager implements BukkitWorldManager {
         }
     }
 
+    /**
+     * Creates a backup of the specified world.
+     *
+     * @param creatorName The name of the creator initiating the backup.
+     * @param name        The name of the world to backup.
+     */
     @Override
     public void createBackup(@NotNull final String creatorName, @NotNull final String name) {
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
@@ -179,6 +201,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
+                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
                 .setWhitelist(new ArrayList<>())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();

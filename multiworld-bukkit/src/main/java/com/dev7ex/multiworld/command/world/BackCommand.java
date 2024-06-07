@@ -5,8 +5,8 @@ import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserTeleportWorldEvent;
+import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
-import com.dev7ex.multiworld.api.user.WorldUser;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -38,7 +38,7 @@ public class BackCommand extends BukkitCommand {
             return;
         }
         final Player player = (Player) commandSender;
-        final WorldUser user = MultiWorldPlugin.getInstance().getUserProvider().getUser(player.getUniqueId()).orElseThrow();
+        final BukkitWorldUser user = MultiWorldPlugin.getInstance().getUserProvider().getUser(player.getUniqueId()).orElseThrow();
 
         if (user.getLastLocation() == null) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.commands.back.world-not-exists")

@@ -4,6 +4,7 @@ import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Dev7ex
@@ -17,7 +18,7 @@ public final class HelpCommand extends BukkitCommand {
     }
 
     @Override
-    public void execute(final CommandSender commandSender, final String[] arguments) {
+    public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         super.getConfiguration().getStringList("messages.commands.help.message").forEach(message -> {
             commandSender.sendMessage(message.replaceAll("%prefix%", super.getConfiguration().getPrefix()));
         });

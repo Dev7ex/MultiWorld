@@ -11,6 +11,9 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 /**
+ * Represents an event triggered when a game rule is changed in a world.
+ * This event can be cancelled.
+ *
  * @author Dev7ex
  * @since 29.03.2024
  */
@@ -23,13 +26,25 @@ public class WorldGameRuleChangeEvent extends WorldEvent implements Cancellable 
     private GameRule<?> gameRule;
     private String value;
 
+    /**
+     * Constructs a new WorldGameRuleChangeEvent.
+     *
+     * @param worldHolder   The BukkitWorldHolder associated with the event.
+     * @param commandSender The command sender related to the event.
+     * @param gameRule      The game rule that was changed.
+     * @param value         The new value of the game rule.
+     */
     public WorldGameRuleChangeEvent(@NotNull final BukkitWorldHolder worldHolder, @NotNull final CommandSender commandSender, @NotNull final GameRule<?> gameRule, @NotNull final String value) {
         super(worldHolder, commandSender);
         this.gameRule = gameRule;
         this.value = value;
     }
 
-
+    /**
+     * Returns the handler list.
+     *
+     * @return The handler list.
+     */
     public static HandlerList getHandlerList() {
         return WorldGameRuleChangeEvent.HANDLERS;
     }

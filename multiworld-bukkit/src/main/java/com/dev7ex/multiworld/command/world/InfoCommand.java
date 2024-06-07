@@ -52,7 +52,7 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
                     .replaceAll("%world_name%", worldHolder.getName())
                     .replaceAll("%world_creator_name%", worldHolder.getCreatorName())
                     .replaceAll("%creation_timestamp%", configuration.getTimeFormat().format(new Date(worldHolder.getCreationTimeStamp())))
-                    .replaceAll("%load_auto%", String.valueOf(worldHolder.isAutoLoaded()))
+                    .replaceAll("%load_auto%", String.valueOf(worldHolder.isAutoLoadEnabled()))
                     .replaceAll("%loaded%", (worldHolder.isLoaded() ? "true" : "false"))
                     .replaceAll("%world_type%", worldHolder.getType().toString())
                     .replaceAll("%environment%", WorldEnvironment.fromType(worldHolder.getType()).name())

@@ -4,7 +4,7 @@ import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
-import com.dev7ex.common.io.Files;
+import com.dev7ex.common.io.file.Files;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.world.WorldType;
 import com.google.common.collect.Lists;

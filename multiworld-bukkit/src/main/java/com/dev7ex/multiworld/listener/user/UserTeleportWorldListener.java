@@ -13,17 +13,26 @@ import org.bukkit.event.EventPriority;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * @author Dev7ex
- * @since 29.06.2023
+ * Listens for events related to user teleportation between worlds.
  */
 public class UserTeleportWorldListener extends MultiWorldListener {
 
+    /**
+     * Constructs a new UserTeleportWorldListener.
+     *
+     * @param multiWorldApi The MultiWorldBukkitApi instance.
+     */
     public UserTeleportWorldListener(@NotNull final MultiWorldBukkitApi multiWorldApi) {
         super(multiWorldApi);
     }
 
+    /**
+     * Handles user game mode change upon world teleportation.
+     *
+     * @param event The WorldUserTeleportWorldEvent.
+     */
     @EventHandler(priority = EventPriority.NORMAL)
-    public void handleUserGameModeChange(final WorldUserTeleportWorldEvent event) {
+    public void onUserGameModeChange(final WorldUserTeleportWorldEvent event) {
         if (!super.getConfiguration().isAutoGameModeEnabled()) {
             return;
         }
@@ -32,6 +41,11 @@ public class UserTeleportWorldListener extends MultiWorldListener {
         player.setGameMode(event.getNextWorldHolder().getGameMode());
     }
 
+    /**
+     * Handles user entering a world upon teleportation.
+     *
+     * @param event The WorldUserTeleportWorldEvent.
+     */
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleUserEnterWorld(final WorldUserTeleportWorldEvent event) {
         final WorldUser user = event.getUser();
@@ -57,5 +71,4 @@ public class UserTeleportWorldListener extends MultiWorldListener {
                 .replaceAll("%world_name%", nextWorldHolder.getName()));
         event.setCancelled(true);
     }
-
 }

@@ -1,10 +1,5 @@
 package com.dev7ex.multiworld.command;
 
-/**
- * @author Dev7ex
- * @since 18.06.2023
- */
-
 import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
@@ -19,12 +14,21 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Command handler for various world-related subcommands.
+ * Handles subcommands like back, backup, clone, etc.
+ * Provides tab completion for subcommands.
+ *
  * @author Dev7ex
  * @since 19.05.2021
  */
 @BukkitCommandProperties(name = "world", permission = "multiworld.command.world")
 public final class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
 
+    /**
+     * Constructs a WorldCommand with the given MultiWorldPlugin instance.
+     *
+     * @param plugin The MultiWorldPlugin instance.
+     */
     public WorldCommand(final MultiWorldPlugin plugin) {
         super(plugin);
 
@@ -49,6 +53,7 @@ public final class WorldCommand extends BukkitCommand implements BukkitTabComple
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        // Handling command execution
         if ((arguments.length == 0) || (arguments.length > 4)) {
             Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
             return;

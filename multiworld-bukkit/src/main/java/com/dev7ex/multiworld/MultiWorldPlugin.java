@@ -10,17 +10,17 @@ import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.expansion.MultiWorldExpansion;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.command.WorldCommand;
+import com.dev7ex.multiworld.listener.entity.EntityPortalListener;
 import com.dev7ex.multiworld.listener.entity.EntitySpawnListener;
 import com.dev7ex.multiworld.listener.player.PlayerAdvancementDoneListener;
 import com.dev7ex.multiworld.listener.player.PlayerConnectionListener;
 import com.dev7ex.multiworld.listener.player.PlayerDamagePlayerListener;
-import com.dev7ex.multiworld.listener.player.PlayerEnterPortalListener;
 import com.dev7ex.multiworld.listener.user.UserTeleportWorldListener;
-import com.dev7ex.multiworld.user.UserService;
+import com.dev7ex.multiworld.user.UserProvider;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
-import com.dev7ex.multiworld.world.DefaultWorldGeneratorProvider;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
 import com.dev7ex.multiworld.world.DefaultWorldProvider;
+import com.dev7ex.multiworld.world.generator.DefaultWorldGeneratorProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -30,6 +30,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 
 /**
+ * The main plugin class for MultiWorld.
+ *
  * @author Dev7ex
  * @since 19.05.2021
  */
@@ -46,7 +48,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     private DefaultWorldManager worldManager;
 
     private DefaultWorldProvider worldProvider;
-    private UserService userProvider;
+    private UserProvider userProvider;
     private DefaultWorldGeneratorProvider worldGeneratorProvider;
 
     private final UpdateChecker updateChecker = new UpdateChecker(this);
@@ -72,8 +74,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
         this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration);
 
-        this.updateChecker.getVersion(updateAvailable -> {
-        });
+        this.updateChecker.getVersion(updateAvailable -> {});
 
         if (super.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new MultiWorldExpansion(this).register();
@@ -93,8 +94,8 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
     @Override
     public void registerListeners() {
+        super.registerListener(new EntityPortalListener(this));
         super.registerListener(new PlayerConnectionListener(this));
-        super.registerListener(new PlayerEnterPortalListener(this));
         super.registerListener(new PlayerDamagePlayerListener(this));
         super.registerListener(new EntitySpawnListener(this));
         super.registerListener(new UserTeleportWorldListener(this));
@@ -104,7 +105,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     @Override
     public void registerModules() {
         super.registerModule(this.worldProvider = new DefaultWorldProvider(this.worldManager, this.worldConfiguration));
-        super.registerModule(this.userProvider = new UserService());
+        super.registerModule(this.userProvider = new UserProvider());
         super.registerModule(this.worldGeneratorProvider = new DefaultWorldGeneratorProvider());
     }
 
@@ -118,6 +119,11 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         return super.getSubFolder("user");
     }
 
+    /**
+     * Gets the instance of MultiWorldPlugin.
+     *
+     * @return The instance of MultiWorldPlugin.
+     */
     public static MultiWorldPlugin getInstance() {
         return JavaPlugin.getPlugin(MultiWorldPlugin.class);
     }

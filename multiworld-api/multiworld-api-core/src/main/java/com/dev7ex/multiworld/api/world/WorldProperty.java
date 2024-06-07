@@ -8,28 +8,32 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
+ * Represents properties associated with a world.
+ * Each property has a storage path and can be modifiable.
+ * Provides methods to retrieve properties based on their storage path.
+ *
  * @author Dev7ex
  * @since 18.06.2023
  */
 @Getter(AccessLevel.PUBLIC)
 public enum WorldProperty {
 
-    RECEIVE_ACHIEVEMENTS("receive-achievements", true),
-    LOAD_AUTO("load-auto", true),
-    CREATOR_NAME("creator-name", true),
     CREATION_TIMESTAMP("creation-timestamp", true),
-    TYPE("type", true),
-    GAME_MODE("game-mode", true),
+    CREATOR_NAME("creator-name", true),
     DIFFICULTY("difficulty", true),
-    PVP_ENABLED("pvp-enabled", true),
-    SPAWN_ANIMALS("spawn-animals", true),
-    SPAWN_MONSTERS("spawn-monsters", true),
-    SPAWN_ENTITIES("spawn-entities", true),
     END_PORTAL_ACCESSIBLE("end-portal-accessible", true),
-    NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", true),
     END_WORLD("end-world", true),
-    NETHER_WORLD("nether-world", true),
+    GAME_MODE("game-mode", true),
+    LOAD_AUTO("load-auto", true),
     NORMAL_WORLD("normal-world", true),
+    NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", true),
+    NETHER_WORLD("nether-world", true),
+    PVP_ENABLED("pvp-enabled", true),
+    RECEIVE_ACHIEVEMENTS("receive-achievements", true),
+    SPAWN_ANIMALS("spawn-animals", true),
+    SPAWN_ENTITIES("spawn-entities", true),
+    SPAWN_MONSTERS("spawn-monsters", true),
+    TYPE("type", true),
     WHITELIST("whitelist", true),
     WHITELIST_ENABLED("whitelist-enabled", true);
 
@@ -41,8 +45,16 @@ public enum WorldProperty {
         this.modifiable = modifiable;
     }
 
+    /**
+     * Retrieves a WorldProperty enum constant based on its storage path.
+     *
+     * @param storagePath The storage path of the property.
+     * @return An Optional containing the matching WorldProperty, or empty if not found.
+     */
     public static Optional<WorldProperty> fromStoragePath(@NotNull final String storagePath) {
-        return Arrays.stream(WorldProperty.values()).filter(property -> property.getStoragePath().equalsIgnoreCase(storagePath)).findFirst();
+        return Arrays.stream(WorldProperty.values())
+                .filter(property -> property.getStoragePath().equalsIgnoreCase(storagePath))
+                .findFirst();
     }
 
 }

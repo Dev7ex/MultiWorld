@@ -1,3 +1,8 @@
+/**
+ * Manages the default configuration for Bukkit worlds.
+ * This class handles adding, removing, and checking properties for Bukkit worlds.
+ * It also provides methods to retrieve and manipulate world properties.
+ */
 package com.dev7ex.multiworld.world;
 
 import com.dev7ex.common.collect.map.ParsedMap;
@@ -7,10 +12,7 @@ import com.dev7ex.common.io.file.configuration.YamlConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldConfiguration;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
-import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
-import com.dev7ex.multiworld.api.world.WorldFlag;
-import com.dev7ex.multiworld.api.world.WorldProperty;
-import com.dev7ex.multiworld.api.world.WorldType;
+import com.dev7ex.multiworld.api.world.*;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.jetbrains.annotations.NotNull;
@@ -20,20 +22,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Dev7ex
- * @since 18.06.2023
+ * Manages the default configuration for Bukkit worlds.
+ * This class handles adding, removing, and checking properties for Bukkit worlds.
+ * It also provides methods to retrieve and manipulate world properties.
  */
 @ConfigurationProperties(fileName = "world.yml", provider = YamlConfiguration.class)
 public class DefaultWorldConfiguration extends Configuration implements BukkitWorldConfiguration {
 
+    /**
+     * The default properties for worlds.
+     */
     private final ParsedMap<WorldDefaultProperty, Object> defaultProperties;
 
+    /**
+     * Constructs a new DefaultWorldConfiguration.
+     *
+     * @param plugin The MultiWorldPlugin instance.
+     */
     public DefaultWorldConfiguration(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
 
         this.defaultProperties = plugin.getConfiguration().getDefaultProperties();
     }
 
+    /**
+     * Adds a BukkitWorldHolder to the configuration.
+     *
+     * @param worldHolder The BukkitWorldHolder to add.
+     */
     @Override
     public void add(@NotNull final BukkitWorldHolder worldHolder) {
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.CREATOR_NAME.getStoragePath(), worldHolder.getCreatorName());
@@ -56,22 +72,57 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
         super.saveFile();
     }
 
+    /**
+     * Removes a BukkitWorldHolder from the configuration.
+     *
+     * @param worldHolder The BukkitWorldHolder to remove.
+     */
     @Override
     public void remove(@NotNull final BukkitWorldHolder worldHolder) {
         this.remove(worldHolder.getName());
     }
 
+    /**
+     * Removes a BukkitWorldHolder from the configuration by name.
+     *
+     * @param name The name of the BukkitWorldHolder to remove.
+     */
     @Override
     public void remove(@NotNull final String name) {
         super.getFileConfiguration().set(name, null);
         super.saveFile();
     }
 
+    /**
+     * Checks if the configuration contains a world with the given name.
+     *
+     * @param name The name of the world to check for.
+     * @return True if the world exists in the configuration, false otherwise.
+     */
     @Override
     public boolean contains(@NotNull final String name) {
         return super.getFileConfiguration().contains(name);
     }
 
+    /**
+     * Retrieves the value of a specific property for a world.
+     *
+     * @param worldHolder The WorldHolder containing the property.
+     * @param property    The property to retrieve.
+     * @return The value of the specified property.
+     */
+    @Override
+    public Object getValue(@NotNull final WorldHolder worldHolder, @NotNull final WorldProperty property) {
+        return super.getFileConfiguration().get(worldHolder.getName() + "." + property.getStoragePath());
+    }
+
+    /**
+     * Checks if a world has a specific property.
+     *
+     * @param name     The name of the world.
+     * @param property The property to check for.
+     * @return True if the world has the specified property, false otherwise.
+     */
     @Override
     public boolean hasProperty(@NotNull final String name, @NotNull final WorldProperty property) {
         return super.getFileConfiguration().contains(name + "." + property.getStoragePath());
@@ -254,7 +305,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 .setName(name)
                 .setCreatorName(super.getFileConfiguration().getString(name + "." + WorldProperty.CREATOR_NAME.getStoragePath()))
                 .setCreationTimeStamp(super.getFileConfiguration().getLong(name + "." + WorldProperty.CREATION_TIMESTAMP.getStoragePath()))
-                .setAutoLoaded(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.LOAD_AUTO.getStoragePath(), false))
+                .setAutoLoadEnabled(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.LOAD_AUTO.getStoragePath(), false))
                 .setType(WorldType.fromString(super.getFileConfiguration().getString(name + "." + WorldProperty.TYPE.getStoragePath())).orElseThrow())
                 .setGameMode(GameMode.valueOf(super.getFileConfiguration().getString(name + "." + WorldProperty.GAME_MODE.getStoragePath())))
                 .setDifficulty(Difficulty.valueOf(super.getFileConfiguration().getString(name + "." + WorldProperty.DIFFICULTY.getStoragePath())))

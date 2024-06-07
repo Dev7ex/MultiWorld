@@ -2,9 +2,9 @@ package com.dev7ex.multiworld.user;
 
 import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
+import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUserConfiguration;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
-import com.dev7ex.multiworld.api.user.WorldUser;
-import com.dev7ex.multiworld.api.user.WorldUserConfiguration;
 import com.dev7ex.multiworld.api.user.WorldUserProperty;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,13 +19,13 @@ import java.util.UUID;
  * @author Dev7ex
  * @since 18.06.2023
  */
-public class UserConfiguration implements WorldUserConfiguration {
+public class UserConfiguration implements BukkitWorldUserConfiguration {
 
     private final File configurationFile;
     private final YamlConfiguration fileConfiguration;
 
     @SneakyThrows
-    public UserConfiguration(@NotNull final WorldUser user) {
+    public UserConfiguration(@NotNull final BukkitWorldUser user) {
         this.configurationFile = new File(MultiWorldPlugin.getInstance().getSubFolder("user")
                 + File.separator + user.getUniqueId().toString() + ".yml");
 
@@ -38,7 +38,7 @@ public class UserConfiguration implements WorldUserConfiguration {
         this.fileConfiguration.addDefault(WorldUserProperty.LAST_LOCATION.getStoragePath(), null);
         this.fileConfiguration.addDefault(WorldUserProperty.LAST_LOGIN.getStoragePath(), System.currentTimeMillis());
         this.fileConfiguration.options().copyDefaults(true);
-        this.saveFile();
+        this.save();
     }
 
     @Override
@@ -120,12 +120,12 @@ public class UserConfiguration implements WorldUserConfiguration {
                     break;
             }
         }
-        this.saveFile();
+        this.save();
     }
 
     @Override
     @SneakyThrows
-    public void saveFile() {
+    public void save() {
         this.fileConfiguration.save(this.configurationFile);
     }
 

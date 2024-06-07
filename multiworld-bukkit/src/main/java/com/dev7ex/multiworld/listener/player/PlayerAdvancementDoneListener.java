@@ -13,35 +13,49 @@ import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * @author Dev7ex
+ * Listener for player advancements.
+ * This listener handles the event when a player completes an advancement.
+ * It revokes the advancement if the world settings specify that achievements should not be received.
+ *
  * @since 29.03.2024
  */
 public class PlayerAdvancementDoneListener extends MultiWorldListener {
 
+    /**
+     * Constructs a new PlayerAdvancementDoneListener.
+     *
+     * @param multiWorldApi The MultiWorldBukkitApi instance.
+     */
     public PlayerAdvancementDoneListener(@NotNull final MultiWorldBukkitApi multiWorldApi) {
         super(multiWorldApi);
     }
 
+    /**
+     * Handles the PlayerAdvancementDoneEvent.
+     * If the world does not allow receiving achievements, the completed advancement is revoked.
+     *
+     * @param event The PlayerAdvancementDoneEvent.
+     */
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerAdvancementDone(final PlayerAdvancementDoneEvent event) {
         final Player player = event.getPlayer();
         final World world = player.getWorld();
 
-        if (super.getWorldProvider().getWorldHolder(world.getName()).isEmpty()) {
-            return;
-        }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(world.getName()).get();
+        // Get the world holder for the current world
+        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(world.getName()).orElse(null);
 
-        if (worldHolder.isReceiveAchievements()) {
+        // If the worldHolder is null or the world allows receiving achievements, return
+        if (worldHolder == null || worldHolder.isReceiveAchievements()) {
             return;
         }
+
+        // Get the advancement and its progress
         final Advancement advancement = event.getAdvancement();
         final AdvancementProgress progress = player.getAdvancementProgress(advancement);
 
+        // If the advancement is complete, revoke all awarded criteria
         if (progress.isDone()) {
             progress.getAwardedCriteria().forEach(progress::revokeCriteria);
         }
-
     }
-
 }

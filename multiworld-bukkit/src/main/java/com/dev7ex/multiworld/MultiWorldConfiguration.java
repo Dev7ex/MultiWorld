@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import java.text.SimpleDateFormat;
 
 /**
+ * Configuration class for MultiWorld plugin.
+ * This class manages the configuration settings for the MultiWorld plugin.
+ *
  * @author Dev7ex
  * @since 25.01.2023
  */
@@ -23,21 +26,30 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
 
     private final ParsedMap<WorldDefaultProperty, Object> defaultProperties = new ParsedMap<>();
 
+    /**
+     * Constructs a MultiWorldConfiguration with the given ConfigurationHolder.
+     *
+     * @param configurationHolder The ConfigurationHolder instance.
+     */
     public MultiWorldConfiguration(@NotNull final ConfigurationHolder configurationHolder) {
         super(configurationHolder);
     }
 
+    /**
+     * Loads the configuration.
+     * This method loads the configuration settings and handles missing or unnecessary entries.
+     */
     @Override
     public void load() {
         super.load();
 
         for (final MultiWorldBukkitApiConfiguration.Entry entry : MultiWorldBukkitApiConfiguration.Entry.values()) {
-            if ((entry.isRemoved()) && (super.getFileConfiguration().contains(entry.getPath()))) {
+            if (entry.isRemoved() && super.getFileConfiguration().contains(entry.getPath())) {
                 super.getFileConfiguration().set(entry.getPath(), null);
-                MultiWorldPlugin.getInstance().getLogger().info("Remove unnecessary config entry: " + entry.getPath());
+                MultiWorldPlugin.getInstance().getLogger().info("Removed unnecessary config entry: " + entry.getPath());
             }
 
-            if ((entry.isRemoved()) || (super.getFileConfiguration().contains(entry.getPath()))) {
+            if (entry.isRemoved() || super.getFileConfiguration().contains(entry.getPath())) {
                 continue;
             }
             MultiWorldPlugin.getInstance().getLogger().info("Adding missing config entry: " + entry.getPath());

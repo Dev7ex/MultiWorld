@@ -6,8 +6,8 @@ import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserTeleportWorldEvent;
+import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
-import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
@@ -48,7 +48,7 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
                 return;
             }
             final Player player = (Player) commandSender;
-            final WorldUser user = MultiWorldPlugin.getInstance().getUserProvider().getUser(player.getUniqueId()).orElseThrow();
+            final BukkitWorldUser user = MultiWorldPlugin.getInstance().getUserProvider().getUser(player.getUniqueId()).orElseThrow();
 
             if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
                 commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
@@ -103,7 +103,7 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
-        final WorldUser user = MultiWorldPlugin.getInstance().getUserProvider().getUser(target.getUniqueId()).orElseThrow();
+        final BukkitWorldUser user = MultiWorldPlugin.getInstance().getUserProvider().getUser(target.getUniqueId()).orElseThrow();
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[2]).isEmpty()) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
