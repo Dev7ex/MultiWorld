@@ -1,4 +1,4 @@
-![Icon-Bild](resources/images/title.png)
+![Icon-Bild](resources/images/Title.png)
 
 ![Latest Release](https://img.shields.io/github/v/release/Dev7ex/MultiWorld)
 ![SpigotMC Downloads](https://img.shields.io/spiget/downloads/92559?label=Downloads)
