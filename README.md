@@ -1,30 +1,50 @@
-# MultiWorld
+![Icon-Bild](resources/images/title.png)
 
+![Latest Release](https://img.shields.io/github/v/release/Dev7ex/MultiWorld)
 ![SpigotMC Downloads](https://img.shields.io/spiget/downloads/92559?label=Downloads)
 ![Spiget Rating](https://img.shields.io/spiget/rating/92559?label=Rating&style=flat-square)
-![GitHub](https://img.shields.io/github/license/dev7ex/multiworld)
+![Java](https://img.shields.io/badge/Java-17+-orange)
+![Spigot](https://img.shields.io/badge/Spigot-1.16--1.20-red)
 [![CodeFactor](https://www.codefactor.io/repository/github/dev7ex/multiworld/badge)](https://www.codefactor.io/repository/github/dev7ex/multiworld)
-![GitHub Release](https://img.shields.io/github/v/release/Dev7ex/MultiWorld)
+![Last Commit](https://img.shields.io/github/last-commit/Dev7ex/MultiWorld)
+![GitHub](https://img.shields.io/github/license/dev7ex/multiworld)
+![Discord](https://img.shields.io/discord/834580308543668264)
+![Modrinth Followers](https://img.shields.io/modrinth/followers/multiworld-bukkit)
 
+---
 
-## What is MultiWorld?
+# Contents
 
-MultiWorld is a World Management plugin for Minecraft Server.
+1. [Overview](#overview)
+2. [Features](#features)
+3. [Commands](#commands)
+4. [Installation](#installation)
+5. [Requirements](#requirements)
+6. [Configuration](#configuration)
+7. [Contributing](#contributing)
+8. [License](#license)
+9. [Contact](#contact)
 
-- This plugin is highly customizable.
-- PVP settings can be adjusted for each world individually.
-- GameMode settings for each world. Automatically changes your game mode upon entering a world (can be deactivated).
-- Custom Generator Support. Detects and integrates with other world generation plugins.
-- Each world has its own whitelist, allowing you to control access.
-- Disable access to the Nether or End with the Teleport command.
-- Option to completely disable portals.
+---
 
-## Links
+# Overview
 
-* https://www.spigotmc.org/resources/multiworld.92559/
-* https://bstats.org/plugin/bukkit/MultiWorld/15446
+- The name ‘MultiWorld’ actually says exactly what it does. It allows you to have multiple worlds at one server.
+- MultiWorld was created because I myself was not very enthusiastic about Multiverse at the time because there is no way to
+set messages and Multiverse is also hardly maintainable because the code is very messy in my opinion
 
-# Commands
+# Features 
+
+* This plugin is highly customizable.
+* PVP settings can be adjusted for each world individually.
+* GameMode settings for each world. Automatically changes your game mode upon entering a world (can be deactivated).
+* Custom Generator Support. Detects and integrates with other world generation plugins.
+* Each world has its own whitelist, allowing you to control access.
+* Disable access to the Nether or End with the Teleport command.
+* Option to completely disable portals.
+* It is possible to connect portals with other worlds
+
+# Commands 
 
 ```
 * /world                                                                [multiworld.command.world]
@@ -47,9 +67,28 @@ MultiWorld is a World Management plugin for Minecraft Server.
 * /world whitelist <World> <Enable|Disable|Add|Remove|List> <Name>      [multiworld.command.world.whitelist]
 ```
 
+# Installation
+
+1. Download the latest version of `MultiWorld` from [GitHub Releases](https://github.com/Dev7ex/MultiWorld/releases).
+2. Download the required version of `FacilisCommon` from [GitHub Releases](https://github.com/Dev7ex/FacilisCommon/releases).
+3. Copy the downloaded `.jar` file into the `plugins` directory of your Spigot server. 
+4. Restart the server to activate the plugin.
+
+# Requirements
+
+- Minecraft Version: 1.16 - 1.20
+- Java Version: 17 or higher
+- Spigot Server
+
 # Configuration
 
-```
+- After installation, a configuration file will be created in the `plugins/MultiWorld` directory. Here, you can make
+  various settings.
+
+<details>
+<summary>config.yml</summary>
+
+```yaml
 #      __  ___      ____  _ _       __           __    __
 #    /  |/  /_  __/ / /_(_) |     / /___  _____/ /___/ /
 #   / /|_/ / / / / / __/ /| | /| / / __ \/ ___/ / __  /
@@ -244,8 +283,29 @@ messages:
         already-removed: '%prefix% §7The player %player_name% §7is §cnot §7on the whitelist!'
         successfully-removed: '%prefix% §7You have %player_name% §7removed from the §b%world_name% §7whitelist'
 ```
+</details>
 
-# Developer
+# Contributing
 
-1. Install the the project in your local repository
-2. Add the dependency to your project
+We welcome contributions to MultiWorld! If you'd like to contribute, please follow these guidelines:
+
+1. Fork the repository and clone it to your local machine.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and ensure the code passes any existing tests.
+4. Commit your changes and push them to your fork.
+5. Submit a pull request, explaining the changes you've made and why they should be merged.
+6. Ensure your pull request adheres to the code style and guidelines of the project.
+
+Thank you for contributing to MultiWorld!
+
+# License
+
+The MultiWorld project is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for
+details.
+
+# Contact
+
+If you have any questions or need support, you can reach out to Dev7ex via:
+
+- Twitter: [@Dev7ex](https://twitter.com/Dev7ex)
+- Discord: [Dev7ex's Discord Server](https://discord.gg/ta33bbA8eF)
