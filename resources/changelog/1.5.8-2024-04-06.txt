@@ -1,0 +1,7 @@
+Version: 1.5.8
+FacilisCommon Version: 1.0.5
+
+» The TimeFormat in the Info Command is now adjustable in the config.yml
+» The MultiWorld API has been improved
+» The last login of users is saved (for a future update)
+» Fix an error where flags are not read correctly
