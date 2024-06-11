@@ -20,14 +20,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @since 07.06.2024
  */
-public class PlayerTeleportListener extends MultiWorldListener {
+public class PlayerChangeWorldListener extends MultiWorldListener {
 
     /**
      * Constructs a PlayerTeleportListener with the given MultiWorldBukkitApi.
      *
      * @param multiWorldApi The MultiWorldBukkitApi instance.
      */
-    public PlayerTeleportListener(@NotNull final MultiWorldBukkitApi multiWorldApi) {
+    public PlayerChangeWorldListener(@NotNull final MultiWorldBukkitApi multiWorldApi) {
         super(multiWorldApi);
     }
 
