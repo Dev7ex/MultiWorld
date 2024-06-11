@@ -14,7 +14,8 @@ import org.jetbrains.annotations.NotNull;
 public class BukkitWorldType {
 
     // Private constructor to prevent instantiation of this utility class
-    private BukkitWorldType() {}
+    private BukkitWorldType() {
+    }
 
     /**
      * Converts a Bukkit world environment to a corresponding WorldType enum value.
