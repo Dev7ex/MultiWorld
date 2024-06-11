@@ -35,6 +35,7 @@ public class BukkitWorldGenerator extends ChunkGenerator implements WorldGenerat
      * Default constructor for BukkitWorldGenerator.
      * This constructor is needed for Bukkit to properly instantiate the generator.
      */
-    public BukkitWorldGenerator() {}
+    public BukkitWorldGenerator() {
+    }
 
 }
