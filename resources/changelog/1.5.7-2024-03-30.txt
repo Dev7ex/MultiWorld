@@ -1,0 +1,5 @@
+» Fixed a bug where a newly created world throws an exception when adding a player to the whitelist (#33)
+» Achievements can now be deactivated (#32)
+Messages are still displayed, however, these can be deactivated via the gamerule
+» It is now possible to set the gamerule for each world via MultiWorld.
+The TabCompletion of /mw gamerule shows the current value for a gamerule with a number as value
