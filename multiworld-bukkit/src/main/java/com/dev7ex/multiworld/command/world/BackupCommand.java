@@ -41,7 +41,6 @@ public class BackupCommand extends BukkitCommand implements BukkitTabCompleter {
             return;
         }
         MultiWorldPlugin.getInstance().getWorldManager().createBackup(commandSender.getName(), arguments[1]);
-        return;
     }
 
     @Override
