@@ -45,14 +45,14 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
         }
         final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
 
-        if(!worldFolder.exists()) {
+        if (!worldFolder.exists()) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
 
-        if(!Files.containsFile(worldFolder, "session.lock")) {
+        if (!Files.containsFile(worldFolder, "session.lock")) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
