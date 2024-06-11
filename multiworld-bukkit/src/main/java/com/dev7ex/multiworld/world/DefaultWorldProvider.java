@@ -36,8 +36,8 @@ public class DefaultWorldProvider implements PluginModule, BukkitWorldProvider {
     /**
      * Constructs a DefaultWorldProvider with the specified parameters.
      *
-     * @param worldManager   The world manager to use.
-     * @param configuration  The world configuration to use.
+     * @param worldManager  The world manager to use.
+     * @param configuration The world configuration to use.
      */
     public DefaultWorldProvider(@NotNull final DefaultWorldManager worldManager, @NotNull final DefaultWorldConfiguration configuration) {
         this.worldManager = worldManager;
