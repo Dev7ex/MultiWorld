@@ -30,10 +30,11 @@
 # Overview
 
 - The name ‘MultiWorld’ actually says exactly what it does. It allows you to have multiple worlds at one server.
-- MultiWorld was created because I myself was not very enthusiastic about Multiverse at the time because there is no way to
-set messages and Multiverse is also hardly maintainable because the code is very messy in my opinion
+- MultiWorld was created because I myself was not very enthusiastic about Multiverse at the time because there is no way
+  to
+  set messages and Multiverse is also hardly maintainable because the code is very messy in my opinion
 
-# Features 
+# Features
 
 * This plugin is highly customizable.
 * PVP settings can be adjusted for each world individually.
@@ -44,7 +45,7 @@ set messages and Multiverse is also hardly maintainable because the code is very
 * Option to completely disable portals.
 * It is possible to connect portals with other worlds
 
-# Commands 
+# Commands
 
 ```
 * /world                                                                [multiworld.command.world]
@@ -70,8 +71,9 @@ set messages and Multiverse is also hardly maintainable because the code is very
 # Installation
 
 1. Download the latest version of `MultiWorld` from [GitHub Releases](https://github.com/Dev7ex/MultiWorld/releases).
-2. Download the required version of `FacilisCommon` from [GitHub Releases](https://github.com/Dev7ex/FacilisCommon/releases).
-3. Copy the downloaded `.jar` file into the `plugins` directory of your Spigot server. 
+2. Download the required version of `FacilisCommon`
+   from [GitHub Releases](https://github.com/Dev7ex/FacilisCommon/releases).
+3. Copy the downloaded `.jar` file into the `plugins` directory of your Spigot server.
 4. Restart the server to activate the plugin.
 
 # Requirements
@@ -283,6 +285,7 @@ messages:
         already-removed: '%prefix% §7The player %player_name% §7is §cnot §7on the whitelist!'
         successfully-removed: '%prefix% §7You have %player_name% §7removed from the §b%world_name% §7whitelist'
 ```
+
 </details>
 
 # Contributing
