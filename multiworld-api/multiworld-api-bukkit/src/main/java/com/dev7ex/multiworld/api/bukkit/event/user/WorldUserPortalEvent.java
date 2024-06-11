@@ -30,10 +30,10 @@ public class WorldUserPortalEvent extends WorldUserEvent {
     /**
      * Constructs a new WorldUserEnterPortalEvent.
      *
-     * @param user              The user entering the portal.
+     * @param user               The user entering the portal.
      * @param currentWorldHolder The BukkitWorldHolder of the current world the user is in.
-     * @param portalWorldHolder The BukkitWorldHolder of the portal world the user will be teleported to.
-     * @param portalType        The type of portal the user is entering.
+     * @param portalWorldHolder  The BukkitWorldHolder of the portal world the user will be teleported to.
+     * @param portalType         The type of portal the user is entering.
      */
     public WorldUserPortalEvent(@NotNull final BukkitWorldUser user, @NotNull final BukkitWorldHolder currentWorldHolder, @NotNull final BukkitWorldHolder portalWorldHolder, @NotNull final PortalType portalType) {
         super(user);
