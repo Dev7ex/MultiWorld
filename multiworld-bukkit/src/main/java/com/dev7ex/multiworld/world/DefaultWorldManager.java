@@ -45,7 +45,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
     /**
      * Constructs a DefaultWorldManager with the specified configurations.
      *
-     * @param configuration      The world configuration to use.
+     * @param configuration       The world configuration to use.
      * @param pluginConfiguration The plugin configuration to use.
      */
     public DefaultWorldManager(@NotNull final DefaultWorldConfiguration configuration,
