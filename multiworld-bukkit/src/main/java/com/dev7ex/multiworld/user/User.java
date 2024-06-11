@@ -36,7 +36,7 @@ public class User implements BukkitWorldUser {
      * Constructs a new User with the specified unique ID and name.
      *
      * @param uniqueId The unique ID of the user.
-     * @param name The name of the user.
+     * @param name     The name of the user.
      */
     public User(@NotNull final UUID uniqueId, @NotNull final String name) {
         this.uniqueId = uniqueId;
