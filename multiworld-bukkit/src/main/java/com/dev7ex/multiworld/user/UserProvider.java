@@ -119,7 +119,7 @@ public class UserProvider implements PluginModule, BukkitWorldUserProvider {
     /**
      * Saves specific properties of the specified user.
      *
-     * @param user The user whose properties are to be saved.
+     * @param user       The user whose properties are to be saved.
      * @param properties The properties to save.
      */
     @Override
