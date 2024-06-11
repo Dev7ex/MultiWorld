@@ -13,6 +13,7 @@ import com.dev7ex.multiworld.command.WorldCommand;
 import com.dev7ex.multiworld.listener.entity.EntityPortalListener;
 import com.dev7ex.multiworld.listener.entity.EntitySpawnListener;
 import com.dev7ex.multiworld.listener.player.PlayerAdvancementDoneListener;
+import com.dev7ex.multiworld.listener.player.PlayerChangeWorldListener;
 import com.dev7ex.multiworld.listener.player.PlayerConnectionListener;
 import com.dev7ex.multiworld.listener.player.PlayerDamagePlayerListener;
 import com.dev7ex.multiworld.listener.user.UserTeleportWorldListener;
@@ -74,7 +75,8 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
         this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration);
 
-        this.updateChecker.getVersion(updateAvailable -> {});
+        this.updateChecker.getVersion(updateAvailable -> {
+        });
 
         if (super.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new MultiWorldExpansion(this).register();
@@ -95,11 +97,12 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     @Override
     public void registerListeners() {
         super.registerListener(new EntityPortalListener(this));
+        super.registerListener(new EntitySpawnListener(this));
+        super.registerListener(new PlayerAdvancementDoneListener(this));
+        super.registerListener(new PlayerChangeWorldListener(this));
         super.registerListener(new PlayerConnectionListener(this));
         super.registerListener(new PlayerDamagePlayerListener(this));
-        super.registerListener(new EntitySpawnListener(this));
         super.registerListener(new UserTeleportWorldListener(this));
-        super.registerListener(new PlayerAdvancementDoneListener(this));
     }
 
     @Override
