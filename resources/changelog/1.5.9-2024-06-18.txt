@@ -1,0 +1,4 @@
+Adding JavaDocs for almost all classes
+Improve WorldGenerator for Future Update
+Improve Internal Project Structure for Future Update
+In version 1.6.0 the support for 1.16 will be removed
