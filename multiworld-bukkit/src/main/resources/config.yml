@@ -46,6 +46,8 @@ settings:
 
 messages:
   general:
+    invalid-seed: '%prefix% §cPlease enter a number!'
+    invalid-generator: '%prefix% §cThis generator does not exist'
     update-message-player: '%prefix% §7There is a new update available. §8[§bhttps://www.spigotmc.org/resources/multiworld.92559§8]'
     update-message-version-player: '%prefix% §7Current Version: §b%current_version% §7New Version §b%new_version%'
     world-not-exists: '%prefix% §cThe specified world does not exist!'
@@ -94,7 +96,7 @@ messages:
         - '§7» §7/world §bback'
         - '§7» §7/world §bbackup §7<World>'
         - '§7» §7/world §bclone §7<World> <Name>'
-        - '§7» §7/world §bcreate §7<Name> <WorldType | Seed | Generator>'
+        - '§7» §7/world §bcreate §7<Name> <-g | -s | -t> <Generator | Seed | WorldType>'
         - '§7» §7/world §bdelete §7<World>'
         - '§7» §7/world §bflag §7<World> <Property> <Value>'
         - '§7» §7/world §bgamerule §7<World> <GameRule> <Value>'
