@@ -55,6 +55,8 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_DEFAULTS_NETHER_PORTAL_ACCESSIBLE("settings.defaults.nether-portal-accessible", true, false),
         SETTINGS_DEFAULTS_WHITELIST_ENABLED("settings.defaults.whitelist-enabled", false, false),
 
+        MESSAGES_GENERAL_INVALID_SEED("messages.general.invalid-seed", "%prefix% §cPlease enter a number!", false),
+        MESSAGES_GENERAL_INVALID_GENERATOR("messages.general.invalid-generator", "%prefix% §cThis generator does not exist", false),
         MESSAGES_GENERAL_UPDATE_MESSAGE_PLAYER("messages.general.update-message-player", "%prefix% §7There is a new update available. §8[§bhttps://www.spigotmc.org/resources/multiworld.92559§8]", false),
         MESSAGES_GENERAL_UPDATE_MESSAGE_VERSION_PLAYER("messages.general.update-message-version-player", "%prefix% §7Current Version: §b%current_version% §7New Version §b%new_version%", false),
         MESSAGES_GENERAL_WORLD_NOT_EXISTS("messages.general.world-not-exists", "%prefix% §cThe specified world does not exist!", false),
