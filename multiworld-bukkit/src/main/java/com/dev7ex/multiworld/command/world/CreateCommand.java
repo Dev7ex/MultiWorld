@@ -7,13 +7,11 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.util.Numbers;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.world.WorldType;
+import com.dev7ex.multiworld.world.generator.DefaultWorldGeneratorProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Dev7ex
@@ -28,7 +26,7 @@ public class CreateCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        if (arguments.length != 3) {
+        if (arguments.length != 4) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.commands.create.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
@@ -44,45 +42,68 @@ public class CreateCommand extends BukkitCommand implements BukkitTabCompleter {
             return;
         }
 
-        if (Numbers.isLong(arguments[2])) {
-            MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], Long.parseLong(arguments[2]));
-            return;
-        }
+        switch (arguments[2]) {
+            case "-s":
+                if (!Numbers.isLong(arguments[3])) {
+                    commandSender.sendMessage(super.getConfiguration().getString("messages.general.invalid-seed")
+                            .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+                    return;
+                }
+                MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], Long.parseLong(arguments[3]));
+                break;
 
-        if (MultiWorldPlugin.getInstance().getWorldGeneratorProvider().isRegistered(arguments[2])) {
-            MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], arguments[2]);
-            return;
-        }
+            case "-g":
+                final DefaultWorldGeneratorProvider generatorProvider = MultiWorldPlugin.getInstance().getWorldGeneratorProvider();
 
-        final Optional<WorldType> typeOptional = WorldType.fromString(arguments[2].toUpperCase());
+                if (!generatorProvider.isRegistered(arguments[3])) {
+                    commandSender.sendMessage(super.getConfiguration().getString("messages.general.invalid-generator")
+                            .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+                    return;
+                }
+                MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], arguments[3]);
+                break;
 
-        if (typeOptional.isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-type-not-exists")
-                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
-            return;
+            case "-t":
+                final Optional<WorldType> typeOptional = WorldType.fromString(arguments[3].toUpperCase());
+
+                if (typeOptional.isEmpty()) {
+                    commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-type-not-exists")
+                            .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+                    return;
+                }
+                MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], typeOptional.get());
+                break;
         }
-        MultiWorldPlugin.getInstance().getWorldManager().createWorld(commandSender.getName(), arguments[1], typeOptional.get());
-        return;
     }
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
 
-        if ((arguments.length < 2) || (arguments.length > 3)) {
+        if ((arguments.length < 2) || (arguments.length > 4)) {
             return Collections.emptyList();
         }
 
         if (arguments.length == 2) {
             return List.of("%creator_name%");
         }
-        if (MultiWorldPlugin.getInstance().getWorldGeneratorProvider().getCustomGenerators().isEmpty()) {
-            return WorldType.toStringList();
-        }
-        final List<String> completions = new ArrayList<>();
-        completions.addAll(WorldType.toStringList());
-        completions.addAll(MultiWorldPlugin.getInstance().getWorldGeneratorProvider().getCustomGenerators().values());
 
-        return completions;
+        if (arguments.length == 3) {
+            return List.of("-g", "-s", "-t");
+        }
+
+        switch (arguments[2]) {
+            case "-g":
+                return new ArrayList<>(MultiWorldPlugin.getInstance().getWorldGeneratorProvider().getCustomGenerators().values());
+
+            case "-s":
+                return Collections.singletonList(String.valueOf(new Random().nextLong()));
+
+            case "-t":
+                return WorldType.toStringList();
+
+            default:
+                return Collections.emptyList();
+        }
     }
 
 }
