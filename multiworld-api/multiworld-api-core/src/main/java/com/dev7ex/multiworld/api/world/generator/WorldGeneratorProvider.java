@@ -39,4 +39,5 @@ public interface WorldGeneratorProvider<T extends WorldGeneratorHolder> {
      * @return True if the generator is registered, false otherwise.
      */
     boolean isRegistered(String generator);
+
 }
