@@ -36,9 +36,16 @@ public class ImportCommand extends BukkitCommand implements BukkitTabCompleter {
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
-        final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
+        final File worldFile = new File(Bukkit.getWorldContainer(), arguments[1]);
 
-        if (!Files.containsFile(worldFolder, "level.dat")) {
+        if (!worldFile.isDirectory()) {
+            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-folder-not-exists")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                    .replaceAll("%folder%", arguments[1]));
+            return;
+        }
+
+        if (!Files.containsFile(worldFile, "level.dat")) {
             commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-folder-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%folder%", arguments[1]));
@@ -79,11 +86,15 @@ public class ImportCommand extends BukkitCommand implements BukkitTabCompleter {
         final List<String> files = Files.toStringList(Bukkit.getWorldContainer());
         final List<String> completions = Lists.newArrayList(files);
 
-        for (final File folder : Objects.requireNonNull(Bukkit.getWorldContainer().listFiles())) {
-            if (Files.containsFile(folder, "level.dat")) {
+        for (final File file : Objects.requireNonNull(Bukkit.getWorldContainer().listFiles())) {
+            if (!file.isDirectory()) {
                 continue;
             }
-            completions.remove(folder.getName());
+
+            if (Files.containsFile(file, "level.dat")) {
+                continue;
+            }
+            completions.remove(file.getName());
         }
 
         for (final String worldName : MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet()) {
