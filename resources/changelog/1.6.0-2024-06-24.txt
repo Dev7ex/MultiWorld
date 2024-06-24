@@ -1,1 +1,3 @@
 Fixing NullPointerException (#34)
+Create Command now has clearly defined arguments for creating with seeds, generators or worldtypes (mw create <name> <-g, -s, -t> <value>)
+Fixing World Link not working (#35)
