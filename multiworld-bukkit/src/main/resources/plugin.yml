@@ -17,3 +17,35 @@ commands:
     description: Main Command for all World Commands
     permission: multiworld.command.world
     usage: /world
+permissions:
+  multiworld.*:
+    default: op
+    description: 'All MultiWorld permissions, ideally given to administrators.'
+  multiworld.command.world:
+    default: op
+    description: Ability to run /multiworld help.
+  multiworld.command.world.*:
+    default: op
+    description: Ability to run all /multiworld commands.
+    children:
+      multiworld.command.world.back: true
+      multiworld.command.world.backup: true
+      multiworld.command.world.clone: true
+      multiworld.command.world.create: true
+      multiworld.command.world.delete: true
+      multiworld.command.world.flag: true
+      multiworld.command.world.gamerule: true
+      multiworld.command.world.import: true
+      multiworld.command.world.info: true
+      multiworld.command.world.link: true
+      multiworld.command.world.list: true
+      multiworld.command.world.load: true
+      multiworld.command.world.reload: true
+      multiworld.command.world.teleport: true
+      multiworld.command.world.unload: true
+      multiworld.command.world.whitelist: true
+      multiworld.command.world.whitelist.add: true
+      multiworld.command.world.whitelist.disable: true
+      multiworld.command.world.whitelist.enable: true
+      multiworld.command.world.whitelist.list: true
+      multiworld.command.world.whitelist.remove: true
