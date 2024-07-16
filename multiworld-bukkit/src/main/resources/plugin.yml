@@ -3,6 +3,8 @@ author: Dev7ex
 database: false
 depend: [ FacilisCommon ]
 description: ${project.description}
+libraries:
+  - commons-io:commons-io:${dependency.commons.io.version}
 load: POSTWORLD
 loadbefore: [ ]
 main: com.dev7ex.multiworld.MultiWorldPlugin
