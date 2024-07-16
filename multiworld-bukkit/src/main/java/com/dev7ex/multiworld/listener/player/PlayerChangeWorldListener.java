@@ -48,6 +48,11 @@ public class PlayerChangeWorldListener extends MultiWorldListener {
             return;
         }
 
+        // Fix https://github.com/Dev7ex/MultiWorld/issues/37
+        if (from.getName().equalsIgnoreCase(to.getName())) {
+            return;
+        }
+
         // Ensure both the source and destination worlds are registered
         if (super.getWorldProvider().getWorldHolder(to.getName()).isEmpty() || super.getWorldProvider().getWorldHolder(from.getName()).isEmpty()) {
             return;
