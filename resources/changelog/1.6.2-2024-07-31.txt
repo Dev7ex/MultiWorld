@@ -1,0 +1,1 @@
+Syntax of the World Create command changed
