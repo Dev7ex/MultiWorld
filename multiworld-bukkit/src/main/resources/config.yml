@@ -70,7 +70,7 @@ messages:
       starting: '%prefix% §7The world §b%world_name% §7will be copied...'
       finished: '%prefix% §7The world §b%world_name% §7has been successfully copied!'
     create:
-      usage: '%prefix% §cUsage: /world create <Name> <Generator | Seed | WorldType>'
+      usage: '%prefix% §cUsage: /world create <Name> <-g | -s | -t> <Generator | Seed | WorldType>'
       starting: '%prefix% §7The world §b%world_name% §7will be created...'
       finished: '%prefix% §7The world §b%world_name% §7was created successfully!'
     delete:

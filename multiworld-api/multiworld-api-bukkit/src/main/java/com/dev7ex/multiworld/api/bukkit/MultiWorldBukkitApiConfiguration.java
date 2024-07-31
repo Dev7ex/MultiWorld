@@ -78,7 +78,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         MESSAGES_COMMANDS_CLONE_STARTING("messages.commands.clone.starting", "%prefix% §7The world §b%world_name% §7will be copied...", false),
         MESSAGES_COMMANDS_CLONE_FINISHED("messages.commands.clone.finished", "%prefix% §7The world §b%world_name% §7has been successfully copied!", false),
 
-        MESSAGES_COMMANDS_CREATE_USAGE("messages.commands.create.usage", "%prefix% §cUsage: /world create <Name> <Generator | Seed | WorldType>", false),
+        MESSAGES_COMMANDS_CREATE_USAGE("messages.commands.create.usage", "%prefix% §cUsage: /world create <Name> <-g | -s | -t> <Generator | Seed | WorldType>", false),
         MESSAGES_COMMANDS_CREATE_STARTING("messages.commands.create.starting", "%prefix% §7The world §b%world_name% §7will be created...", false),
         MESSAGES_COMMANDS_CREATE_FINISHED("messages.commands.create.finished", "%prefix% §7The world §b%world_name% §7was created successfully!", false),
 
