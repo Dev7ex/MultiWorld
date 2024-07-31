@@ -7,10 +7,10 @@
     <groupId>com.dev7ex</groupId>
     <artifactId>multiworld</artifactId>
     <packaging>pom</packaging>
-    <version>1.6.1-SNAPSHOT</version>
+    <version>1.6.2-SNAPSHOT</version>
     <name>MultiWorld</name>
     <description>World Management for Minecraft</description>
-    <url>https://www.spigotmc.org/resources/multiworld.92559/</url>
+    <url>https://github.com/Dev7ex/MultiWorld</url>
 
     <modules>
         <module>multiworld-bukkit</module>
