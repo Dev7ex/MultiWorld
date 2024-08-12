@@ -1,0 +1,7 @@
+» Adding WorldFlag (REDSTONE_ENABLED, HUNGER_ENABLED, KEEP_SPAWN_IN_MEMORY, WEATHER_ENABLED)
+» Optimize Code
+» Improve Create and Import Command
+» Add Version Command
+» Improve Load Command
+» Improve World Creation
+» Add Language Support (https://github.com/Dev7ex/MultiWorld/issues/38)
