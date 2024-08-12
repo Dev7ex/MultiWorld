@@ -7,11 +7,7 @@
     <parent>
         <artifactId>multiworld-api</artifactId>
         <groupId>com.dev7ex</groupId>
-<<<<<<< HEAD
         <version>1.6.3-SNAPSHOT</version>
-=======
-        <version>1.6.2-SNAPSHOT</version>
->>>>>>> 316c7c98f623070381da2e96b194741d2e30473e
     </parent>
 
     <name>MultiWorld-API-Bukkit</name>
