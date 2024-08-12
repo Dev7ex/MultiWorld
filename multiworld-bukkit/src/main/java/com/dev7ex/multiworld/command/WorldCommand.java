@@ -48,18 +48,25 @@ public final class WorldCommand extends BukkitCommand implements BukkitTabComple
         super.registerSubCommand(new ReloadCommand(plugin));
         super.registerSubCommand(new TeleportCommand(plugin));
         super.registerSubCommand(new UnloadCommand(plugin));
+        super.registerSubCommand(new VersionCommand(plugin));
         super.registerSubCommand(new WhitelistCommand(plugin));
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         // Handling command execution
-        if ((arguments.length == 0) || (arguments.length > 4)) {
+        if ((arguments.length == 0) || (arguments.length > 5)) {
             Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
             return;
         }
         if (super.getSubCommand(arguments[0].toLowerCase()).isEmpty()) {
             Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
+            return;
+        }
+        final BukkitCommand subCommand = super.getSubCommand(arguments[0].toLowerCase()).get();
+
+        if (!commandSender.hasPermission(subCommand.getPermission())) {
+            commandSender.sendMessage(super.getConfiguration().getNoPermissionMessage());
             return;
         }
         super.getSubCommand(arguments[0].toLowerCase()).get().execute(commandSender, arguments);
@@ -74,6 +81,10 @@ public final class WorldCommand extends BukkitCommand implements BukkitTabComple
             return Collections.emptyList();
         }
         final BukkitCommand subCommand = super.getSubCommand(arguments[0].toLowerCase()).get();
+
+        if (!commandSender.hasPermission(subCommand.getPermission())) {
+            return Collections.emptyList();
+        }
 
         if (!(subCommand instanceof BukkitTabCompleter)) {
             return Collections.emptyList();
