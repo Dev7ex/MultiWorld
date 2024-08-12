@@ -8,6 +8,7 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldFlagChangeEvent;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldFlag;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -30,8 +31,10 @@ public class FlagCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if (arguments.length != 4) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.flag.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.flag.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -41,7 +44,7 @@ public class FlagCommand extends BukkitCommand implements BukkitTabCompleter {
         }
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -49,17 +52,19 @@ public class FlagCommand extends BukkitCommand implements BukkitTabCompleter {
         final Optional<WorldFlag> flagOptional = WorldFlag.fromString(arguments[2].toUpperCase());
 
         if (flagOptional.isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.flag.not-existing")
-                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.flag.not-existing")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                    .replaceAll("%flag_name%", arguments[2]));
             return;
         }
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).orElseThrow();
         final WorldFlag flag = flagOptional.get();
 
         if (!flag.getValues().contains(arguments[3])) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.flag.value-not-existing")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.flag.invalid-value")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                    .replaceAll("%flag%", flag.toString()));
+                    .replaceAll("%value%", arguments[3])
+                    .replaceAll("%flag_name%", flag.toString()));
             return;
         }
         final WorldFlagChangeEvent event = new WorldFlagChangeEvent(worldHolder, commandSender, flag, arguments[3]);
@@ -71,12 +76,11 @@ public class FlagCommand extends BukkitCommand implements BukkitTabCompleter {
 
         worldHolder.updateFlag(flag, arguments[3]);
         MultiWorldPlugin.getInstance().getWorldConfiguration().updateFlag(worldHolder, flag, arguments[3]);
-        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.flag.successfully-set")
+        commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.flag.successfully-set")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                .replaceAll("%flag%", flag.toString())
+                .replaceAll("%flag_name%", flag.toString())
                 .replaceAll("%value%", arguments[3])
                 .replaceAll("%world_name%", arguments[1]));
-        return;
     }
 
     @Override

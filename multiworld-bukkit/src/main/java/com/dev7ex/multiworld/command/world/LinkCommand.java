@@ -11,6 +11,7 @@ import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
 import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import com.dev7ex.multiworld.api.world.WorldProperty;
 import com.dev7ex.multiworld.api.world.WorldType;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,8 +33,10 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if (arguments.length != 4) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.link.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.link.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -41,7 +44,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
         final BukkitWorldConfiguration worldConfiguration = MultiWorldPlugin.getInstance().getWorldConfiguration();
 
         if (worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -50,7 +53,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
         final Optional<WorldEnvironment> environmentOptional = WorldEnvironment.fromString(arguments[2].toUpperCase());
 
         if (environmentOptional.isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.link.environment-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.environment-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%environment_name%", arguments[2]));
             return;
@@ -58,7 +61,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
         final WorldEnvironment environment = environmentOptional.get();
 
         if (worldProvider.getWorldHolder(arguments[3]).isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[3]));
             return;
@@ -68,9 +71,9 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
         switch (environment) {
             case THE_END:
                 worldHolder.setEndWorldName(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.END_WORLD, arguments[3]);
+                worldConfiguration.write(worldHolder, WorldProperty.LINKED_END_WORLD, arguments[3]);
 
-                commandSender.sendMessage(super.getConfiguration().getString("messages.commands.link.successfully-set")
+                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                         .replaceAll("%world_name%", arguments[1])
                         .replaceAll("%environment_name%", arguments[2])
@@ -79,9 +82,9 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
 
             case NETHER:
                 worldHolder.setNetherWorldName(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.NETHER_WORLD, arguments[3]);
+                worldConfiguration.write(worldHolder, WorldProperty.LINKED_NETHER_WORLD, arguments[3]);
 
-                commandSender.sendMessage(super.getConfiguration().getString("messages.commands.link.successfully-set")
+                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                         .replaceAll("%world_name%", arguments[1])
                         .replaceAll("%environment_name%", arguments[2])
@@ -90,9 +93,9 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
 
             case NORMAL:
                 worldHolder.setNormalWorldName(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.NORMAL_WORLD, arguments[3]);
+                worldConfiguration.write(worldHolder, WorldProperty.LINKED_OVERWORLD, arguments[3]);
 
-                commandSender.sendMessage(super.getConfiguration().getString("messages.commands.link.successfully-set")
+                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                         .replaceAll("%world_name%", arguments[1])
                         .replaceAll("%environment_name%", arguments[2])
@@ -100,7 +103,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
                 return;
 
             default:
-                commandSender.sendMessage(super.getConfiguration().getString("messages.commands.link.usage")
+                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.usage")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
                 break;
         }

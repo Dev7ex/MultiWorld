@@ -9,6 +9,7 @@ import com.dev7ex.common.util.Numbers;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldGameRuleChangeEvent;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -32,8 +33,10 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if (arguments.length != 4) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.gamerule.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -43,7 +46,7 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
         }
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -51,8 +54,9 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
         final GameRule<?> gameRule = GameRule.getByName(arguments[2]);
 
         if (gameRule == null) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.gamerule.not-existing")
-                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.not-existing")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                    .replaceAll("%gamerule_name%", arguments[2]));
             return;
         }
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).orElseThrow();
@@ -67,9 +71,9 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
         if ((Numbers.isInteger(arguments[3])) && (gameRule.getType() == Integer.class)) {
             final GameRule<Integer> currentGameRule = (GameRule<Integer>) gameRule;
             worldHolder.getWorld().setGameRule(currentGameRule, Integer.parseInt(arguments[3]));
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.gamerule.successfully-set")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.successfully-set")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                    .replaceAll("%gamerule%", gameRule.getName())
+                    .replaceAll("%gamerule_name%", gameRule.getName())
                     .replaceAll("%value%", arguments[3])
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -78,16 +82,17 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
         if ((Booleans.isBoolean(arguments[3])) && (gameRule.getType() == Boolean.class)) {
             final GameRule<Boolean> currentGameRule = (GameRule<Boolean>) gameRule;
             worldHolder.getWorld().setGameRule(currentGameRule, Boolean.parseBoolean(arguments[3]));
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.gamerule.successfully-set")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.successfully-set")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                    .replaceAll("%gamerule%", gameRule.getName())
+                    .replaceAll("%gamerule_name%", gameRule.getName())
                     .replaceAll("%value%", arguments[3])
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.gamerule.value-not-existing")
+        commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.invalid-value")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                .replaceAll("%gamerule%", gameRule.getName()));
+                .replaceAll("%gamerule_name%", arguments[2])
+                .replaceAll("%value%", arguments[3]));
     }
 
     @Override

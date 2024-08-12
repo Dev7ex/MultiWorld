@@ -6,6 +6,7 @@ import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.io.file.Files;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -27,8 +28,10 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if (arguments.length != 2) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.delete.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.delete.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -38,7 +41,7 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
         }
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -46,33 +49,32 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
         final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
 
         if (!worldFolder.exists()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
 
-        if (!Files.containsFile(worldFolder, "session.lock")) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+        if ((!Files.containsFile(worldFolder, "level.dat")) && (!Files.containsFile(worldFolder, "session.lock"))) {
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
 
         if (arguments[1].equalsIgnoreCase(MultiWorldPlugin.getInstance().getConfiguration().getString("settings.defaults.normal-world"))) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.delete.world-cannot-deleted")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.delete.world.delete-locked")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
         MultiWorldPlugin.getInstance().getWorldManager().deleteWorld(commandSender.getName(), arguments[1]);
-        return;
     }
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         final List<String> worlds = new ArrayList<>(MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet());
-        worlds.remove(super.getConfiguration().getString("settings.defaults.world"));
+        worlds.remove(super.getConfiguration().getString("settings.defaults.normal-world"));
         return worlds;
     }
 

@@ -5,6 +5,7 @@ import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,8 +26,10 @@ public class CloneCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if (arguments.length != 3) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.clone.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.clone.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -36,12 +39,12 @@ public class CloneCommand extends BukkitCommand implements BukkitTabCompleter {
         }
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[2])) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-already-exists")
-                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+            commandSender.sendMessage(translationProvider.getMessage(commandSender,"general.world.already-exists")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                    .replaceAll("%world_name%", arguments[2]));
             return;
         }
         MultiWorldPlugin.getInstance().getWorldManager().cloneWorld(commandSender.getName(), arguments[1], arguments[2]);
-        return;
     }
 
     @Override

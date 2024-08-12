@@ -7,6 +7,7 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.world.whitelist.ListCommand;
 import com.dev7ex.multiworld.command.world.whitelist.*;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -37,14 +38,16 @@ public class WhitelistCommand extends BukkitCommand implements BukkitTabComplete
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if ((arguments.length < 3) || (arguments.length > 4)) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;

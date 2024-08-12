@@ -6,6 +6,7 @@ import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -27,13 +28,14 @@ public class ListCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance()
                 .getWorldProvider()
                 .getWorldHolder(arguments[1])
                 .orElseThrow();
 
         if (worldHolder.getWhitelist().isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.list.empty")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.list.empty")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -47,11 +49,10 @@ public class ListCommand extends BukkitCommand implements BukkitTabCompleter {
             }
             stringBuilder.append(Bukkit.getPlayer(name) != null ? ChatColor.GREEN : ChatColor.RED).append(name);
         }
-        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.list.message")
+        commandSender.sendMessage(translationProvider.getMessage(commandSender,"commands.world.whitelist.list.message")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                 .replaceAll("%world_name%", arguments[1])
                 .replaceAll("%player_names%", stringBuilder.toString()));
-        return;
     }
 
     @Override

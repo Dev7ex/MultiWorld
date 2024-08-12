@@ -7,6 +7,7 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldProperty;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -29,13 +30,14 @@ public class AddCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance()
                 .getWorldProvider()
                 .getWorldHolder(arguments[1])
                 .orElseThrow();
 
         if (worldHolder.getWhitelist().contains(arguments[3])) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.add.already-added")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.add.already-added")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1])
                     .replaceAll("%player_name%", arguments[3]));
@@ -43,11 +45,10 @@ public class AddCommand extends BukkitCommand implements BukkitTabCompleter {
         }
         worldHolder.getWhitelist().add(arguments[3]);
         MultiWorldPlugin.getInstance().getWorldConfiguration().write(worldHolder, WorldProperty.WHITELIST, worldHolder.getWhitelist());
-        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.add.successfully-added")
+        commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.add.successfully-added")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                 .replaceAll("%world_name%", arguments[1])
                 .replaceAll("%player_name%", arguments[3]));
-        return;
     }
 
     @Override
@@ -55,7 +56,6 @@ public class AddCommand extends BukkitCommand implements BukkitTabCompleter {
         if (arguments.length != 4) {
             return Collections.emptyList();
         }
-
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance()
                 .getWorldProvider()
                 .getWorldHolder(arguments[1])

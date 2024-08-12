@@ -8,6 +8,7 @@ import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldEnvironment;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,8 +29,10 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if (arguments.length != 2) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.info.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.info.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -39,7 +42,7 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
         }
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -47,7 +50,7 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).get();
         final MultiWorldConfiguration configuration = MultiWorldPlugin.getInstance().getConfiguration();
 
-        configuration.getStringList("messages.commands.info.message").forEach(message -> {
+        translationProvider.getMessageList(commandSender, "commands.world.info.message").forEach(message -> {
             commandSender.sendMessage(message
                     .replaceAll("%world_name%", worldHolder.getName())
                     .replaceAll("%world_creator_name%", worldHolder.getCreatorName())
@@ -70,7 +73,6 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
                     .replaceAll("%end_world%", worldHolder.getEndWorldName() == null ? "" : worldHolder.getEndWorldName())
                     .replaceAll("%receive_achievements%", (worldHolder.isReceiveAchievements() ? "true" : "false")));
         });
-        return;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,11 @@ public class ListCommand extends BukkitCommand {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if (arguments.length != 1) {
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.list.usage")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
 
@@ -40,7 +45,7 @@ public class ListCommand extends BukkitCommand {
             }
             stringBuilder.append(worldHolder.isLoaded() ? ChatColor.GREEN : ChatColor.RED).append(worldEntry);
         }
-        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.list.message")
+        commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.list.message")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                 .replaceAll("%world_names%", stringBuilder.toString()));
     }

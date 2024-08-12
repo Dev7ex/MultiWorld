@@ -7,6 +7,7 @@ import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldProperty;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,23 +27,23 @@ public class DisableCommand extends BukkitCommand implements BukkitTabCompleter 
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
         final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance()
                 .getWorldProvider()
                 .getWorldHolder(arguments[1])
                 .orElseThrow();
 
         if (!worldHolder.isWhitelistEnabled()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.disable.already-disabled")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.disable.already-disabled")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
         worldHolder.setWhitelistEnabled(false);
         MultiWorldPlugin.getInstance().getWorldConfiguration().write(worldHolder, WorldProperty.WHITELIST_ENABLED, false);
-        commandSender.sendMessage(super.getConfiguration().getString("messages.commands.whitelist.disable.successfully-disabled")
+        commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.disable.successfully-disabled")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                 .replaceAll("%world_name%", arguments[1]));
-        return;
     }
 
     @Override
