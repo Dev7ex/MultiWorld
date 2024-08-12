@@ -44,10 +44,12 @@ public class PlayerDamagePlayerListener extends MultiWorldListener {
         final Player player = (Player) event.getEntity();
 
         // Get the world holder for the current world
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(player.getWorld().getName()).orElse(null);
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(player.getWorld().getName())
+                .orElse(null);
 
         // If the worldHolder is null or PvP is enabled in the world, return
-        if (worldHolder == null || worldHolder.isPvpEnabled()) {
+        if ((worldHolder == null) || (worldHolder.isPvpEnabled())) {
             return;
         }
 
