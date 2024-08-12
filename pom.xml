@@ -7,7 +7,8 @@
     <groupId>com.dev7ex</groupId>
     <artifactId>multiworld</artifactId>
     <packaging>pom</packaging>
-    <version>1.6.2-SNAPSHOT</version>
+    <version>1.6.3-SNAPSHOT</version>
+
     <name>MultiWorld</name>
     <description>World Management for Minecraft</description>
     <url>https://github.com/Dev7ex/MultiWorld</url>
@@ -25,6 +26,8 @@
         <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
         <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
 
+        <dependency.adventure.platform.version>4.3.3</dependency.adventure.platform.version>
+        <dependency.adventure.api.version>4.17.0</dependency.adventure.api.version>
         <dependency.annotations.version>24.0.1</dependency.annotations.version>
         <dependency.facilis.common.version>1.0.5-SNAPSHOT</dependency.facilis.common.version>
         <dependency.commons.io.version>2.11.0</dependency.commons.io.version>

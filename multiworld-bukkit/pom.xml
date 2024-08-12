@@ -7,7 +7,7 @@
     <parent>
         <artifactId>multiworld</artifactId>
         <groupId>com.dev7ex</groupId>
-        <version>1.6.2-SNAPSHOT</version>
+        <version>1.6.3-SNAPSHOT</version>
     </parent>
 
     <name>MultiWorld-Bukkit</name>
@@ -35,6 +35,20 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${dependency.spigot.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>${dependency.adventure.api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
+            <version>${dependency.adventure.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
