@@ -9,40 +9,55 @@
 config-version: ${project.version}
 # General
 prefix: '§8[§bMultiWorld§8]§r'
-no-permission: '§cIm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that is in error.'
-no-console-command: '%prefix% §cThis command can only performed by a player'
-no-player-command: '%prefix% §cThis command can only performed by the console'
-no-player-found: '%prefix% §cThis player could not be found'
 
 settings:
-  # The time format in which information is displayed
-  time-format: dd.MM.yyyy HH:mm:ss
-  # Should all players with the permission (multiworld.notify.update)
-  # get a message when entering server
-  receive-update-message: true
-  # Should the auto-game-mode per world work?
-  auto-game-mode-enabled: true
-  # Should MultiWorld connect the worlds with each other via the registered data?
-  world-link-enabled: true
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
   access-end-world-via-command: true
+  # Should the auto-game-mode per world work?
+  auto-game-mode-enabled: true
   # Standard values for new worlds
   defaults:
-    normal-world: world
-    end-world: world_the_end
-    nether-world: world_nether
-    load-auto: false
+    # Specifies whether the server should automatically load the worlds upon starting
+    auto-load-enabled: false
+    # Determines whether the server should automatically unload chunks that are not being used
+    auto-unload-enabled: false
+    # Sets the game's difficulty level. "PEACEFUL" means no hostile mobs will spawn, and players cannot starve
     difficulty: PEACEFUL
-    game-mode: SURVIVAL
-    pvp-enabled: true
-    spawn-animals: true
-    spawn-monsters: true
-    spawn-entities: true
-    receive-achievements: true
+    # Determines whether players have access to the End portal, allowing them to enter the End
     end-portal-accessible: true
+    # Specifies the name of the world that serves as the End
+    end-world: world_the_end
+    # Sets the game mode to Survival, where players must gather resources, manage health, and survive against mobs
+    game-mode: SURVIVAL
+    # Enables the hunger mechanic, causing players to lose food points over time and need to eat to maintain their health and energy
+    hunger-enabled: true
+    # Determines whether the server should keep the spawn chunks loaded in memory even when no players are nearby.
+    # Set this to true to ensure that spawn chunks are always active, which can be useful for certain redstone machines or farms
+    keep-spawn-in-memory: false
+    # Determines whether players have access to Nether portals, allowing them to enter the Nether
     nether-portal-accessible: true
+    # Specifies the name of the world that serves as the Nether
+    nether-world: world_nether
+    # Specifies the name of the main world
+    normal-world: world
+    # Enables player versus player combat, allowing players to attack each other
+    pvp-enabled: true
+    # Allows players to receive achievements during gameplay
+    receive-achievements: true
+    # Enables the functionality of Redstone, allowing players to use Redstone mechanisms and devices
+    redstone-enabled: true
+    # Allows animals to spawn naturally in the world
+    spawn-animals: true
+    # Allows all entities, including items, mobs, and other non-player characters, to spawn in the world
+    spawn-entities: true
+    # Allows hostile mobs to spawn naturally in the world
+    spawn-monsters: true
+    # Enables weather changes such as rain, thunderstorms, and snow
+    weather-enabled: true
+    # Disables the whitelist feature, allowing any player to join the world without needing to be added to a whitelist
     whitelist-enabled: false
+<<<<<<< Updated upstream
 
 messages:
   general:
@@ -193,3 +208,9 @@ messages:
       remove:
         already-removed: '%prefix% §7The player %player_name% §7is §cnot §7on the whitelist!'
         successfully-removed: '%prefix% §7You have %player_name% §7removed from the §b%world_name% §7whitelist'
+=======
+  # The time format in which information is displayed
+  time-format: dd.MM.yyyy HH:mm:ss
+  # Should MultiWorld connect the worlds with each other via the registered data?
+  world-link-enabled: true
+>>>>>>> Stashed changes

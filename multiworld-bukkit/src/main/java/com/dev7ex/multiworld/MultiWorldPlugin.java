@@ -14,6 +14,8 @@ import com.dev7ex.multiworld.listener.entity.EntityPortalListener;
 import com.dev7ex.multiworld.listener.entity.EntitySpawnListener;
 import com.dev7ex.multiworld.listener.player.*;
 import com.dev7ex.multiworld.listener.user.UserTeleportWorldListener;
+import com.dev7ex.multiworld.listener.world.WorldFlagListener;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.dev7ex.multiworld.user.UserProvider;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
@@ -48,6 +50,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     private DefaultWorldProvider worldProvider;
     private UserProvider userProvider;
     private DefaultWorldGeneratorProvider worldGeneratorProvider;
+    private DefaultTranslationProvider translationProvider;
 
     private final UpdateChecker updateChecker = new UpdateChecker(this);
 
@@ -56,6 +59,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         super.createDataFolder();
         super.createSubFolder("user");
         super.createSubFolder("backup");
+        super.createSubFolder("language");
 
         this.configuration = new MultiWorldConfiguration(this);
         this.configuration.load();
@@ -68,12 +72,10 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     @Override
     public void onEnable() {
         MultiWorldApiProvider.registerApi(this);
+
         super.getServer().getServicesManager().register(MultiWorldBukkitApi.class, this, this, ServicePriority.Normal);
 
-        this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration);
-
-        this.updateChecker.getVersion(updateAvailable -> {
-        });
+        this.updateChecker.getVersion(updateAvailable -> {});
 
         if (super.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new MultiWorldExpansion(this).register();
@@ -103,10 +105,16 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         super.registerListener(new PlayerPortalListener(this));
 
         super.registerListener(new UserTeleportWorldListener(this));
+
+        super.registerListener(new WorldFlagListener(this));
     }
 
     @Override
     public void registerModules() {
+        super.registerModule( this.translationProvider = new DefaultTranslationProvider(this));
+
+        this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration, this.translationProvider);
+
         super.registerModule(this.worldProvider = new DefaultWorldProvider(this.worldManager, this.worldConfiguration));
         super.registerModule(this.userProvider = new UserProvider());
         super.registerModule(this.worldGeneratorProvider = new DefaultWorldGeneratorProvider());
