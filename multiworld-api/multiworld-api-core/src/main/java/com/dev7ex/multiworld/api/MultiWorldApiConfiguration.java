@@ -63,13 +63,6 @@ public interface MultiWorldApiConfiguration {
     SimpleDateFormat getTimeFormat();
 
     /**
-     * Checks if update messages should be received.
-     *
-     * @return True if update messages should be received, otherwise false.
-     */
-    boolean isReceiveUpdateMessage();
-
-    /**
      * Checks if auto game mode is enabled.
      *
      * @return True if auto game mode is enabled, otherwise false.
