@@ -517,7 +517,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
             }
         }
 
-        if (!MultiWorldPlugin.getInstance().getWorldGeneratorProvider().isRegistered(worldHolder.getGenerator())) {
+        if (!MultiWorldPlugin.getInstance().getWorldGeneratorProvider().isRegistered(worldHolder.getGenerator())
+                && (!worldHolder.getGenerator().equalsIgnoreCase("NONE"))) {
             commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.load.error-missing-generator")
                     .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                     .replaceAll("%world_name%", name)
