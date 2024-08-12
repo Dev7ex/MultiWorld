@@ -2,15 +2,20 @@ package com.dev7ex.multiworld.world.generator;
 
 import com.dev7ex.common.bukkit.plugin.module.PluginModule;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.api.bukkit.world.generator.BukkitWorldGenerator;
 import com.dev7ex.multiworld.api.bukkit.world.generator.BukkitWorldGeneratorHolder;
 import com.dev7ex.multiworld.api.bukkit.world.generator.BukkitWorldGeneratorProvider;
+import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.FlatWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.VoidWorldGenerator;
 import com.dev7ex.multiworld.api.world.generator.WorldGenerator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +30,7 @@ import java.util.Map;
 public class DefaultWorldGeneratorProvider implements PluginModule, BukkitWorldGeneratorProvider {
 
     private final Map<BukkitWorldGeneratorHolder, String> customGenerators = new HashMap<>();
-    private final Map<BukkitWorldGeneratorHolder, WorldGenerator> defaultGenerators = new HashMap<>();
+    private final List<BukkitWorldGenerator> defaultGenerators = new ArrayList<>();
     private final Map<BukkitWorldGeneratorHolder, WorldGenerator> fileGenerators = new HashMap<>();
 
     /**
@@ -48,6 +53,9 @@ public class DefaultWorldGeneratorProvider implements PluginModule, BukkitWorldG
             }
             this.customGenerators.put(new BukkitWorldGeneratorHolder(plugin), plugin.getDescription().getName());
         }
+        this.defaultGenerators.add(new FlatWorldGenerator(MultiWorldPlugin.getInstance()));
+        this.defaultGenerators.add(new VoidWorldGenerator(MultiWorldPlugin.getInstance()));
+
         MultiWorldPlugin.getInstance().getLogger().info("Found: [" + this.customGenerators.values().size() + "] World Generator");
     }
 
@@ -70,7 +78,20 @@ public class DefaultWorldGeneratorProvider implements PluginModule, BukkitWorldG
      */
     @Override
     public boolean isRegistered(final String generator) {
-        return this.customGenerators.containsValue(generator);
+        return (this.customGenerators.containsValue(generator))
+                || (this.defaultGenerators.stream()
+                .anyMatch(generator1 -> generator1.getName().equalsIgnoreCase(generator)));
+    }
+
+    @Override
+    public List<String> getAllGenerators() {
+        final List<String> allGenerators = new ArrayList<>();
+
+        allGenerators.addAll(this.customGenerators.values());
+        allGenerators.addAll(this.defaultGenerators.stream().map(WorldGenerator::getName).toList());
+        allGenerators.addAll(this.fileGenerators.values().stream().map(WorldGenerator::getName).toList());
+
+        return allGenerators;
     }
 
 }

@@ -8,14 +8,16 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldCloneEvent;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldCreateEvent;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldDeleteEvent;
+import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldEnvironment;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldManager;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
 import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.FlatWorldGenerator;
 import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.VoidWorldGenerator;
-import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.WaterWorldGenerator;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
+import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import com.dev7ex.multiworld.api.world.WorldType;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
@@ -27,7 +29,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Manages world creation, deletion, cloning, and backup operations.
@@ -41,6 +46,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
 
     private final DefaultWorldConfiguration configuration;
     private final MultiWorldConfiguration pluginConfiguration;
+    private final DefaultTranslationProvider translationProvider;
 
     /**
      * Constructs a DefaultWorldManager with the specified configurations.
@@ -49,9 +55,11 @@ public class DefaultWorldManager implements BukkitWorldManager {
      * @param pluginConfiguration The plugin configuration to use.
      */
     public DefaultWorldManager(@NotNull final DefaultWorldConfiguration configuration,
-                               @NotNull final MultiWorldConfiguration pluginConfiguration) {
+                               @NotNull final MultiWorldConfiguration pluginConfiguration,
+                               @NotNull final DefaultTranslationProvider translationProvider) {
         this.configuration = configuration;
         this.pluginConfiguration = pluginConfiguration;
+        this.translationProvider = translationProvider;
     }
 
     /**
@@ -74,7 +82,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         if (event.isCancelled()) {
             return;
         }
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.clone.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.clone.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
@@ -95,7 +103,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 }
                 file.delete();
             }
-            commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.clone.finished")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.clone.finished")
                     .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                     .replaceAll("%world_name%", name));
 
@@ -118,7 +126,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         final File destinationFolder = new File(MultiWorldPlugin.getInstance().getSubFolder("backup"),
                 name + "-" + new SimpleDateFormat("MM-dd-yyyy-HH-mm-ss").format(Calendar.getInstance().getTime()));
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.backup.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.backup.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
@@ -139,7 +147,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 }
                 file.delete();
             }
-            commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.backup.finished")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.backup.finished")
                     .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                     .replaceAll("%world_name%", name));
 
@@ -155,27 +163,12 @@ public class DefaultWorldManager implements BukkitWorldManager {
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
 
         switch (type) {
-            case FLAT:
-                worldCreator.generator(new FlatWorldGenerator());
-                worldCreator.generateStructures(false);
-                break;
-
-            case NETHER:
-                worldCreator.environment(World.Environment.NETHER);
-                break;
-
             case END:
                 worldCreator.environment(World.Environment.THE_END);
                 break;
 
-            case WATER:
-                worldCreator.generator(new WaterWorldGenerator());
-                worldCreator.generateStructures(false);
-                break;
-
-            case VOID:
-                worldCreator.generator(new VoidWorldGenerator());
-                worldCreator.generateStructures(false);
+            case NETHER:
+                worldCreator.environment(World.Environment.NETHER);
                 break;
 
             default:
@@ -188,21 +181,28 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setName(name)
                 .setCreatorName(commandSender.getName())
                 .setCreationTimeStamp(System.currentTimeMillis())
-                .setType(type)
-                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setAutoLoadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_LOAD_ENABLED))
+                .setAutoUnloadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_UNLOAD_ENABLED))
                 .setDifficulty(Difficulty.valueOf(defaultProperties.getString(WorldDefaultProperty.DIFFICULTY)))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setHungerEnabled(defaultProperties.getBoolean(WorldDefaultProperty.HUNGER_ENABLED))
+                .setKeepSpawnInMemory(defaultProperties.getBoolean(WorldDefaultProperty.KEEP_SPAWN_IN_MEMORY))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setPvpEnabled(defaultProperties.getBoolean(WorldDefaultProperty.PVP_ENABLED))
-                .setLoaded(false)
+                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
+                .setRedstoneEnabled(defaultProperties.getBoolean(WorldDefaultProperty.REDSTONE_ENABLED))
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setSpawnEntities(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ENTITIES))
-                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
-                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
+                .setWeatherEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WEATHER_ENABLED))
+                .setEnvironment(BukkitWorldEnvironment.from(WorldEnvironment.fromType(type)))
+                .setGenerator("NONE")
+                .setType(type)
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
-                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
-                .setWhitelist(new ArrayList<>())
+                .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
 
@@ -212,12 +212,12 @@ public class DefaultWorldManager implements BukkitWorldManager {
         if (event.isCancelled()) {
             return;
         }
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.create.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.create.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
         final World world = worldCreator.createWorld();
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.create.finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.create.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
@@ -230,10 +230,11 @@ public class DefaultWorldManager implements BukkitWorldManager {
     }
 
     @Override
-    public void createWorld(@NotNull final String creatorName, @NotNull final String name, final long seed) {
+    public void createWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldEnvironment environment, final long seed) {
         final WorldCreator worldCreator = new WorldCreator(name);
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
 
+        worldCreator.environment(BukkitWorldEnvironment.from(environment));
         worldCreator.seed(seed);
 
         final ParsedMap<WorldDefaultProperty, Object> defaultProperties = this.pluginConfiguration.getDefaultProperties();
@@ -242,21 +243,28 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setName(name)
                 .setCreatorName(commandSender.getName())
                 .setCreationTimeStamp(System.currentTimeMillis())
-                .setType(WorldType.NORMAL)
-                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setAutoLoadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_LOAD_ENABLED))
+                .setAutoUnloadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_UNLOAD_ENABLED))
                 .setDifficulty(Difficulty.valueOf(defaultProperties.getString(WorldDefaultProperty.DIFFICULTY)))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setHungerEnabled(defaultProperties.getBoolean(WorldDefaultProperty.HUNGER_ENABLED))
+                .setKeepSpawnInMemory(defaultProperties.getBoolean(WorldDefaultProperty.KEEP_SPAWN_IN_MEMORY))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setPvpEnabled(defaultProperties.getBoolean(WorldDefaultProperty.PVP_ENABLED))
-                .setLoaded(false)
+                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
+                .setRedstoneEnabled(defaultProperties.getBoolean(WorldDefaultProperty.REDSTONE_ENABLED))
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setSpawnEntities(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ENTITIES))
-                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
-                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
+                .setWeatherEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WEATHER_ENABLED))
+                .setEnvironment(BukkitWorldEnvironment.from(WorldEnvironment.fromType(WorldType.CUSTOM)))
+                .setGenerator("NONE")
+                .setType(WorldType.CUSTOM)
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
-                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
-                .setWhitelist(new ArrayList<>())
+                .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
 
@@ -266,11 +274,11 @@ public class DefaultWorldManager implements BukkitWorldManager {
         if (event.isCancelled()) {
             return;
         }
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.create.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.create.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
         final World world = worldCreator.createWorld();
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.create.finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.create.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
@@ -283,33 +291,51 @@ public class DefaultWorldManager implements BukkitWorldManager {
     }
 
     @Override
-    public void createWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final String generator) {
+    public void createWorld(@NotNull final String creatorName, @NotNull final String name,
+                            @NotNull final WorldEnvironment environment, @NotNull final String generator) {
         final WorldCreator worldCreator = new WorldCreator(name);
+        final ParsedMap<WorldDefaultProperty, Object> defaultProperties = this.pluginConfiguration.getDefaultProperties();
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
 
+        worldCreator.environment(BukkitWorldEnvironment.from(environment));
         worldCreator.generator(generator);
 
-        final ParsedMap<WorldDefaultProperty, Object> defaultProperties = this.pluginConfiguration.getDefaultProperties();
+        switch (generator) {
+            case "FlatWorldGenerator":
+                worldCreator.generator(new FlatWorldGenerator(MultiWorldPlugin.getInstance()));
+                break;
+
+            case "VoidWorldGenerator":
+                worldCreator.generator(new VoidWorldGenerator(MultiWorldPlugin.getInstance()));
+                break;
+        }
 
         final BukkitWorldHolder worldHolder = BukkitWorldHolder.builder()
                 .setName(name)
                 .setCreatorName(commandSender.getName())
                 .setCreationTimeStamp(System.currentTimeMillis())
-                .setType(WorldType.NORMAL)
-                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setAutoLoadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_LOAD_ENABLED))
+                .setAutoUnloadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_UNLOAD_ENABLED))
                 .setDifficulty(Difficulty.valueOf(defaultProperties.getString(WorldDefaultProperty.DIFFICULTY)))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setHungerEnabled(defaultProperties.getBoolean(WorldDefaultProperty.HUNGER_ENABLED))
+                .setKeepSpawnInMemory(defaultProperties.getBoolean(WorldDefaultProperty.KEEP_SPAWN_IN_MEMORY))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setPvpEnabled(defaultProperties.getBoolean(WorldDefaultProperty.PVP_ENABLED))
-                .setLoaded(false)
+                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
+                .setRedstoneEnabled(defaultProperties.getBoolean(WorldDefaultProperty.REDSTONE_ENABLED))
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setSpawnEntities(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ENTITIES))
-                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
-                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
+                .setWeatherEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WEATHER_ENABLED))
+                .setEnvironment(BukkitWorldEnvironment.from(WorldEnvironment.fromType(WorldType.CUSTOM)))
+                .setGenerator(generator)
+                .setType(WorldType.CUSTOM)
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
-                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
-                .setWhitelist(new ArrayList<>())
+                .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
 
@@ -319,11 +345,11 @@ public class DefaultWorldManager implements BukkitWorldManager {
         if (event.isCancelled()) {
             return;
         }
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.create.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.create.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
         final World world = worldCreator.createWorld();
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.create.finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.create.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
@@ -346,7 +372,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         if (event.isCancelled()) {
             return;
         }
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.delete.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.delete.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
@@ -365,16 +391,63 @@ public class DefaultWorldManager implements BukkitWorldManager {
         }
         this.configuration.remove(name);
         this.getProvider().unregister(name);
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.delete.finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.delete.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
     }
 
     @Override
-    public void importWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldType type) {
+    public void importWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldEnvironment environment, @NotNull final String generator) {
+        final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
+        final ParsedMap<WorldDefaultProperty, Object> defaultProperties = this.pluginConfiguration.getDefaultProperties();
+
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.import.starting")
+                .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
+                .replaceAll("%world_name%", name));
+
+        final BukkitWorldHolder worldHolder = BukkitWorldHolder.builder()
+                .setName(name)
+                .setCreatorName(commandSender.getName())
+                .setCreationTimeStamp(System.currentTimeMillis())
+                .setAutoLoadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_LOAD_ENABLED))
+                .setAutoUnloadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_UNLOAD_ENABLED))
+                .setDifficulty(Difficulty.valueOf(defaultProperties.getString(WorldDefaultProperty.DIFFICULTY)))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setHungerEnabled(defaultProperties.getBoolean(WorldDefaultProperty.HUNGER_ENABLED))
+                .setKeepSpawnInMemory(defaultProperties.getBoolean(WorldDefaultProperty.KEEP_SPAWN_IN_MEMORY))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
+                .setPvpEnabled(defaultProperties.getBoolean(WorldDefaultProperty.PVP_ENABLED))
+                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
+                .setRedstoneEnabled(defaultProperties.getBoolean(WorldDefaultProperty.REDSTONE_ENABLED))
+                .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
+                .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
+                .setSpawnEntities(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ENTITIES))
+                .setWeatherEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WEATHER_ENABLED))
+                .setEnvironment(BukkitWorldEnvironment.from(WorldEnvironment.fromType(WorldType.CUSTOM)))
+                .setGenerator(generator)
+                .setType(WorldType.CUSTOM)
+                .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
+                .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
+                .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
+                .setWhitelist(Collections.emptyList())
+                .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
+                .build();
+
+        System.out.println(generator);
+
+        this.configuration.add(worldHolder);
+        this.getProvider().register(worldHolder);
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.import.finished")
+                .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
+                .replaceAll("%world_name%", name));
+    }
+
+    @Override
+    public void importWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldEnvironment environment, @NotNull final WorldType type) {
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.import.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.import.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
@@ -384,27 +457,34 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setName(name)
                 .setCreatorName(commandSender.getName())
                 .setCreationTimeStamp(System.currentTimeMillis())
-                .setType(type)
-                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setAutoLoadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_LOAD_ENABLED))
+                .setAutoUnloadEnabled(defaultProperties.getBoolean(WorldDefaultProperty.AUTO_UNLOAD_ENABLED))
                 .setDifficulty(Difficulty.valueOf(defaultProperties.getString(WorldDefaultProperty.DIFFICULTY)))
+                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
+                .setGameMode(GameMode.valueOf(defaultProperties.getString(WorldDefaultProperty.GAME_MODE)))
+                .setHungerEnabled(defaultProperties.getBoolean(WorldDefaultProperty.HUNGER_ENABLED))
+                .setKeepSpawnInMemory(defaultProperties.getBoolean(WorldDefaultProperty.KEEP_SPAWN_IN_MEMORY))
+                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
                 .setPvpEnabled(defaultProperties.getBoolean(WorldDefaultProperty.PVP_ENABLED))
-                .setLoaded(false)
+                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
+                .setRedstoneEnabled(defaultProperties.getBoolean(WorldDefaultProperty.REDSTONE_ENABLED))
                 .setSpawnAnimals(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ANIMALS))
                 .setSpawnMonsters(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_MONSTERS))
                 .setSpawnEntities(defaultProperties.getBoolean(WorldDefaultProperty.SPAWN_ENTITIES))
-                .setEndPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.END_PORTAL_ACCESSIBLE))
-                .setNetherPortalAccessible(defaultProperties.getBoolean(WorldDefaultProperty.NETHER_PORTAL_ACCESSIBLE))
+                .setWeatherEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WEATHER_ENABLED))
+                .setEnvironment(BukkitWorldEnvironment.from(WorldEnvironment.fromType(type)))
+                .setGenerator("NONE")
+                .setType(type)
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
-                .setReceiveAchievements(defaultProperties.getBoolean(WorldDefaultProperty.RECEIVE_ACHIEVEMENTS))
                 .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
 
         this.configuration.add(worldHolder);
         this.getProvider().register(worldHolder);
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.import.finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.import.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
     }
@@ -413,37 +493,47 @@ public class DefaultWorldManager implements BukkitWorldManager {
     public void loadWorld(@NotNull final String creatorName, @NotNull final String name) {
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
         final BukkitWorldHolder worldHolder = this.getProvider().getWorldHolder(name).orElseThrow();
+        final File worldFolder = new File(Bukkit.getWorldContainer(), worldHolder.getName());
         final WorldCreator worldCreator = new WorldCreator(name);
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.load.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.load.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
-        switch (worldHolder.getType()) {
-            case VOID:
-                worldCreator.generator(new VoidWorldGenerator());
-                worldCreator.generateStructures(false);
-                break;
 
-            case FLAT:
-                worldCreator.generator(new FlatWorldGenerator());
-                worldCreator.generateStructures(false);
+        if ((worldHolder.getGenerator() != null) && (!worldHolder.getGenerator().equalsIgnoreCase("NONE"))) {
+            switch (worldHolder.getGenerator()) {
+                case "FlatWorldGenerator":
+                    worldCreator.generator(new FlatWorldGenerator(MultiWorldPlugin.getInstance()));
+                    break;
+
+                case "VoidWorldGenerator":
+                    worldCreator.generator(new VoidWorldGenerator(MultiWorldPlugin.getInstance()));
+                    break;
+
+                default:
+                    worldCreator.generator(worldHolder.getGenerator());
+                    break;
+            }
+        }
+
+        if (!MultiWorldPlugin.getInstance().getWorldGeneratorProvider().isRegistered(worldHolder.getGenerator())) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.load.error-missing-generator")
+                    .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
+                    .replaceAll("%world_name%", name)
+                    .replaceAll("%generator_name%", worldHolder.getGenerator()));
+            return;
+        }
+
+        switch (worldHolder.getType()) {
+            case END:
+                worldCreator.environment(World.Environment.THE_END);
                 break;
 
             case NETHER:
                 worldCreator.environment(World.Environment.NETHER);
                 break;
-
-            case WATER:
-                worldCreator.generator(new WaterWorldGenerator());
-                worldCreator.generateStructures(false);
-                break;
-
-            case END:
-                worldCreator.environment(World.Environment.THE_END);
-                break;
         }
-
         final World world = Bukkit.createWorld(worldCreator);
 
         world.setDifficulty(worldHolder.getDifficulty());
@@ -452,7 +542,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         worldHolder.setLoaded(true);
         this.getProvider().register(worldHolder);
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.load.finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.load.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
     }
@@ -466,33 +556,35 @@ public class DefaultWorldManager implements BukkitWorldManager {
             if (!player.getWorld().getName().equalsIgnoreCase(name)) {
                 continue;
             }
-            player.sendMessage(this.pluginConfiguration.getString("messages.commands.unload.chunk-teleport")
+            player.sendMessage(this.translationProvider.getMessage(player, "commands.world.unload.chunk-teleport")
                     .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
-                    .replaceAll("%world_name%", name));
+                    .replaceAll("%world_name%", name)
+                    .replaceAll("%unloader_name%", creatorName));
+
             player.teleport(Bukkit.getWorld(MultiWorldPlugin.getInstance()
                             .getConfiguration()
                             .getString("settings.defaults.normal-world"))
                     .getSpawnLocation());
         }
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.unload.chunk-starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.unload.chunk-starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
         Arrays.stream(world.getLoadedChunks()).forEach(Chunk::unload);
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.unload.chunk-finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.unload.chunk-finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.unload.starting")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.unload.starting")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
 
         Bukkit.unloadWorld(world.getName(), true);
         this.getProvider().getWorldHolder(name).orElseThrow().setLoaded(false);
 
-        commandSender.sendMessage(this.pluginConfiguration.getString("messages.commands.unload.finished")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.unload.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
     }

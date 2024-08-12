@@ -10,4 +10,4 @@ import com.dev7ex.multiworld.api.world.generator.WorldGeneratorProvider;
  * @author Dev7ex
  * @since 29.06.2023
  */
-public interface BukkitWorldGeneratorProvider extends WorldGeneratorProvider<BukkitWorldGeneratorHolder> {}
+public interface BukkitWorldGeneratorProvider extends WorldGeneratorProvider<BukkitWorldGeneratorHolder, BukkitWorldGenerator> {}

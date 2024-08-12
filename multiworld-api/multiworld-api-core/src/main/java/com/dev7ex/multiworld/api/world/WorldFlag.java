@@ -18,17 +18,21 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldFlag {
 
-    DIFFICULTY("difficulty", List.of("EASY", "HARD", "NORMAL", "PEACEFUL")),
-    END_PORTAL_ACCESSIBLE("end-portal-accessible", List.of("false", "true")),
-    GAME_MODE("game-mode", List.of("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
-    LOAD_AUTO("load-auto", List.of("false", "true")),
-    NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", List.of("false", "true")),
-    PVP_ENABLED("pvp-enabled", List.of("false", "true")),
-    RECEIVE_ACHIEVEMENTS("receive-achievements", List.of("false", "true")),
-    SPAWN_ANIMALS("spawn-animals", List.of("false", "true")),
-    SPAWN_ENTITIES("spawn-entities", List.of("false", "true")),
-    SPAWN_MONSTERS("spawn-monsters", List.of("false", "true")),
-    WORLD_TYPE("world-type", WorldType.toStringList());
+    AUTO_LOAD_ENABLED("flag.auto-load-enabled", List.of("false", "true")),
+    AUTO_UNLOAD_ENABLED("flag.auto-unload-enabled", List.of("false", "true")),
+    DIFFICULTY("flag.difficulty", List.of("EASY", "HARD", "NORMAL", "PEACEFUL")),
+    END_PORTAL_ACCESSIBLE("flag.end-portal-accessible", List.of("false", "true")),
+    GAME_MODE("flag.game-mode", List.of("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
+    HUNGER_ENABLED("flag.hunger-enabled", List.of("false", "true")),
+    KEEP_SPAWN_IN_MEMORY("flag.keep-spawn-in-memory", List.of("false", "true")),
+    NETHER_PORTAL_ACCESSIBLE("flag.nether-portal-accessible", List.of("false", "true")),
+    PVP_ENABLED("flag.pvp-enabled", List.of("false", "true")),
+    RECEIVE_ACHIEVEMENTS("flag.receive-achievements", List.of("false", "true")),
+    REDSTONE_ENABLED("flag.redstone-enabled", List.of("false", "true")),
+    SPAWN_ANIMALS("flag.spawn-animals", List.of("false", "true")),
+    SPAWN_ENTITIES("flag.spawn-entities", List.of("false", "true")),
+    SPAWN_MONSTERS("flag.spawn-monsters", List.of("false", "true")),
+    WEATHER_ENABLED("flag.weather-enabled", List.of("false", "true"));
 
     private final String storagePath;
     private final List<String> values;

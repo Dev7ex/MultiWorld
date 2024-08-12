@@ -45,7 +45,7 @@ public interface WorldManager {
      * @param name        The name for the new world.
      * @param seed        The seed value for world generation.
      */
-    void createWorld(@NotNull final String creatorName, @NotNull final String name, final long seed);
+    void createWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldEnvironment environment, final long seed);
 
     /**
      * Creates a new world with the specified name and generator.
@@ -54,7 +54,7 @@ public interface WorldManager {
      * @param name        The name for the new world.
      * @param generator   The generator type for world generation.
      */
-    void createWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final String generator);
+    void createWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldEnvironment environment, @NotNull final String generator);
 
     /**
      * Deletes the world with the specified name.
@@ -65,13 +65,22 @@ public interface WorldManager {
     void deleteWorld(@NotNull final String creatorName, @NotNull final String name);
 
     /**
+     * Imports a world with the specified name and generator into the server.
+     *
+     * @param creatorName The name of the creator initiating the action.
+     * @param name        The name for the imported world.
+     * @param generator   The name for the generator.
+     */
+    void importWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldEnvironment environment, @NotNull final String generator);
+
+    /**
      * Imports a world with the specified name and type into the server.
      *
      * @param creatorName The name of the creator initiating the action.
      * @param name        The name for the imported world.
      * @param type        The type of world being imported.
      */
-    void importWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldType type);
+    void importWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final WorldEnvironment environment, @NotNull final WorldType type);
 
     /**
      * Loads the world with the specified name.

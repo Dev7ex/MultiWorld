@@ -6,7 +6,8 @@ import com.dev7ex.multiworld.api.bukkit.event.plugin.MultiWorldStartupCompleteEv
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldType;
-import com.dev7ex.multiworld.api.world.WorldProperty;
+import com.dev7ex.multiworld.api.world.WorldEnvironment;
+import com.dev7ex.multiworld.api.world.WorldType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -57,7 +58,8 @@ public class DefaultWorldProvider implements PluginModule, BukkitWorldProvider {
             if (this.configuration.contains(world.getName())) {
                 continue;
             }
-            this.worldManager.importWorld(Bukkit.getConsoleSender().getName(), world.getName(), BukkitWorldType.fromEnvironment(world.getEnvironment()));
+            final WorldType worldType = BukkitWorldType.fromEnvironment(world.getEnvironment());
+            this.worldManager.importWorld(Bukkit.getConsoleSender().getName(), world.getName(), WorldEnvironment.fromType(worldType), worldType);
         }
 
         // Iterate through world entries in configuration
@@ -65,13 +67,13 @@ public class DefaultWorldProvider implements PluginModule, BukkitWorldProvider {
             final BukkitWorldHolder worldHolder = this.configuration.getWorldHolder(worldEntry);
 
             // Check and add missing properties
-            for (final WorldProperty property : WorldProperty.values()) {
+            /*for (final WorldProperty property : WorldProperty.values()) {
                 if (!this.configuration.hasProperty(worldEntry, property)) {
                     this.configuration.addMissingProperty(worldHolder, property);
                 }
             }
 
-            this.configuration.removeUnusableProperties(worldEntry);
+            this.configuration.removeUnusableProperties(worldEntry);*/
 
             // Load world if it exists
             if (Bukkit.getWorld(worldEntry) != null) {
@@ -86,6 +88,10 @@ public class DefaultWorldProvider implements PluginModule, BukkitWorldProvider {
         // Auto-load worlds
         for (final BukkitWorldHolder worldHolder : MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().values()) {
             if (!worldHolder.isAutoLoadEnabled()) {
+                continue;
+            }
+
+            if (worldHolder.getWorld() != null) {
                 continue;
             }
             this.worldManager.loadWorld(Bukkit.getConsoleSender().getName(), worldHolder.getName());

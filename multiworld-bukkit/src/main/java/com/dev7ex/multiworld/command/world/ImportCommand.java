@@ -6,17 +6,17 @@ import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.io.file.Files;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import com.dev7ex.multiworld.api.world.WorldType;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
+import com.dev7ex.multiworld.world.generator.DefaultWorldGeneratorProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Dev7ex
@@ -31,22 +31,24 @@ public class ImportCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        if (arguments.length != 3) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.import.usage")
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
+        if (arguments.length != 5) {
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.import.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
         final File worldFile = new File(Bukkit.getWorldContainer(), arguments[1]);
 
         if (!worldFile.isDirectory()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-folder-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender,"general.world.folder-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%folder%", arguments[1]));
             return;
         }
 
         if (!Files.containsFile(worldFile, "level.dat")) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-folder-not-exists")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender,"general.world.folder-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%folder%", arguments[1]));
             return;
@@ -57,50 +59,98 @@ public class ImportCommand extends BukkitCommand implements BukkitTabCompleter {
         }
 
         if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isPresent()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.commands.import.world-already-imported")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender,"commands.world.import.world-already-imported")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        final Optional<WorldType> typeOptional = WorldType.fromString(arguments[2].toUpperCase());
+        final Optional<WorldEnvironment> environmentOptional = WorldEnvironment.fromString(arguments[2].toUpperCase());
 
-        if (typeOptional.isEmpty()) {
-            commandSender.sendMessage(super.getConfiguration().getString("messages.general.world-type-not-exists")
-                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+        if (environmentOptional.isEmpty()) {
+            commandSender.sendMessage(translationProvider.getMessage(commandSender,"general.world.environment-not-exists")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                    .replaceAll("%environment_name%", arguments[2]));
             return;
         }
-        MultiWorldPlugin.getInstance().getWorldManager().importWorld(commandSender.getName(), arguments[1], typeOptional.get());
-        return;
+        final WorldEnvironment environment = environmentOptional.get();
+
+        switch (arguments[3]) {
+            case "-g":
+                final DefaultWorldGeneratorProvider generatorProvider = MultiWorldPlugin.getInstance().getWorldGeneratorProvider();
+
+                if (!generatorProvider.isRegistered(arguments[4])) {
+                    commandSender.sendMessage(translationProvider.getMessage(commandSender,"general.invalid-generator")
+                            .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                            .replaceAll("%generator_name%", arguments[3]));
+                    return;
+                }
+                MultiWorldPlugin.getInstance().getWorldManager().importWorld(commandSender.getName(), arguments[1], environment, arguments[4]);
+                break;
+
+            case "-t":
+                final Optional<WorldType> typeOptional = WorldType.fromString(arguments[4].toUpperCase());
+
+                if (typeOptional.isEmpty()) {
+                    commandSender.sendMessage(translationProvider.getMessage(commandSender,"general.world.type-not-exist")
+                            .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                            .replaceAll("%world_type%", arguments[4]));
+                    return;
+                }
+                MultiWorldPlugin.getInstance().getWorldManager().importWorld(commandSender.getName(), arguments[1], environment, typeOptional.get());
+                break;
+
+            default:
+                commandSender.sendMessage(translationProvider.getMessage(commandSender,"commands.world.import.usage")
+                        .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                        .replaceAll("%world_type%", arguments[4]));
+        }
     }
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        if ((arguments.length < 2) || (arguments.length > 3)) {
+        if ((arguments.length < 2) || (arguments.length > 5)) {
             return Collections.emptyList();
+        }
+
+        if (arguments.length == 2) {
+            final List<String> files = Files.toStringList(Bukkit.getWorldContainer());
+            final List<String> completions = Lists.newArrayList(files);
+
+            for (final File file : Objects.requireNonNull(Bukkit.getWorldContainer().listFiles())) {
+                if (!file.isDirectory()) {
+                    continue;
+                }
+
+                if (Files.containsFile(file, "level.dat")) {
+                    continue;
+                }
+                completions.remove(file.getName());
+            }
+
+            for (final String worldName : MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet()) {
+                completions.remove(worldName);
+            }
+            return completions;
         }
 
         if (arguments.length == 3) {
             return WorldType.toStringList();
         }
 
-        final List<String> files = Files.toStringList(Bukkit.getWorldContainer());
-        final List<String> completions = Lists.newArrayList(files);
-
-        for (final File file : Objects.requireNonNull(Bukkit.getWorldContainer().listFiles())) {
-            if (!file.isDirectory()) {
-                continue;
-            }
-
-            if (Files.containsFile(file, "level.dat")) {
-                continue;
-            }
-            completions.remove(file.getName());
+        if (arguments.length == 4) {
+            return List.of("-g", "-t");
         }
 
-        for (final String worldName : MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet()) {
-            completions.remove(worldName);
+        switch (arguments[3]) {
+            case "-g":
+                return new ArrayList<>(MultiWorldPlugin.getInstance().getWorldGeneratorProvider().getAllGenerators());
+
+            case "-t":
+                return WorldType.toStringList();
+
+            default:
+                return Collections.emptyList();
         }
-        return completions;
     }
 
 }

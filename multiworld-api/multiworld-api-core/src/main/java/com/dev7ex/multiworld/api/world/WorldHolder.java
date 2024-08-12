@@ -15,6 +15,26 @@ import java.util.List;
  */
 public interface WorldHolder {
 
+    boolean isWeatherEnabled();
+
+    void setWeatherEnabled(final boolean weatherEnabled);
+
+    boolean isRedstoneEnabled();
+
+    void setRedstoneEnabled(final boolean redstoneEnabled);
+
+    boolean isAutoUnloadEnabled();
+
+    void setAutoUnloadEnabled(final boolean autoUnloadEnabled);
+
+    boolean isHungerEnabled();
+
+    void setHungerEnabled(final boolean hungerEnabled);
+
+    boolean isKeepSpawnInMemory();
+
+    void setKeepSpawnInMemory(final boolean keepSpawnInMemory);
+
     /**
      * Gets the name of the world.
      *

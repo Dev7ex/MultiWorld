@@ -28,11 +28,6 @@ public enum WorldType {
     END(false),
 
     /**
-     * Represents a flat world type.
-     */
-    FLAT(true),
-
-    /**
      * Represents a nether world type.
      */
     NETHER(false),
@@ -40,17 +35,7 @@ public enum WorldType {
     /**
      * Represents a normal world type.
      */
-    NORMAL(true),
-
-    /**
-     * Represents a water world type.
-     */
-    WATER(true),
-
-    /**
-     * Represents a void world type.
-     */
-    VOID(true);
+    NORMAL(true);
 
     private final boolean overWorld;
 

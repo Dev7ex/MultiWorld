@@ -1,5 +1,6 @@
 package com.dev7ex.multiworld.api.world.generator;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Map;
  * @param <T> The type of WorldGeneratorHolder.
  * @since 29.06.2023
  */
-public interface WorldGeneratorProvider<T extends WorldGeneratorHolder> {
+public interface WorldGeneratorProvider<T extends WorldGeneratorHolder, G extends WorldGenerator> {
 
     /**
      * Retrieves a map of custom world generators.
@@ -30,7 +31,7 @@ public interface WorldGeneratorProvider<T extends WorldGeneratorHolder> {
      *
      * @return A map containing instances of WorldGeneratorHolder as keys and their corresponding default world generators as values.
      */
-    Map<T, WorldGenerator> getDefaultGenerators();
+    List<G> getDefaultGenerators();
 
     /**
      * Checks if a custom world generator is registered.
@@ -39,5 +40,7 @@ public interface WorldGeneratorProvider<T extends WorldGeneratorHolder> {
      * @return True if the generator is registered, false otherwise.
      */
     boolean isRegistered(String generator);
+
+    List<String> getAllGenerators();
 
 }

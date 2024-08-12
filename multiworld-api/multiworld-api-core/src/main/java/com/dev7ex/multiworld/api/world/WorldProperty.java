@@ -18,24 +18,31 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldProperty {
 
+    AUTO_LOAD_ENABLED("flag.auto-load-enabled", true),
+    AUTO_UNLOAD_ENABLED("flag.auto-unload-enabled", true),
     CREATION_TIMESTAMP("creation-timestamp", true),
     CREATOR_NAME("creator-name", true),
-    DIFFICULTY("difficulty", true),
-    END_PORTAL_ACCESSIBLE("end-portal-accessible", true),
-    END_WORLD("end-world", true),
-    GAME_MODE("game-mode", true),
-    LOAD_AUTO("load-auto", true),
-    NORMAL_WORLD("normal-world", true),
-    NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", true),
-    NETHER_WORLD("nether-world", true),
-    PVP_ENABLED("pvp-enabled", true),
-    RECEIVE_ACHIEVEMENTS("receive-achievements", true),
-    SPAWN_ANIMALS("spawn-animals", true),
-    SPAWN_ENTITIES("spawn-entities", true),
-    SPAWN_MONSTERS("spawn-monsters", true),
-    TYPE("type", true),
-    WHITELIST("whitelist", true),
-    WHITELIST_ENABLED("whitelist-enabled", true);
+    DIFFICULTY("flag.difficulty", true),
+    END_PORTAL_ACCESSIBLE("flag.end-portal-accessible", true),
+    ENVIRONMENT("generation.environment", false),
+    GAME_MODE("flag.game-mode", true),
+    GENERATOR("generation.generator", false),
+    HUNGER_ENABLED("flag.hunger-enabled", true),
+    KEEP_SPAWN_IN_MEMORY("flag.keep-spawn-in-memory", true),
+    LINKED_END_WORLD("end-world", true),
+    LINKED_NETHER_WORLD("nether-world", true),
+    LINKED_OVERWORLD("overworld", true),
+    NETHER_PORTAL_ACCESSIBLE("flag.nether-portal-accessible", true),
+    PVP_ENABLED("flag.pvp-enabled", true),
+    RECEIVE_ACHIEVEMENTS("flag.receive-achievements", true),
+    REDSTONE_ENABLED("flag.redstone-enabled", true),
+    SPAWN_ANIMALS("flag.spawn-animals", true),
+    SPAWN_ENTITIES("flag.spawn-entities", true),
+    SPAWN_MONSTERS("flag.spawn-monsters", true),
+    TYPE("generation.type", true),
+    WEATHER_ENABLED("flag.weather-enabled", true),
+    WHITELIST("whitelist.entries", true),
+    WHITELIST_ENABLED("whitelist.enabled", true);
 
     private final String storagePath;
     private final boolean modifiable;
