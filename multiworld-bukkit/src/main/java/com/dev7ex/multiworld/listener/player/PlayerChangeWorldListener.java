@@ -65,7 +65,6 @@ public class PlayerChangeWorldListener extends MultiWorldListener {
             return;
         }
         final BukkitWorldUser user = super.getUserProvider().getUser(player.getUniqueId()).get();
-
         // Trigger the custom WorldUserTeleportWorldEvent
         Bukkit.getPluginManager().callEvent(new WorldUserTeleportWorldEvent(user, lastWorldHolder, nextWorldHolder));
     }
