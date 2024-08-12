@@ -13,6 +13,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.World;
+import org.bukkit.conversations.Conversation;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Monster;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -34,23 +38,30 @@ public class BukkitWorldHolder implements WorldHolder {
     private String name;
     private String creatorName;
     private long creationTimeStamp;
-    private WorldType type;
-    private GameMode gameMode;
+    private boolean autoLoadEnabled;
+    private boolean autoUnloadEnabled;
     private Difficulty difficulty;
-    private boolean pvpEnabled;
-    private boolean loaded;
-    private boolean spawnAnimals;
-    private boolean spawnMonsters;
-    private boolean spawnEntities;
     private boolean endPortalAccessible;
-    private boolean netherPortalAccessible;
+    private World.Environment environment;
+    private GameMode gameMode;
+    private String generator;
+    private boolean hungerEnabled;
+    private boolean keepSpawnInMemory;
     private String endWorldName;
     private String netherWorldName;
     private String normalWorldName;
+    private boolean netherPortalAccessible;
+    private boolean pvpEnabled;
+    private boolean receiveAchievements;
+    private boolean redstoneEnabled;
+    private boolean spawnAnimals;
+    private boolean spawnMonsters;
+    private boolean spawnEntities;
+    private WorldType type;
+    private boolean weatherEnabled;
     private List<String> whitelist = new ArrayList<>();
     private boolean whitelistEnabled;
-    private boolean autoLoadEnabled = false;
-    private boolean receiveAchievements;
+    private boolean loaded;
 
     /**
      * Gets the Bukkit world associated with this world holder.
@@ -75,12 +86,12 @@ public class BukkitWorldHolder implements WorldHolder {
     @Override
     public void updateFlag(@NotNull final WorldFlag flag, @NotNull final String value) {
         switch (flag) {
-            case PVP_ENABLED:
-                this.pvpEnabled = Boolean.parseBoolean(value);
+            case AUTO_LOAD_ENABLED:
+                this.autoLoadEnabled = Boolean.parseBoolean(value);
                 break;
 
-            case GAME_MODE:
-                this.gameMode = GameMode.valueOf(value);
+            case AUTO_UNLOAD_ENABLED:
+                this.autoUnloadEnabled = Boolean.parseBoolean(value);
                 break;
 
             case DIFFICULTY:
@@ -90,10 +101,49 @@ public class BukkitWorldHolder implements WorldHolder {
                 }
                 break;
 
+            case END_PORTAL_ACCESSIBLE:
+                this.endPortalAccessible = Boolean.parseBoolean(value);
+                break;
+
+            case GAME_MODE:
+                this.gameMode = GameMode.valueOf(value);
+                Bukkit.getOnlinePlayers().forEach(player -> player.setGameMode(this.gameMode));
+                break;
+
+            case HUNGER_ENABLED:
+                this.hungerEnabled = Boolean.parseBoolean(value);
+                if (!this.hungerEnabled) {
+                    Bukkit.getOnlinePlayers().forEach(player -> {
+                        player.setSaturation(20.00F);
+                    });
+                }
+
+            case KEEP_SPAWN_IN_MEMORY:
+                this.keepSpawnInMemory = Boolean.parseBoolean(value);
+                this.getWorld().setKeepSpawnInMemory(this.keepSpawnInMemory);
+                break;
+
+            case NETHER_PORTAL_ACCESSIBLE:
+                this.netherPortalAccessible = Boolean.parseBoolean(value);
+                break;
+
+            case PVP_ENABLED:
+                this.pvpEnabled = Boolean.parseBoolean(value);
+                break;
+
+            case RECEIVE_ACHIEVEMENTS:
+                this.receiveAchievements = Boolean.parseBoolean(value);
+                break;
+
+            case REDSTONE_ENABLED:
+                this.redstoneEnabled = Boolean.parseBoolean(value);
+                break;
+
             case SPAWN_ANIMALS:
                 this.spawnAnimals = Boolean.parseBoolean(value);
                 if (this.loaded) {
                     this.getWorld().setSpawnFlags(this.spawnMonsters, this.spawnAnimals);
+                    this.getWorld().getEntities().stream().filter(entity -> entity instanceof Animals).forEach(Entity::remove);
                 }
                 break;
 
@@ -101,6 +151,7 @@ public class BukkitWorldHolder implements WorldHolder {
                 this.spawnMonsters = Boolean.parseBoolean(value);
                 if (this.loaded) {
                     this.getWorld().setSpawnFlags(this.spawnMonsters, this.spawnAnimals);
+                    this.getWorld().getEntities().stream().filter(entity -> entity instanceof Monster).forEach(Entity::remove);
                 }
                 break;
 
@@ -108,20 +159,8 @@ public class BukkitWorldHolder implements WorldHolder {
                 this.spawnEntities = Boolean.parseBoolean(value);
                 break;
 
-            case END_PORTAL_ACCESSIBLE:
-                this.endPortalAccessible = Boolean.parseBoolean(value);
-                break;
-
-            case NETHER_PORTAL_ACCESSIBLE:
-                this.netherPortalAccessible = Boolean.parseBoolean(value);
-                break;
-
-            case RECEIVE_ACHIEVEMENTS:
-                this.receiveAchievements = Boolean.parseBoolean(value);
-                break;
-
-            case WORLD_TYPE:
-                this.type = WorldType.valueOf(value);
+            case WEATHER_ENABLED:
+                this.weatherEnabled = Boolean.parseBoolean(value);
                 break;
         }
     }
