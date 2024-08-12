@@ -72,7 +72,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.SPAWN_ENTITIES.getStoragePath(), worldHolder.isSpawnEntities());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.WEATHER_ENABLED.getStoragePath(), worldHolder.isWeatherEnabled());
 
-        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.ENVIRONMENT.getStoragePath(), worldHolder.getEnvironment());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.ENVIRONMENT.getStoragePath(), worldHolder.getEnvironment().toString());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.GENERATOR.getStoragePath(), worldHolder.getGenerator());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.TYPE.getStoragePath(), worldHolder.getType().toString());
 
