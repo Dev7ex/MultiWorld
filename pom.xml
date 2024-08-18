@@ -22,18 +22,17 @@
         <maven.compiler.source>${project.source.version}</maven.compiler.source>
         <maven.compiler.target>${project.source.version}</maven.compiler.target>
 
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
-        <maven-javadoc-plugin-version>3.5.0</maven-javadoc-plugin-version>
+        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-shade-plugin.version>3.6.0</maven-shade-plugin.version>
+        <maven-javadoc-plugin-version>3.8.0</maven-javadoc-plugin-version>
 
         <dependency.adventure.platform.version>4.3.3</dependency.adventure.platform.version>
         <dependency.adventure.api.version>4.17.0</dependency.adventure.api.version>
-        <dependency.annotations.version>24.0.1</dependency.annotations.version>
+        <dependency.annotations.version>24.1.0</dependency.annotations.version>
         <dependency.facilis.common.version>1.0.5-SNAPSHOT</dependency.facilis.common.version>
-        <dependency.commons.io.version>2.11.0</dependency.commons.io.version>
-        <dependency.lombok.version>1.18.26</dependency.lombok.version>
+        <dependency.commons.io.version>2.16.1</dependency.commons.io.version>
+        <dependency.lombok.version>1.18.34</dependency.lombok.version>
         <dependency.spigot.api.version>1.17.1-R0.1-SNAPSHOT</dependency.spigot.api.version>
-        <dependency.maven.artifact.version>3.9.0</dependency.maven.artifact.version>
         <dependency.placeholder.api.version>2.11.3</dependency.placeholder.api.version>
 
         <project.source.version>16</project.source.version>
