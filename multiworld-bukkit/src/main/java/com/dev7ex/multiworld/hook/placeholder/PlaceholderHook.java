@@ -1,4 +1,4 @@
-package com.dev7ex.multiworld.api.bukkit.expansion;
+package com.dev7ex.multiworld.hook.placeholder;
 
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
@@ -14,15 +14,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 /**
- * PlaceholderExpansion for MultiWorld plugin to provide world-related placeholders.
- * This class extends PlaceholderExpansion from PlaceholderAPI.
- * It allows players to access information about different worlds.
- *
  * @author Dev7ex
- * @since 02.07.2023
+ * @since 19.08.2024
  */
 @Getter(AccessLevel.PUBLIC)
-public class MultiWorldExpansion extends PlaceholderExpansion {
+public class PlaceholderHook extends PlaceholderExpansion {
 
     private final String identifier = "multiworld";
     private final String author = "Dev7ex";
@@ -32,11 +28,11 @@ public class MultiWorldExpansion extends PlaceholderExpansion {
     private final MultiWorldBukkitApi multiWorldApi;
 
     /**
-     * Constructs a new MultiWorldExpansion with the given MultiWorldBukkitApi.
+     * Constructs a new PlaceholderHook with the given MultiWorldBukkitApi.
      *
      * @param multiWorldApi The MultiWorldBukkitApi instance.
      */
-    public MultiWorldExpansion(@NotNull final MultiWorldBukkitApi multiWorldApi) {
+    public PlaceholderHook(@NotNull final MultiWorldBukkitApi multiWorldApi) {
         this.multiWorldApi = multiWorldApi;
     }
 
@@ -73,12 +69,12 @@ public class MultiWorldExpansion extends PlaceholderExpansion {
      */
     @Nullable
     private String onPlaceholderRequest(@NotNull final String parameter) {
-        final Optional<MultiWorldExpansionType> typeOptional = MultiWorldExpansionType.getByParameter(parameter);
+        final Optional<Type> typeOptional = Type.getByParameter(parameter);
 
         if (typeOptional.isEmpty()) {
             return null;
         }
-        final MultiWorldExpansionType type = typeOptional.get();
+        final Type type = typeOptional.get();
 
         final Optional<BukkitWorldHolder> optional = this.multiWorldApi
                 .getWorldProvider()
@@ -117,4 +113,47 @@ public class MultiWorldExpansion extends PlaceholderExpansion {
         }
         return null;
     }
+
+    @Getter(AccessLevel.PUBLIC)
+    public enum Type {
+
+        PLAYER_COUNT("_player_count", true),
+        GAME_MODE("_game_mode", false),
+        DIFFICULTY("_difficulty", false),
+        SPAWN_ANIMALS("_spawn_animals", false),
+        SPAWN_MONSTERS("_spawn_monsters", false),
+        PVP_ENABLED("_pvp-enabled", false),
+        TYPE("_type", false);
+
+        private final String parameter;
+        private final boolean requiresLoadedWorld;
+
+        /**
+         * Constructs a MultiWorldExpansionType with the given parameter and requirement for loaded world.
+         *
+         * @param parameter           The parameter associated with this type of placeholder.
+         * @param requiresLoadedWorld Whether this type requires the world to be loaded.
+         */
+        Type(@NotNull final String parameter, final boolean requiresLoadedWorld) {
+            this.parameter = parameter;
+            this.requiresLoadedWorld = requiresLoadedWorld;
+        }
+
+        /**
+         * Retrieves the MultiWorldExpansionType associated with the given parameter.
+         *
+         * @param parameter The parameter to search for.
+         * @return An Optional containing the MultiWorldExpansionType if found, empty otherwise.
+         */
+        public static Optional<Type> getByParameter(@NotNull final String parameter) {
+            for (final Type type : Type.values()) {
+                if (parameter.contains(type.getParameter())) {
+                    return Optional.of(type);
+                }
+            }
+            return Optional.empty();
+        }
+
+    }
+
 }
