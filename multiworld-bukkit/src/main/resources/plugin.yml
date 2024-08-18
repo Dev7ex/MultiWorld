@@ -13,7 +13,7 @@ loadbefore: [ ]
 main: com.dev7ex.multiworld.MultiWorldPlugin
 name: MultiWorld
 prefix: MultiWorld
-softdepend: [ PlaceholderAPI ]
+softdepend: [ PlaceholderAPI, MultiPerms ]
 version: ${project.version}
 website: https://www.spigotmc.org/resources/multiworld.92559/
 commands:
