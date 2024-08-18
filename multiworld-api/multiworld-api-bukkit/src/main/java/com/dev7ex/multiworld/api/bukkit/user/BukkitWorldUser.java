@@ -8,5 +8,4 @@ import org.bukkit.entity.Player;
  * @author Dev7ex
  * @since 07.06.2024
  */
-public interface BukkitWorldUser extends WorldUser, EntityResolver<Player> {
-}
+public interface BukkitWorldUser extends WorldUser, EntityResolver<Player> {}

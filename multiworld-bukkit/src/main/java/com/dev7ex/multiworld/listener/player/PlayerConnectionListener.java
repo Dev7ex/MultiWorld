@@ -1,9 +1,7 @@
 package com.dev7ex.multiworld.listener.player;
 
 import com.dev7ex.common.collect.map.ParsedMap;
-import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
-import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApiConfiguration;
 import com.dev7ex.multiworld.api.bukkit.event.MultiWorldListener;
 import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
 import com.dev7ex.multiworld.api.user.WorldUserConfiguration;

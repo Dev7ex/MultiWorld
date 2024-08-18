@@ -57,7 +57,7 @@ public interface MultiWorldApi {
      * @return The provider for generating worlds.
      */
     @NotNull
-    WorldGeneratorProvider getWorldGeneratorProvider();
+    WorldGeneratorProvider<?, ?> getWorldGeneratorProvider();
 
     /**
      * Retrieves the user provider for worlds.
@@ -65,7 +65,7 @@ public interface MultiWorldApi {
      * @return The user provider for worlds.
      */
     @NotNull
-    WorldUserProvider getUserProvider();
+    WorldUserProvider<?> getUserProvider();
 
     /**
      * Retrieves the folder where user-related data is stored.

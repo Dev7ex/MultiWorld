@@ -18,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface MultiWorldBukkitApi extends MultiWorldApi {
 
+    @Override
+    @NotNull MultiWorldBukkitApiConfiguration getConfiguration();
+
     /**
      * Retrieves the provider for managing users in Bukkit worlds.
      *

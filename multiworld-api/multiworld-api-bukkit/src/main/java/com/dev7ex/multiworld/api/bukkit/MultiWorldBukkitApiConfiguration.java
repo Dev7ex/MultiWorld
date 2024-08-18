@@ -7,8 +7,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-
 /**
  * @author Dev7ex
  * @since 16.08.2023

@@ -1,7 +1,7 @@
 package com.dev7ex.multiworld.api.bukkit.event;
 
-import com.dev7ex.multiworld.api.MultiWorldApiConfiguration;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
+import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApiConfiguration;
 import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUserProvider;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldManager;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
@@ -34,7 +34,7 @@ public abstract class MultiWorldListener implements Listener {
      *
      * @return The MultiWorldApiConfiguration.
      */
-    public MultiWorldApiConfiguration getConfiguration() {
+    public MultiWorldBukkitApiConfiguration getConfiguration() {
         return this.multiWorldApi.getConfiguration();
     }
 
