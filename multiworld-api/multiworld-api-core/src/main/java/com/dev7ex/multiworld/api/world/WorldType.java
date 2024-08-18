@@ -25,7 +25,7 @@ public enum WorldType {
     /**
      * Represents an end world type.
      */
-    END(false),
+    THE_END(false),
 
     /**
      * Represents a nether world type.

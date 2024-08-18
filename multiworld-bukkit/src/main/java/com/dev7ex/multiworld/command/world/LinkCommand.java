@@ -149,7 +149,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
                     return MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders()
                             .values()
                             .stream()
-                            .filter(worldHolder -> worldHolder.getType() == WorldType.END)
+                            .filter(worldHolder -> worldHolder.getType() == WorldType.THE_END)
                             .map(BukkitWorldHolder::getName)
                             .toList();
             }

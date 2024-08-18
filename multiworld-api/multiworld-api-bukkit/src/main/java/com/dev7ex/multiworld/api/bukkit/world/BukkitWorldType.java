@@ -25,7 +25,7 @@ public class BukkitWorldType {
      */
     public static WorldType fromEnvironment(@NotNull final World.Environment environment) {
         return switch (environment) {
-            case THE_END -> WorldType.END;
+            case THE_END -> WorldType.THE_END;
             case NETHER -> WorldType.NETHER;
             default -> WorldType.NORMAL;
         };

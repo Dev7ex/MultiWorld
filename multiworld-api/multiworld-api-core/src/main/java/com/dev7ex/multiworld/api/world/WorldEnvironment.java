@@ -29,7 +29,7 @@ public enum WorldEnvironment {
      */
     public static WorldEnvironment fromType(final WorldType worldType) {
         switch (worldType) {
-            case END:
+            case THE_END:
                 return WorldEnvironment.THE_END;
 
             case NETHER:

@@ -24,7 +24,7 @@ public class BukkitWorldEnvironment {
         return switch (type) {
             case NORMAL -> World.Environment.NORMAL;
             case NETHER -> World.Environment.NETHER;
-            case END -> World.Environment.THE_END;
+            case THE_END -> World.Environment.THE_END;
             default -> World.Environment.CUSTOM;
         };
     }

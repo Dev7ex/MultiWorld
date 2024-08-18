@@ -163,7 +163,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
 
         switch (type) {
-            case END:
+            case THE_END:
                 worldCreator.environment(World.Environment.THE_END);
                 break;
 
@@ -527,7 +527,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         }
 
         switch (worldHolder.getType()) {
-            case END:
+            case THE_END:
                 worldCreator.environment(World.Environment.THE_END);
                 break;
 
