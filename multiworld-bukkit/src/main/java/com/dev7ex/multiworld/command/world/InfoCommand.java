@@ -32,7 +32,7 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
         final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
 
         if (arguments.length != 2) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.info.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.world.info.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
