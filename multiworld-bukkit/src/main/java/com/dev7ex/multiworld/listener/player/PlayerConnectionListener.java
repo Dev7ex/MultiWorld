@@ -62,18 +62,6 @@ public class PlayerConnectionListener extends MultiWorldListener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-
-        /*if (super.getConfiguration().getBoolean("settings.receive-update-message")
-                && player.hasPermission("multiworld.update.notify")
-                && MultiWorldPlugin.getInstance().getUpdateChecker().isUpdateAvailable()) {
-
-            player.sendMessage(super.getConfiguration().getString(MultiWorldBukkitApiConfiguration.Entry.MESSAGES_GENERAL_UPDATE_MESSAGE_PLAYER.getPath())
-                    .replace("%prefix%", super.getConfiguration().getPrefix()));
-            player.sendMessage(super.getConfiguration().getString(MultiWorldBukkitApiConfiguration.Entry.MESSAGES_GENERAL_UPDATE_MESSAGE_VERSION_PLAYER.getPath())
-                    .replace("%prefix%", super.getConfiguration().getPrefix())
-                    .replace("%current_version%", MultiWorldPlugin.getInstance().getDescription().getVersion())
-                    .replace("%new_version%", MultiWorldPlugin.getInstance().getUpdateChecker().getNewVersion()));
-        }*/
     }
 
     /**
