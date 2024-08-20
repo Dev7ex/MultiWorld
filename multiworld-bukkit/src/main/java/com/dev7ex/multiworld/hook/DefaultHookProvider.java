@@ -3,6 +3,7 @@ package com.dev7ex.multiworld.hook;
 import com.dev7ex.common.bukkit.plugin.module.PluginModule;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.hook.permission.MultiPermsHook;
+import com.dev7ex.multiworld.hook.placeholder.PlaceholderHook;
 import org.bukkit.Bukkit;
 
 /**
@@ -19,7 +20,7 @@ public class DefaultHookProvider implements PluginModule {
         }
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new MultiPermsHook().register();
+            new PlaceholderHook(MultiWorldPlugin.getInstance()).register();
             MultiWorldPlugin.getInstance().getLogger().info("Successfully injected into PlaceholderAPI");
         }
     }
