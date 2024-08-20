@@ -40,7 +40,13 @@ public class EntityPortalListener extends MultiWorldListener {
         if (event.getFrom().getWorld() == null) {
             return;
         }
-        final BukkitWorldHolder fromWorldHolder = super.getWorldProvider().getWorldHolder(event.getFrom().getWorld().getName()).orElseThrow();
+
+        if (super.getWorldProvider().getWorldHolder(event.getFrom().getWorld().getName()).isEmpty()) {
+            return;
+        }
+        final BukkitWorldHolder fromWorldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getFrom().getWorld().getName())
+                .get();
 
         if ((event.getTo() == null) || (event.getTo().getWorld() == null)) {
             return;
