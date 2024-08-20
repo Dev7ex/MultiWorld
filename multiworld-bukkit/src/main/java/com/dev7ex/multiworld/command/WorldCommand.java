@@ -5,6 +5,7 @@ import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.command.world.*;
+import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +55,8 @@ public final class WorldCommand extends BukkitCommand implements BukkitTabComple
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        // Handling command execution
+        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+
         if ((arguments.length == 0) || (arguments.length > 5)) {
             Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
             return;
@@ -66,7 +68,8 @@ public final class WorldCommand extends BukkitCommand implements BukkitTabComple
         final BukkitCommand subCommand = super.getSubCommand(arguments[0].toLowerCase()).get();
 
         if (!commandSender.hasPermission(subCommand.getPermission())) {
-            commandSender.sendMessage(super.getConfiguration().getNoPermissionMessage());
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.no-permission")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
         super.getSubCommand(arguments[0].toLowerCase()).get().execute(commandSender, arguments);
