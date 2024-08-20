@@ -90,10 +90,6 @@ public class DefaultWorldProvider implements PluginModule, BukkitWorldProvider {
             if (!worldHolder.isAutoLoadEnabled()) {
                 continue;
             }
-
-            if (worldHolder.getWorld() != null) {
-                continue;
-            }
             this.worldManager.loadWorld(Bukkit.getConsoleSender().getName(), worldHolder.getName());
         }
         MultiWorldPlugin.getInstance().getLogger().info("Found: [" + this.worldHolders.size() + "] Worlds");
