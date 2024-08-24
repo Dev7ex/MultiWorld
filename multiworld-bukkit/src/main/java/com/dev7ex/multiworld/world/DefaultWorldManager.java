@@ -297,8 +297,9 @@ public class DefaultWorldManager implements BukkitWorldManager {
         final ParsedMap<WorldDefaultProperty, Object> defaultProperties = this.pluginConfiguration.getDefaultProperties();
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
 
-        worldCreator.environment(BukkitWorldEnvironment.from(environment));
-        worldCreator.generator(generator);
+        if (BukkitWorldEnvironment.from(environment) != World.Environment.CUSTOM) {
+            worldCreator.environment(BukkitWorldEnvironment.from(environment));
+        }
 
         switch (generator) {
             case "FlatWorldGenerator":
