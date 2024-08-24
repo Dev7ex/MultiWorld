@@ -8,7 +8,7 @@
     "invalid-generator": "%prefix% §7Der angegeben Generator %generator_name% existiert nicht",
     "invalid-seed": "%prefix% §7Der angegeben Seed %seed% ist §cungültig§7!",
     "world": {
-      "environment-not-exists": "%prefix% §cDie Umgebung §6%environment_name% §7existiert nicht!",
+      "environment-not-exists": "%prefix% §7Die Umgebung §6%environment_name% §7existiert §cnicht§7!",
       "already-loaded": "%prefix% §7Die Welt §a%world_name% §7ist bereits geladen",
       "not-loaded": "%prefix% §7Die Welt §a%world_name% §7ist nicht geladen",
       "already-exists": "%prefix% §7Es existiert bereits eine Welt unter dem Namen §a%world_name%§7!",

@@ -8,6 +8,8 @@
     "invalid-generator": "%prefix% §7The specified generator %generator_name% does not exist",
     "invalid-seed": "%prefix% §7The specified seed %seed% is §cinvalid§7!",
     "world": {
+      "environment-not-exists": "%prefix% §7The environment §6%environment_name% §7does §cnot §7exist!",
+      "already-loaded": "%prefix% §7The world §a%world_name% §7is already loaded",
       "not-loaded": "%prefix% §7The world §a%world_name% §7is not loaded",
       "already-exists": "%prefix% §7A world already exists under the name §a%world_name%§7!",
       "not-exists": "%prefix% §7The world §a%world_name% §7does not exist!",
@@ -16,7 +18,8 @@
       "folder-not-exists": "%prefix% §7There is no world folder under the name §a%world_name%§7!",
       "nether-not-accessible": "%prefix% §7Access to the world §a%world_name% §7has been blocked! §c§8[%reason%§8]",
       "end-not-accessible": "%prefix% §7Access to the world §a%world_name% §7has been blocked! §c§8[%reason%§8]",
-      "unload-locked": "%prefix% §7The world §a%world_name% §7may not be unloaded!"
+      "unload-locked": "%prefix% §7The world §a%world_name% §7may not be unloaded!",
+      "delete-locked": "%prefix% §7The world §a%world_name% §7may not be deleted!"
     }
   },
   "commands": {
