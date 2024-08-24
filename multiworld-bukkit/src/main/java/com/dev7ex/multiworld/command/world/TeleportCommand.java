@@ -44,39 +44,42 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
         }
         final DefaultWorldProvider worldProvider = MultiWorldPlugin.getInstance().getWorldProvider();
 
-        if (arguments.length == 3) {
-            final Player target = Bukkit.getPlayer(arguments[1]);
-
-            if (target == null) {
-                commandSender.sendMessage(translationProvider.getMessage(commandSender, "no-player-found")
+        if (arguments.length == 2) {
+            if (!(commandSender instanceof Player)) {
+                commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.no-console-command")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                        .replaceAll("%player_name%", arguments[1]));
+                        .replaceAll("%command_name%", super.getName()));
                 return;
             }
+            final Player player = (Player) commandSender;
             final BukkitWorldUser user = MultiWorldPlugin.getInstance()
                     .getUserProvider()
-                    .getUser(target.getUniqueId())
+                    .getUser(player.getUniqueId())
                     .orElseThrow();
 
-            if (MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[2])) {
+            if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
                 commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                         .replaceAll("%world_name%", arguments[1]));
                 return;
             }
 
-            if (Bukkit.getWorld(arguments[2]) == null) {
+            if (Bukkit.getWorld(arguments[1]) == null) {
                 commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-loaded")
-                        .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+                        .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                        .replaceAll("%world_name%", arguments[1]));
                 return;
             }
-            final World world = Bukkit.getWorld(arguments[2]);
+            final World world = Bukkit.getWorld(arguments[1]);
+            final BukkitWorldHolder lastWorldHolder = worldProvider.getWorldHolder(player.getLocation().getWorld().getName())
+                    .orElseThrow();
+            final BukkitWorldHolder nextWorldHolder = worldProvider.getWorldHolder(arguments[1])
+                    .orElseThrow();
 
-            if (target.getLocation().getWorld().getName().equalsIgnoreCase(arguments[2])) {
-                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.teleport.target-already-there")
+            if (player.getLocation().getWorld().getName().equalsIgnoreCase(arguments[1])) {
+                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.teleport.sender-already-there")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                        .replaceAll("%player_name%", arguments[1])
-                        .replaceAll("%world_name%", arguments[2]));
+                        .replaceAll("%world_name%", arguments[1]));
                 return;
             }
 
@@ -94,11 +97,6 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
                 return;
             }
 
-            final BukkitWorldHolder lastWorldHolder = worldProvider.getWorldHolder(target.getLocation().getWorld().getName())
-                    .orElseThrow();
-            final BukkitWorldHolder nextWorldHolder = worldProvider.getWorldHolder(arguments[2])
-                    .orElseThrow();
-
             final WorldUserTeleportWorldEvent event = new WorldUserTeleportWorldEvent(user, lastWorldHolder, nextWorldHolder);
             Bukkit.getPluginManager().callEvent(event);
 
@@ -108,41 +106,39 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
             user.teleport(nextWorldHolder);
             return;
         }
+        final Player target = Bukkit.getPlayer(arguments[1]);
 
-        if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "no-console-command")
-                    .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
+        if (target == null) {
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.no-player-found")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                    .replaceAll("%player_name%", arguments[1]));
             return;
         }
-        final Player player = (Player) commandSender;
         final BukkitWorldUser user = MultiWorldPlugin.getInstance()
                 .getUserProvider()
-                .getUser(player.getUniqueId())
+                .getUser(target.getUniqueId())
                 .orElseThrow();
 
-        if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
+        if (!MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[2])) {
             commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                    .replaceAll("%world_name%", arguments[1]));
+                    .replaceAll("%world_name%", arguments[2]));
             return;
         }
 
-        if (Bukkit.getWorld(arguments[1]) == null) {
+        if (Bukkit.getWorld(arguments[2]) == null) {
             commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-loaded")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                    .replaceAll("%world_name%", arguments[1]));
+                    .replaceAll("%world_name%", arguments[2]));
             return;
         }
-        final World world = Bukkit.getWorld(arguments[1]);
-        final BukkitWorldHolder lastWorldHolder = worldProvider.getWorldHolder(player.getLocation().getWorld().getName())
-                .orElseThrow();
-        final BukkitWorldHolder nextWorldHolder = worldProvider.getWorldHolder(arguments[1])
-                .orElseThrow();
+        final World world = Bukkit.getWorld(arguments[2]);
 
-        if (player.getLocation().getWorld().getName().equalsIgnoreCase(arguments[1])) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.teleport.sender-already-there")
+        if (target.getLocation().getWorld().getName().equalsIgnoreCase(arguments[2])) {
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.teleport.target-already-there")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
-                    .replaceAll("%world_name%", arguments[1]));
+                    .replaceAll("%player_name%", arguments[1])
+                    .replaceAll("%world_name%", arguments[2]));
             return;
         }
 
@@ -159,6 +155,11 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
                     .replaceAll("%reason%", "Locked"));
             return;
         }
+
+        final BukkitWorldHolder lastWorldHolder = worldProvider.getWorldHolder(target.getLocation().getWorld().getName())
+                .orElseThrow();
+        final BukkitWorldHolder nextWorldHolder = worldProvider.getWorldHolder(arguments[2])
+                .orElseThrow();
 
         final WorldUserTeleportWorldEvent event = new WorldUserTeleportWorldEvent(user, lastWorldHolder, nextWorldHolder);
         Bukkit.getPluginManager().callEvent(event);
@@ -178,9 +179,7 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
         final List<String> completions = Lists.newArrayList(worldProvider.getWorldHolders().keySet());
 
         if (arguments.length == 2) {
-            if (commandSender instanceof Player player) {
-                completions.addAll(Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).toList());
-                completions.remove(player.getWorld().getName());
+            if (commandSender instanceof Player) {
                 return completions;
 
             } else {
@@ -189,12 +188,14 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
         }
 
         if (commandSender instanceof Player) {
-            if (!worldProvider.isRegistered(arguments[1])) {
-                return completions;
+            if (Bukkit.getPlayer(arguments[1]) == null) {
+                return Collections.emptyList();
             }
-            return Collections.emptyList();
+            return completions;
+
+        } else {
+            return completions;
         }
-        return completions;
     }
 
 }
