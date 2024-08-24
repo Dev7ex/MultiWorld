@@ -6,7 +6,7 @@
     "no-player-command": "%prefix% §cThe command §6%command_name% §ccan only be executed from the console!",
     "no-player-found": "%prefix% §cThe player §6%player_name% §cwas not found",
     "invalid-generator": "%prefix% §7The specified generator %generator_name% does not exist",
-    "invalid-seed": "%prefix% §7The specified seed %seed% is §invalid§7!",
+    "invalid-seed": "%prefix% §7The specified seed %seed% is §cinvalid§7!",
     "world": {
       "not-loaded": "%prefix% §7The world §a%world_name% §7is not loaded",
       "already-exists": "%prefix% §7A world already exists under the name §a%world_name%§7!",
@@ -124,7 +124,7 @@
       },
       "link": {
         "usage": "%prefix% §cUsage: /world link <World> <End | Nether> <World>",
-        "environment-not-exists": "%prefix% §cThe specified environment §6%environment_name% §does not exist",
+        "environment-not-exists": "%prefix% §cThe specified environment §6%environment_name% §cdoes not exist",
         "successfully-set": "%prefix% §7You have connected the portal §a%environment_name% §7in the world §a%world_name% to the world §a%target_world_name%§7!"
       },
       "list": {
@@ -174,7 +174,7 @@
           "successfully-enabled": "%prefix% §7You have §aactivated §7the whitelist in the world §a%world_name% §7!"
         },
         "remove": {
-          "already-removed": "%prefix% §7The player §a%player_name% §7is §not §7whitelisted!",
+          "already-removed": "%prefix% §7The player §a%player_name% §7is §cnot §7whitelisted!",
           "successfully-removed": "%prefix% §7You have removed the player §a%player_name% §7from the whitelist of the world §a%world_name%§7!"
         }
       }

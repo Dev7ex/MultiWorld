@@ -1,0 +1,183 @@
+{
+    "general": {
+      "translator": "SnowCutieOwO",
+      "no-permission": "§c抱歉, 但你没有权限执行这条命令. 若你确信这不该出现, 请联系服务器管理员.",
+      "no-console-command": "%prefix% §c命令 §6%command_name% §c只能由玩家执行!",
+      "no-player-command": "%prefix% §c命令 §6%command_name% §c只能由控制台执行!",
+      "no-player-found": "%prefix% §c玩家 §6%player_name% §c不存在",
+      "invalid-generator": "%prefix% §7指定世界生成器 %generator_name% 不存在",
+      "invalid-seed": "%prefix% §7指定的种子 %seed% §c无效§7!",
+      "world": {
+        "not-loaded": "%prefix% §7世界 §a%world_name% §7尚未载入",
+        "already-exists": "%prefix% §7已存在名称为 §a%world_name%§7 的世界!",
+        "not-exists": "%prefix% §7世界 §a%world_name% §7不存在!",
+        "type-not-exists": "%prefix% §7指定的世界类型 %world_type% §7不存在!",
+        "whitelist-block-trespassing": "%prefix% §7你不能进入这个世界, 因为你§c没有§7在该世界的白名单上!",
+        "folder-not-exists": "%prefix% §7没有在 §a%world_name%§7 文件夹下找到世界!",
+        "nether-not-accessible": "%prefix% §7你不能前往世界 §a%world_name%§7! §c§8[%reason%§8]",
+        "end-not-accessible": "%prefix% §7你不能前往世界 §a%world_name%§7! §c§8[%reason%§8]",
+        "unload-locked": "%prefix% §7世界 §a%world_name% §7可能已被卸载!"
+      }
+    },
+    "commands": {
+      "world": {
+        "back": {
+          "usage": "%prefix% §c命令用法: /world back",
+          "world-not-exists": "%prefix% §7你尝试进入的世界 §a%world_name% §7不存在!",
+          "already-there": "%prefix% §7你已经在世界 §a%world_name% §7中了"
+        },
+        "backup": {
+          "usage": "%prefix% §c命令用法: /world backup <世界名称>",
+          "starting": "%prefix% §7正在创建世界 §b%world_name% §7的备份...",
+          "finished": "%prefix% §7成功创建世界 §b%world_name% §7的备份!"
+        },
+        "clone": {
+          "usage": "%prefix% §c命令用法: /world clone <世界名称> <复制世界名称>",
+          "starting": "%prefix% §7正在复制世界 §a%world_name%§7...",
+          "finished": "%prefix% §7成功复制世界 §a%world_name%§7! 复制后的世界名称为: §a%cloned_world_name%"
+        },
+        "create": {
+          "usage": "%prefix% §c命令用法: /world create <世界名称> <环境> <-g, -s> <生成器 | 种子>",
+          "starting": "%prefix% §7正在创建世界 §a%world_name%§7...",
+          "finished": "%prefix% §7成功创建世界 §a%world_name%§7!"
+        },
+        "delete": {
+          "usage": "%prefix% §c命令用法: /world delete <世界名称>",
+          "starting": "%prefix% §7正在删除世界 §a%world_name%§7...",
+          "finished": "%prefix% §7成功删除世界 §a%world_name%§7!"
+        },
+        "flag": {
+          "usage": "%prefix% §c命令用法: /world flag <世界名称> <标志> <值>",
+          "not-existing": "%prefix% §7标志 §a%flag_name% §7不存在!",
+          "invalid-value": "%prefix% §7指定值 §a%value% §7对标志 §a%flag_name%§7 无效!",
+          "successfully-set": "%prefix% §7成功将标志 §a%flag_name%§7 的值设置为了 §a%value%§7!"
+        },
+        "gamerule": {
+          "usage": "%prefix% §c命令用法: /world flag <世界名称> <游戏规则> <值>",
+          "not-existing": "%prefix% §7游戏规则 §a%gamerule_name% §7不存在!",
+          "invalid-value": "%prefix% §7指定值 §a%value% §7对游戏规则 §a%gamerule_name%§7 无效!",
+          "successfully-set": "%prefix% §7成功将游戏规则 §a%gamerule_name%§7 的值设置为了 §a%value%§7!"
+        },
+        "help": {
+          "message": [
+            "",
+            "§f§m                    §r§r %prefix% §f§m                    ",
+            "",
+            "§7» §7/world §bback",
+            "§7» §7/world §bbackup §7<世界名称>",
+            "§7» §7/world §bclone §7<世界名称> <复制世界名称>",
+            "§7» §7/world §bcreate §7<世界名称> <环境> <-g, -s, -t> <生成器 | 种子 | 世界类型>",
+            "§7» §7/world §bdelete §7<世界名称>",
+            "§7» §7/world §bflag §7<世界名称> <世界标志> <值>",
+            "§7» §7/world §bgamerule §7<世界名称> <游戏规则> <值>",
+            "§7» §7/world §bhelp",
+            "§7» §7/world §bimport §7<世界名称> <环境> <-g, -t> <生成器 | 世界类型>",
+            "§7» §7/world §binfo §7<世界名称>",
+            "§7» §7/world §blist",
+            "§7» §7/world §blink §7<世界名称> <Nether | End> <世界名称>",
+            "§7» §7/world §bload §7<世界名称>",
+            "§7» §7/world §breload",
+            "§7» §7/world §bteleport §7<Player> <世界名称>",
+            "§7» §7/world §bunload §7<世界名称>",
+            "§7» §7/world §bversion",
+            "§7» §7/world §bwhitelist §7<世界名称> <Enable | Disable | Add | Remove | List> <玩家名称>",
+            "",
+            "§f§m                    §r§r %prefix% §f§m                    ",
+            ""
+          ]
+        },
+        "import": {
+          "usage": "%prefix% §c命令用法: /world import <世界名称> <环境> <-g, -t> <生成器 | 世界类型>",
+          "world-already-imported": "%prefix% §7The world §a%world_name% §7has already been imported!",
+          "starting": "%prefix% §7The world §a%world_name% §7will be imported...",
+          "finished": "%prefix% §7The world §a%world_name% §7has been successfully imported!"
+        },
+        "info": {
+          "usage": "%prefix% §c命令用法: /world info <世界名称>",
+          "message": [
+            "",
+            "§f§m               §r§r §b%world_name% §f§m               ",
+            "",
+            "§7» 创建者: §b%world_creator_name%",
+            "§7» 创建日期: §b%creation_timestamp%",
+            "§7» 自动载入: §b%load_auto%",
+            "§7» 是否载入: §b%loaded%",
+            "§7» 世界类型: §b%world_type%",
+            "§7» 世界环境: §b%environment%",
+            "§7» 世界难度: §b%difficulty%",
+            "§7» 游戏模式: §b%gamemode%",
+            "§7» 允许PVP: §b%pvp_enabled%",
+            "§7» 允许成就: §b%receive_achievements%",
+            "§7» 生成怪物: §b%spawn_monsters%",
+            "§7» 生成动物: §b%spawn_animals%",
+            "§7» 生成实体: §b%spawn_entities%",
+            "§7» 主世界: §b%normal_world%",
+            "§7» 下界: §b%nether_world%",
+            "§7» 末地: §b%end_world%",
+            "§7» 是否允许末地传送门: §b%end-portal-accessible%",
+            "§7» 是否允许下界传送门: §b%nether-portal-accessible%",
+            "§7» 白名单状态: §b%whitelist_enabled%",
+            "",
+            "§f§m               §r§r §b%world_name% §f§m               ",
+            ""
+          ]
+        },
+        "link": {
+          "usage": "%prefix% §c命令用法: /world link <世界名称> <End | Nether> <世界名称>",
+          "environment-not-exists": "%prefix% §c指定环境 §6%environment_name% §c不存在",
+          "successfully-set": "%prefix% §7你将世界 §a%world_name% §7的 §a%environment_name% §7传送门连接至了世界 §a%target_world_name%§7!"
+        },
+        "list": {
+          "usage": "%prefix% §c命令用法: /world list",
+          "message": "%prefix% §7世界列表: %world_names%"
+        },
+        "load": {
+          "usage": "%prefix% §c命令用法: /world load <世界名称>",
+          "error-missing-generator": "%prefix% §7世界 §a%world_name% §7无法载入. 所使用的生成器 §a%generator_name% §7尚未安装",
+          "starting": "%prefix% §7正在载入世界 §a%world_name%§7...",
+          "finished": "%prefix% §7成功载入世界 §a%world_name%§7!"
+        },
+        "reload": {
+          "usage": "%prefix% §c命令用法: /world reload",
+          "message": "%prefix% §7插件重载成功!"
+        },
+        "teleport": {
+          "usage": "%prefix% §c命令用法: /world teleport <玩家名称> <世界名称>",
+          "message": "%prefix% §a%player_name% §7已被传送至世界 §a%world_name%§7!",
+          "sender-already-there": "%prefix% §7你已经处于世界 §b%world_name% §7中",
+          "target-already-there": "%prefix% §7玩家 §a%player_name% §7已经处于世界 §b%world_name% §7中"
+        },
+        "unload": {
+          "usage": "%prefix% §c命令用法: /world unload <世界名称>",
+          "chunk-starting": "%prefix% §7正在卸载世界 §a%world_name% §7中的区块...",
+          "chunk-finished": "%prefix% §7成功卸载世界 §a%world_name% §7中的区块!",
+          "chunk-teleport": "%prefix% §7你所处的世界区块正在被 §c%unloader_name% §7卸载! §7你将会被传送!",
+          "starting": "%prefix% §7正在卸载世界 §a%world_name%§7...",
+          "finished": "%prefix% §7成功卸载世界 §a%world_name%§7!"
+        },
+        "whitelist": {
+          "usage": "%prefix% §c命令用法: /world whitelist <世界名称> <On | Off | Add | List | Remove> <玩家名称>",
+          "add": {
+            "already-added": "%prefix% §7玩家 §a%player_name% §7已经在白名单上了!",
+            "successfully-added": "%prefix% §7成功将玩家 §a%player_name% §7添加至世界 §a%world_name% §7的白名单!"
+          },
+          "list": {
+            "empty": "%prefix% §7世界 §a%world_name% §7的白名单为空",
+            "message": "%prefix% §7白名单: %player_names%"
+          },
+          "disable": {
+            "already-disabled": "%prefix% §7世界 §a%world_name% §7的白名单已被§c禁用§7!",
+            "successfully-disabled": "%prefix% §7成功§c禁用§7了世界 §a%world_name%§7 的白名单!"
+          },
+          "enable": {
+            "already-enabled": "%prefix% §7世界 §a%world_name% §7的白名单已被§a启用§7!",
+            "successfully-enabled": "%prefix% §7成功§a启用§7了世界 §a%world_name% §7的白名单!"
+          },
+          "remove": {
+            "already-removed": "%prefix% §7玩家 §a%player_name% §c没有§7在白名单上!",
+            "successfully-removed": "%prefix% §7你将玩家 §a%player_name% §7移出了世界 §a%world_name%§7 的白名单!"
+          }
+        }
+      }
+    }
+  }
