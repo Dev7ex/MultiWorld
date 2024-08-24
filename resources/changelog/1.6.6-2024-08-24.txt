@@ -1,0 +1,4 @@
+Adding zh_CN.json
+Fixing CommandException in World Creator Command by using Custom Environment
+Fixing World with special generators couldn't be load when server starting (#46)
+
