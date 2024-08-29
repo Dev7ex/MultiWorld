@@ -1,0 +1,186 @@
+{
+    "general": {
+      "translator": "Krayir5",
+      "no-permission": "§cÜzgünüm, ama bu komutu kullanmak için gerekli iznin yok. Eğer bunun bir hata olduğunu düşünüyorsan sunucu yetkililerine iletmeyi unutma.",
+      "no-console-command": "%prefix% §6%command_name% §ckomutunu sadece oyuncular kullanabilir!",
+      "no-player-command": "%prefix% §6%command_name% §ckomutu sadece konsol tarafından kullanılabilir!",
+      "no-player-found": "%prefix% §6%player_name% §cadlı oyuncu bulunamadı",
+      "invalid-generator": "%prefix% §7Belirtilmiş %generator_name% jeneratörü bulunamadı",
+      "invalid-seed": "%prefix% §7Belirtilmiş %seed% seedi §cbulunamadı§7!",
+      "world": {
+        "environment-not-exists": "%prefix% §7Çevre olarak §6%environment_name%  §cbulunmamakta!",
+        "already-loaded": "%prefix% §a%world_name% §7is adlı Dünya zaten yüklenmiş",
+        "not-loaded": "%prefix% §7Dünya §a%world_name% §7 yüklü değil",
+        "already-exists": "%prefix% §a%world_name% §7adı altında bir Dünya zaten mevcut!",
+        "not-exists": "%prefix% §7Dünya §a%world_name% §7 mevcut değil!",
+        "type-not-exists": "%prefix% §7Belirtilen Dünya tipi %world_type% §7 mevcut değil!",
+        "whitelist-block-trespassing": "%prefix% §7Beyaz listeye alınmadığınız için bu Dünya'ya girmenize §cizin verilmiyor!",
+        "folder-not-exists": "%prefix% §a%world_name%§7 adı altında Dünya klasörü yok!",
+        "nether-not-accessible": "%prefix% §a%world_name% §7Dünya'sına erişim engellendi! §c§8[%reason%§8]",
+        "end-not-accessible": "%prefix% §a%world_name% §7Dünya'sına erişim engellendi! §c§8[%reason%§8]",
+        "unload-locked": "%prefix% §7Dünya §a%world_name% §7boşaltılamayabilir!",
+        "delete-locked": "%prefix% §7Dünya §a%world_name% §7silinemeyebilir!"
+      }
+    },
+    "commands": {
+      "world": {
+        "back": {
+          "usage": "%prefix% §cKullanımı: /world back",
+          "world-not-exists": "%prefix% §7Girmeye çalıştığınız §a%world_name% §7Dünya'sı artık mevcut değil!",
+          "already-there": "%prefix% §7Zaten §a%world_name% Dünya'sındasınız"
+        },
+        "backup": {
+          "usage": "%prefix% §cKullanımı: /world backup <World>",
+          "starting": "%prefix% §b%world_name% §7Dünya'sının bir yedeği oluşturuluyor...",
+          "finished": "%prefix% §b%world_name% §7Dünya'sının yedeği başarıyla oluşturuldu!"
+        },
+        "clone": {
+          "usage": "%prefix% §cKullanımı: /world clone <Dünya> <İsim>",
+          "starting": "%prefix% §a%world_name% §7Dünya'sı klonlanıyor...",
+          "finished": "%prefix% §a%world_name% §7Dünya'sı başarıyla klonlandı! Adı: §a%cloned_world_name%"
+        },
+        "create": {
+          "usage": "%prefix% §cKullanımı: /world create <İsim> <Çevre> <-g, -s> <Generator | Seed>",
+          "starting": "%prefix% §7Dünya §a%world_name% §7oluşturuluyor...",
+          "finished": "%prefix% §7Dünya §a%world_name% §7başarıyla oluşturuldu!"
+        },
+        "delete": {
+          "usage": "%prefix% §cKullanımı: /world delete <Dünya>",
+          "starting": "%prefix% §7Dünya §a%world_name% §7siliyor...",
+          "finished": "%prefix% §7Dünya §a%world_name% §7 başarıyla silindi!"
+        },
+        "flag": {
+          "usage": "%prefix% §cKullanımı: /world flag <Dünya> <Etiket> <Değer>",
+          "not-existing": "%prefix% §a%flag_name% §7etiketi mevcut değil!",
+          "invalid-value": "%prefix% §7Belirtilen değer §a%value% §7, §a%flag_name%§7 etiketi için geçerli değil!",
+          "successfully-set": "%prefix% §a%flag_name%§7 etiketi için §a%value% §7değerini ayarladınız!"
+        },
+        "gamerule": {
+          "usage": "%prefix% §cKullanımı: /world flag <Dünya> <DünyaAyarı> <Değer>",
+          "not-existing": "%prefix% §7Dünya Ayarı §a%gamerule_name% §7mevcut değil!",
+          "invalid-value": "%prefix% §7Belirtilen değer §a%value% §7, §a%gamerule_name%§7 Dünya ayarı için geçerli değil!",
+          "successfully-set": "%prefix% §a%gamerule_name%§7 Dünya ayarı için §a%value% §7değerini ayarladınız!"
+        },
+        "help": {
+          "message": [
+            "",
+            "§f§m                    §r§r %prefix% §f§m                    ",
+            "",
+            "§7» §7/world §bback",
+            "§7» §7/world §bbackup §7<Dünya>",
+            "§7» §7/world §bclone §7<Dünya> <İsim>",
+            "§7» §7/world §bcreate §7<İsim> <Çevre> <-g, -s, -t> <Generator | Seed | DünyaTipi>",
+            "§7» §7/world §bdelete §7<Dünya>",
+            "§7» §7/world §bflag §7<Dünya> <Etiket> <Değer>",
+            "§7» §7/world §bgamerule §7<Dünya> <DünyaAyarı> <Değer>",
+            "§7» §7/world §bhelp",
+            "§7» §7/world §bimport §7<İsim> <Çevre> <-g, -t> <Generator | DünyaTipi>",
+            "§7» §7/world §binfo §7<Dünya>",
+            "§7» §7/world §blist",
+            "§7» §7/world §blink §7<Dünya> <Nether | End> <World>",
+            "§7» §7/world §bload §7<Dünya>",
+            "§7» §7/world §breload",
+            "§7» §7/world §bteleport §7<Oyuncu> <Dünya>",
+            "§7» §7/world §bunload §7<Dünya>",
+            "§7» §7/world §bversion",
+            "§7» §7/world §bwhitelist §7<Dünya> <Enable | Disable | Add | Remove | List> <İsim>",
+            "",
+            "§f§m                    §r§r %prefix% §f§m                    ",
+            ""
+          ]
+        },
+        "import": {
+          "usage": "%prefix% §cKullanımı: /world import <İsim> <Çevre> <-g, -t> <Generator | DünyaTipi>",
+          "world-already-imported": "%prefix% §7Dünya §a%world_name% §7 zaten içe aktarıldı!",
+          "starting": "%prefix% §7Dünya §a%world_name% §7içe aktarılacak...",
+          "finished": "%prefix% §7Dünya §a%world_name% §7başarıyla içe aktarıldı!"
+        },
+        "info": {
+          "usage": "%prefix% §cKullanımı: /world info <Dünya>",
+          "message": [
+            "",
+            "§f§m               §r§r §b%world_name% §f§m               ",
+            "",
+            "§7» Kurucusu: §b%world_creator_name%",
+            "§7» Şu zamanda kuruldu: §b%creation_timestamp%",
+            "§7» Otomatik-Yükle: §b%load_auto%",
+            "§7» Yüklü: §b%loaded%",
+            "§7» DünyaTipi: §b%world_type%",
+            "§7» Çevre: §b%environment%",
+            "§7» Zorluk: §b%difficulty%",
+            "§7» OyunModu: §b%gamemode%",
+            "§7» Pvp: §b%pvp_enabled%",
+            "§7» Başarı-Alınabilir: §b%receive_achievements%",
+            "§7» Canavar-Doğabilir: §b%spawn_monsters%",
+            "§7» Hayvan-Doğabilir: §b%spawn_animals%",
+            "§7» Varlık-Doğablir: §b%spawn_entities%",
+            "§7» Normal-Dünya: §b%normal_world%",
+            "§7» Nether-Dünyası: §b%nether_world%",
+            "§7» End-Dünyası: §b%end_world%",
+            "§7» End-Portal-Erişilebilir: §b%end-portal-accessible%",
+            "§7» Nether-Portal-Erişilebilir: §b%nether-portal-accessible%",
+            "§7» Beyaz Liste: §b%whitelist_enabled%",
+            "",
+            "§f§m               §r§r §b%world_name% §f§m               ",
+            ""
+          ]
+        },
+        "link": {
+          "usage": "%prefix% §cKullanımı: /world link <Dünya> <End | Nether> <Dünya>",
+          "environment-not-exists": "%prefix% §cBelirtilen ortam §6%environment_name% §c mevcut değil",
+          "successfully-set": "%prefix% §7Dünyadaki §a%environment_name% §7portalını §a%world_name% §7Dünya'sından §a%target_world_name% §7Dünya'sına bağladınız!"
+        },
+        "list": {
+          "usage": "%prefix% §cKullanımı: /world list",
+          "message": "%prefix% §7Dünyalar: %world_names%"
+        },
+        "load": {
+          "usage": "%prefix% §cKullanımı: /world load <Dünya>",
+          "error-missing-generator": "%prefix% §7Dünya §a%world_name% §7yüklenemiyor çünkü §a%generator_name% §7generatoru kurulu değil",
+          "starting": "%prefix% §7Dünya §a%world_name% §7yükleniyor...",
+          "finished": "%prefix% §7Dünya §a%world_name% §7başarıyla yüklendi!"
+        },
+        "reload": {
+          "usage": "%prefix% §cKullanımı: /world reload",
+          "message": "%prefix% §7Plugin başarıyla yeniden yüklendi!"
+        },
+        "teleport": {
+          "usage": "%prefix% §cKullanımı: /world teleport <Oyuncu> <Dünya>",
+          "message": "%prefix% §a%player_name% §7, §a%world_name% §7Dünya'sına ışınlandı!",
+          "sender-already-there": "%prefix% §7Zaten §b%world_name% §7Dünya'sındasınız.",
+          "target-already-there": "%prefix% §7Bu oyuncu §a%player_name% §7zaten §b%world_name% §7Dünya'sında."
+        },
+        "unload": {
+          "usage": "%prefix% §cKullanımı: /world unload <Dünya>",
+          "chunk-starting": "%prefix% §a%world_name% §7içindeki chunklar kaldırılacak...",
+          "chunk-finished": "%prefix% §a%world_name% §7'deki chunklar başarıyla kaldırıldı!",
+          "chunk-teleport": "%prefix% §7İçinde bulunduğunuz dünya §c%unloader_name% §7tarafından kaldırılıyor! §7Işınlanacaksınız!",
+          "starting": "%prefix% §7Dünya §a%world_name% §7kaldırılıyor...",
+          "finished": "%prefix% §7Dünya §a%world_name% §7başarıyla kaldırıldı!"
+        },
+        "whitelist": {
+          "usage": "%prefix% §cKullanımı: /world whitelist <Dünya> <On | Off | Add | List | Remove> <Oyuncu>",
+          "add": {
+            "already-added": "%prefix% §7Bu oyuncu §a%player_name% §7zaten beyaz listede!",
+            "successfully-added": "%prefix% §a%player_name% §7oyuncusunu §a%world_name% §7Dünya'sının beyaz listesine eklediniz!"
+          },
+          "list": {
+            "empty": "%prefix% §7Dünya §a%world_name% §7için beyaz liste boş!",
+            "message": "%prefix% §7Beyaz Liste: %player_names%"
+          },
+          "disable": {
+            "already-disabled": "%prefix% §a%world_name% §7Dünya'sının beyaz listesi zaten §cdevre dışı§7!",
+            "successfully-disabled": "%prefix% §a%world_name% §7Dünya'sındaki beyaz listeyi §cdevre dışı bıraktınız§7!"
+          },
+          "enable": {
+            "already-enabled": "%prefix% §a%world_name% §7Dünya'sının beyaz listesi §7zaten §aaktif§7!",
+            "successfully-enabled": "%prefix% §a%world_name% §7Dünya'sının beyaz listesini başarıyla &aaktive ettiniz§7!"
+          },
+          "remove": {
+            "already-removed": "%prefix% §a%player_name% &7beyaz listede &cdeğil&7!",
+            "successfully-removed": "%prefix% §a%player_name% §7oyuncusunu §a%world_name% §7Dünya'sının beyaz listesinden kaldırdınız!"
+          }
+        }
+      }
+    }
+  }
