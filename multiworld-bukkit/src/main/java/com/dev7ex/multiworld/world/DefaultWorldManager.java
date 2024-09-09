@@ -309,6 +309,10 @@ public class DefaultWorldManager implements BukkitWorldManager {
             case "VoidWorldGenerator":
                 worldCreator.generator(new VoidWorldGenerator(MultiWorldPlugin.getInstance()));
                 break;
+
+            default:
+                worldCreator.generator(generator);
+                break;
         }
 
         final BukkitWorldHolder worldHolder = BukkitWorldHolder.builder()
