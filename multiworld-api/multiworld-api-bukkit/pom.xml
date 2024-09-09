@@ -20,8 +20,8 @@
 
     <repositories>
         <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
@@ -37,13 +37,6 @@
             <groupId>com.dev7ex</groupId>
             <artifactId>facilis-common-bukkit</artifactId>
             <version>${dependency.facilis.common.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>${dependency.placeholder.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
