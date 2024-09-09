@@ -3,11 +3,14 @@ package com.dev7ex.multiworld.listener.player;
 import com.dev7ex.common.collect.map.ParsedMap;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.event.MultiWorldListener;
+import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserLoginEvent;
+import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserLogoutEvent;
 import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
 import com.dev7ex.multiworld.api.user.WorldUserConfiguration;
 import com.dev7ex.multiworld.api.user.WorldUserProperty;
 import com.dev7ex.multiworld.user.User;
 import com.dev7ex.multiworld.user.UserConfiguration;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -51,6 +54,8 @@ public class PlayerConnectionListener extends MultiWorldListener {
         user.setConfiguration(userConfiguration);
 
         super.getUserProvider().registerUser(user);
+
+        Bukkit.getPluginManager().callEvent(new WorldUserLoginEvent(user));
     }
 
     /**
@@ -77,6 +82,8 @@ public class PlayerConnectionListener extends MultiWorldListener {
 
         super.getUserProvider().saveUser(user, WorldUserProperty.LAST_LOCATION);
         super.getUserProvider().unregisterUser(player.getUniqueId());
+
+        Bukkit.getPluginManager().callEvent(new WorldUserLogoutEvent(user));
     }
 
 }
