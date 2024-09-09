@@ -48,6 +48,7 @@ permissions:
       multiworld.command.world.reload: true
       multiworld.command.world.teleport: true
       multiworld.command.world.unload: true
+      multiworld.command.world.version: true
       multiworld.command.world.whitelist: true
       multiworld.command.world.whitelist.add: true
       multiworld.command.world.whitelist.disable: true
