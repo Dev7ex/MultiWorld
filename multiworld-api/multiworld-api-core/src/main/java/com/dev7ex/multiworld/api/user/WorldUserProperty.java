@@ -14,24 +14,10 @@ import org.jetbrains.annotations.NotNull;
 @Getter(AccessLevel.PUBLIC)
 public enum WorldUserProperty {
 
-    /**
-     * The unique ID property of the user.
-     */
     UNIQUE_ID("unique-id"),
-
-    /**
-     * The name property of the user.
-     */
     NAME("name"),
-
-    /**
-     * The last location property of the user.
-     */
     LAST_LOCATION("last-location"),
-
-    /**
-     * The last login property of the user.
-     */
+    FIRST_LOGIN("first-login"),
     LAST_LOGIN("last-login");
 
     private final String storagePath;
