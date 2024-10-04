@@ -40,7 +40,10 @@ public class BackCommand extends BukkitCommand {
             return;
         }
         final Player player = (Player) commandSender;
-        final BukkitWorldUser user = MultiWorldPlugin.getInstance().getUserProvider().getUser(player.getUniqueId()).orElseThrow();
+        final BukkitWorldUser user = MultiWorldPlugin.getInstance()
+                .getUserProvider()
+                .getUser(player.getUniqueId())
+                .orElseThrow();
 
         if (user.getLastLocation() == null) {
             commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.back.world-not-exists")
