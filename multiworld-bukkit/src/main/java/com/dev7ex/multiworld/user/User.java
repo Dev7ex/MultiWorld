@@ -30,6 +30,7 @@ public class User implements BukkitWorldUser {
     private final String name;
     private WorldUserConfiguration configuration;
     private WorldLocation lastLocation;
+    private long firstLogin;
     private long lastLogin;
 
     /**

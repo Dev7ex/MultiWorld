@@ -59,6 +59,10 @@ public interface WorldUser {
      */
     void setLastLocation(@Nullable final WorldLocation location);
 
+    long getFirstLogin();
+
+    void setFirstLogin(final long firstLogin);
+
     /**
      * Gets the timestamp of the user's last login.
      *
