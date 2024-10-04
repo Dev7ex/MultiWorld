@@ -13,7 +13,9 @@ import com.dev7ex.multiworld.listener.entity.EntityPortalListener;
 import com.dev7ex.multiworld.listener.entity.EntitySpawnListener;
 import com.dev7ex.multiworld.listener.player.*;
 import com.dev7ex.multiworld.listener.user.UserTeleportWorldListener;
+import com.dev7ex.multiworld.listener.world.WorldActivityListener;
 import com.dev7ex.multiworld.listener.world.WorldFlagListener;
+import com.dev7ex.multiworld.task.WorldUnloadTask;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.dev7ex.multiworld.user.UserProvider;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
@@ -46,6 +48,8 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
     private DefaultWorldManager worldManager;
 
+    private WorldUnloadTask worldUnloadTask;
+
     private DefaultWorldProvider worldProvider;
     private UserProvider userProvider;
     private DefaultWorldGeneratorProvider worldGeneratorProvider;
@@ -71,7 +75,6 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     public void onEnable() {
         super.getServer().getServicesManager().register(MultiWorldBukkitApi.class, this, this, ServicePriority.Normal);
 
-        ConfigurationSerialization.registerClass(BukkitWorldLocation.class);
         MultiWorldApiProvider.registerApi(this);
     }
 
@@ -98,6 +101,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
         super.registerListener(new UserTeleportWorldListener(this));
 
+        super.registerListener(new WorldActivityListener(this));
         super.registerListener(new WorldFlagListener(this));
     }
 
@@ -112,6 +116,13 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         super.registerModule(this.worldProvider = new DefaultWorldProvider(this.worldManager, this.worldConfiguration));
         super.registerModule(this.userProvider = new UserProvider());
         super.registerModule(this.hookProvider = new DefaultHookProvider());
+    }
+
+    @Override
+    public void registerTasks() {
+        super.getServer()
+                .getScheduler()
+                .runTaskTimer(this, this.worldUnloadTask = new WorldUnloadTask(this.getWorldProvider()), 20L, 20L);
     }
 
     @Override

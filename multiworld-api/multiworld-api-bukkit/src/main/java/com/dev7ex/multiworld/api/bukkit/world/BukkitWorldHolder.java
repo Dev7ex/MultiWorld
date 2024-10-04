@@ -61,6 +61,8 @@ public class BukkitWorldHolder implements WorldHolder {
     private List<String> whitelist = new ArrayList<>();
     private boolean whitelistEnabled;
     private boolean loaded;
+    private long loadTimeStamp;
+    private long lastActivity;
 
     /**
      * Gets the Bukkit world associated with this world holder.

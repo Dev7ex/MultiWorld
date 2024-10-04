@@ -87,6 +87,21 @@ public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfigurat
     }
 
     @Override
+    public boolean isAutoUnloadSystemEnabled() {
+        return super.getBoolean(Entry.SETTINGS_AUTO_UNLOAD_SYSTEM_ENABLED.getPath());
+    }
+
+    @Override
+    public long getAutoUnloadSystemDelay() {
+        return super.getLong(Entry.SETTINGS_AUTO_UNLOAD_SYSTEM_DELAY.getPath());
+    }
+
+    @Override
+    public long getAutoUnloadLoadDelay() {
+        return super.getLong(Entry.SETTINGS_AUTO_UNLOAD_LOAD_DELAY.getPath());
+    }
+
+    @Override
     public boolean canNetherWorldAccessViaCommand() {
         return super.getBoolean(Entry.SETTINGS_ACCESS_NETHER_WORLD_VIA_COMMAND.getPath());
     }

@@ -77,6 +77,19 @@ public interface MultiWorldApiConfiguration {
     boolean isWorldLinkEnabled();
 
     /**
+     * Checks if the automatic world unloading system is enabled.
+     *
+     * This method indicates whether the system responsible for automatically
+     * unloading inactive or unused worlds is currently active. When enabled,
+     * worlds that have not been accessed for a certain period will be
+     * automatically unloaded to free up resources.
+     *
+     * @return {@code true} if the auto-unload system is enabled, {@code false} otherwise.
+     */
+    boolean isAutoUnloadSystemEnabled();
+
+
+    /**
      * Checks if Nether world access via command is allowed.
      *
      * @return True if Nether world access via command is allowed, otherwise false.
@@ -89,6 +102,21 @@ public interface MultiWorldApiConfiguration {
      * @return True if End world access via command is allowed, otherwise false.
      */
     boolean canEndWorldAccessViaCommand();
+
+    /**
+     * Retrieves the delay in seconds before a world is automatically unloaded.
+     *
+     * Worlds that are no longer needed or are inactive will be unloaded after
+     * this specified delay. The delay helps to ensure that resources are freed
+     * efficiently, while allowing for any pending processes or tasks related to
+     * the world to be completed.
+     *
+     * @return the delay in seconds before the world is automatically unloaded.
+     */
+    long getAutoUnloadSystemDelay();
+
+    long getAutoUnloadLoadDelay();
+
 
     /**
      * Retrieves the default properties for worlds.

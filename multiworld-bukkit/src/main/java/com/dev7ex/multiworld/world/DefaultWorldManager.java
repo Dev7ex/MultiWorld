@@ -28,6 +28,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -224,7 +226,9 @@ public class DefaultWorldManager implements BukkitWorldManager {
         world.setDifficulty(worldHolder.getDifficulty());
         world.setSpawnFlags(worldHolder.isSpawnMonsters(), worldHolder.isSpawnAnimals());
 
+        worldHolder.setLoadTimeStamp(System.currentTimeMillis());
         worldHolder.setLoaded(true);
+
         this.configuration.add(worldHolder);
         this.getProvider().register(worldHolder);
     }
@@ -285,7 +289,9 @@ public class DefaultWorldManager implements BukkitWorldManager {
         world.setDifficulty(worldHolder.getDifficulty());
         world.setSpawnFlags(worldHolder.isSpawnMonsters(), worldHolder.isSpawnAnimals());
 
+        worldHolder.setLoadTimeStamp(System.currentTimeMillis());
         worldHolder.setLoaded(true);
+
         this.configuration.add(worldHolder);
         this.getProvider().register(worldHolder);
     }
@@ -361,7 +367,9 @@ public class DefaultWorldManager implements BukkitWorldManager {
         world.setDifficulty(worldHolder.getDifficulty());
         world.setSpawnFlags(worldHolder.isSpawnMonsters(), worldHolder.isSpawnAnimals());
 
+        worldHolder.setLoadTimeStamp(System.currentTimeMillis());
         worldHolder.setLoaded(true);
+
         this.configuration.add(worldHolder);
         this.getProvider().register(worldHolder);
     }
@@ -545,6 +553,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         world.setDifficulty(worldHolder.getDifficulty());
         world.setSpawnFlags(worldHolder.isSpawnMonsters(), worldHolder.isSpawnAnimals());
 
+        worldHolder.setLoadTimeStamp(System.currentTimeMillis());
         worldHolder.setLoaded(true);
         this.getProvider().register(worldHolder);
 

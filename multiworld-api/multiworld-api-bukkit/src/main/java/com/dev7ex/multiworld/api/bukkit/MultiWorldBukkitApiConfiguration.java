@@ -25,6 +25,9 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_ACCESS_NETHER_WORLD_VIA_COMMAND("settings.access-nether-world-via-command", true, false),
         SETTINGS_ACCESS_END_WORLD_VIA_COMMAND("settings.access-end-world-via-command", true, false),
         SETTINGS_AUTO_GAME_MODE_ENABLED("settings.auto-game-mode-enabled", true, false),
+        SETTINGS_AUTO_UNLOAD_LOAD_DELAY("settings.auto-unload-load-delay", 300, false),
+        SETTINGS_AUTO_UNLOAD_SYSTEM_DELAY("settings.auto-unload-system-delay", 1800, false),
+        SETTINGS_AUTO_UNLOAD_SYSTEM_ENABLED("settings.auto-unload-system-enabled", true, false),
 
         SETTINGS_DEFAULTS_AUTO_LOAD_ENABLED("settings.defaults.auto-load-enabled", false, false),
         SETTINGS_DEFAULTS_AUTO_UNLOAD_ENABLED("settings.defaults.auto-unload-enabled", false, false),

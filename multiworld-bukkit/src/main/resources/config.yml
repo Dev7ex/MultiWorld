@@ -16,6 +16,12 @@ settings:
   access-end-world-via-command: true
   # Should the auto-game-mode per world work?
   auto-game-mode-enabled: true
+  # Delay in seconds after a world is loaded before it becomes eligible for auto-unloading (300 = 5 minutes)
+  auto-unload-load-delay: 300
+  # Delay in Seconds (900 = 15min)
+  auto-unload-system-delay: 1800
+  # Enables automatic unloading of inactive worlds.
+  auto-unload-system-enabled: true
   # Standard values for new worlds
   defaults:
     # Specifies whether the server should automatically load the worlds upon starting
