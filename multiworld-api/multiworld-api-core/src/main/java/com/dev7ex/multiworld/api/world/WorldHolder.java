@@ -15,25 +15,93 @@ import java.util.List;
  */
 public interface WorldHolder {
 
+    /**
+     * Checks if weather is enabled in the world.
+     *
+     * @return True if weather is enabled, false otherwise.
+     */
     boolean isWeatherEnabled();
 
+    /**
+     * Sets whether weather is enabled in the world.
+     *
+     * @param weatherEnabled True to enable weather, false to disable it.
+     */
     void setWeatherEnabled(final boolean weatherEnabled);
 
+    /**
+     * Checks if redstone is enabled in the world.
+     *
+     * @return True if redstone is enabled, false otherwise.
+     */
     boolean isRedstoneEnabled();
 
+    /**
+     * Sets whether redstone is enabled in the world.
+     *
+     * @param redstoneEnabled True to enable redstone, false to disable it.
+     */
     void setRedstoneEnabled(final boolean redstoneEnabled);
 
+    /**
+     * Checks if the world is set to automatically unload when inactive.
+     *
+     * @return True if auto-unloading is enabled, false otherwise.
+     */
     boolean isAutoUnloadEnabled();
 
+    /**
+     * Sets whether the world should automatically unload when inactive.
+     *
+     * @param autoUnloadEnabled True to enable auto-unloading, false to disable it.
+     */
     void setAutoUnloadEnabled(final boolean autoUnloadEnabled);
 
+    /**
+     * Checks if hunger is enabled in the world.
+     *
+     * @return True if hunger is enabled, false otherwise.
+     */
     boolean isHungerEnabled();
 
+    /**
+     * Sets whether hunger is enabled in the world.
+     *
+     * @param hungerEnabled True to enable hunger, false to disable it.
+     */
     void setHungerEnabled(final boolean hungerEnabled);
 
+    /**
+     * Checks if the world's spawn is kept in memory.
+     *
+     * @return True if the spawn is kept in memory, false otherwise.
+     */
     boolean isKeepSpawnInMemory();
 
+    /**
+     * Sets whether the world's spawn is kept in memory.
+     *
+     * @param keepSpawnInMemory True to keep the spawn in memory, false otherwise.
+     */
     void setKeepSpawnInMemory(final boolean keepSpawnInMemory);
+
+    /**
+     * Gets the last recorded activity in the world.
+     *
+     * @return The timestamp of the last activity.
+     */
+    long getLastActivity();
+
+    /**
+     * Sets the last recorded activity in the world.
+     *
+     * @param lastActivity The timestamp of the last activity.
+     */
+    void setLastActivity(final long lastActivity);
+
+    long getLoadTimeStamp();
+
+    void setLoadTimeStamp(final long loadTimeStamp);
 
     /**
      * Gets the name of the world.
