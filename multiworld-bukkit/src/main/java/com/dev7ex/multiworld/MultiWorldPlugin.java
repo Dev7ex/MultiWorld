@@ -6,7 +6,6 @@ import com.dev7ex.common.bukkit.plugin.PluginIdentification;
 import com.dev7ex.common.bukkit.plugin.statistic.PluginStatisticProperties;
 import com.dev7ex.multiworld.api.MultiWorldApiProvider;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
-import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.command.WorldCommand;
 import com.dev7ex.multiworld.hook.DefaultHookProvider;
 import com.dev7ex.multiworld.listener.entity.EntityPortalListener;
@@ -24,7 +23,6 @@ import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import com.dev7ex.multiworld.world.generator.DefaultWorldGeneratorProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -116,6 +114,9 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
         super.registerModule(this.worldProvider = new DefaultWorldProvider(this.worldManager, this.worldConfiguration));
         super.registerModule(this.userProvider = new UserProvider());
         super.registerModule(this.hookProvider = new DefaultHookProvider());
+
+        // Will be removed by updating FacilisCommon to 1.0.7
+        this.registerTasks();
     }
 
     @Override
