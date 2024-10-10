@@ -61,6 +61,7 @@ public final class WorldCommand extends BukkitCommand implements BukkitTabComple
             Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
             return;
         }
+
         if (super.getSubCommand(arguments[0].toLowerCase()).isEmpty()) {
             Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
             return;
