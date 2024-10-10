@@ -10,7 +10,6 @@ import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUserConfiguration;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.api.user.WorldUserProperty;
 import lombok.SneakyThrows;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -130,7 +129,6 @@ public class UserConfiguration implements BukkitWorldUserConfiguration {
 
                 case LAST_LOCATION:
                     final BukkitWorldLocation worldLocation = userData.getValue(property);
-                    System.out.println(worldLocation.toString());
 
                     this.fileConfiguration.set(property.getStoragePath() + ".world", worldLocation.getWorldName());
                     this.fileConfiguration.set(property.getStoragePath() + ".x", worldLocation.getX());
