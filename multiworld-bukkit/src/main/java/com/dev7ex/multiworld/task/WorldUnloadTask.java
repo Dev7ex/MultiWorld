@@ -41,8 +41,11 @@ public class WorldUnloadTask implements Task {
                 continue;
             }
 
+            if (!worldHolder.getWorld().getPlayers().isEmpty()) {
+                return;
+            }
+
             if ((System.currentTimeMillis() - worldHolder.getLastActivity()) >= (this.configuration.getAutoUnloadSystemDelay() * 1000L)) {
-                Bukkit.broadcastMessage(String.valueOf((System.currentTimeMillis() - worldHolder.getLastActivity()) >= (this.configuration.getAutoUnloadSystemDelay() * 1000L)));
                 if (!this.worldUnloadQueue.contains(worldHolder)) {
                     this.worldUnloadQueue.add(worldHolder);
                 }
