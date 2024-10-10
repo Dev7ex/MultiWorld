@@ -2,8 +2,6 @@ package com.dev7ex.multiworld.api.world.location;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 /**
  * Represents a location in a world.
  * This interface provides methods for accessing and modifying the coordinates and orientation of the location.
@@ -96,12 +94,5 @@ public interface WorldLocation {
      * @param pitch The pitch.
      */
     void setPitch(final double pitch);
-
-    /**
-     * Serializes this location into a map of key-value pairs.
-     *
-     * @return A map representing the serialized location.
-     */
-    Map<String, Object> serialize();
 
 }
