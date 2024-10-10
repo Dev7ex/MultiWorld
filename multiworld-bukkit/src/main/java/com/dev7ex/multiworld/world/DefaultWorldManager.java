@@ -28,8 +28,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -446,8 +444,6 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setWhitelist(Collections.emptyList())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
-
-        System.out.println(generator);
 
         this.configuration.add(worldHolder);
         this.getProvider().register(worldHolder);
