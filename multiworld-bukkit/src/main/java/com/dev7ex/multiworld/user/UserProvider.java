@@ -39,6 +39,7 @@ public class UserProvider implements PluginModule, BukkitWorldUserProvider {
             final WorldUserConfiguration userConfiguration = new UserConfiguration(user);
             final ParsedMap<WorldUserProperty, Object> userData = userConfiguration.read();
 
+            user.setFirstLogin(userData.getLong(WorldUserProperty.FIRST_LOGIN));
             user.setLastLogin(userData.getLong(WorldUserProperty.LAST_LOGIN));
             user.setLastLocation(userData.getValue(WorldUserProperty.LAST_LOCATION));
             user.setConfiguration(userConfiguration);
@@ -54,7 +55,7 @@ public class UserProvider implements PluginModule, BukkitWorldUserProvider {
     @Override
     public void onDisable() {
         for (final BukkitWorldUser user : this.users.values()) {
-            this.saveUser(user, WorldUserProperty.LAST_LOCATION);
+            this.saveUser(user, WorldUserProperty.LAST_LOCATION, WorldUserProperty.LAST_LOGIN);
         }
         this.users.clear();
     }
@@ -113,6 +114,7 @@ public class UserProvider implements PluginModule, BukkitWorldUserProvider {
         this.saveUser(user, WorldUserProperty.UNIQUE_ID,
                 WorldUserProperty.NAME,
                 WorldUserProperty.LAST_LOCATION,
+                WorldUserProperty.FIRST_LOGIN,
                 WorldUserProperty.LAST_LOGIN);
     }
 
@@ -138,6 +140,10 @@ public class UserProvider implements PluginModule, BukkitWorldUserProvider {
 
                 case LAST_LOCATION:
                     data.put(property, user.getLastLocation());
+                    break;
+
+                case FIRST_LOGIN:
+                    data.put(property, user.getFirstLogin());
                     break;
 
                 case LAST_LOGIN:
