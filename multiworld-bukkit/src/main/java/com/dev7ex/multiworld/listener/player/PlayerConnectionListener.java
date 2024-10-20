@@ -50,6 +50,7 @@ public class PlayerConnectionListener extends MultiWorldListener {
         final ParsedMap<WorldUserProperty, Object> userData = userConfiguration.read();
 
         user.setLastLocation(userData.getValue(WorldUserProperty.LAST_LOCATION));
+        user.setFirstLogin(userData.getLong(WorldUserProperty.FIRST_LOGIN));
         user.setLastLogin(userData.getLong(WorldUserProperty.LAST_LOGIN));
         user.setConfiguration(userConfiguration);
 
@@ -80,7 +81,8 @@ public class PlayerConnectionListener extends MultiWorldListener {
         final Player player = event.getPlayer();
         final BukkitWorldUser user = super.getUserProvider().getUser(player.getUniqueId()).orElseThrow();
 
-        super.getUserProvider().saveUser(user, WorldUserProperty.LAST_LOCATION);
+        super.getUserProvider().saveUser(user, WorldUserProperty.LAST_LOGIN,
+                WorldUserProperty.LAST_LOCATION);
         super.getUserProvider().unregisterUser(player.getUniqueId());
 
         Bukkit.getPluginManager().callEvent(new WorldUserLogoutEvent(user));
