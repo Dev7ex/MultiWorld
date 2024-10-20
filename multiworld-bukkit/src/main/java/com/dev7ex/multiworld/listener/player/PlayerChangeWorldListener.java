@@ -43,8 +43,7 @@ public class PlayerChangeWorldListener extends MultiWorldListener {
         final World to = event.getTo() != null ? event.getTo().getWorld() : null;
         final World from = event.getFrom().getWorld();
 
-        // Ensure the teleport destination world and source world are valid
-        if (to == null || from == null) {
+        if ((to == null) || (from == null)) {
             return;
         }
 
@@ -54,18 +53,17 @@ public class PlayerChangeWorldListener extends MultiWorldListener {
         }
 
         // Ensure both the source and destination worlds are registered
-        if (super.getWorldProvider().getWorldHolder(to.getName()).isEmpty() || super.getWorldProvider().getWorldHolder(from.getName()).isEmpty()) {
+        if ((super.getWorldProvider().getWorldHolder(to.getName()).isEmpty())
+                || (super.getWorldProvider().getWorldHolder(from.getName()).isEmpty())) {
             return;
         }
         final BukkitWorldHolder lastWorldHolder = super.getWorldProvider().getWorldHolder(from.getName()).get();
         final BukkitWorldHolder nextWorldHolder = super.getWorldProvider().getWorldHolder(to.getName()).get();
 
-        // Ensure the user is registered
         if (super.getUserProvider().getUser(player.getUniqueId()).isEmpty()) {
             return;
         }
         final BukkitWorldUser user = super.getUserProvider().getUser(player.getUniqueId()).get();
-        // Trigger the custom WorldUserTeleportWorldEvent
         Bukkit.getPluginManager().callEvent(new WorldUserTeleportWorldEvent(user, lastWorldHolder, nextWorldHolder));
     }
 
