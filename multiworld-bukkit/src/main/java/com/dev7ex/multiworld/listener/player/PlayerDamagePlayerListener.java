@@ -57,14 +57,12 @@ public class PlayerDamagePlayerListener extends MultiWorldListener {
         if (event.getDamager() instanceof Projectile) {
             final Projectile projectile = (Projectile) event.getDamager();
 
-            // If the projectile has a shooter and the shooter is a player, cancel the event
             if (projectile.getShooter() instanceof Player) {
                 event.setCancelled(true);
             }
             return;
         }
 
-        // If the damager is a player, cancel the event
         if (event.getDamager().getType() == EntityType.PLAYER) {
             event.setCancelled(true);
         }
