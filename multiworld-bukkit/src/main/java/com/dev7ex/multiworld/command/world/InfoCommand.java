@@ -9,12 +9,13 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
+import com.dev7ex.multiworld.util.Colored;
+import com.dev7ex.multiworld.world.DefaultWorldProvider;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Dev7ex
@@ -30,9 +31,10 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
+        final DefaultWorldProvider worldProvider = MultiWorldPlugin.getInstance().getWorldProvider();
 
         if (arguments.length != 2) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.world.info.usage")
+            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.info.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -41,38 +43,67 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
             arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
         }
 
-        if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
+        if (worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
             commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).get();
-        final MultiWorldConfiguration configuration = MultiWorldPlugin.getInstance().getConfiguration();
+        final BukkitWorldHolder worldHolder = worldProvider.getWorldHolder(arguments[1])
+                .get();
 
         translationProvider.getMessageList(commandSender, "commands.world.info.message").forEach(message -> {
-            commandSender.sendMessage(message
-                    .replaceAll("%world_name%", worldHolder.getName())
-                    .replaceAll("%world_creator_name%", worldHolder.getCreatorName())
-                    .replaceAll("%creation_timestamp%", configuration.getTimeFormat().format(new Date(worldHolder.getCreationTimeStamp())))
-                    .replaceAll("%load_auto%", String.valueOf(worldHolder.isAutoLoadEnabled()))
-                    .replaceAll("%loaded%", (worldHolder.isLoaded() ? "true" : "false"))
-                    .replaceAll("%world_type%", worldHolder.getType().toString())
-                    .replaceAll("%environment%", WorldEnvironment.fromType(worldHolder.getType()).name())
-                    .replaceAll("%difficulty%", worldHolder.getDifficulty().toString())
-                    .replaceAll("%gamemode%", worldHolder.getGameMode().toString())
-                    .replaceAll("%pvp_enabled%", (worldHolder.isPvpEnabled() ? "true" : "false"))
-                    .replaceAll("%spawn_animals%", (worldHolder.isSpawnAnimals() ? "true" : "false"))
-                    .replaceAll("%spawn_monsters%", (worldHolder.isSpawnMonsters() ? "true" : "false"))
-                    .replaceAll("%spawn_entities%", (worldHolder.isSpawnEntities() ? "true" : "false"))
-                    .replaceAll("%end-portal-accessible%", (worldHolder.isEndPortalAccessible() ? "true" : "false"))
-                    .replaceAll("%nether-portal-accessible%", (worldHolder.isNetherPortalAccessible() ? "true" : "false"))
-                    .replaceAll("%whitelist_enabled%", (worldHolder.isWhitelistEnabled() ? "true" : "false"))
-                    .replaceAll("%normal_world%", worldHolder.getNormalWorldName() == null ? "" : worldHolder.getNormalWorldName())
-                    .replaceAll("%nether_world%", worldHolder.getNetherWorldName() == null ? "" : worldHolder.getNetherWorldName())
-                    .replaceAll("%end_world%", worldHolder.getEndWorldName() == null ? "" : worldHolder.getEndWorldName())
-                    .replaceAll("%receive_achievements%", (worldHolder.isReceiveAchievements() ? "true" : "false")));
+            commandSender.sendMessage(this.getReplacedInfoMessage(worldHolder, message));
         });
+    }
+
+    public String getReplacedInfoMessage(@NotNull final BukkitWorldHolder worldHolder, @NotNull final String message) {
+        final Map<String, String> replacements = new HashMap<>();
+
+        // Populate the replacements map with keys as placeholders and values from worldHolder
+        replacements.put("%world_name%", worldHolder.getName());
+        replacements.put("%world_creator_name%", worldHolder.getCreatorName());
+        replacements.put("%creation_timestamp%",
+                MultiWorldPlugin.getInstance().getConfiguration().getTimeFormat().format(new Date(worldHolder.getCreationTimeStamp())));
+        replacements.put("%auto_load_enabled%", Colored.getColoredBoolean(worldHolder.isAutoLoadEnabled()));
+        replacements.put("%auto_unload_enabled%", Colored.getColoredBoolean(worldHolder.isAutoUnloadEnabled()));
+        replacements.put("%difficulty%", Colored.getColoredDifficulty(worldHolder.getDifficulty()));
+        replacements.put("%end-portal-accessible%", Colored.getColoredBoolean(worldHolder.isEndPortalAccessible()));
+        replacements.put("%end_world%", worldHolder.getEndWorldName());
+        replacements.put("%gamemode%", Colored.getColoredGameMode(worldHolder.getGameMode()));
+        replacements.put("%hunger_enabled%", Colored.getColoredBoolean(worldHolder.isHungerEnabled()));
+        replacements.put("%keep_spawn_in_memory%", Colored.getColoredBoolean(worldHolder.isKeepSpawnInMemory()));
+        replacements.put("%nether-portal-accessible%", Colored.getColoredBoolean(worldHolder.isNetherPortalAccessible()));
+        replacements.put("%nether_world%", worldHolder.getNetherWorldName());
+        replacements.put("%normal_world%", worldHolder.getNormalWorldName());
+        replacements.put("%pvp_enabled%", Colored.getColoredBoolean(worldHolder.isPvpEnabled()));
+        replacements.put("%receive_achievements%", Colored.getColoredBoolean(worldHolder.isReceiveAchievements()));
+        replacements.put("%redstone_enabled%", Colored.getColoredBoolean(worldHolder.isRedstoneEnabled()));
+        replacements.put("%spawn_animals%", Colored.getColoredBoolean(worldHolder.isSpawnAnimals()));
+        replacements.put("%spawn_entities%", Colored.getColoredBoolean(worldHolder.isSpawnEntities()));
+        replacements.put("%spawn_monsters%", Colored.getColoredBoolean(worldHolder.isSpawnMonsters()));
+        replacements.put("%weather_enabled%", Colored.getColoredBoolean(worldHolder.isWeatherEnabled()));
+        replacements.put("%whitelist_enabled%", Colored.getColoredBoolean(worldHolder.isWhitelistEnabled()));
+        replacements.put("%environment%", worldHolder.getEnvironment().name());
+        replacements.put("%generator_name%", worldHolder.getGenerator());
+        replacements.put("%world_type%", worldHolder.getType().toString());
+
+
+        // Use StringBuilder for efficient string manipulation
+        final StringBuilder replacedMessage = new StringBuilder(message);
+
+        // Replace each placeholder with its corresponding value
+        replacements.forEach((key, value) -> {
+            int startIndex = 0;
+            // Continue replacing until no more instances are found
+            while ((startIndex = replacedMessage.indexOf(key, startIndex)) != -1) {
+                replacedMessage.replace(startIndex, startIndex + key.length(), value);
+                startIndex += value.length(); // Move past the last replacement
+            }
+        });
+
+        // Return the final message with all replacements made
+        return replacedMessage.toString();
     }
 
     @Override
