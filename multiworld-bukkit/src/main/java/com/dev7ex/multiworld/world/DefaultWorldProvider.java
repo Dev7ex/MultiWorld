@@ -147,4 +147,12 @@ public class DefaultWorldProvider implements PluginModule, BukkitWorldProvider {
         return Optional.ofNullable(this.worldHolders.get(name));
     }
 
+    @Override
+    public BukkitWorldHolder getDefaultWorldHolder() {
+        return this.getWorldHolder(MultiWorldPlugin.getInstance()
+                .getConfiguration()
+                .getString("settings.defaults.normal-world"))
+                .orElseThrow();
+    }
+
 }
