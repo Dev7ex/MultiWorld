@@ -28,19 +28,12 @@ public enum WorldEnvironment {
      * @return The corresponding WorldEnvironment.
      */
     public static WorldEnvironment fromType(final WorldType worldType) {
-        switch (worldType) {
-            case THE_END:
-                return WorldEnvironment.THE_END;
-
-            case NETHER:
-                return WorldEnvironment.NETHER;
-
-            case NORMAL:
-                return WorldEnvironment.NORMAL;
-
-            default:
-                return WorldEnvironment.CUSTOM;
-        }
+        return switch (worldType) {
+            case THE_END -> WorldEnvironment.THE_END;
+            case NETHER -> WorldEnvironment.NETHER;
+            case NORMAL -> WorldEnvironment.NORMAL;
+            default -> WorldEnvironment.CUSTOM;
+        };
     }
 
     /**
