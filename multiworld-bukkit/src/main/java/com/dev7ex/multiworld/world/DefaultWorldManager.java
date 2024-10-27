@@ -543,10 +543,18 @@ public class DefaultWorldManager implements BukkitWorldManager {
             case NETHER:
                 worldCreator.environment(World.Environment.NETHER);
                 break;
+
+            case NORMAL:
+                worldCreator.environment(World.Environment.NORMAL);
+                break;
+
+            case CUSTOM:
+                worldCreator.environment(World.Environment.CUSTOM);
+                break;
         }
         final World world = Bukkit.createWorld(worldCreator);
 
-        world.setDifficulty(worldHolder.getDifficulty());
+        Objects.requireNonNull(world).setDifficulty(worldHolder.getDifficulty());
         world.setSpawnFlags(worldHolder.isSpawnMonsters(), worldHolder.isSpawnAnimals());
 
         worldHolder.setLoadTimeStamp(System.currentTimeMillis());
@@ -572,9 +580,9 @@ public class DefaultWorldManager implements BukkitWorldManager {
                     .replaceAll("%world_name%", name)
                     .replaceAll("%unloader_name%", creatorName));
 
-            player.teleport(Bukkit.getWorld(MultiWorldPlugin.getInstance()
+            player.teleport(Objects.requireNonNull(Bukkit.getWorld(MultiWorldPlugin.getInstance()
                             .getConfiguration()
-                            .getString("settings.defaults.normal-world"))
+                            .getString("settings.defaults.normal-world")))
                     .getSpawnLocation());
         }
 
