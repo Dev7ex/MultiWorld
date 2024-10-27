@@ -36,7 +36,7 @@
         <dependency.spigot.api.version>1.17.1-R0.1-SNAPSHOT</dependency.spigot.api.version>
         <dependency.placeholder.api.version>2.11.3</dependency.placeholder.api.version>
 
-        <project.source.version>16</project.source.version>
+        <project.source.version>17</project.source.version>
     </properties>
 
 </project>
