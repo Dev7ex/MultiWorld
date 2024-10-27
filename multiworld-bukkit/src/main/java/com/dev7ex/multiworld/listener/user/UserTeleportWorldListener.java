@@ -3,6 +3,7 @@ package com.dev7ex.multiworld.listener.user;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.event.MultiWorldListener;
 import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserTeleportWorldEvent;
+import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.api.user.WorldUser;
@@ -48,8 +49,8 @@ public class UserTeleportWorldListener extends MultiWorldListener {
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void handleUserEnterWorld(final WorldUserTeleportWorldEvent event) {
-        final WorldUser user = event.getUser();
-        final Player player = Bukkit.getPlayer(user.getUniqueId());
+        final BukkitWorldUser user = event.getUser();
+        final Player player = user.getEntity();
         final BukkitWorldHolder nextWorldHolder = event.getNextWorldHolder();
 
         user.setLastLocation(BukkitWorldLocation.of(player.getLocation()));
