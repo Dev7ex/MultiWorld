@@ -46,6 +46,8 @@ public interface WorldProvider<T extends WorldHolder> {
      */
     Optional<T> getWorldHolder(@NotNull final String name);
 
+    T getDefaultWorldHolder();
+
     /**
      * Retrieves all registered world holders.
      *
