@@ -119,7 +119,12 @@ public class EntityPortalListener extends MultiWorldListener {
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerEnterBlockPortal(final EntityPortalEvent event) {
-        final BukkitWorldHolder fromWorldHolder = super.getWorldProvider().getWorldHolder(event.getFrom().getWorld().getName()).orElseThrow();
+        if (event.getFrom().getWorld() == null) {
+            return;
+        }
+        final BukkitWorldHolder fromWorldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getFrom().getWorld().getName())
+                .orElseThrow();
 
         if (event.getTo() == null) {
             return;
