@@ -9,7 +9,7 @@
 config-version: ${project.version}
 # General
 prefix: '§8[§bMultiWorld§8]§r'
-
+# Settings
 settings:
   # Should you be able to enter Nether/End worlds with the command /world telport <Player> <World>
   access-nether-world-via-command: true
