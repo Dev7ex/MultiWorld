@@ -4,6 +4,7 @@ import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
+import com.dev7ex.multiworld.util.Colored;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -21,14 +22,17 @@ public class VersionCommand extends BukkitCommand {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
+        final MultiWorldPlugin plugin = MultiWorldPlugin.getInstance();
+
         commandSender.sendMessage(" ");
         commandSender.sendMessage("§f§m                    §r§r " + super.getConfiguration().getPrefix() + " §f§m                    ");
         commandSender.sendMessage(" ");
-        commandSender.sendMessage("§8» §bVersion: §a" + MultiWorldPlugin.getInstance().getDescription().getVersion());
+        commandSender.sendMessage("§8» §bVersion: §a" + plugin.getDescription().getVersion());
         commandSender.sendMessage("§8» §bAuthors: " + this.getAuthors());
         commandSender.sendMessage("§8» §bSupport: §ahttps://discord.gg/ta33bbA8eF");
         commandSender.sendMessage("§8» §bWiki: §ahttps://github.com/Dev7ex/MultiWorld/wiki");
         commandSender.sendMessage("§8» §bReport Bug: §ahttps://github.com/Dev7ex/MultiWorld/issues");
+        commandSender.sendMessage("§8» §bUpdate Available: " + Colored.getColoredBoolean(plugin.getUpdater().isUpdateAvailable()));
         commandSender.sendMessage(" ");
         commandSender.sendMessage("§f§m                    §r§r " + super.getConfiguration().getPrefix() + " §f§m                    ");
         commandSender.sendMessage(" ");
