@@ -17,6 +17,7 @@ import com.dev7ex.multiworld.listener.world.WorldFlagListener;
 import com.dev7ex.multiworld.task.WorldUnloadTask;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.dev7ex.multiworld.user.UserProvider;
+import com.dev7ex.multiworld.util.PluginUpdater;
 import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
 import com.dev7ex.multiworld.world.DefaultWorldProvider;
@@ -43,6 +44,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     private DefaultWorldConfiguration worldConfiguration;
 
     private final WorldCommand worldCommand = new WorldCommand(this);
+    private final PluginUpdater updater = new PluginUpdater(this);
 
     private DefaultWorldManager worldManager;
 
@@ -72,6 +74,8 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     @Override
     public void onEnable() {
         super.getServer().getServicesManager().register(MultiWorldBukkitApi.class, this, this, ServicePriority.Normal);
+
+        this.updater.checkAsync();
 
         MultiWorldApiProvider.registerApi(this);
     }

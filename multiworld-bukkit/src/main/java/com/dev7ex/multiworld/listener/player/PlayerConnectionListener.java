@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.listener.player;
 
 import com.dev7ex.common.collect.map.ParsedMap;
+import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApi;
 import com.dev7ex.multiworld.api.bukkit.event.MultiWorldListener;
 import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserLoginEvent;
@@ -10,7 +11,10 @@ import com.dev7ex.multiworld.api.user.WorldUserConfiguration;
 import com.dev7ex.multiworld.api.user.WorldUserProperty;
 import com.dev7ex.multiworld.user.User;
 import com.dev7ex.multiworld.user.UserConfiguration;
+import com.dev7ex.multiworld.util.Colored;
+import com.dev7ex.multiworld.util.PluginUpdater;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -68,6 +72,13 @@ public class PlayerConnectionListener extends MultiWorldListener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
+        final PluginUpdater updater = MultiWorldPlugin.getInstance().getUpdater();
+
+        if ((updater.isUpdateAvailable()) && (player.isOp())) {
+            player.sendMessage(super.getConfiguration().getPrefix() + ChatColor.GRAY + " A new update for MultiWorld is available");
+            player.sendMessage(super.getConfiguration().getPrefix() + ChatColor.GRAY + " Please note that if you do not do the update then there may be problems or individual functions may be disabled");
+            player.sendMessage(super.getConfiguration().getPrefix() + ChatColor.GRAY + " https://modrinth.com/plugin/multiworld-bukkit");
+        }
     }
 
     /**
@@ -79,7 +90,9 @@ public class PlayerConnectionListener extends MultiWorldListener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void handlePlayerQuit(final PlayerQuitEvent event) {
         final Player player = event.getPlayer();
-        final BukkitWorldUser user = super.getUserProvider().getUser(player.getUniqueId()).orElseThrow();
+        final BukkitWorldUser user = super.getUserProvider()
+                .getUser(player.getUniqueId())
+                .orElseThrow();
 
         super.getUserProvider().saveUser(user, WorldUserProperty.LAST_LOGIN,
                 WorldUserProperty.LAST_LOCATION);
