@@ -34,7 +34,9 @@ public class WorldFlagListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(event.getWorld().getName()).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(event.getWorld().getName()).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getWorld().getName())
+                .get();
 
         event.setCancelled(!worldHolder.isWeatherEnabled());
     }
@@ -44,7 +46,9 @@ public class WorldFlagListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(event.getEntity().getWorld().getName()).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(event.getEntity().getWorld().getName()).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getEntity().getWorld().getName())
+                .get();
 
         event.setCancelled(!worldHolder.isHungerEnabled());
     }
@@ -54,7 +58,9 @@ public class WorldFlagListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getBlock().getWorld().getName())
+                .get();
 
         event.setCancelled(!worldHolder.isRedstoneEnabled());
     }
@@ -64,7 +70,9 @@ public class WorldFlagListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getBlock().getWorld().getName())
+                .get();
 
         event.setCancelled(!worldHolder.isRedstoneEnabled());
     }
@@ -74,7 +82,9 @@ public class WorldFlagListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getBlock().getWorld().getName())
+                .get();
 
         if (event.getBlock().getType() != Material.REDSTONE_WIRE) {
             return;
@@ -87,7 +97,9 @@ public class WorldFlagListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(event.getBlock().getWorld().getName()).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(event.getBlock().getWorld().getName())
+                .get();
 
         if (worldHolder.isRedstoneEnabled()) {
             return;

@@ -41,7 +41,10 @@ public class MultiPermsHook implements PermissionHook {
     }
 
     public void register() {
-        MultiPermsApiProvider.getMultiPermsApi().getPermissionHookProvider().register(MultiWorldPlugin.getInstance(), this);
+        MultiPermsApiProvider
+                .getMultiPermsApi()
+                .getPermissionHookProvider()
+                .register(MultiWorldPlugin.getInstance(), this);
     }
 
 }

@@ -32,7 +32,9 @@ public class WorldActivityListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(worldName).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(worldName).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(worldName)
+                .get();
 
         worldHolder.setLastActivity(System.currentTimeMillis());
     }
@@ -44,7 +46,9 @@ public class WorldActivityListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(worldName).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(worldName).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(worldName)
+                .get();
 
         worldHolder.setLastActivity(System.currentTimeMillis());
     }
@@ -56,7 +60,9 @@ public class WorldActivityListener extends MultiWorldListener {
         if (super.getWorldProvider().getWorldHolder(worldName).isEmpty()) {
             return;
         }
-        final BukkitWorldHolder worldHolder = super.getWorldProvider().getWorldHolder(worldName).get();
+        final BukkitWorldHolder worldHolder = super.getWorldProvider()
+                .getWorldHolder(worldName)
+                .get();
 
         worldHolder.setLastActivity(System.currentTimeMillis());
     }
