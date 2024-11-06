@@ -101,8 +101,7 @@
           "",
           "§f§m                         §r§r §b%world_name% §f§m                         ",
           "",
-
-          "","§7» §7Welt-Ersteller: §a%world_creator_name%",
+          "§7» §7Welt-Ersteller: §a%world_creator_name%",
           "§7» §7Erstellt am: §a%creation_timestamp%",
           "§7» §7Automatisches Laden: %auto_load_enabled%",
           "§7» §7Automatisches Entladen: %auto_unload_enabled%",
