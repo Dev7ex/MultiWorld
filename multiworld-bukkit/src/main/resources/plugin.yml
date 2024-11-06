@@ -5,9 +5,6 @@ depend: [ FacilisCommon ]
 description: ${project.description}
 libraries:
   - commons-io:commons-io:${dependency.commons.io.version}
-  - net.kyori:adventure-api:${dependency.adventure.api.version}
-  - net.kyori:adventure-text-minimessage:${dependency.adventure.api.version}
-  - net.kyori:adventure-platform-bukkit:${dependency.adventure.platform.version}
 load: POSTWORLD
 loadbefore: [ ]
 main: com.dev7ex.multiworld.MultiWorldPlugin
