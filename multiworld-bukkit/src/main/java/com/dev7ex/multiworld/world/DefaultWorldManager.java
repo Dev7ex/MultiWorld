@@ -544,12 +544,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 worldCreator.environment(World.Environment.NETHER);
                 break;
 
-            case NORMAL:
+            case NORMAL: case CUSTOM:
                 worldCreator.environment(World.Environment.NORMAL);
-                break;
-
-            case CUSTOM:
-                worldCreator.environment(World.Environment.CUSTOM);
                 break;
         }
         final World world = Bukkit.createWorld(worldCreator);
