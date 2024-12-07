@@ -29,7 +29,7 @@ public class VersionCommand extends BukkitCommand {
         commandSender.sendMessage(" ");
         commandSender.sendMessage("§8» §bVersion: §a" + plugin.getDescription().getVersion());
         commandSender.sendMessage("§8» §bAuthors: " + this.getAuthors());
-        commandSender.sendMessage("§8» §bSupport: §ahttps://discord.gg/ta33bbA8eF");
+        commandSender.sendMessage("§8» §bSupport: §adiscord.dev7ex.com");
         commandSender.sendMessage("§8» §bWiki: §ahttps://github.com/Dev7ex/MultiWorld/wiki");
         commandSender.sendMessage("§8» §bReport Bug: §ahttps://github.com/Dev7ex/MultiWorld/issues");
         commandSender.sendMessage("§8» §bUpdate Available: " + Colored.getColoredBoolean(plugin.getUpdater().isUpdateAvailable()));
