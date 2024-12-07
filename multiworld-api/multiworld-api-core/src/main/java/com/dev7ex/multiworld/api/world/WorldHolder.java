@@ -13,7 +13,7 @@ import java.util.List;
  * @author Dev7ex
  * @since 18.06.2023
  */
-public interface WorldHolder {
+public interface WorldHolder extends Cloneable {
 
     /**
      * Checks if weather is enabled in the world.

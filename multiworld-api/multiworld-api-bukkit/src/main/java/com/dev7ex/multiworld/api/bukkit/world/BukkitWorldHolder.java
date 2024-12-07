@@ -166,4 +166,14 @@ public class BukkitWorldHolder implements WorldHolder {
         }
     }
 
+    @Override
+    public BukkitWorldHolder clone() {
+        try {
+            return (BukkitWorldHolder) super.clone();
+        } catch (final CloneNotSupportedException exception) {
+            throw new AssertionError();
+        }
+
+    }
+
 }
