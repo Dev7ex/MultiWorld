@@ -7,7 +7,7 @@
     <parent>
         <artifactId>multiworld</artifactId>
         <groupId>com.dev7ex</groupId>
-        <version>1.7.0-SNAPSHOT</version>
+        <version>1.7.1-SNAPSHOT</version>
     </parent>
 
     <name>MultiWorld-Bukkit</name>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.dev7ex</groupId>
             <artifactId>multiperms-api-bukkit</artifactId>
-            <version>1.0.3-SNAPSHOT</version>
+            <version>${dependency.multiperms.version}</version>
             <scope>provided</scope>
         </dependency>
 
