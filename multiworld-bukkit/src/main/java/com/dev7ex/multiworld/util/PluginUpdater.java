@@ -3,7 +3,6 @@ package com.dev7ex.multiworld.util;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.bukkit.util.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

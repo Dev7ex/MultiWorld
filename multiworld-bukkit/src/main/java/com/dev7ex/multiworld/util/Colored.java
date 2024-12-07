@@ -1,7 +1,6 @@
 package com.dev7ex.multiworld.util;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.jetbrains.annotations.NotNull;

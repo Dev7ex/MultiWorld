@@ -11,7 +11,6 @@ import com.dev7ex.multiworld.api.user.WorldUserConfiguration;
 import com.dev7ex.multiworld.api.user.WorldUserProperty;
 import com.dev7ex.multiworld.user.User;
 import com.dev7ex.multiworld.user.UserConfiguration;
-import com.dev7ex.multiworld.util.Colored;
 import com.dev7ex.multiworld.util.PluginUpdater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

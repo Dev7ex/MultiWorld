@@ -6,7 +6,6 @@ import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserTeleportWorldEvent;
 import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
-import com.dev7ex.multiworld.api.user.WorldUser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
