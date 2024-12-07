@@ -14,6 +14,7 @@ import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldManager;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldProvider;
 import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.FlatWorldGenerator;
 import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.VoidWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.WaterWorldGenerator;
 import com.dev7ex.multiworld.api.world.WorldDefaultProperty;
 import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import com.dev7ex.multiworld.api.world.WorldType;
@@ -21,6 +22,7 @@ import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.SerializationUtils;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -33,6 +35,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.logging.Level;
 
 /**
  * Manages world creation, deletion, cloning, and backup operations.
@@ -74,7 +77,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
         final File sourceFolder = new File(Bukkit.getWorldContainer(), name);
         final File destinationFolder = new File(Bukkit.getWorldContainer(), clonedName);
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
-        final BukkitWorldHolder worldHolder = this.getProvider().getWorldHolder(name).orElseThrow();
+        final BukkitWorldHolder worldHolder = this.getProvider().getWorldHolder(name)
+                .orElseThrow();
 
         final WorldCloneEvent event = new WorldCloneEvent(worldHolder, commandSender, clonedName, sourceFolder, destinationFolder);
         Bukkit.getPluginManager().callEvent(event);
@@ -103,13 +107,22 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 }
                 file.delete();
             }
+
+            final BukkitWorldHolder clonedWorldHolder = worldHolder.clone();
+            clonedWorldHolder.setName(clonedName);
+            clonedWorldHolder.setCreationTimeStamp(System.currentTimeMillis());
+
+            this.configuration.add(clonedWorldHolder);
+            this.getProvider().register(clonedWorldHolder);
+
             commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.clone.finished")
                     .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
-                    .replaceAll("%world_name%", name));
+                    .replaceAll("%world_name%", name)
+                    .replaceAll("%cloned_world_name%", clonedName));
 
         } catch (final IOException exception) {
             commandSender.sendMessage("§cAn error has occurred. View the logs");
-            exception.printStackTrace();
+            MultiWorldPlugin.getInstance().getLogger().log(Level.SEVERE, "§cAn error has occurred. View the logs", exception);
         }
     }
 
@@ -153,7 +166,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
 
         } catch (final IOException exception) {
             commandSender.sendMessage("§cAn error has occurred. View the logs");
-            exception.printStackTrace();
+            MultiWorldPlugin.getInstance().getLogger().log(Level.SEVERE, "§cAn error has occurred. View the logs", exception);
         }
     }
 
@@ -312,6 +325,10 @@ public class DefaultWorldManager implements BukkitWorldManager {
 
             case "VoidWorldGenerator":
                 worldCreator.generator(new VoidWorldGenerator(MultiWorldPlugin.getInstance()));
+                break;
+
+            case "WaterWorldGenerator":
+                worldCreator.generator(new WaterWorldGenerator(MultiWorldPlugin.getInstance()));
                 break;
 
             default:

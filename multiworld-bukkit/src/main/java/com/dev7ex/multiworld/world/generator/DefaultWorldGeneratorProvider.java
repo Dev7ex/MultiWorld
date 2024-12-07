@@ -7,6 +7,7 @@ import com.dev7ex.multiworld.api.bukkit.world.generator.BukkitWorldGeneratorHold
 import com.dev7ex.multiworld.api.bukkit.world.generator.BukkitWorldGeneratorProvider;
 import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.FlatWorldGenerator;
 import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.VoidWorldGenerator;
+import com.dev7ex.multiworld.api.bukkit.world.generator.defaults.WaterWorldGenerator;
 import com.dev7ex.multiworld.api.world.generator.WorldGenerator;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -55,6 +56,7 @@ public class DefaultWorldGeneratorProvider implements PluginModule, BukkitWorldG
         }
         this.defaultGenerators.add(new FlatWorldGenerator(MultiWorldPlugin.getInstance()));
         this.defaultGenerators.add(new VoidWorldGenerator(MultiWorldPlugin.getInstance()));
+        this.defaultGenerators.add(new WaterWorldGenerator(MultiWorldPlugin.getInstance()));
 
         MultiWorldPlugin.getInstance().getLogger().info("Found: [" + this.customGenerators.values().size() + "] World Generator");
     }
