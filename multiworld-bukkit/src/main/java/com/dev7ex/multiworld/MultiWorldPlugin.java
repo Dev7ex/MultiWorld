@@ -108,13 +108,10 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     }
 
     @Override
-    public void registerManagers() {
-        this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration, this.translationProvider);
-    }
-
-    @Override
     public void registerModules() {
         super.registerModule(this.translationProvider = new DefaultTranslationProvider(this));
+
+        this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration, this.translationProvider);
 
         super.registerModule(this.worldGeneratorProvider = new DefaultWorldGeneratorProvider());
 
