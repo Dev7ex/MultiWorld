@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.hook.permission;
 
 import com.dev7ex.multiperms.api.MultiPermsApiProvider;
+import com.dev7ex.multiperms.api.bukkit.MultiPermsBukkitApi;
 import com.dev7ex.multiperms.api.hook.PermissionHook;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 
@@ -11,6 +12,8 @@ import java.util.List;
  * @since 19.08.2024
  */
 public class MultiPermsHook implements PermissionHook {
+
+    private final MultiPermsBukkitApi multiPermsApi = (MultiPermsBukkitApi) MultiPermsApiProvider.getMultiPermsApi();
 
     @Override
     public List<String> getPermissions() {
@@ -40,11 +43,16 @@ public class MultiPermsHook implements PermissionHook {
                 "multiworld.command.world.whitelist.remove");
     }
 
+    @Override
     public void register() {
-        MultiPermsApiProvider
-                .getMultiPermsApi()
-                .getPermissionHookProvider()
+        this.multiPermsApi.getPermissionHookProvider()
                 .register(MultiWorldPlugin.getInstance(), this);
+    }
+
+    @Override
+    public void unregister() {
+        this.multiPermsApi.getPermissionHookProvider()
+                .unregister(MultiWorldPlugin.getInstance());
     }
 
 }
