@@ -1,0 +1,191 @@
+{
+  "general": {
+    "translator": "Translated by Uon (discord: kitiken.)",
+    "no-permission": "§cНа жаль, у вас немає прав на використання цієї команди. Якщо ви вважаєте, що це помилка, то зверніться до Адміністрації.",
+    "no-console-command": "%prefix% §cКоманда §6%command_name% §cможе бути використана лише гравцем!",
+    "no-player-command": "%prefix% §cКоманда §6%command_name% §cможе бути використана лише з консолі!",
+    "no-player-found": "%prefix% §cГравець §6%player_name% §cне був знайдений.",
+    "invalid-generator": "%prefix% §7Вказаний генератор %generator_name% не існує",
+    "invalid-seed": "%prefix% §7Вказаний сід %seed% §cнекорректний§7!",
+    "world": {
+      "environment-not-exists": "%prefix% §7The environment §6%environment_name% §7does §cnot §7exist!",
+      "already-loaded": "%prefix% §7Світ §a%world_name% §7вже завантажений.",
+      "not-loaded": "%prefix% §7Світ §a%world_name% §7не завантажений.",
+      "already-exists": "%prefix% §7Світ з назвою §a%world_name%§7 вже існує!",
+      "not-exists": "%prefix% §7Світ з назвою§a%world_name% §7не існує!",
+      "type-not-exists": "%prefix% §7Тип світу %world_type% §7не існує!",
+      "whitelist-block-trespassing": "%prefix% §7Ви не можете потрапити до цього світу, бо ви §cне знаходитесь у §7вайтлисті!",
+      "folder-not-exists": "%prefix% §7Не існує папки світу під назвою §a%world_name%§7!",
+      "nether-not-accessible": "%prefix% §7Доступ до світу §a%world_name% §7було заблоковано! §c§8[%reason%§8]",
+      "end-not-accessible": "%prefix% §7Доступ до світу §a%world_name% §7було заблоковано! §c§8[%reason%§8]",
+      "unload-locked": "%prefix% §7Світ §a%world_name% §7не може бути відвантаженим!",
+      "delete-locked": "%prefix% §7Світ §a%world_name% §7не може бути видалений!"
+    }
+  },
+  "commands": {
+    "world": {
+      "back": {
+        "usage": "%prefix% §cВикористання: /world back",
+        "world-not-exists": "%prefix% §7Світ §a%world_name%, §7на який ви намагаєтесь потрапити, більше не існує!",
+        "already-there": "%prefix% §7Ви вже знаходитесь у світі §a%world_name%"
+      },
+      "backup": {
+        "usage": "%prefix% §cВикористання: /world backup <Назва світу>",
+        "starting": "%prefix% §7Резервна копія світу §b%world_name% створюється...",
+        "finished": "%prefix% §7Резервная копія світу §b%world_name% §7була успішно створена!"
+      },
+      "clone": {
+        "usage": "%prefix% §cВикористання: /world clone <Назва світу> <Назва клонованого світу>",
+        "starting": "%prefix% §7Світ §a%world_name% §7клонується...",
+        "finished": "%prefix% §7Світ §a%world_name% §7було успішно клоновано! Назва: §a%cloned_world_name%"
+      },
+      "create": {
+        "usage": "%prefix% §cВикористання: /world create <Назва> <Середовище> <-g, -s> <Вид генерації| Сід>",
+        "starting": "%prefix% §7Світ §a%world_name% §7створюється...",
+        "finished": "%prefix% §7Світ §a%world_name% §7було успішно створено!"
+      },
+      "delete": {
+        "usage": "%prefix% §cВикористання: /world delete <Назва>",
+        "starting": "%prefix% §7Світ §a%world_name% §7видаляється...",
+        "finished": "%prefix% §7Світ §a%world_name% §7був успішно видалений!"
+      },
+      "flag": {
+        "usage": "%prefix% §cВикористання: /world flag <Світ> <Прапор> <Значення>",
+        "not-existing": "%prefix% §7Прапор §a%flag_name% §7не існує!",
+        "invalid-value": "%prefix% §7Використане значення §a%value% §7не підходить для прапору §a%flag_name%§7!",
+        "successfully-set": "%prefix% §7Ви встановили значення §a%value% §7для прапору §a%flag_name%§7!"
+      },
+      "gamerule": {
+        "usage": "%prefix% §cВикористання: /world flag <Світ> <Ігрове правило> <Значення>",
+        "not-existing": "%prefix% §7Ігрове правило §a%gamerule_name% §7не існує!",
+        "invalid-value": "%prefix% §7Значення §a%value% §7не підходить для ігрового правила §a%gamerule_name%§7!",
+        "successfully-set": "%prefix% §7Ви вказали значення §a%value% §7для ігрового правила §a%gamerule_name%§7!"
+      },
+      "help": {
+        "message": [
+          "",
+          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          "",
+          "§7» §7/world §bback",
+          "§7» §7/world §bbackup §7<Назва світу>",
+          "§7» §7/world §bclone §7<Назва світу> <Назва клонованого світу>",
+          "§7» §7/world §bcreate §7<Назва світу> <Environment> <-g, -s, -t> <Вид генерації | Сід | Тип світу>",
+          "§7» §7/world §bdelete §7<Назва світу>",
+          "§7» §7/world §bflag §7<Назва світу> <Прапор> <Значення>",
+          "§7» §7/world §bgamerule §7<Назва світу> <Ігрове правило> <Значення>",
+          "§7» §7/world §bhelp",
+          "§7» §7/world §bimport §7<Name> <Environment> <-g, -t> <Generator | WorldType>",
+          "§7» §7/world §binfo §7<Назва світу>",
+          "§7» §7/world §blist",
+          "§7» §7/world §blink §7<World> <Nether | End> <World>",
+          "§7» §7/world §bload §7<Назва світу>",
+          "§7» §7/world §breload",
+          "§7» §7/world §bteleport §7<Гравець> <Назва світу>",
+          "§7» §7/world §bunload §7<Назва світу>",
+          "§7» §7/world §bversion",
+          "§7» §7/world §bwhitelist §7<Назва світу> <Enable | Disable | Add | Remove | List> <Name>",
+          "",
+          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          ""
+        ]
+      },
+      "import": {
+        "usage": "%prefix% §cВикористання: /world import <Name> <Environment> <-g, -t> <Generator | WorldType>",
+        "world-already-imported": "%prefix% §7Світ §a%world_name% §7вже було імпортовано!",
+        "starting": "%prefix% §7Світ §a%world_name% §7імпортуується...",
+        "finished": "%prefix% §7Світ §a%world_name% §7було успішно імпортовано!"
+      },
+      "info": {
+        "usage": "%prefix% §cВикористання: /world info <Назва світу>",
+        "message": [
+          "",
+          "§f§m               §r§r §b%world_name% §f§m               ",
+          "",
+          "§7» §7Творець світу: §a%world_creator_name%",
+          "§7» §7Час створення: §a%creation_timestamp%",
+          "§7» §7Авто завантаження увімкнено: %auto_load_enabled%",
+          "§7» §7Авто відвантаження увімкнено: %auto_unload_enabled%",
+          "§7» §7Складність: %difficulty%",
+          "§7» §7Доступ до ендер порталів: %end-portal-accessible%",
+          "§7» §7Прив'язаний світ енду: %end_world%",
+          "§7» §7Режим гри: %gamemode%",
+          "§7» §7Голодування увімкнено: %hunger_enabled%",
+          "§7» §7Завжди прогружати чанк спавну: %keep_spawn_in_memory%",
+          "§7» §7Доступ до пекла: %nether-portal-accessible%",
+          "§7» §7Прив'язаний світ пекла: %nether_world%",
+          "§7» §7Прив'язаний звичайний світ: %normal_world%",
+          "§7» §7Пвп увімкнено: %pvp_enabled%",
+          "§7» §7Досягнення увімкнені: %receive_achievements%",
+          "§7» §7Редстоун увімкнений: %redstone_enabled%",
+          "§7» §7Спавн тварин: %spawn_animals%",
+          "§7» §7Спавн сутністей(вагонетки, арморстенди і т.п.): %spawn_entities%",
+          "§7» §7Спавн монстрів: %spawn_monsters%",
+          "§7» §7Погода увімкнена: %weather_enabled%",
+          "§7» §7Білий список увімкнено: %whitelist_enabled%",
+          "§7» §7Environment: %environment%",
+          "§7» §7Вид генерації: %generator_name%",
+          "§7» §7Тип світу: %world_type%",
+          "",
+          "§f§m               §r§r §b%world_name% §f§m               ",
+          ""
+        ]
+      },
+      "link": {
+        "usage": "%prefix% §cВикористання: /world link <World> <End | Nether> <World>",
+        "environment-not-exists": "%prefix% §cThe specified environment §6%environment_name% §cdoes not exist",
+        "successfully-set": "%prefix% §7You have connected the portal §a%environment_name% §7in the world §a%world_name% to the world §a%target_world_name%§7!"
+      },
+      "list": {
+        "usage": "%prefix% §cВикористання: /world list",
+        "message": "%prefix% §7Світи: %world_names%"
+      },
+      "load": {
+        "usage": "%prefix% §cВикористання: /world load <Назва світу>",
+        "error-missing-generator": "%prefix% §7Світ §a%world_name% §7не може бути завантажений, бо генерація §a%generator_name% §7не встановлена",
+        "starting": "%prefix% §7Світ §a%world_name% §7завантажується...",
+        "finished": "%prefix% §7Світ §a%world_name% §7був завантажений успішно!"
+      },
+      "reload": {
+        "usage": "%prefix% §cВикористання: /world reload",
+        "message": "%prefix% §7Плагін був успішно перезавантажений!"
+      },
+      "teleport": {
+        "usage": "%prefix% §cВикористання: /world teleport <Гравець> <Назва світу>",
+        "message": "%prefix% §a%player_name% §7телепортований до світу §a%world_name%§7!",
+        "sender-already-there": "%prefix% §7Ти вже у світі §b%world_name%",
+        "target-already-there": "%prefix% §7Гравець §a%player_name% §7вже знаходиться у світі §b%world_name%"
+      },
+      "unload": {
+        "usage": "%prefix% §cВикористання: /world unload <Назва світу>",
+        "chunk-starting": "%prefix% §7Чанки в §a%world_name% §7будуть відвантажені...",
+        "chunk-finished": "%prefix% §7Чанки в §a%world_name% §7були успішно відвантажені!",
+        "chunk-teleport": "%prefix% §7Світ у якому ви знаходитесь був відвантажений §c%unloader_name% §7! §7Вас буде телепортовано!",
+        "starting": "%prefix% §7Світ §a%world_name% §7відвантажується...",
+        "finished": "%prefix% §7Світ §a%world_name% §7був успішно відвантажений!"
+      },
+      "whitelist": {
+        "usage": "%prefix% §cВикористання: /world whitelist <Назва світу> <On | Off | Add | List | Remove> <Гравець>",
+        "add": {
+          "already-added": "%prefix% §7Гравець §a%player_name% §7вже знаходиться у білому списку!",
+          "successfully-added": "%prefix% §7Ви додали гравця §a%player_name% §7до білогу списку світу §a%world_name%§7!"
+        },
+        "list": {
+          "empty": "%prefix% §7Білий список для світу §a%world_name% §7пустий.",
+          "message": "%prefix% §7Білий список: %player_names%"
+        },
+        "disable": {
+          "already-disabled": "%prefix% §7Білий список світу §a%world_name% §7вже §cвимкнено§7!",
+          "successfully-disabled": "%prefix% §7Ви §cвимкнули §7білий список світу §a%world_name%§7!"
+        },
+        "enable": {
+          "already-enabled": "%prefix% §7Білий список світу §a%world_name% §7вже §aувімкнено§7!",
+          "successfully-enabled": "%prefix% §7Ви §aувімкнули §7білий список у світі §a%world_name% §7!"
+        },
+        "remove": {
+          "already-removed": "%prefix% §7Гравець §a%player_name% §cне знаходиться §7у білому списку!",
+          "successfully-removed": "%prefix% §7Ви видалили гравця §a%player_name% §7з білого списку світу §a%world_name%§7!"
+        }
+      }
+    }
+  }
+}
