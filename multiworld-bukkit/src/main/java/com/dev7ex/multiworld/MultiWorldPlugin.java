@@ -108,19 +108,19 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     }
 
     @Override
+    public void registerManagers() {
+        this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration, this.translationProvider);
+    }
+
+    @Override
     public void registerModules() {
         super.registerModule(this.translationProvider = new DefaultTranslationProvider(this));
 
         super.registerModule(this.worldGeneratorProvider = new DefaultWorldGeneratorProvider());
 
-        this.worldManager = new DefaultWorldManager(this.worldConfiguration, this.configuration, this.translationProvider);
-
         super.registerModule(this.worldProvider = new DefaultWorldProvider(this.worldManager, this.worldConfiguration));
         super.registerModule(this.userProvider = new UserProvider());
         super.registerModule(this.hookProvider = new DefaultHookProvider());
-
-        // Will be removed by updating FacilisCommon to 1.0.7
-        this.registerTasks();
     }
 
     @Override
