@@ -45,6 +45,10 @@ public class WorldUnloadTask implements Task {
                 return;
             }
 
+            if (worldHolder.getName().equalsIgnoreCase(this.configuration.getString("settings.defaults.normal-world"))) {
+                return;
+            }
+
             if ((System.currentTimeMillis() - worldHolder.getLastActivity()) >= (this.configuration.getAutoUnloadSystemDelay() * 1000L)) {
                 if (!this.worldUnloadQueue.contains(worldHolder)) {
                     this.worldUnloadQueue.add(worldHolder);
