@@ -31,10 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
@@ -215,7 +212,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
-                .setWhitelist(Collections.emptyList())
+                .setWhitelist(new ArrayList<>())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
 
@@ -279,7 +276,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
-                .setWhitelist(Collections.emptyList())
+                .setWhitelist(new ArrayList<>())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
 
@@ -361,7 +358,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
                 .setEndWorldName(defaultProperties.getString(WorldDefaultProperty.END_WORLD))
                 .setNetherWorldName(defaultProperties.getString(WorldDefaultProperty.NETHER_WORLD))
                 .setNormalWorldName(defaultProperties.getString(WorldDefaultProperty.NORMAL_WORLD))
-                .setWhitelist(Collections.emptyList())
+                .setWhitelist(new ArrayList<>())
                 .setWhitelistEnabled(defaultProperties.getBoolean(WorldDefaultProperty.WHITELIST_ENABLED))
                 .build();
 
