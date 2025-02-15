@@ -38,7 +38,7 @@ public class WorldFlagListener extends MultiWorldListener {
                 .getWorldHolder(event.getWorld().getName())
                 .get();
 
-        event.setCancelled(!worldHolder.isWeatherEnabled());
+        if (!worldHolder.isWeatherEnabled()) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -50,7 +50,7 @@ public class WorldFlagListener extends MultiWorldListener {
                 .getWorldHolder(event.getEntity().getWorld().getName())
                 .get();
 
-        event.setCancelled(!worldHolder.isHungerEnabled());
+        if (!worldHolder.isHungerEnabled()) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -62,7 +62,7 @@ public class WorldFlagListener extends MultiWorldListener {
                 .getWorldHolder(event.getBlock().getWorld().getName())
                 .get();
 
-        event.setCancelled(!worldHolder.isRedstoneEnabled());
+        if (!worldHolder.isRedstoneEnabled()) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -74,7 +74,7 @@ public class WorldFlagListener extends MultiWorldListener {
                 .getWorldHolder(event.getBlock().getWorld().getName())
                 .get();
 
-        event.setCancelled(!worldHolder.isRedstoneEnabled());
+        if (!worldHolder.isRedstoneEnabled()) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
@@ -89,7 +89,7 @@ public class WorldFlagListener extends MultiWorldListener {
         if (event.getBlock().getType() != Material.REDSTONE_WIRE) {
             return;
         }
-        event.setCancelled(!worldHolder.isRedstoneEnabled());
+        if (!worldHolder.isRedstoneEnabled()) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
