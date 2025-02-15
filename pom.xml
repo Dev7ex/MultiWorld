@@ -16,6 +16,7 @@
     <modules>
         <module>multiworld-bukkit</module>
         <module>multiworld-api</module>
+        <module>multiworld-resources</module>
     </modules>
 
     <properties>
