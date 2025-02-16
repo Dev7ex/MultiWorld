@@ -23,7 +23,7 @@ import java.util.Objects;
  * @since 19.05.2021
  */
 @BukkitCommandProperties(name = "world", permission = "multiworld.command.world")
-public final class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
+public class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
 
     /**
      * Constructs a WorldCommand with the given MultiWorldPlugin instance.
