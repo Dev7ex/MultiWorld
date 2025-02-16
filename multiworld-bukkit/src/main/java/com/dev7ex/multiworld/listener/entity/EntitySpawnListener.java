@@ -49,7 +49,9 @@ public class EntitySpawnListener extends MultiWorldListener {
         if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
-        if (!worldHolder.isSpawnEntities()) event.setCancelled(true);
+        if (!worldHolder.isSpawnEntities()) {
+            event.setCancelled(true);
+        }
     }
 
 }
