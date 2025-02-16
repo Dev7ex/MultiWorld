@@ -1,10 +1,14 @@
 package com.dev7ex.multiworld.util;
 
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
+import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -20,11 +24,11 @@ import java.net.URL;
 @Getter(AccessLevel.PUBLIC)
 public class PluginUpdater {
 
-    private final BukkitPlugin plugin;
+    private final MultiWorldPlugin plugin;
     private volatile boolean updateAvailable = false;
     private volatile String newVersion;
 
-    public PluginUpdater(@NotNull final BukkitPlugin plugin) {
+    public PluginUpdater(@NotNull final MultiWorldPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -50,12 +54,14 @@ public class PluginUpdater {
                         if (this.compareVersions(currentVersion, this.newVersion) == -1) {
                             this.updateAvailable = true;
                             this.plugin.getServer().getScheduler().runTask(this.plugin, this::logUpdateMessage);
+
+                        } else if (this.compareVersions(currentVersion, this.newVersion) == 1) {
+                            this.plugin.getServer().getScheduler().runTask(this.plugin, this::logNoUpdateMessage);
                         }
                     }
                 }
             } catch (final IOException exception) {
                 this.updateAvailable = false;
-                this.plugin.getServer().getScheduler().runTask(this.plugin, this::logNoUpdateMessage);
             }
         });
     }
@@ -78,19 +84,22 @@ public class PluginUpdater {
     }
 
     public void logUpdateMessage() {
-        this.plugin.getLogger().info("");
-        this.plugin.getLogger().info("There is a new update for MultiWorld available on Modrinth!");
-        this.plugin.getLogger().info("Please update to ensure full functionality.");
-        this.plugin.getLogger().info("Current Version: " + this.plugin.getDescription().getVersion());
-        this.plugin.getLogger().info("New Version: " + this.newVersion);
-        this.plugin.getLogger().info("Download: https://modrinth.com/plugin/multiworld-bukkit");
-        this.plugin.getLogger().info("");
+        final CommandSender commandSender = Bukkit.getConsoleSender();
+        final String prefix = this.plugin.getConfiguration().getPrefix();
+
+        commandSender.sendMessage("§7There is a new update for MultiWorld available on §aModrinth");
+        commandSender.sendMessage("§cPlease update to ensure full functionality");
+        commandSender.sendMessage("§7Current Version: §c" + this.plugin.getDescription().getVersion());
+        commandSender.sendMessage("§7New Version: §a" + this.newVersion);
+        commandSender.sendMessage("§7Download: §a" + this.plugin.getDescription().getWebsite());
     }
 
     public void logNoUpdateMessage() {
-        this.plugin.getLogger().info("");
-        this.plugin.getLogger().info("Your MultiWorld version is up to date!");
-        this.plugin.getLogger().info("Version: " + this.plugin.getDescription().getVersion());
-        this.plugin.getLogger().info("");
+        final CommandSender commandSender = Bukkit.getConsoleSender();
+        final String prefix = this.plugin.getConfiguration().getPrefix();
+
+        commandSender.sendMessage(prefix + " §7Your §bMultiWorld §7version is up to date");
+        commandSender.sendMessage(prefix + " §7Version: §a" + this.plugin.getDescription().getVersion());
+        commandSender.sendMessage(prefix + " §7URL: §a" + this.plugin.getDescription().getWebsite());
     }
 }
