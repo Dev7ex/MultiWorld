@@ -41,7 +41,7 @@ import java.io.File;
 @Getter(AccessLevel.PUBLIC)
 @PluginIdentification(spigotResourceId = 92559)
 @PluginStatisticProperties(enabled = true, identification = 15446)
-public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitApi, ConfigurablePlugin {
+public class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitApi, ConfigurablePlugin {
 
     private MultiWorldConfiguration configuration;
     private DefaultWorldConfiguration worldConfiguration;
