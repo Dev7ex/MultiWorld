@@ -22,6 +22,7 @@
     <properties>
         <maven.compiler.source>${project.source.version}</maven.compiler.source>
         <maven.compiler.target>${project.source.version}</maven.compiler.target>
+        <project.build.sourceEncoding>${project.source.encoding}</project.build.sourceEncoding>
     </properties>
 
 </project>
