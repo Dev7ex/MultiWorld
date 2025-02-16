@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  * @since 18.06.2023
  */
 @BukkitCommandProperties(name = "help", permission = "multiworld.command.world")
-public final class HelpCommand extends BukkitCommand {
+public class HelpCommand extends BukkitCommand {
 
     public HelpCommand(final BukkitPlugin plugin) {
         super(plugin);
