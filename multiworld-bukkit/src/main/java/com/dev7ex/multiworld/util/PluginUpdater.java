@@ -1,14 +1,17 @@
 package com.dev7ex.multiworld.util;
 
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
 
 /**
  * @author Dev7ex
@@ -18,8 +21,8 @@ import java.util.Scanner;
 public class PluginUpdater {
 
     private final BukkitPlugin plugin;
-    private boolean updateAvailable = false;
-    private String newVersion;
+    private volatile boolean updateAvailable = false;
+    private volatile String newVersion;
 
     public PluginUpdater(@NotNull final BukkitPlugin plugin) {
         this.plugin = plugin;
@@ -27,19 +30,29 @@ public class PluginUpdater {
 
     public void checkAsync() {
         this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, () -> {
-            try (final InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=" + this.plugin.getPluginIdentification().spigotResourceId()).openStream()) {
-                try (final Scanner scanner = new Scanner(inputStream)) {
-                    final String currentVersion = this.plugin.getDescription().getVersion();
-                    this.newVersion = scanner.next();
+            try {
+                final String repoOwner = "Dev7ex";
+                final String repoName = "MultiWorld";
+                final String apiUrl = "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/releases/latest";
 
-                    if (!currentVersion.equalsIgnoreCase(this.newVersion)) {
+                final HttpURLConnection connection = (HttpURLConnection) new URL(apiUrl).openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Accept", "application/vnd.github.v3+json");
+
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    try (final InputStream inputStream = connection.getInputStream();
+                         final InputStreamReader reader = new InputStreamReader(inputStream)) {
+
+                        final JsonObject jsonObject = new JsonParser().parse(reader).getAsJsonObject();
+                        this.newVersion = jsonObject.get("tag_name").getAsString();
+
+                        final String currentVersion = this.plugin.getDescription().getVersion();
                         if (this.compareVersions(currentVersion, this.newVersion) == -1) {
                             this.updateAvailable = true;
                             this.plugin.getServer().getScheduler().runTask(this.plugin, this::logUpdateMessage);
                         }
                     }
                 }
-
             } catch (final IOException exception) {
                 this.updateAvailable = false;
                 this.plugin.getServer().getScheduler().runTask(this.plugin, this::logNoUpdateMessage);
@@ -47,22 +60,13 @@ public class PluginUpdater {
         });
     }
 
-    /**
-     * Compares two versions in the format x.y.z-SNAPSHOT.
-     *
-     * @param currentVersion The current version of the plugin.
-     * @param onlineVersion  The latest available version online.
-     * @return -1 if the current version is older than the online version,
-     *          1 if the current version is newer,
-     *          0 if both versions are equal.
-     */
     public int compareVersions(@NotNull final String currentVersion, @NotNull final String onlineVersion) {
         final String[] currentParts = currentVersion.replace("-SNAPSHOT", "").split("\\.");
         final String[] onlineParts = onlineVersion.replace("-SNAPSHOT", "").split("\\.");
 
         for (int i = 0; i < Math.max(currentParts.length, onlineParts.length); i++) {
-            int currentPart = (i < currentParts.length) ? Integer.parseInt(currentParts[i]) : 0;
-            int onlinePart = (i < onlineParts.length) ? Integer.parseInt(onlineParts[i]) : 0;
+            final int currentPart = (i < currentParts.length) ? Integer.parseInt(currentParts[i]) : 0;
+            final int onlinePart = (i < onlineParts.length) ? Integer.parseInt(onlineParts[i]) : 0;
 
             if (currentPart < onlinePart) {
                 return -1; // current version is older
@@ -75,10 +79,11 @@ public class PluginUpdater {
 
     public void logUpdateMessage() {
         this.plugin.getLogger().info("");
-        this.plugin.getLogger().info("There is a new update for MultiWorld");
-        this.plugin.getLogger().info("Please note that if you do not update, some functions may be deactivated.");
+        this.plugin.getLogger().info("There is a new update for MultiWorld available on Modrinth!");
+        this.plugin.getLogger().info("Please update to ensure full functionality.");
         this.plugin.getLogger().info("Current Version: " + this.plugin.getDescription().getVersion());
         this.plugin.getLogger().info("New Version: " + this.newVersion);
+        this.plugin.getLogger().info("Download: https://modrinth.com/plugin/multiworld-bukkit");
         this.plugin.getLogger().info("");
     }
 
@@ -88,5 +93,4 @@ public class PluginUpdater {
         this.plugin.getLogger().info("Version: " + this.plugin.getDescription().getVersion());
         this.plugin.getLogger().info("");
     }
-
 }
