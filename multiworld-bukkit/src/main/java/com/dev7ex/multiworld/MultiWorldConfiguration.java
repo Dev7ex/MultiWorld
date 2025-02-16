@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
  */
 @Getter(AccessLevel.PUBLIC)
 @ConfigurationProperties(fileName = "config.yml", provider = YamlConfiguration.class)
-public final class MultiWorldConfiguration extends MultiWorldBukkitApiConfiguration {
+public class MultiWorldConfiguration extends MultiWorldBukkitApiConfiguration {
 
     private final ParsedMap<WorldDefaultProperty, Object> defaultProperties = new ParsedMap<>();
 
