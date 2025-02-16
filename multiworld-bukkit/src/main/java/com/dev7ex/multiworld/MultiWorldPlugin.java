@@ -14,6 +14,7 @@ import com.dev7ex.multiworld.listener.player.*;
 import com.dev7ex.multiworld.listener.user.UserTeleportWorldListener;
 import com.dev7ex.multiworld.listener.world.WorldActivityListener;
 import com.dev7ex.multiworld.listener.world.WorldFlagListener;
+import com.dev7ex.multiworld.listener.world.WorldInitializeListener;
 import com.dev7ex.multiworld.task.WorldUnloadTask;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.dev7ex.multiworld.user.UserProvider;
@@ -24,6 +25,8 @@ import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import com.dev7ex.multiworld.world.generator.DefaultWorldGeneratorProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -105,6 +108,7 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
 
         super.registerListener(new WorldActivityListener(this));
         super.registerListener(new WorldFlagListener(this));
+        super.registerListener(new WorldInitializeListener(this));
     }
 
     @Override
@@ -135,6 +139,11 @@ public final class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBu
     @Override
     public File getUserFolder() {
         return super.getSubFolder("user");
+    }
+
+    @Override
+    public ConsoleCommandSender getConsoleSender() {
+        return Bukkit.getConsoleSender();
     }
 
     /**
