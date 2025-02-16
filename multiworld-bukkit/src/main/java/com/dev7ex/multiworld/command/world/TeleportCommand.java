@@ -103,7 +103,7 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
             if (event.isCancelled()) {
                 return;
             }
-            user.teleport(nextWorldHolder);
+            user.teleport(event.getNextWorldHolder());
             return;
         }
         final Player target = Bukkit.getPlayer(arguments[1]);
