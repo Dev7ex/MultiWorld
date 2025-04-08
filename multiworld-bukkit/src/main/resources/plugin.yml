@@ -22,7 +22,12 @@ commands:
 permissions:
   multiworld.*:
     default: op
-    description: 'All MultiWorld permissions, ideally given to administrators.'
+    description: All MultiWorld permissions, ideally given to administrators.
+  multiworld.bypass.*:
+    default: op
+    description: Allows users to bypass specific per-world flag settings.
+    children:
+      multiworld.bypass.forcegamemode: true
   multiworld.command.world:
     default: op
     description: Ability to run /multiworld help.

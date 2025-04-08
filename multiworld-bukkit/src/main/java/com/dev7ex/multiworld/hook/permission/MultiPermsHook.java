@@ -17,7 +17,8 @@ public class MultiPermsHook implements PermissionHook {
 
     @Override
     public List<String> getPermissions() {
-        return List.of("multiworld.command.world",
+        return List.of("multiworld.bypass.autogamemode",
+                "multiworld.command.world",
                 "multiworld.command.world.back",
                 "multiworld.command.world.backup",
                 "multiworld.command.world.clone",
