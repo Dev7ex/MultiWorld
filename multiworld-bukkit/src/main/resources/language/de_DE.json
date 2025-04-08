@@ -64,7 +64,7 @@
       "help": {
         "message": [
           "",
-          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          "§f§m                                   §r§r %prefix% §f§m                                   ",
           "",
           "§7» §7/world §bback",
           "§7» §7/world §bbackup §7<Welt>",
@@ -85,7 +85,7 @@
           "§7» §7/world §bversion",
           "§7» §7/world §bwhitelist §7<Welt> <Enable | Disable | Add | Remove | List> <Name>",
           "",
-          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          "§f§m                                   §r§r %prefix% §f§m                                   ",
           ""
         ]
       },
@@ -108,7 +108,8 @@
           "§7» §7Schwierigkeitsgrad: %difficulty%",
           "§7» §7End-Zugang: %end-portal-accessible%",
           "§7» §7Verbundene End-Welt: %end_world%",
-          "§7» §7Spielmodus: %gamemode%",
+          "§7» §7Spielmodus: %game-mode%",
+          "§7» §7Force Game Mode: %force-game-mode%",
           "§7» §7Hunger aktiviert: %hunger_enabled%",
           "§7» §7Spawn speichern: %keep_spawn_in_memory%",
           "§7» §7Nether-Zugang: %nether-portal-accessible%",
