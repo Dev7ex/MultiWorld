@@ -197,5 +197,4 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
             return completions;
         }
     }
-
 }

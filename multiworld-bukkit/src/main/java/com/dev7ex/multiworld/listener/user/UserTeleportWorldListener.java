@@ -33,11 +33,18 @@ public class UserTeleportWorldListener extends MultiWorldListener {
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onUserGameModeChange(final WorldUserTeleportWorldEvent event) {
+        final Player player = Bukkit.getPlayer(event.getUser().getUniqueId());
         if (!super.getConfiguration().isAutoGameModeEnabled()) {
             return;
         }
-
-        final Player player = Bukkit.getPlayer(event.getUser().getUniqueId());
+        if (event.getNextWorldHolder().getForceGameMode().equalsIgnoreCase("false")) {
+            return;
+        }
+        if (event.getNextWorldHolder().getForceGameMode().equalsIgnoreCase("false-with-permission")) {
+            if (player.hasPermission("multiworld.bypass.forcegamemode")) {
+                return;
+            }
+        }
         player.setGameMode(event.getNextWorldHolder().getGameMode());
     }
 
