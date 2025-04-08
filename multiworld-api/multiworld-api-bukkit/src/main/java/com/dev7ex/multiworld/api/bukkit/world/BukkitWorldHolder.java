@@ -112,7 +112,6 @@ public class BukkitWorldHolder implements WorldHolder {
 
             case GAME_MODE:
                 this.gameMode = GameMode.valueOf(value);
-                Bukkit.getOnlinePlayers().forEach(player -> player.setGameMode(this.gameMode));
                 this.getWorld().getPlayers().forEach(player -> player.setGameMode(this.gameMode));
                 break;
 
