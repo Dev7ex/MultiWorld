@@ -23,6 +23,7 @@ public enum WorldFlag {
     DIFFICULTY("flag.difficulty", List.of("EASY", "HARD", "NORMAL", "PEACEFUL")),
     END_PORTAL_ACCESSIBLE("flag.end-portal-accessible", List.of("false", "true")),
     GAME_MODE("flag.game-mode", List.of("ADVENTURE", "CREATIVE", "SURVIVAL", "SPECTATOR")),
+    FORCE_GAME_MODE("flag.force-game-mode", List.of("false", "true", "false-with-permission")),
     HUNGER_ENABLED("flag.hunger-enabled", List.of("false", "true")),
     KEEP_SPAWN_IN_MEMORY("flag.keep-spawn-in-memory", List.of("false", "true")),
     NETHER_PORTAL_ACCESSIBLE("flag.nether-portal-accessible", List.of("false", "true")),

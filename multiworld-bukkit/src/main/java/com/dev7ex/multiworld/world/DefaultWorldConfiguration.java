@@ -61,6 +61,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.DIFFICULTY.getStoragePath(), worldHolder.getDifficulty().toString());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.END_PORTAL_ACCESSIBLE.getStoragePath(), worldHolder.isEndPortalAccessible());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.GAME_MODE.getStoragePath(), worldHolder.getGameMode().toString());
+        super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.FORCE_GAME_MODE.getStoragePath(), worldHolder.getForceGameMode());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.HUNGER_ENABLED.getStoragePath(), worldHolder.isHungerEnabled());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.KEEP_SPAWN_IN_MEMORY.getStoragePath(), worldHolder.isKeepSpawnInMemory());
         super.getFileConfiguration().set(worldHolder.getName() + "." + WorldProperty.NETHER_PORTAL_ACCESSIBLE.getStoragePath(), worldHolder.isNetherPortalAccessible());
@@ -182,6 +183,11 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
                 break;
 
+            case FORCE_GAME_MODE:
+                this.write(worldHolder, property, this.defaultProperties.getString(WorldDefaultProperty.FORCE_GAME_MODE));
+                MultiWorldPlugin.getInstance().getLogger().info("Adding Missing Property [" + property.name() + "] to " + worldHolder.getName());
+                break;
+
             case GENERATOR:
                 break;
 
@@ -276,7 +282,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
 
     @Override
     public void updateFlag(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldFlag worldFlag, @NotNull final String value) {
-        if ((value.equalsIgnoreCase("true")) || (value.equalsIgnoreCase("false"))) {
+        if (((value.equalsIgnoreCase("true")) || (value.equalsIgnoreCase("false"))) && worldFlag != WorldFlag.FORCE_GAME_MODE) {
             super.getFileConfiguration().set(worldHolder.getName() + "." + worldFlag.getStoragePath(), Boolean.valueOf(value));
 
         } else {
@@ -294,6 +300,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 case DIFFICULTY:
                 case ENVIRONMENT:
                 case GAME_MODE:
+                case FORCE_GAME_MODE:
                 case GENERATOR:
                 case LINKED_END_WORLD:
                 case LINKED_NETHER_WORLD:
@@ -366,6 +373,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
                 .setDifficulty(Difficulty.valueOf(super.getFileConfiguration().getString(name + "." + WorldProperty.DIFFICULTY.getStoragePath())))
                 .setEndPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.END_PORTAL_ACCESSIBLE.getStoragePath(), true))
                 .setGameMode(GameMode.valueOf(super.getFileConfiguration().getString(name + "." + WorldProperty.GAME_MODE.getStoragePath())))
+                .setForceGameMode(super.getFileConfiguration().getString(name + "." + WorldProperty.FORCE_GAME_MODE.getStoragePath()))
                 .setHungerEnabled(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.HUNGER_ENABLED.getStoragePath()))
                 .setKeepSpawnInMemory(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.KEEP_SPAWN_IN_MEMORY.getStoragePath()))
                 .setNetherPortalAccessible(super.getFileConfiguration().getBoolean(name + "." + WorldProperty.NETHER_PORTAL_ACCESSIBLE.getStoragePath(), true))
