@@ -138,9 +138,7 @@ public class BukkitWorldHolder implements WorldHolder {
             case HUNGER_ENABLED:
                 this.hungerEnabled = Boolean.parseBoolean(value);
                 if (!this.hungerEnabled) {
-                    this.getWorld().getPlayers().forEach(player -> {
-                        player.setSaturation(20.00F);
-                    });
+                    this.getWorld().getPlayers().forEach(player -> player.setSaturation(20.00F));
                 }
                 break;
 
