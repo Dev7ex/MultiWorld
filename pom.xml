@@ -30,7 +30,7 @@
         <maven.shade.plugin.version>3.6.0</maven.shade.plugin.version>
         <maven.javadoc.plugin.version>3.8.0</maven.javadoc.plugin.version>
 
-        <dependency.multiperms.version>1.1.0-SNAPSHOT</dependency.multiperms.version>
+        <dependency.multiperms.version>1.1.2-SNAPSHOT</dependency.multiperms.version>
         <dependency.adventure.platform.version>4.3.3</dependency.adventure.platform.version>
         <dependency.adventure.api.version>4.17.0</dependency.adventure.api.version>
         <dependency.annotations.version>24.1.0</dependency.annotations.version>
@@ -38,7 +38,7 @@
         <dependency.commons.io.version>2.16.1</dependency.commons.io.version>
         <dependency.lombok.version>1.18.34</dependency.lombok.version>
         <dependency.spigot.api.version>1.17.1-R0.1-SNAPSHOT</dependency.spigot.api.version>
-        <dependency.placeholder.api.version>2.11.3</dependency.placeholder.api.version>
+        <dependency.placeholder.api.version>2.11.6</dependency.placeholder.api.version>
     </properties>
 
 </project>
