@@ -67,7 +67,8 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
         replacements.put("%difficulty%", Colored.getColoredDifficulty(worldHolder.getDifficulty()));
         replacements.put("%end-portal-accessible%", Colored.getColoredBoolean(worldHolder.isEndPortalAccessible()));
         replacements.put("%end_world%", worldHolder.getEndWorldName());
-        replacements.put("%gamemode%", Colored.getColoredGameMode(worldHolder.getGameMode()));
+        replacements.put("%game-mode%", Colored.getColoredGameMode(worldHolder.getGameMode()));
+        replacements.put("%force-game-mode%", Colored.getColoredBooleanWithOption(worldHolder.getForceGameMode()));
         replacements.put("%hunger_enabled%", Colored.getColoredBoolean(worldHolder.isHungerEnabled()));
         replacements.put("%keep_spawn_in_memory%", Colored.getColoredBoolean(worldHolder.isKeepSpawnInMemory()));
         replacements.put("%nether-portal-accessible%", Colored.getColoredBoolean(worldHolder.isNetherPortalAccessible()));
