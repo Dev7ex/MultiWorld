@@ -116,6 +116,26 @@ public class BukkitWorldHolder implements WorldHolder {
                 this.getWorld().getPlayers().forEach(player -> player.setGameMode(this.gameMode));
                 break;
 
+            case FORCE_GAME_MODE:
+                GameMode gameMode = MultiWorldApiProvider.getMultiWorldApi().getWorldConfiguration().getWorldHolder(this.getWorld().getName()).getGameMode();
+                switch (value) {
+                    case "true" -> {
+                        this.forceGameMode = "true";
+                        this.getWorld().getPlayers().forEach(player -> player.setGameMode(gameMode));
+                    }
+                    case "false" -> this.forceGameMode = "false";
+                    case "false_with_permission" -> {
+                        this.forceGameMode = "false_with_permission";
+                        for (Player player : this.getWorld().getPlayers()) {
+                            if (!player.hasPermission("multiworld.bypass.forcegamemode")) {
+                                player.setGameMode(gameMode);
+                            }
+                        }
+                    }
+                    default -> this.forceGameMode = MultiWorldApiProvider.getMultiWorldApi().getConfiguration().getString(MultiWorldBukkitApiConfiguration.Entry.SETTINGS_DEFAULTS_FORCE_GAME_MODE.getPath());
+                }
+                break;
+
             case HUNGER_ENABLED:
                 this.hungerEnabled = Boolean.parseBoolean(value);
                 if (!this.hungerEnabled) {
