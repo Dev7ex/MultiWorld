@@ -39,7 +39,7 @@
         "finished": "%prefix% §7Le monde §a%world_name% §7a été cloné avec succès! Nom: §a%cloned_world_name%"
       },
       "create": {
-        "usage": "%prefix% §cEmploi: /world create <nom> <Environnement> <-g, -s> <Generator | Seed>",
+        "usage": "%prefix% §cEmploi: /world create <nom> <Environnement> <-g, -s, -t> <Generator | Seed | Type>",
         "starting": "%prefix% §7Le monde §a%world_name% §7est en train d'être créé...",
         "finished": "%prefix% §7Le monde §a%world_name% §7a été créé avec succès!"
       },
@@ -63,7 +63,7 @@
       "help": {
         "message": [
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           "",
           "§7» §7/world §bback",
           "§7» §7/world §bbackup §7<monde>",
@@ -84,7 +84,7 @@
           "§7» §7/world §bversion",
           "§7» §7/world §bwhitelist §7<monde> <Enable | Disable | Add | Remove | List> <joueur>",
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           ""
         ]
       },
@@ -98,7 +98,7 @@
         "usage": "%prefix% §cEmploi: /world info <monde>",
         "message": [
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           "",
           "§7» §7Créateur du Monde: §a%world_creator_name%",
           "§7» §7Créé le: §a%creation_timestamp%",
@@ -108,7 +108,7 @@
           "§7» §7Portail de l'End Accessible: %end-portal-accessible%",
           "§7» §7Monde de l'End Lié: %end_world%",
           "§7» §7Mode de Jeu: %game-mode%",
-          "§7» §7Force Game Mode: %force-game-mode%",
+          "§7» §7Forcer le mode de jeu: %force-game-mode%",
           "§7» §7Faim Activée: %hunger_enabled%",
           "§7» §7Garder le Spawn en Mémoire: %keep_spawn_in_memory%",
           "§7» §7Portail du Nether Accessible: %nether-portal-accessible%",
@@ -126,7 +126,7 @@
           "§7» §7Générateur: %generator_name%",
           "§7» §7Type de Monde: %world_type%",
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           ""
         ]
       },

@@ -40,7 +40,7 @@
         "finished": "%prefix% §7Світ §a%world_name% §7було успішно клоновано! Назва: §a%cloned_world_name%"
       },
       "create": {
-        "usage": "%prefix% §cВикористання: /world create <Назва> <Середовище> <-g, -s> <Вид генерації| Сід>",
+        "usage": "%prefix% §cВикористання: /world create <Назва> <Середовище> <-g, -s, -t> <Вид генерації| Сід | тип>",
         "starting": "%prefix% §7Світ §a%world_name% §7створюється...",
         "finished": "%prefix% §7Світ §a%world_name% §7було успішно створено!"
       },
@@ -64,7 +64,7 @@
       "help": {
         "message": [
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           "",
           "§7» §7/world §bback",
           "§7» §7/world §bbackup §7<Назва світу>",
@@ -85,7 +85,7 @@
           "§7» §7/world §bversion",
           "§7» §7/world §bwhitelist §7<Назва світу> <Enable | Disable | Add | Remove | List> <Name>",
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           ""
         ]
       },
@@ -99,7 +99,7 @@
         "usage": "%prefix% §cВикористання: /world info <Назва світу>",
         "message": [
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           "",
           "§7» §7Творець світу: §a%world_creator_name%",
           "§7» §7Час створення: §a%creation_timestamp%",
@@ -109,7 +109,7 @@
           "§7» §7Доступ до ендер порталів: %end-portal-accessible%",
           "§7» §7Прив'язаний світ енду: %end_world%",
           "§7» §7Режим гри: %game-mode%",
-          "§7» §7Force Game Mode: %force-game-mode%",
+          "§7» §7Силовий режим гри: %force-game-mode%",
           "§7» §7Голодування увімкнено: %hunger_enabled%",
           "§7» §7Завжди прогружати чанк спавну: %keep_spawn_in_memory%",
           "§7» §7Доступ до пекла: %nether-portal-accessible%",
@@ -127,7 +127,7 @@
           "§7» §7Вид генерації: %generator_name%",
           "§7» §7Тип світу: %world_type%",
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           ""
         ]
       },

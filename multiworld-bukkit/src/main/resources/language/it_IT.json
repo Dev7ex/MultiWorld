@@ -40,7 +40,7 @@
         "finished": "%prefix% §7Il mondo §a%world_name% §7è stato clonato! Nome: §a%cloned_world_name%"
       },
       "create": {
-        "usage": "%prefix% §cUsage: /world create <nome> <ambiente> <-g, -s> <generatore | seme>",
+        "usage": "%prefix% §cUsage: /world create <nome> <ambiente> <-g, -s, -t> <generatore | seme | tipo>",
         "starting": "%prefix% §7Il mondo §a%world_name% §7sarà creato...",
         "finished": "%prefix% §7Il mondo §a%world_name% §7è stato creato!"
       },
@@ -64,7 +64,7 @@
       "help": {
         "message": [
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           "",
           "§7» §7/world §bback",
           "§7» §7/world §bbackup §7<mondo>",
@@ -85,7 +85,7 @@
           "§7» §7/world §bversion",
           "§7» §7/world §bwhitelist §7<mondo> <Enable | Disable | Add | Remove | List> <nome>",
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           ""
         ]
       },
@@ -99,7 +99,7 @@
         "usage": "%prefix% §cUsage: /world info <mondo>",
         "message": [
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           "",
           "§7» §7Creatore del mondo: §a%world_creator_name%",
           "§7» §7Creato: §a%creation_timestamp%",
@@ -127,7 +127,7 @@
           "§7» §7Generatore: %generator_name%",
           "§7» §7Dimensione (Tipo di Mondo): %world_type%",
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           ""
         ]
       },

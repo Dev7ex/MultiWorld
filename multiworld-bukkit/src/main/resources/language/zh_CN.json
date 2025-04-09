@@ -37,7 +37,7 @@
           "finished": "%prefix% §7成功复制世界 §a%world_name%§7! 复制后的世界名称为: §a%cloned_world_name%"
         },
         "create": {
-          "usage": "%prefix% §c命令用法: /world create <世界名称> <环境> <-g, -s> <生成器 | 种子>",
+          "usage": "%prefix% §c命令用法: /world create <世界名称> <环境> <-g, -s, -t> <生成器 | 种子 | 类型>",
           "starting": "%prefix% §7正在创建世界 §a%world_name%§7...",
           "finished": "%prefix% §7成功创建世界 §a%world_name%§7!"
         },
@@ -61,7 +61,7 @@
         "help": {
           "message": [
             "",
-            "§f§m                         §r§r %prefix% §f§m                         ",
+            "§8§m                                                  §r§r %prefix% §8§m                                                  ",
             "",
             "§7» §7/world §bback",
             "§7» §7/world §bbackup §7<世界名称>",
@@ -82,7 +82,7 @@
             "§7» §7/world §bversion",
             "§7» §7/world §bwhitelist §7<世界名称> <Enable | Disable | Add | Remove | List> <玩家名称>",
             "",
-            "§f§m                         §r§r %prefix% §f§m                         ",
+            "§8§m                                                  §r§r %prefix% §8§m                                                  ",
             ""
           ]
         },
@@ -96,7 +96,7 @@
           "usage": "%prefix% §c命令用法: /world info <世界名称>",
           "message": [
             "",
-            "§f§m               §r§r §b%world_name% §f§m               ",
+            "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
             "",
             "§7» §7世界创建者: §a%world_creator_name%",
             "§7» §7创建日期: §a%creation_timestamp%",
@@ -106,7 +106,7 @@
             "§7» §7末地传送门可进入: %end-portal-accessible%",
             "§7» §7连接的末地世界: %end_world%",
             "§7» §7游戏模式: %game-mode%",
-            "§7» Force Game Mode: %force-game-mode%",
+            "§7» 强制游戏模式: %force-game-mode%",
             "§7» §7饥饿已启用: %hunger_enabled%",
             "§7» §7保持出生点在内存中: %keep_spawn_in_memory%",
             "§7» §7下界传送门可进入: %nether-portal-accessible%",
@@ -125,7 +125,7 @@
             "§7» §7世界类型: %world_type%",
 
             "",
-            "§f§m               §r§r §b%world_name% §f§m               ",
+            "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
             ""
           ]
         },

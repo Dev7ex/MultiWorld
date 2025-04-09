@@ -40,7 +40,7 @@
         "finished": "%prefix% §7The world §a%world_name% §7has been successfully cloned! Name: §a%cloned_world_name%"
       },
       "create": {
-        "usage": "%prefix% §cUsage: /world create <Name> <Environment> <-g, -s> <Generator | Seed>",
+        "usage": "%prefix% §cUsage: /world create <Name> <Environment> <-g, -s, -t> <Generator | Seed | Type>",
         "starting": "%prefix% §7The world §a%world_name% §7will be created...",
         "finished": "%prefix% §7The world §a%world_name% §7has been successfully created!"
       },
@@ -64,7 +64,7 @@
       "help": {
         "message": [
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           "",
           "§7» §7/world §bback",
           "§7» §7/world §bbackup §7<World>",
@@ -85,7 +85,7 @@
           "§7» §7/world §bversion",
           "§7» §7/world §bwhitelist §7<World> <Enable | Disable | Add | Remove | List> <Name>",
           "",
-          "§f§m                         §r§r %prefix% §f§m                         ",
+          "§8§m                                                  §r§r %prefix% §8§m                                                  ",
           ""
         ]
       },
@@ -99,7 +99,7 @@
         "usage": "%prefix% §cUsage: /world info <World>",
         "message": [
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           "",
           "§7» §7World Creator: §a%world_creator_name%",
           "§7» §7Created on: §a%creation_timestamp%",
@@ -108,8 +108,8 @@
           "§7» §7Difficulty Level: %difficulty%",
           "§7» §7End Portal Accessible: %end-portal-accessible%",
           "§7» §7Linked End World: %end_world%",
-          "§7» §7Game Mode: %game-mode%",
-          "§7» §7Force Game Mode: %force-game-mode%",
+          "§7» §7Gamemode: %game-mode%",
+          "§7» §7Force Gamemode: %force-game-mode%",
           "§7» §7Hunger Enabled: %hunger_enabled%",
           "§7» §7Keep Spawn in Memory: %keep_spawn_in_memory%",
           "§7» §7Nether Portal Accessible: %nether-portal-accessible%",
@@ -127,7 +127,7 @@
           "§7» §7Generator: %generator_name%",
           "§7» §7World Type: %world_type%",
           "",
-          "§f§m               §r§r §b%world_name% §f§m               ",
+          "§8§m                                                  §r§r §b%world_name% §8§m                                                  ",
           ""
         ]
       },
