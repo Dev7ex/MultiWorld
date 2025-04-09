@@ -282,7 +282,7 @@ public class DefaultWorldConfiguration extends Configuration implements BukkitWo
 
     @Override
     public void updateFlag(@NotNull final BukkitWorldHolder worldHolder, @NotNull final WorldFlag worldFlag, @NotNull final String value) {
-        if (((value.equalsIgnoreCase("true")) || (value.equalsIgnoreCase("false"))) && worldFlag != WorldFlag.FORCE_GAME_MODE) {
+        if (((value.equalsIgnoreCase("true")) || (value.equalsIgnoreCase("false"))) && (worldFlag != WorldFlag.FORCE_GAME_MODE)) {
             super.getFileConfiguration().set(worldHolder.getName() + "." + worldFlag.getStoragePath(), Boolean.valueOf(value));
 
         } else {
