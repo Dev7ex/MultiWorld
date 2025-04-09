@@ -13,6 +13,14 @@
     <description>World Management for Minecraft</description>
     <url>https://github.com/Dev7ex/MultiWorld</url>
 
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Dev7ex Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Dev7ex/MultiWorld</url>
+        </repository>
+    </distributionManagement>
+
     <modules>
         <module>multiworld-bukkit</module>
         <module>multiworld-api</module>
