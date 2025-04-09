@@ -1,5 +1,6 @@
 package com.dev7ex.multiworld;
 
+import com.dev7ex.common.bukkit.BukkitCommon;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.bukkit.plugin.ConfigurablePlugin;
 import com.dev7ex.common.bukkit.plugin.PluginIdentification;
@@ -46,7 +47,7 @@ public class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitAp
     private MultiWorldConfiguration configuration;
     private DefaultWorldConfiguration worldConfiguration;
 
-    private final WorldCommand worldCommand = new WorldCommand(this);
+    private WorldCommand worldCommand;
     private final PluginUpdater updater = new PluginUpdater(this);
 
     private DefaultWorldManager worldManager;
@@ -80,6 +81,11 @@ public class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitAp
 
         this.updater.checkAsync();
 
+        if (!BukkitCommon.isPaper()) {
+            this.getConsoleSender().sendMessage(this.configuration.getPrefix() + "§cMultiWorld will only support paper or paper forks in the future");
+            this.getConsoleSender().sendMessage(this.configuration.getPrefix() + "§cPlease remember to switch early");
+        }
+
         MultiWorldApiProvider.registerApi(this);
     }
 
@@ -90,7 +96,7 @@ public class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitAp
 
     @Override
     public void registerCommands() {
-        super.registerCommand(this.worldCommand);
+        super.registerCommand(this.worldCommand = new WorldCommand(this));
     }
 
     @Override
