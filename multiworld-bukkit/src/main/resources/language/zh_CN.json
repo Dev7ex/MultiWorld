@@ -61,7 +61,7 @@
         "help": {
           "message": [
             "",
-            "§f§m                                   §r§r %prefix% §f§m                                   ",
+            "§f§m                         §r§r %prefix% §f§m                         ",
             "",
             "§7» §7/world §bback",
             "§7» §7/world §bbackup §7<世界名称>",
@@ -82,7 +82,7 @@
             "§7» §7/world §bversion",
             "§7» §7/world §bwhitelist §7<世界名称> <Enable | Disable | Add | Remove | List> <玩家名称>",
             "",
-            "§f§m                                   §r§r %prefix% §f§m                                   ",
+            "§f§m                         §r§r %prefix% §f§m                         ",
             ""
           ]
         },

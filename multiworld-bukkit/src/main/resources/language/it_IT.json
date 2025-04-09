@@ -1,0 +1,192 @@
+{
+  "general": {
+    "translator": "calaritooo",
+    "no-permission": "§cNon hai il permesso di eseguire questo commando. Contatta gli amministratori del server se pensi che sia un errore.",
+    "no-console-command": "%prefix% §cIl commando §6%command_name% §cpuò essere eseguito solo da un giocatore!",
+    "no-player-command": "%prefix% §cIl commando §6%command_name% §cpuò essere eseguito solo dalla console!",
+    "no-player-found": "%prefix% §cIl giocatore §6%player_name% §cnon è stato trovato!",
+    "invalid-generator": "%prefix% §7Il generatore selezionato, %generator_name%, non esiste!",
+    "invalid-seed": "%prefix% §7Il seme selezionato, %seed%, §cnon è valido§7!",
+    "world": {
+      "environment-not-exists": "%prefix% §7L'ambiente §6%environment_name% §cnon §7esiste!",
+      "already-loaded": "%prefix% §7Il mondo §a%world_name% §7è già caricato",
+      "not-loaded": "%prefix% §7Il mondo §a%world_name% §cnon §7è caricato",
+      "already-exists": "%prefix% §7Il mondo esiste già con il nome di §a%world_name%§7!",
+      "not-exists": "%prefix% §7Il mondo §a%world_name% §7non esiste!",
+      "type-not-exists": "%prefix% §7Il tipo di mondo selezionato %world_type% §7non esiste!",
+      "whitelist-block-trespassing": "%prefix% §7Non ti è permesso di entrare in questo mondo perché §cnon sei nella white list§7!",
+      "folder-not-exists": "%prefix% §7Non esiste una cartella per il mondo con il nome di §a%world_name%§7!",
+      "nether-not-accessible": "%prefix% §7L'accesso al mondo §a%world_name% §7è stato bloccato! §c§8[%reason%§8]",
+      "end-not-accessible": "%prefix% §7L'accesso al mondo §a%world_name% §7è stato bloccato! §c§8[%reason%§8]",
+      "unload-locked": "%prefix% §7Il mondo §a%world_name% §7non può essere chiuso!",
+      "delete-locked": "%prefix% §7Il mondo §a%world_name% §7non può essere eliminato!!"
+    }
+  },
+  "commands": {
+    "world": {
+      "back": {
+        "usage": "%prefix% §cUsage: /world back",
+        "world-not-exists": "%prefix% §7Il mondo §a%world_name% §7in cui stai provando ad accedere non esiste più!",
+        "already-there": "%prefix% §7Sei già nel mondo §a%world_name%"
+      },
+      "backup": {
+        "usage": "%prefix% §cUsage: /world backup <mondo>",
+        "starting": "%prefix% §7Il backup del mondo §b%world_name% sarà creato...",
+        "finished": "%prefix% §7Il backup del mondo §b%world_name% §7è stato creato!"
+      },
+      "clone": {
+        "usage": "%prefix% §cUsage: /world clone <mondo> <nome>",
+        "starting": "%prefix% §7Clonando il mondo §a%world_name% §7...",
+        "finished": "%prefix% §7Il mondo §a%world_name% §7è stato clonato! Nome: §a%cloned_world_name%"
+      },
+      "create": {
+        "usage": "%prefix% §cUsage: /world create <nome> <ambiente> <-g, -s> <generatore | seme>",
+        "starting": "%prefix% §7Il mondo §a%world_name% §7sarà creato...",
+        "finished": "%prefix% §7Il mondo §a%world_name% §7è stato creato!"
+      },
+      "delete": {
+        "usage": "%prefix% §cUsage: /world delete <mondo>",
+        "starting": "%prefix% §7Il mondo §a%world_name% §7sarà eliminato...",
+        "finished": "%prefix% §7Il mondo §a%world_name% §7è stato eliminato!"
+      },
+      "flag": {
+        "usage": "%prefix% §cUsage: /world flag <mondo> <proprietà> <valore>",
+        "not-existing": "%prefix% §7La proprietà §a%flag_name% §7non esiste!",
+        "invalid-value": "%prefix% §7Il valore selezionato §a%value% §7non è valido per la proprietà §a%flag_name%§7!",
+        "successfully-set": "%prefix% §7Hai selezionato il valore §a%value% §7per la proprietà §a%flag_name%§7!"
+      },
+      "gamerule": {
+        "usage": "%prefix% §cUsage: /world flag <mondo> <regola> <valore>",
+        "not-existing": "%prefix% §7La regola §a%gamerule_name% §7non esiste!",
+        "invalid-value": "%prefix% §7Il valore selezionato §a%value% §7non è valido per la regola §a%gamerule_name%§7!",
+        "successfully-set": "%prefix% §7Hai selezionato il valore §a%value% §7per la regola §a%gamerule_name%§7!"
+      },
+      "help": {
+        "message": [
+          "",
+          "§f§m                         §r§r %prefix% §f§m                         ",
+          "",
+          "§7» §7/world §bback",
+          "§7» §7/world §bbackup §7<mondo>",
+          "§7» §7/world §bclone §7<mondo> <nome>",
+          "§7» §7/world §bcreate §7<Name> <ambiente> <-g, -s, -t> <generatore | seme | dimensione>",
+          "§7» §7/world §bdelete §7<mondo>",
+          "§7» §7/world §bflag §7<mondo> <proprietà> <valore>",
+          "§7» §7/world §bgamerule §7<mondo> <regola> <valore>",
+          "§7» §7/world §bhelp",
+          "§7» §7/world §bimport §7<nome> <ambiente> <-g, -t> <generatore | dimensione>",
+          "§7» §7/world §binfo §7<mondo>",
+          "§7» §7/world §blist",
+          "§7» §7/world §blink §7<mondo> <nether | end> <mondo>",
+          "§7» §7/world §bload §7<mondo>",
+          "§7» §7/world §breload",
+          "§7» §7/world §bteleport §7<giocatore> <mondo>",
+          "§7» §7/world §bunload §7<mondo>",
+          "§7» §7/world §bversion",
+          "§7» §7/world §bwhitelist §7<mondo> <Enable | Disable | Add | Remove | List> <nome>",
+          "",
+          "§f§m                         §r§r %prefix% §f§m                         ",
+          ""
+        ]
+      },
+      "import": {
+        "usage": "%prefix% §cUsage: /world import <nome> <ambiente> <-g, -t> <generatore | dimensione>",
+        "world-already-imported": "%prefix% §7Il mondo §a%world_name% §7è già stato importato!",
+        "starting": "%prefix% §7Il mondo §a%world_name% §7sarà importato...",
+        "finished": "%prefix% §7Il mondo §a%world_name% §7è stato importato!"
+      },
+      "info": {
+        "usage": "%prefix% §cUsage: /world info <mondo>",
+        "message": [
+          "",
+          "§f§m               §r§r §b%world_name% §f§m               ",
+          "",
+          "§7» §7Creatore del mondo: §a%world_creator_name%",
+          "§7» §7Creato: §a%creation_timestamp%",
+          "§7» §7Caricamento automatico abilitato: %auto_load_enabled%",
+          "§7» §7Chiusura automatica abilitata: %auto_unload_enabled%",
+          "§7» §7Livello di difficoltà: %difficulty%",
+          "§7» §7Portale per L'End accessibile: %end-portal-accessible%",
+          "§7» §7Mondo End collegato: %end_world%",
+          "§7» §7Modalità di gioco: %game-mode%",
+          "§7» §7Imporre Modalità di gioco: %force-game-mode%",
+          "§7» §7Fame abilitata: %hunger_enabled%",
+          "§7» §7Tenere lo spawn in memoria: %keep_spawn_in_memory%",
+          "§7» §7Portale per il Nether accessibile: %nether-portal-accessible%",
+          "§7» §7Mondo Nether collegato: %nether_world%",
+          "§7» §7Mondo Overworld collegato: %normal_world%",
+          "§7» §7PvP abilitato: %pvp_enabled%",
+          "§7» §7Avanzamenti abilitati: %receive_achievements%",
+          "§7» §7Redstone abilitato: %redstone_enabled%",
+          "§7» §7Spawn degli Animali abilitato: %spawn_animals%",
+          "§7» §7Spawn delle Entità abilitato: %spawn_entities%",
+          "§7» §7Spawn dei Mostri abilitato: %spawn_monsters%",
+          "§7» §7Clima abilitato: %weather_enabled%",
+          "§7» §7White list abilitato: %whitelist_enabled%",
+          "§7» §7Ambiente: %environment%",
+          "§7» §7Generatore: %generator_name%",
+          "§7» §7Dimensione (Tipo di Mondo): %world_type%",
+          "",
+          "§f§m               §r§r §b%world_name% §f§m               ",
+          ""
+        ]
+      },
+      "link": {
+        "usage": "%prefix% §cUsage: /world link <mondo> <end | nether> <mondo>",
+        "environment-not-exists": "%prefix% §cL'ambiente selezionato §6%environment_name% §cnon esiste",
+        "successfully-set": "%prefix% §7Hai collegato il portale §a%environment_name% §7del mondo §a%world_name% al mondo §a%target_world_name%§7!"
+      },
+      "list": {
+        "usage": "%prefix% §cUsage: /world list",
+        "message": "%prefix% §7Mondi: %world_names%"
+      },
+      "load": {
+        "usage": "%prefix% §cUsage: /world load <mondo>",
+        "error-missing-generator": "%prefix% §7Il mondo §a%world_name% §7non può essere caricato perché il generatore §a%generator_name% §7non è installato!",
+        "starting": "%prefix% §7Il mondo §a%world_name% §7sarà caricato...",
+        "finished": "%prefix% §7Il mondo §a%world_name% §7è stato caricato!"
+      },
+      "reload": {
+        "usage": "%prefix% §cUsage: /world reload",
+        "message": "%prefix% §7Il plugin è stato ricaricato!"
+      },
+      "teleport": {
+        "usage": "%prefix% §cUsage: /world teleport <giocatore> <mondo>",
+        "message": "%prefix% §a%player_name% §7è stato teletrasportato a §a%world_name%§7!",
+        "sender-already-there": "%prefix% §7Sei già nel mondo §b%world_name%",
+        "target-already-there": "%prefix% §7Il giocatore §a%player_name% §7è già nel mondo §b%world_name%"
+      },
+      "unload": {
+        "usage": "%prefix% §cUsage: /world unload <mondo>",
+        "chunk-starting": "%prefix% §7I chunk nel mondo §a%world_name% §7saranno chiusi...",
+        "chunk-finished": "%prefix% §7I chunk nel mondo §a%world_name% §7sono stati chiusi!",
+        "chunk-teleport": "%prefix% §7Il mondo in cui ti trovi sta per essere chiuso da §c%unloader_name% §7! §7Sarai teletrasportato!",
+        "starting": "%prefix% §7Il mondo §a%world_name% §7si sta chiudendo...",
+        "finished": "%prefix% §7Il mondo §a%world_name% §7è stato chiuso!"
+      },
+      "whitelist": {
+        "usage": "%prefix% §cUsage: /world whitelist <mondo> <On | Off | Add | List | Remove> <giocatore>",
+        "add": {
+          "already-added": "%prefix% §7Il giocatore §a%player_name% §7è già nella white list!",
+          "successfully-added": "%prefix% §7Hai aggiunto il giocatore §a%player_name% §7alla white list del mondo §a%world_name%§7!"
+        },
+        "list": {
+          "empty": "%prefix% §7La white list del mondo §a%world_name% §7è vuota",
+          "message": "%prefix% §7White list: %player_names%"
+        },
+        "disable": {
+          "already-disabled": "%prefix% §7La white list del mondo §a%world_name% §7è già §cdisattivata§7!",
+          "successfully-disabled": "%prefix% §7Hai §cdisattivato §7la white list del mondo §a%world_name%§7!"
+        },
+        "enable": {
+          "already-enabled": "%prefix% §7La whitelist del mondo §a%world_name% §7è già §aattiva§7!",
+          "successfully-enabled": "%prefix% §7Hai §aattivato §7la white list del mondo §a%world_name% §7!"
+        },
+        "remove": {
+          "already-removed": "%prefix% §7Il giocatore §a%player_name% §cnon §7è nella white list!",
+          "successfully-removed": "%prefix% §7Hai rimosso il giocatore §a%player_name% §7dalla white list del mondo §a%world_name%§7!"
+        }
+      }
+    }
+  }
+}
