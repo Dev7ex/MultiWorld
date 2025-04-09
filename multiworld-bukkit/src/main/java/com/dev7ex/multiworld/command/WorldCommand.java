@@ -25,6 +25,8 @@ import java.util.Objects;
 @BukkitCommandProperties(name = "world", permission = "multiworld.command.world")
 public class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
 
+    private final DefaultTranslationProvider translationProvider;
+
     /**
      * Constructs a WorldCommand with the given MultiWorldPlugin instance.
      *
@@ -32,6 +34,8 @@ public class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
      */
     public WorldCommand(final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
 
         super.registerSubCommand(new BackCommand(plugin));
         super.registerSubCommand(new BackupCommand(plugin));
@@ -55,8 +59,6 @@ public class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-
         if ((arguments.length == 0) || (arguments.length > 5)) {
             Objects.requireNonNull(super.getSubCommand(HelpCommand.class)).execute(commandSender, arguments);
             return;
@@ -69,7 +71,7 @@ public class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
         final BukkitCommand subCommand = super.getSubCommand(arguments[0].toLowerCase()).get();
 
         if (!commandSender.hasPermission(subCommand.getPermission())) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.no-permission")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.no-permission")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -84,7 +86,8 @@ public class WorldCommand extends BukkitCommand implements BukkitTabCompleter {
         if (super.getSubCommand(arguments[0].toLowerCase()).isEmpty()) {
             return Collections.emptyList();
         }
-        final BukkitCommand subCommand = super.getSubCommand(arguments[0].toLowerCase()).get();
+        final BukkitCommand subCommand = super.getSubCommand(arguments[0].toLowerCase())
+                .get();
 
         if (!commandSender.hasPermission(subCommand.getPermission())) {
             return Collections.emptyList();

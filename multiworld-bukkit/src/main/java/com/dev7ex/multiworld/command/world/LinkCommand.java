@@ -12,6 +12,9 @@ import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import com.dev7ex.multiworld.api.world.WorldProperty;
 import com.dev7ex.multiworld.api.world.WorldType;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
+import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
+import com.dev7ex.multiworld.world.DefaultWorldManager;
+import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,24 +30,28 @@ import java.util.Optional;
 @BukkitCommandProperties(name = "link", permission = "multiworld.command.world.link")
 public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
 
-    public LinkCommand(@NotNull final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+    private final DefaultWorldConfiguration worldConfiguration;
+    private final DefaultWorldProvider worldProvider;
+
+    public LinkCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
+        this.worldConfiguration = plugin.getWorldConfiguration();
+        this.worldProvider = plugin.getWorldProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-
         if (arguments.length != 4) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.link.usage")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "messages.commands.link.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
-        final BukkitWorldProvider worldProvider = MultiWorldPlugin.getInstance().getWorldProvider();
-        final BukkitWorldConfiguration worldConfiguration = MultiWorldPlugin.getInstance().getWorldConfiguration();
 
-        if (worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.general.world.not-exists")
+        if (this.worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "messages.general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -53,27 +60,28 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
         final Optional<WorldEnvironment> environmentOptional = WorldEnvironment.fromString(arguments[2].toUpperCase());
 
         if (environmentOptional.isEmpty()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.environment-not-exists")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.link.environment-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%environment_name%", arguments[2]));
             return;
         }
         final WorldEnvironment environment = environmentOptional.get();
 
-        if (worldProvider.getWorldHolder(arguments[3]).isEmpty()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
+        if (this.worldProvider.getWorldHolder(arguments[3]).isEmpty()) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[3]));
             return;
         }
-        final BukkitWorldHolder worldHolder = worldProvider.getWorldHolder(arguments[1]).get();
+        final BukkitWorldHolder worldHolder = worldProvider.getWorldHolder(arguments[1])
+                .get();
 
         switch (environment) {
             case THE_END:
                 worldHolder.setEndWorldName(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.LINKED_END_WORLD, arguments[3]);
+                this.worldConfiguration.write(worldHolder, WorldProperty.LINKED_END_WORLD, arguments[3]);
 
-                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
+                commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                         .replaceAll("%world_name%", arguments[1])
                         .replaceAll("%environment_name%", arguments[2])
@@ -82,9 +90,9 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
 
             case NETHER:
                 worldHolder.setNetherWorldName(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.LINKED_NETHER_WORLD, arguments[3]);
+                this.worldConfiguration.write(worldHolder, WorldProperty.LINKED_NETHER_WORLD, arguments[3]);
 
-                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
+                commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                         .replaceAll("%world_name%", arguments[1])
                         .replaceAll("%environment_name%", arguments[2])
@@ -93,9 +101,9 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
 
             case NORMAL:
                 worldHolder.setNormalWorldName(arguments[3]);
-                worldConfiguration.write(worldHolder, WorldProperty.LINKED_OVERWORLD, arguments[3]);
+                this.worldConfiguration.write(worldHolder, WorldProperty.LINKED_OVERWORLD, arguments[3]);
 
-                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
+                commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.link.successfully-set")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                         .replaceAll("%world_name%", arguments[1])
                         .replaceAll("%environment_name%", arguments[2])
@@ -103,7 +111,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
                 return;
 
             default:
-                commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.link.usage")
+                commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.link.usage")
                         .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
                 break;
         }
@@ -113,7 +121,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
 
         if (arguments.length == 2) {
-            return new ArrayList<>(MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet());
+            return new ArrayList<>(this.worldProvider.getWorldHolders().keySet());
         }
 
         if (arguments.length == 3) {
@@ -130,7 +138,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
 
             switch (environment) {
                 case NETHER:
-                    return MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders()
+                    return this.worldProvider.getWorldHolders()
                             .values()
                             .stream()
                             .filter(worldHolder -> worldHolder.getType() == WorldType.NETHER)
@@ -138,7 +146,7 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
                             .toList();
 
                 case NORMAL:
-                    return MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders()
+                    return this.worldProvider.getWorldHolders()
                             .values()
                             .stream()
                             .filter(worldHolder -> worldHolder.getType().isOverWorld())
@@ -146,14 +154,13 @@ public class LinkCommand extends BukkitCommand implements BukkitTabCompleter {
                             .toList();
 
                 case THE_END:
-                    return MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders()
+                    return this.worldProvider.getWorldHolders()
                             .values()
                             .stream()
                             .filter(worldHolder -> worldHolder.getType() == WorldType.THE_END)
                             .map(BukkitWorldHolder::getName)
                             .toList();
             }
-
         }
         return Collections.emptyList();
     }

@@ -2,7 +2,6 @@ package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
-import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import org.bukkit.command.CommandSender;
@@ -15,17 +14,18 @@ import org.jetbrains.annotations.NotNull;
 @BukkitCommandProperties(name = "help", permission = "multiworld.command.world")
 public class HelpCommand extends BukkitCommand {
 
-    public HelpCommand(final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+
+    public HelpCommand(final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-
-        translationProvider.getMessageList(commandSender, "commands.world.help.message").forEach(message -> {
-            commandSender.sendMessage(message.replaceAll("%prefix%", super.getConfiguration().getPrefix()));
-        });
+        this.translationProvider.getMessageList(commandSender, "commands.world.help.message")
+                .forEach(message -> commandSender.sendMessage(message.replaceAll("%prefix%", super.getConfiguration().getPrefix())));
     }
 
 }

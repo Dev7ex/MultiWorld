@@ -5,8 +5,10 @@ import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.util.Colored;
+import com.dev7ex.multiworld.util.PluginUpdater;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -16,8 +18,14 @@ import org.jetbrains.annotations.NotNull;
 @BukkitCommandProperties(name = "version", permission = "multiworld.command.world.version")
 public class VersionCommand extends BukkitCommand {
 
-    public VersionCommand(@NotNull final BukkitPlugin plugin) {
+    private final PluginUpdater updater;
+    private final PluginDescriptionFile descriptionFile;
+
+    public VersionCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.updater = plugin.getUpdater();
+        this.descriptionFile = plugin.getDescription();
     }
 
     @Override
@@ -27,12 +35,12 @@ public class VersionCommand extends BukkitCommand {
         commandSender.sendMessage(" ");
         commandSender.sendMessage("§f§m                    §r§r " + super.getConfiguration().getPrefix() + " §f§m                    ");
         commandSender.sendMessage(" ");
-        commandSender.sendMessage("§8» §bVersion: §a" + plugin.getDescription().getVersion());
+        commandSender.sendMessage("§8» §bVersion: §a" + this.descriptionFile.getVersion());
         commandSender.sendMessage("§8» §bAuthors: " + this.getAuthors());
         commandSender.sendMessage("§8» §bSupport: §adiscord.dev7ex.com");
         commandSender.sendMessage("§8» §bWiki: §ahttps://github.com/Dev7ex/MultiWorld/wiki");
         commandSender.sendMessage("§8» §bReport Bug: §ahttps://github.com/Dev7ex/MultiWorld/issues");
-        commandSender.sendMessage("§8» §bUpdate Available: " + Colored.getColoredBoolean(plugin.getUpdater().isUpdateAvailable()));
+        commandSender.sendMessage("§8» §bUpdate Available: " + Colored.getColoredBoolean(this.updater.isUpdateAvailable()));
         commandSender.sendMessage(" ");
         commandSender.sendMessage("§f§m                    §r§r " + super.getConfiguration().getPrefix() + " §f§m                    ");
         commandSender.sendMessage(" ");
@@ -41,7 +49,7 @@ public class VersionCommand extends BukkitCommand {
     private String getAuthors() {
         final StringBuilder stringBuilder = new StringBuilder();
 
-        for (final String author : MultiWorldPlugin.getInstance().getDescription().getAuthors()) {
+        for (final String author : this.descriptionFile.getAuthors()) {
             if (!stringBuilder.isEmpty()) {
                 stringBuilder.append(ChatColor.GRAY);
                 stringBuilder.append(", ");

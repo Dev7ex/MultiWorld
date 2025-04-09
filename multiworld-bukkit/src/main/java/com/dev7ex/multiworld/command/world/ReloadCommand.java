@@ -15,22 +15,24 @@ import org.jetbrains.annotations.NotNull;
 @BukkitCommandProperties(name = "reload", permission = "multiworld.command.world.reload")
 public class ReloadCommand extends BukkitCommand {
 
-    public ReloadCommand(@NotNull final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+
+    public ReloadCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-
         if (arguments.length != 1) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.reload.usage")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.reload.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
         super.getConfiguration().load();
 
-        commandSender.sendMessage(translationProvider.getMessage(commandSender,"commands.world.reload.message")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender,"commands.world.reload.message")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
     }
 

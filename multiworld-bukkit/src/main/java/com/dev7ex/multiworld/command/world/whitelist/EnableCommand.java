@@ -8,6 +8,8 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.world.WorldProperty;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
+import com.dev7ex.multiworld.world.DefaultWorldConfiguration;
+import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,27 +23,33 @@ import java.util.List;
 @BukkitCommandProperties(name = "enable", permission = "multiworld.command.whitelist.enable")
 public class EnableCommand extends BukkitCommand implements BukkitTabCompleter {
 
-    public EnableCommand(@NotNull final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+    private final DefaultWorldConfiguration worldConfiguration;
+    private final DefaultWorldProvider worldProvider;
+
+    public EnableCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
+        this.worldConfiguration = plugin.getWorldConfiguration();
+        this.worldProvider = plugin.getWorldProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-        final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance()
-                .getWorldProvider()
+        final BukkitWorldHolder worldHolder = this.worldProvider
                 .getWorldHolder(arguments[1])
                 .orElseThrow();
 
         if (worldHolder.isWhitelistEnabled()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.enable.already-enabled")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.whitelist.enable.already-enabled")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
         worldHolder.setWhitelistEnabled(true);
-        MultiWorldPlugin.getInstance().getWorldConfiguration().write(worldHolder, WorldProperty.WHITELIST_ENABLED, true);
-        commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.whitelist.enable.successfully-enabled")
+        this.worldConfiguration.write(worldHolder, WorldProperty.WHITELIST_ENABLED, true);
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.whitelist.enable.successfully-enabled")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                 .replaceAll("%world_name%", arguments[1]));
     }

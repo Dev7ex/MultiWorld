@@ -3,13 +3,13 @@ package com.dev7ex.multiworld.command.world;
 import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
-import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.util.Booleans;
 import com.dev7ex.common.util.Numbers;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.event.world.WorldGameRuleChangeEvent;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
+import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
@@ -27,16 +27,20 @@ import java.util.List;
 @BukkitCommandProperties(name = "gamerule", permission = "multiworld.command.world.gamerule")
 public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter {
 
-    public GameRuleCommand(@NotNull final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+    private final DefaultWorldProvider worldProvider;
+
+    public GameRuleCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
+        this.worldProvider = plugin.getWorldProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-
         if (arguments.length != 4) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.usage")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.gamerule.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -45,8 +49,8 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
             arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
         }
 
-        if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
+        if (this.worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -54,12 +58,13 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
         final GameRule<?> gameRule = GameRule.getByName(arguments[2]);
 
         if (gameRule == null) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.not-existing")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.gamerule.not-existing")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%gamerule_name%", arguments[2]));
             return;
         }
-        final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).orElseThrow();
+        final BukkitWorldHolder worldHolder = this.worldProvider.getWorldHolder(arguments[1])
+                .orElseThrow();
         final WorldGameRuleChangeEvent event = new WorldGameRuleChangeEvent(worldHolder, commandSender, gameRule, arguments[3]);
 
         Bukkit.getPluginManager().callEvent(event);
@@ -71,7 +76,7 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
         if ((Numbers.isInteger(arguments[3])) && (gameRule.getType() == Integer.class)) {
             final GameRule<Integer> currentGameRule = (GameRule<Integer>) gameRule;
             worldHolder.getWorld().setGameRule(currentGameRule, Integer.parseInt(arguments[3]));
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.successfully-set")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.gamerule.successfully-set")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%gamerule_name%", gameRule.getName())
                     .replaceAll("%value%", arguments[3])
@@ -82,14 +87,14 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
         if ((Booleans.isBoolean(arguments[3])) && (gameRule.getType() == Boolean.class)) {
             final GameRule<Boolean> currentGameRule = (GameRule<Boolean>) gameRule;
             worldHolder.getWorld().setGameRule(currentGameRule, Boolean.parseBoolean(arguments[3]));
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.successfully-set")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.gamerule.successfully-set")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%gamerule_name%", gameRule.getName())
                     .replaceAll("%value%", arguments[3])
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.gamerule.invalid-value")
+        commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.gamerule.invalid-value")
                 .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                 .replaceAll("%gamerule_name%", arguments[2])
                 .replaceAll("%value%", arguments[3]));
@@ -98,17 +103,20 @@ public class GameRuleCommand extends BukkitCommand implements BukkitTabCompleter
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
         if (arguments.length == 2) {
-            return Lists.newArrayList(MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet());
+            return Lists.newArrayList(this.worldProvider.getWorldHolders().keySet());
         }
 
         if (arguments.length == 3) {
-            return Arrays.stream(GameRule.values()).map(GameRule::getName).toList();
+            return Arrays.stream(GameRule.values())
+                    .map(GameRule::getName)
+                    .toList();
         }
 
-        if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
+        if (this.worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
             return Collections.emptyList();
         }
-        final BukkitWorldHolder worldHolder = MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).get();
+        final BukkitWorldHolder worldHolder = this.worldProvider.getWorldHolder(arguments[1])
+                .get();
         final GameRule<?> gameRule = GameRule.getByName(arguments[2]);
 
         if (gameRule == null) {

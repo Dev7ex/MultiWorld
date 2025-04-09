@@ -3,10 +3,11 @@ package com.dev7ex.multiworld.command.world;
 import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
-import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.common.io.file.Files;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
+import com.dev7ex.multiworld.world.DefaultWorldManager;
+import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -22,16 +23,22 @@ import java.util.List;
 @BukkitCommandProperties(name = "delete", permission = "multiworld.command.world.delete")
 public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
 
-    public DeleteCommand(@NotNull final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+    private final DefaultWorldManager worldManager;
+    private final DefaultWorldProvider worldProvider;
+
+    public DeleteCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
+        this.worldManager = plugin.getWorldManager();
+        this.worldProvider = plugin.getWorldProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-
         if (arguments.length != 2) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.commands.delete.usage")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "messages.commands.delete.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -40,8 +47,8 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
             arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
         }
 
-        if (MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
+        if (this.worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
@@ -49,31 +56,31 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
         final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
 
         if (!worldFolder.exists()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
 
         if ((!Files.containsFile(worldFolder, "level.dat")) && (!Files.containsFile(worldFolder, "session.lock"))) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "general.world.not-exists")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
 
         if (arguments[1].equalsIgnoreCase(MultiWorldPlugin.getInstance().getConfiguration().getString("settings.defaults.normal-world"))) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.delete.world.delete-locked")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.delete.world.delete-locked")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        MultiWorldPlugin.getInstance().getWorldManager().deleteWorld(commandSender.getName(), arguments[1]);
+        this.worldManager.deleteWorld(commandSender.getName(), arguments[1]);
     }
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final List<String> worlds = new ArrayList<>(MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet());
+        final List<String> worlds = new ArrayList<>(this.worldProvider.getWorldHolders().keySet());
         worlds.remove(super.getConfiguration().getString("settings.defaults.normal-world"));
         return worlds;
     }

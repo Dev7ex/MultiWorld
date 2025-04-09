@@ -3,9 +3,10 @@ package com.dev7ex.multiworld.command.world;
 import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
-import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
+import com.dev7ex.multiworld.world.DefaultWorldManager;
+import com.dev7ex.multiworld.world.DefaultWorldProvider;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,16 +21,22 @@ import java.util.List;
 @BukkitCommandProperties(name = "backup", permission = "multiworld.command.world.backup")
 public class BackupCommand extends BukkitCommand implements BukkitTabCompleter {
 
-    public BackupCommand(@NotNull final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+    private final DefaultWorldManager worldManager;
+    private final DefaultWorldProvider worldProvider;
+
+    public BackupCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
+        this.worldManager = plugin.getWorldManager();
+        this.worldProvider = plugin.getWorldProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-
         if (arguments.length != 2) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.backup.usage")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.backup.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -38,13 +45,13 @@ public class BackupCommand extends BukkitCommand implements BukkitTabCompleter {
             arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
         }
 
-        if (!MultiWorldPlugin.getInstance().getWorldProvider().isRegistered(arguments[1])) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender,"general.world.not-exists")
+        if (!this.worldProvider.isRegistered(arguments[1])) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender,"general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        MultiWorldPlugin.getInstance().getWorldManager().createBackup(commandSender.getName(), arguments[1]);
+        this.worldManager.createBackup(commandSender.getName(), arguments[1]);
     }
 
     @Override
@@ -52,7 +59,7 @@ public class BackupCommand extends BukkitCommand implements BukkitTabCompleter {
         if (arguments.length != 2) {
             return Collections.emptyList();
         }
-        return new ArrayList<>(MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet());
+        return new ArrayList<>(this.worldProvider.getWorldHolders().keySet());
     }
 
 }

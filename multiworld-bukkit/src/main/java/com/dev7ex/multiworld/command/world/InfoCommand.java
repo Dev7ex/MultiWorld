@@ -3,7 +3,6 @@ package com.dev7ex.multiworld.command.world;
 import com.dev7ex.common.bukkit.command.BukkitCommand;
 import com.dev7ex.common.bukkit.command.BukkitCommandProperties;
 import com.dev7ex.common.bukkit.command.completer.BukkitTabCompleter;
-import com.dev7ex.common.bukkit.plugin.BukkitPlugin;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
@@ -21,17 +20,20 @@ import java.util.*;
 @BukkitCommandProperties(name = "info", permission = "multiworld.command.world.info")
 public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
 
-    public InfoCommand(@NotNull final BukkitPlugin plugin) {
+    private final DefaultTranslationProvider translationProvider;
+    private final DefaultWorldProvider worldProvider;
+
+    public InfoCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
+
+        this.translationProvider = plugin.getTranslationProvider();
+        this.worldProvider = plugin.getWorldProvider();
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        final DefaultTranslationProvider translationProvider = MultiWorldPlugin.getInstance().getTranslationProvider();
-        final DefaultWorldProvider worldProvider = MultiWorldPlugin.getInstance().getWorldProvider();
-
         if (arguments.length != 2) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "commands.world.info.usage")
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.info.usage")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix()));
             return;
         }
@@ -40,18 +42,17 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
             arguments[1] = arguments[1].replaceAll("%creator_name%", commandSender.getName());
         }
 
-        if (worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
-            commandSender.sendMessage(translationProvider.getMessage(commandSender, "messages.general.world-not-exists")
+        if (this.worldProvider.getWorldHolder(arguments[1]).isEmpty()) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "messages.general.world-not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        final BukkitWorldHolder worldHolder = worldProvider.getWorldHolder(arguments[1])
+        final BukkitWorldHolder worldHolder = this.worldProvider.getWorldHolder(arguments[1])
                 .get();
 
-        translationProvider.getMessageList(commandSender, "commands.world.info.message").forEach(message -> {
-            commandSender.sendMessage(this.getReplacedInfoMessage(worldHolder, message));
-        });
+        this.translationProvider.getMessageList(commandSender, "commands.world.info.message")
+                .forEach(message -> commandSender.sendMessage(this.getReplacedInfoMessage(worldHolder, message)));
     }
 
     public String getReplacedInfoMessage(@NotNull final BukkitWorldHolder worldHolder, @NotNull final String message) {
@@ -86,8 +87,6 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
         replacements.put("%generator_name%", worldHolder.getGenerator());
         replacements.put("%world_type%", worldHolder.getType().toString());
 
-
-        // Use StringBuilder for efficient string manipulation
         final StringBuilder replacedMessage = new StringBuilder(message);
 
         // Replace each placeholder with its corresponding value
@@ -99,14 +98,12 @@ public class InfoCommand extends BukkitCommand implements BukkitTabCompleter {
                 startIndex += value.length(); // Move past the last replacement
             }
         });
-
-        // Return the final message with all replacements made
         return replacedMessage.toString();
     }
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        return new ArrayList<>(MultiWorldPlugin.getInstance().getWorldProvider().getWorldHolders().keySet());
+        return new ArrayList<>(this.worldProvider.getWorldHolders().keySet());
     }
 
 }
