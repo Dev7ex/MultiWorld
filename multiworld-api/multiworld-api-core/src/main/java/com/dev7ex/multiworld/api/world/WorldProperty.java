@@ -26,6 +26,7 @@ public enum WorldProperty {
     END_PORTAL_ACCESSIBLE("flag.end-portal-accessible", true),
     ENVIRONMENT("generation.environment", false),
     GAME_MODE("flag.game-mode", true),
+    FORCE_GAME_MODE("flag.force-game-mode", true),
     GENERATOR("generation.generator", false),
     HUNGER_ENABLED("flag.hunger-enabled", true),
     KEEP_SPAWN_IN_MEMORY("flag.keep-spawn-in-memory", true),

@@ -36,6 +36,10 @@ settings:
     end-world: world_the_end
     # Sets the game mode to Survival, where players must gather resources, manage health, and survive against mobs
     game-mode: SURVIVAL
+    # Enables the per-world enforcement of a player's game mode automatically. 'auto-game-mode-enabled' above must be set to true!
+    # Set to "true" to force the world's game mode, set to "false" to disable that world from forcing its game mode.
+    # Set to "false-with-permission" to force the world's game mode for all players who DO NOT have the permission "multiworld.bypass.forcegamemode".
+    force-game-mode: false-with-permission
     # Enables the hunger mechanic, causing players to lose food points over time and need to eat to maintain their health and energy
     hunger-enabled: true
     # Determines whether the server should keep the spawn chunks loaded in memory even when no players are nearby.

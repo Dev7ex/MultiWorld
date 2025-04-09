@@ -1,5 +1,7 @@
 package com.dev7ex.multiworld.api.bukkit.world;
 
+import com.dev7ex.multiworld.api.MultiWorldApiProvider;
+import com.dev7ex.multiworld.api.bukkit.MultiWorldBukkitApiConfiguration;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
 import com.dev7ex.multiworld.api.world.WorldFlag;
 import com.dev7ex.multiworld.api.world.WorldHolder;
@@ -16,6 +18,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class BukkitWorldHolder implements WorldHolder {
     private boolean endPortalAccessible;
     private World.Environment environment;
     private GameMode gameMode;
+    private String forceGameMode;
     private String generator;
     private boolean hungerEnabled;
     private boolean keepSpawnInMemory;
@@ -108,16 +112,35 @@ public class BukkitWorldHolder implements WorldHolder {
 
             case GAME_MODE:
                 this.gameMode = GameMode.valueOf(value);
-                Bukkit.getOnlinePlayers().forEach(player -> player.setGameMode(this.gameMode));
+                this.getWorld().getPlayers().forEach(player -> player.setGameMode(this.gameMode));
+                break;
+
+            case FORCE_GAME_MODE:
+                GameMode gameMode = MultiWorldApiProvider.getMultiWorldApi().getWorldConfiguration().getWorldHolder(this.getWorld().getName()).getGameMode();
+                switch (value) {
+                    case "true" -> {
+                        this.forceGameMode = "true";
+                        this.getWorld().getPlayers().forEach(player -> player.setGameMode(gameMode));
+                    }
+                    case "false" -> this.forceGameMode = "false";
+                    case "false_with_permission" -> {
+                        this.forceGameMode = "false_with_permission";
+                        for (Player player : this.getWorld().getPlayers()) {
+                            if (!player.hasPermission("multiworld.bypass.forcegamemode")) {
+                                player.setGameMode(gameMode);
+                            }
+                        }
+                    }
+                    default -> this.forceGameMode = MultiWorldApiProvider.getMultiWorldApi().getConfiguration().getString(MultiWorldBukkitApiConfiguration.Entry.SETTINGS_DEFAULTS_FORCE_GAME_MODE.getPath());
+                }
                 break;
 
             case HUNGER_ENABLED:
                 this.hungerEnabled = Boolean.parseBoolean(value);
                 if (!this.hungerEnabled) {
-                    Bukkit.getOnlinePlayers().forEach(player -> {
-                        player.setSaturation(20.00F);
-                    });
+                    this.getWorld().getPlayers().forEach(player -> player.setSaturation(20.00F));
                 }
+                break;
 
             case KEEP_SPAWN_IN_MEMORY:
                 this.keepSpawnInMemory = Boolean.parseBoolean(value);
