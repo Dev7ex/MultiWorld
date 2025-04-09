@@ -85,11 +85,11 @@ public class PluginUpdater {
         final CommandSender commandSender = Bukkit.getConsoleSender();
         final String prefix = this.plugin.getConfiguration().getPrefix();
 
-        commandSender.sendMessage("§7There is a new update for MultiWorld available on §aModrinth");
-        commandSender.sendMessage("§cPlease update to ensure full functionality");
-        commandSender.sendMessage("§7Current Version: §c" + this.plugin.getDescription().getVersion());
-        commandSender.sendMessage("§7New Version: §a" + this.newVersion);
-        commandSender.sendMessage("§7Download: §a" + this.plugin.getDescription().getWebsite());
+        commandSender.sendMessage(prefix + "§7There is a new update for MultiWorld available on §aModrinth");
+        commandSender.sendMessage(prefix + "§cPlease update to ensure full functionality");
+        commandSender.sendMessage(prefix + "§7Current Version: §c" + this.plugin.getDescription().getVersion());
+        commandSender.sendMessage(prefix + "§7New Version: §a" + this.newVersion);
+        commandSender.sendMessage(prefix + "§7Download: §a" + this.plugin.getDescription().getWebsite());
     }
 
     public void logNoUpdateMessage() {
