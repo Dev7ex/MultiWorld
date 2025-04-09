@@ -35,6 +35,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_DEFAULTS_END_PORTAL_ACCESSIBLE("settings.defaults.end-portal-accessible", true, false),
         SETTINGS_DEFAULTS_END_WORLD("settings.defaults.end-world", "world_the_end", false),
         SETTINGS_DEFAULTS_GAME_MODE("settings.defaults.game-mode", "SURVIVAL", false),
+        SETTINGS_DEFAULTS_FORCE_GAME_MODE("settings.defaults.force-game-mode", "false-with-permission", false),
         SETTINGS_DEFAULTS_HUNGER_ENABLED_ENABLED("settings.defaults.hunger-enabled", true, false),
         SETTINGS_DEFAULTS_KEEP_SPAWN_IN_MEMORY("settings.defaults.keep-spawn-in-memory", false, false),
         SETTINGS_DEFAULTS_NETHER_PORTAL_ACCESSIBLE("settings.defaults.nether-portal-accessible", true, false),

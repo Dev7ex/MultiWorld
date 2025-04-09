@@ -63,7 +63,7 @@
       "help": {
         "message": [
           "",
-          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          "§f§m                         §r§r %prefix% §f§m                         ",
           "",
           "§7» §7/world §bback",
           "§7» §7/world §bbackup §7<monde>",
@@ -84,7 +84,7 @@
           "§7» §7/world §bversion",
           "§7» §7/world §bwhitelist §7<monde> <Enable | Disable | Add | Remove | List> <joueur>",
           "",
-          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          "§f§m                         §r§r %prefix% §f§m                         ",
           ""
         ]
       },
@@ -107,7 +107,8 @@
           "§7» §7Niveau de Difficulté: %difficulty%",
           "§7» §7Portail de l'End Accessible: %end-portal-accessible%",
           "§7» §7Monde de l'End Lié: %end_world%",
-          "§7» §7Mode de Jeu: %gamemode%",
+          "§7» §7Mode de Jeu: %game-mode%",
+          "§7» §7Force Game Mode: %force-game-mode%",
           "§7» §7Faim Activée: %hunger_enabled%",
           "§7» §7Garder le Spawn en Mémoire: %keep_spawn_in_memory%",
           "§7» §7Portail du Nether Accessible: %nether-portal-accessible%",

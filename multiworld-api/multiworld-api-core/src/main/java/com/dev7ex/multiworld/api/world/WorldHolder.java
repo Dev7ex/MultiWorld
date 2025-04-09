@@ -140,6 +140,13 @@ public interface WorldHolder extends Cloneable {
     <T> T getGameMode();
 
     /**
+     * Checks if the world forces its game mode.
+     *
+     * @return True/false if the world forces game mode, 'false-with-permission' forces game mode to those lacking the necessary permission.
+     */
+    String getForceGameMode();
+
+    /**
      * Gets the difficulty level of the world.
      *
      * @param <T> The type of difficulty level.

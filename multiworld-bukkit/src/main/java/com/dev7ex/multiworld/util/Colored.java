@@ -26,6 +26,16 @@ public class Colored {
         };
     }
 
+    public static String getColoredBooleanWithOption(@NotNull final String value) {
+        if (value.equalsIgnoreCase("true")) {
+            return ChatColor.GREEN + "true";
+        } else if (value.equalsIgnoreCase("false")) {
+            return ChatColor.RED + "false";
+        } else {
+            return ChatColor.YELLOW + value;
+        }
+    }
+
     public static String getColoredDifficulty(@NotNull final Difficulty difficulty) {
         return switch (difficulty) {
             case PEACEFUL -> ChatColor.GREEN + difficulty.toString();

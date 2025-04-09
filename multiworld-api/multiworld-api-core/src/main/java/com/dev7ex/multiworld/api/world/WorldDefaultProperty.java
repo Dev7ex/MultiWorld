@@ -23,6 +23,7 @@ public enum WorldDefaultProperty {
     END_PORTAL_ACCESSIBLE("end-portal-accessible", "settings.defaults.end-portal-accessible"),
     END_WORLD("end-world", "settings.defaults.end-world"),
     GAME_MODE("game-mode", "settings.defaults.game-mode"),
+    FORCE_GAME_MODE("force-game-mode", "settings.defaults.force-game-mode"),
     HUNGER_ENABLED("hunger-enabled", "settings.defaults.hunger-enabled"),
     KEEP_SPAWN_IN_MEMORY("keep-spawn-in-memory", "settings.defaults.keep-spawn-in-memory"),
     NETHER_PORTAL_ACCESSIBLE("nether-portal-accessible", "settings.defaults.nether-portal-accessible"),

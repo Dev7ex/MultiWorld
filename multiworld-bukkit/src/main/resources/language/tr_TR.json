@@ -64,7 +64,7 @@
         "help": {
           "message": [
             "",
-            "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+            "§f§m                         §r§r %prefix% §f§m                         ",
             "",
             "§7» §7/world §bback",
             "§7» §7/world §bbackup §7<Dünya>",
@@ -85,7 +85,7 @@
             "§7» §7/world §bversion",
             "§7» §7/world §bwhitelist §7<Dünya> <Enable | Disable | Add | Remove | List> <İsim>",
             "",
-            "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+            "§f§m                         §r§r %prefix% §f§m                         ",
             ""
           ]
         },
@@ -108,7 +108,8 @@
             "§7» §7Zorluk Seviyesi: %difficulty%",
             "§7» §7End Portalı Erişimi: %end-portal-accessible%",
             "§7» §7Bağlı End Dünyası: %end_world%",
-            "§7» §7Oyun Modu: %gamemode%",
+            "§7» §7Oyun Modu: %game-mode%",
+            "§7» §7Force Game Mode: %force-game-mode%",
             "§7» §7Açlık Aktif: %hunger_enabled%",
             "§7» §7Spawn Bellekte Tut: %keep_spawn_in_memory%",
             "§7» §7Nether Portalı Erişimi: %nether-portal-accessible%",

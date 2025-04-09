@@ -44,6 +44,7 @@ public class DefaultTranslationProvider implements PluginModule, BukkitTranslati
         this.plugin.saveResource("language/uk_UA.json", true);
         this.plugin.saveResource("language/tr_TR.json", true);
         this.plugin.saveResource("language/zh_CN.json", true);
+        this.plugin.saveResource("language/it_IT.json", true);
 
         for (final File file : Files.getFiles(this.plugin.getSubFolder("language"))) {
             if ((file.isFile()) && (file.getName().endsWith(".json"))) {

@@ -64,7 +64,7 @@
       "help": {
         "message": [
           "",
-          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          "§f§m                         §r§r %prefix% §f§m                         ",
           "",
           "§7» §7/world §bback",
           "§7» §7/world §bbackup §7<Назва світу>",
@@ -85,7 +85,7 @@
           "§7» §7/world §bversion",
           "§7» §7/world §bwhitelist §7<Назва світу> <Enable | Disable | Add | Remove | List> <Name>",
           "",
-          "§f§m                                                  §r§r %prefix% §f§m                                                  ",
+          "§f§m                         §r§r %prefix% §f§m                         ",
           ""
         ]
       },
@@ -108,7 +108,8 @@
           "§7» §7Складність: %difficulty%",
           "§7» §7Доступ до ендер порталів: %end-portal-accessible%",
           "§7» §7Прив'язаний світ енду: %end_world%",
-          "§7» §7Режим гри: %gamemode%",
+          "§7» §7Режим гри: %game-mode%",
+          "§7» §7Force Game Mode: %force-game-mode%",
           "§7» §7Голодування увімкнено: %hunger_enabled%",
           "§7» §7Завжди прогружати чанк спавну: %keep_spawn_in_memory%",
           "§7» §7Доступ до пекла: %nether-portal-accessible%",
