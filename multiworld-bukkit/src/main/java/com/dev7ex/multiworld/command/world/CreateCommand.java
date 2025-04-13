@@ -104,12 +104,8 @@ public class CreateCommand extends BukkitCommand implements BukkitTabCompleter {
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final String[] arguments) {
-        if ((arguments.length < 2) || (arguments.length > 5)) {
+        if ((arguments.length < 3) || (arguments.length > 5)) {
             return Collections.emptyList();
-        }
-
-        if (arguments.length == 2) {
-            return List.of("%creator_name%");
         }
 
         if (arguments.length == 3) {
