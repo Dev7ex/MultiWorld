@@ -109,7 +109,7 @@
             "§7» §7End Portalı Erişimi: %end-portal-accessible%",
             "§7» §7Bağlı End Dünyası: %end_world%",
             "§7» §7Oyun Modu: %game-mode%",
-            "§7» §7Oyun modunu zorla: %force-game-mode%",
+            "§7» §7Zorunlu Oyun Modu: %force-game-mode%",
             "§7» §7Açlık Aktif: %hunger_enabled%",
             "§7» §7Spawn Bellekte Tut: %keep_spawn_in_memory%",
             "§7» §7Nether Portalı Erişimi: %nether-portal-accessible%",
