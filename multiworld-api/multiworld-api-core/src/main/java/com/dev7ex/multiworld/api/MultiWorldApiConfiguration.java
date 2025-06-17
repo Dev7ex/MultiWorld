@@ -117,6 +117,7 @@ public interface MultiWorldApiConfiguration {
 
     long getAutoUnloadLoadDelay();
 
+    boolean isAutoWorldImportEnabled();
 
     /**
      * Retrieves the default properties for worlds.

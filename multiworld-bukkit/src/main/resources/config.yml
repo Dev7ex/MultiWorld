@@ -22,6 +22,9 @@ settings:
   auto-unload-system-delay: 1800
   # Enables automatic unloading of inactive worlds.
   auto-unload-system-enabled: true
+  # Whether to automatically detect and import newly created or loaded worlds.
+  # If false, new worlds must be manually added.
+  auto-world-import: false
   # Standard values for new worlds
   defaults:
     # Specifies whether the server should automatically load the worlds upon starting

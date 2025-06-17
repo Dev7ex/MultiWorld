@@ -28,6 +28,7 @@ public abstract class MultiWorldBukkitApiConfiguration extends DefaultPluginConf
         SETTINGS_AUTO_UNLOAD_LOAD_DELAY("settings.auto-unload-load-delay", 300, false),
         SETTINGS_AUTO_UNLOAD_SYSTEM_DELAY("settings.auto-unload-system-delay", 1800, false),
         SETTINGS_AUTO_UNLOAD_SYSTEM_ENABLED("settings.auto-unload-system-enabled", true, false),
+        SETTINGS_AUTO_WORLD_IMPORT_ENABLED("settings.auto-world-import", true, false),
 
         SETTINGS_DEFAULTS_AUTO_LOAD_ENABLED("settings.defaults.auto-load-enabled", false, false),
         SETTINGS_DEFAULTS_AUTO_UNLOAD_ENABLED("settings.defaults.auto-unload-enabled", false, false),

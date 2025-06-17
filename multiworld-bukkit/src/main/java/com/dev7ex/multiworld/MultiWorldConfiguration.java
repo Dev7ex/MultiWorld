@@ -102,6 +102,11 @@ public class MultiWorldConfiguration extends MultiWorldBukkitApiConfiguration {
     }
 
     @Override
+    public boolean isAutoWorldImportEnabled() {
+        return super.getBoolean(Entry.SETTINGS_AUTO_WORLD_IMPORT_ENABLED.getPath());
+    }
+
+    @Override
     public boolean canNetherWorldAccessViaCommand() {
         return super.getBoolean(Entry.SETTINGS_ACCESS_NETHER_WORLD_VIA_COMMAND.getPath());
     }

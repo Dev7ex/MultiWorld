@@ -114,7 +114,8 @@ public class MultiWorldPlugin extends BukkitPlugin implements MultiWorldBukkitAp
 
         super.registerListener(new WorldActivityListener(this));
         super.registerListener(new WorldFlagListener(this));
-        super.registerListener(new WorldInitializeListener(this));
+        super.registerListenerIf(new WorldInitializeListener(this),
+                enableIf -> this.configuration.isAutoWorldImportEnabled());
     }
 
     @Override
