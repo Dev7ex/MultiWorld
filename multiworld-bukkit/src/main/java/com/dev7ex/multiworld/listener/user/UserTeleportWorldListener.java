@@ -6,6 +6,7 @@ import com.dev7ex.multiworld.api.bukkit.event.user.WorldUserTeleportWorldEvent;
 import com.dev7ex.multiworld.api.bukkit.user.BukkitWorldUser;
 import com.dev7ex.multiworld.api.bukkit.world.BukkitWorldHolder;
 import com.dev7ex.multiworld.api.bukkit.world.location.BukkitWorldLocation;
+import com.dev7ex.multiworld.api.user.WorldUser;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +34,7 @@ public class UserTeleportWorldListener extends MultiWorldListener {
      */
     @EventHandler(priority = EventPriority.NORMAL)
     public void onUserGameModeChange(final WorldUserTeleportWorldEvent event) {
-        final Player player = Bukkit.getPlayer(event.getUser().getUniqueId());
+        final Player player = event.getUser().getEntity();
         if (!super.getConfiguration().isAutoGameModeEnabled()) {
             return;
         }
@@ -46,6 +47,23 @@ public class UserTeleportWorldListener extends MultiWorldListener {
             }
         }
         player.setGameMode(event.getNextWorldHolder().getGameMode());
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void handleUserTeleportWorld(final WorldUserTeleportWorldEvent event) {
+        final BukkitWorldUser worldUser = event.getUser();
+        final Player player = event.getUser().getEntity();
+        final BukkitWorldHolder nextHolder = event.getNextWorldHolder();
+
+        if (player.hasPermission("multiworld.command.world.teleport.admin")) {
+            return;
+        }
+        if (!player.hasPermission("multiworld.command.world.teleport." + nextHolder.getName())) {
+            player.sendMessage(super.getTranslationProvider().getMessage(player, "commands.world.teleport.missing-permission")
+                    .replaceAll("%prefix%", super.getPrefix())
+                    .replaceAll("%world_name%", nextHolder.getName()));
+            event.setCancelled(true);
+        }
     }
 
     /**

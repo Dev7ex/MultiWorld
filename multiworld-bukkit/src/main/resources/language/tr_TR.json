@@ -153,6 +153,7 @@
         "teleport": {
           "usage": "%prefix% §cKullanımı: /world teleport <Oyuncu> <Dünya>",
           "message": "%prefix% §a%player_name% §7, §a%world_name% §7Dünya'sına ışınlandı!",
+          "missing-permission": "%prefix% §7§b%world_name% §7dünyasına girmek için yeterli izniniz yok",
           "sender-already-there": "%prefix% §7Zaten §b%world_name% §7Dünya'sındasınız.",
           "target-already-there": "%prefix% §7Bu oyuncu §a%player_name% §7zaten §b%world_name% §7Dünya'sında."
         },

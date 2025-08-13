@@ -151,6 +151,7 @@
         "teleport": {
           "usage": "%prefix% §c命令用法: /world teleport <玩家名称> <世界名称>",
           "message": "%prefix% §a%player_name% §7已被传送至世界 §a%world_name%§7!",
+          "missing-permission": "%prefix% §7您没有足够的权限进入世界 §b%world_name%",
           "sender-already-there": "%prefix% §7你已经处于世界 §b%world_name% §7中",
           "target-already-there": "%prefix% §7玩家 §a%player_name% §7已经处于世界 §b%world_name% §7中"
         },

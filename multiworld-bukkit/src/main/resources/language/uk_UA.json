@@ -153,6 +153,7 @@
       "teleport": {
         "usage": "%prefix% §cВикористання: /world teleport <Гравець> <Назва світу>",
         "message": "%prefix% §a%player_name% §7телепортований до світу §a%world_name%§7!",
+        "missing-permission": "%prefix% §7У вас немає достатніх прав, щоб увійти у світ §b%world_name%",
         "sender-already-there": "%prefix% §7Ти вже у світі §b%world_name%",
         "target-already-there": "%prefix% §7Гравець §a%player_name% §7вже знаходиться у світі §b%world_name%"
       },

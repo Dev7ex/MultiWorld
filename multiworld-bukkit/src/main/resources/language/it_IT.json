@@ -153,6 +153,7 @@
       "teleport": {
         "usage": "%prefix% §cUsage: /world teleport <giocatore> <mondo>",
         "message": "%prefix% §a%player_name% §7è stato teletrasportato a §a%world_name%§7!",
+        "missing-permission": "%prefix% §7Non hai i permessi sufficienti per entrare nel mondo §b%world_name%",
         "sender-already-there": "%prefix% §7Sei già nel mondo §b%world_name%",
         "target-already-there": "%prefix% §7Il giocatore §a%player_name% §7è già nel mondo §b%world_name%"
       },
