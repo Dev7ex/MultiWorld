@@ -99,12 +99,21 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
                         .replaceAll("%reason%", "Locked"));
                 return;
             }
+
+            if ((!player.hasPermission("multiworld.command.world.teleport.admin")) && (!player.hasPermission("multiworld.command.world.teleport." + nextWorldHolder.getName()))) {
+                player.sendMessage(this.translationProvider.getMessage(player, "commands.world.teleport.missing-permission")
+                        .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                        .replaceAll("%world_name%", nextWorldHolder.getName()));
+                return;
+            }
+
             final WorldUserTeleportWorldEvent event = new WorldUserTeleportWorldEvent(user, lastWorldHolder, nextWorldHolder);
             Bukkit.getPluginManager().callEvent(event);
 
             if (event.isCancelled()) {
                 return;
             }
+
             user.teleport(event.getNextWorldHolder());
             return;
         }
@@ -161,6 +170,14 @@ public class TeleportCommand extends BukkitCommand implements BukkitTabCompleter
                 .orElseThrow();
         final BukkitWorldHolder nextWorldHolder = this.worldProvider.getWorldHolder(arguments[2])
                 .orElseThrow();
+
+        if ((!commandSender.hasPermission("multiworld.command.world.teleport.admin")) && (!commandSender.hasPermission("multiworld.command.world.teleport." + nextWorldHolder.getName()))) {
+            commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.teleport.missing-permission")
+                    .replaceAll("%prefix%", super.getConfiguration().getPrefix())
+                    .replaceAll("%world_name%", nextWorldHolder.getName()));
+            return;
+        }
+
 
         final WorldUserTeleportWorldEvent event = new WorldUserTeleportWorldEvent(user, lastWorldHolder, nextWorldHolder);
         Bukkit.getPluginManager().callEvent(event);

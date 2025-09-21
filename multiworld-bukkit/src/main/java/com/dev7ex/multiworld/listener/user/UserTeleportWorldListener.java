@@ -49,23 +49,6 @@ public class UserTeleportWorldListener extends MultiWorldListener {
         player.setGameMode(event.getNextWorldHolder().getGameMode());
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void handleUserTeleportWorld(final WorldUserTeleportWorldEvent event) {
-        final BukkitWorldUser worldUser = event.getUser();
-        final Player player = event.getUser().getEntity();
-        final BukkitWorldHolder nextHolder = event.getNextWorldHolder();
-
-        if (player.hasPermission("multiworld.command.world.teleport.admin")) {
-            return;
-        }
-        if (!player.hasPermission("multiworld.command.world.teleport." + nextHolder.getName())) {
-            player.sendMessage(super.getTranslationProvider().getMessage(player, "commands.world.teleport.missing-permission")
-                    .replaceAll("%prefix%", super.getPrefix())
-                    .replaceAll("%world_name%", nextHolder.getName()));
-            event.setCancelled(true);
-        }
-    }
-
     /**
      * Handles user entering a world upon teleportation.
      *
