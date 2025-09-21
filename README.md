@@ -65,6 +65,7 @@
 * /world reload                                                         [multiworld.command.world.reload]
 * /world teleport <Player> <World>                                      [multiworld.command.world.teleport]
 * /world unload <World>                                                 [multiworld.command.world.unload]
+* /world version                                                        [multiworld.command.world.version]
 * /world whitelist <World> <Enable|Disable|Add|Remove|List> <Name>      [multiworld.command.world.whitelist]
 ```
 
@@ -181,4 +182,4 @@ details.
 If you have any questions or need support, you can reach out to Dev7ex via:
 
 - Twitter: [@Dev7ex](https://twitter.com/Dev7ex)
-- Discord: [Dev7ex's Discord Server](https://discord.gg/ta33bbA8eF)
+- Discord: [Dev7ex's Discord Server](http://discord.dev7ex.com)
