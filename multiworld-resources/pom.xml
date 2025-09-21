@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.dev7ex</groupId>
         <artifactId>multiworld</artifactId>
-        <version>1.7.6-SNAPSHOT</version>
+        <version>1.7.7-SNAPSHOT</version>
     </parent>
 
     <name>MultiWorld-Resources</name>
