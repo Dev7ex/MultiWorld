@@ -40,19 +40,18 @@ public class PlayerAdvancementDoneListener extends MultiWorldListener {
     public void handlePlayerAdvancementDone(final PlayerAdvancementDoneEvent event) {
         final Player player = event.getPlayer();
         final World world = player.getWorld();
-        final BukkitWorldHolder worldHolder = super.getWorldProvider()
-                .getWorldHolder(world.getName())
-                .orElseThrow();
 
-        if (worldHolder.isReceiveAchievements()) {
-            return;
-        }
-        final Advancement advancement = event.getAdvancement();
-        final AdvancementProgress progress = player.getAdvancementProgress(advancement);
+        super.getWorldProvider().getWorldHolder(world.getName()).ifPresent(worldHolder -> {
+            if (worldHolder.isReceiveAchievements()) {
+                return;
+            }
+            final Advancement advancement = event.getAdvancement();
+            final AdvancementProgress progress = player.getAdvancementProgress(advancement);
 
-        if (progress.isDone()) {
-            progress.getAwardedCriteria().forEach(progress::revokeCriteria);
-        }
+            if (progress.isDone()) {
+                progress.getAwardedCriteria().forEach(progress::revokeCriteria);
+            }
+        });
     }
 
 }
