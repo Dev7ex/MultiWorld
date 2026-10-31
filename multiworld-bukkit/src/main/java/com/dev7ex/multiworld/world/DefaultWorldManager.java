@@ -70,8 +70,8 @@ public class DefaultWorldManager implements BukkitWorldManager {
      */
     @Override
     public void cloneWorld(@NotNull final String creatorName, @NotNull final String name, @NotNull final String clonedName) {
-        final File sourceFolder = new File(Bukkit.getWorldContainer(), name);
-        final File destinationFolder = new File(Bukkit.getWorldContainer(), clonedName);
+        final File sourceFolder = this.getWorldFolder(name);
+        final File destinationFolder = this.getNewWorldFolder(clonedName);
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
         final BukkitWorldHolder worldHolder = this.getProvider().getWorldHolder(name)
                 .orElseThrow();
@@ -131,7 +131,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
     @Override
     public void createBackup(@NotNull final String creatorName, @NotNull final String name) {
         final CommandSender commandSender = BukkitCommon.getCommandSender(creatorName);
-        final File sourceFolder = new File(Bukkit.getWorldContainer(), name);
+        final File sourceFolder = this.getWorldFolder(name);
         final File destinationFolder = new File(MultiWorldPlugin.getInstance().getSubFolder("backup"),
                 name + "-" + new SimpleDateFormat("MM-dd-yyyy-HH-mm-ss").format(Calendar.getInstance().getTime()));
 
@@ -409,7 +409,7 @@ public class DefaultWorldManager implements BukkitWorldManager {
         }
 
         try {
-            FileUtils.deleteDirectory(new File(Bukkit.getWorldContainer() + File.separator + name));
+            FileUtils.deleteDirectory(this.getWorldFolder(name));
 
         } catch (final IOException exception) {
             commandSender.sendMessage("§cAn error has occurred. View the logs");
@@ -620,6 +620,24 @@ public class DefaultWorldManager implements BukkitWorldManager {
         commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "commands.world.unload.finished")
                 .replaceAll("%prefix%", this.pluginConfiguration.getPrefix())
                 .replaceAll("%world_name%", name));
+    }
+
+    public File getWorldFolder(@NotNull final String name) {
+        final World world = Bukkit.getWorld(name);
+
+        if (world != null) {
+            return world.getWorldFolder();
+        }
+        final File worldFolder = this.getNewWorldFolder(name);
+
+        if (worldFolder.exists()) {
+            return worldFolder;
+        }
+        return new File(Bukkit.getWorldContainer(), name);
+    }
+
+    public File getNewWorldFolder(@NotNull final String name) {
+        return new File(Bukkit.getWorlds().get(0).getWorldFolder().getParentFile(), name);
     }
 
     @Override
