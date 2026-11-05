@@ -8,7 +8,6 @@ import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.translation.DefaultTranslationProvider;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
 import com.dev7ex.multiworld.world.DefaultWorldProvider;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +52,7 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
                     .replaceAll("%world_name%", arguments[1]));
             return;
         }
-        final File worldFolder = new File(Bukkit.getWorldContainer(), arguments[1]);
+        final File worldFolder = this.worldManager.getWorldFolder(arguments[1]);
 
         if (!worldFolder.exists()) {
             commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.world.not-exists")
@@ -62,7 +61,8 @@ public class DeleteCommand extends BukkitCommand implements BukkitTabCompleter {
             return;
         }
 
-        if ((!Files.containsFile(worldFolder, "level.dat")) && (!Files.containsFile(worldFolder, "session.lock"))) {
+        if ((!Files.containsFile(worldFolder, "level.dat")) && (!Files.containsFile(worldFolder, "session.lock"))
+                && (!new File(worldFolder, "region").isDirectory())) {
             commandSender.sendMessage(this.translationProvider.getMessage(commandSender, "general.world.not-exists")
                     .replaceAll("%prefix%", super.getConfiguration().getPrefix())
                     .replaceAll("%world_name%", arguments[1]));
