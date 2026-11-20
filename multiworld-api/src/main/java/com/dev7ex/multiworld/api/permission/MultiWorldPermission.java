@@ -18,20 +18,25 @@ public enum MultiWorldPermission {
 
     // /world
     COMMAND_WORLD_BACKUP("multiworld.command.world.backup", PermissionDefault.OP),
+    COMMAND_WORLD_BLACKLIST("multiworld.command.world.blacklist", PermissionDefault.OP),
     COMMAND_WORLD_CLONE("multiworld.command.world.clone", PermissionDefault.OP),
     COMMAND_WORLD_CONFIG("multiworld.command.world.config", PermissionDefault.OP),
+    COMMAND_WORLD_CONFIRM("multiworld.command.world.confirm", PermissionDefault.OP),
     COMMAND_WORLD_CREATE("multiworld.command.world.create", PermissionDefault.OP),
     COMMAND_WORLD_DEBUG("multiworld.command.world.debug", PermissionDefault.OP),
     COMMAND_WORLD_DELETE("multiworld.command.world.delete", PermissionDefault.OP),
     COMMAND_WORLD_FLAG("multiworld.command.world.flag", PermissionDefault.OP),
     COMMAND_WORLD_GAMERULE("multiworld.command.world.gamerule", PermissionDefault.OP),
+    COMMAND_WORLD_GENERATOR("multiworld.command.world.generator", PermissionDefault.OP),
     COMMAND_WORLD_GROUP("multiworld.command.world.group", PermissionDefault.OP),
     COMMAND_WORLD_HELP("multiworld.command.world.help", PermissionDefault.OP),
     COMMAND_WORLD_IMPORT("multiworld.command.world.import", PermissionDefault.OP),
     COMMAND_WORLD_INFO("multiworld.command.world.info", PermissionDefault.OP),
+    COMMAND_WORLD_LANGUAGE("multiworld.command.world.language", PermissionDefault.OP),
     COMMAND_WORLD_LINK("multiworld.command.world.link", PermissionDefault.OP),
     COMMAND_WORLD_LIST("multiworld.command.world.list", PermissionDefault.OP),
     COMMAND_WORLD_LOAD("multiworld.command.world.load", PermissionDefault.OP),
+    COMMAND_WORLD_RENAME("multiworld.command.world.rename", PermissionDefault.OP),
     COMMAND_WORLD_SETSPAWN("multiworld.command.world.setspawn", PermissionDefault.OP),
     COMMAND_WORLD_TELEPORT("multiworld.command.world.teleport", PermissionDefault.OP),
     COMMAND_WORLD_UNLOAD("multiworld.command.world.unload", PermissionDefault.OP),
@@ -46,9 +51,21 @@ public enum MultiWorldPermission {
     COMMAND_WORLD_BACKUP_LIST("multiworld.command.world.backup.list", PermissionDefault.OP),
     COMMAND_WORLD_BACKUP_RESTORE("multiworld.command.world.backup.restore", PermissionDefault.OP),
 
+    // /world blacklist
+    COMMAND_WORLD_BLACKLIST_ADD("multiworld.command.world.blacklist.add", PermissionDefault.OP),
+    COMMAND_WORLD_BLACKLIST_DISABLE("multiworld.command.world.blacklist.disable", PermissionDefault.OP),
+    COMMAND_WORLD_BLACKLIST_ENABLE("multiworld.command.world.blacklist.enable", PermissionDefault.OP),
+    COMMAND_WORLD_BLACKLIST_HELP("multiworld.command.world.blacklist.help", PermissionDefault.OP),
+    COMMAND_WORLD_BLACKLIST_LIST("multiworld.command.world.blacklist.list", PermissionDefault.OP),
+    COMMAND_WORLD_BLACKLIST_REMOVE("multiworld.command.world.blacklist.remove", PermissionDefault.OP),
+
     // /world config
     COMMAND_WORLD_CONFIG_HELP("multiworld.command.world.config.help", PermissionDefault.OP),
     COMMAND_WORLD_CONFIG_RELOAD("multiworld.command.world.config.reload", PermissionDefault.OP),
+
+    // /world generator
+    COMMAND_WORLD_GENERATOR_HELP("multiworld.command.world.generator.help", PermissionDefault.OP),
+    COMMAND_WORLD_GENERATOR_INFO("multiworld.command.world.generator.info", PermissionDefault.OP),
 
     // /world group
     COMMAND_WORLD_GROUP_CREATE("multiworld.command.world.group.create", PermissionDefault.OP),
@@ -57,11 +74,24 @@ public enum MultiWorldPermission {
     COMMAND_WORLD_GROUP_INFO("multiworld.command.world.group.info", PermissionDefault.OP),
     COMMAND_WORLD_GROUP_LIST("multiworld.command.world.group.list", PermissionDefault.OP),
 
+    // /world language
+    COMMAND_WORLD_LANGUAGE_HELP("multiworld.command.world.language.help", PermissionDefault.OP),
+    COMMAND_WORLD_LANGUAGE_INFO("multiworld.command.world.language.info", PermissionDefault.OP),
+    COMMAND_WORLD_LANGUAGE_LIST("multiworld.command.world.language.list", PermissionDefault.OP),
+
     // /world version
     COMMAND_WORLD_VERSION_CHECK("multiworld.command.world.version.check", PermissionDefault.OP),
     COMMAND_WORLD_VERSION_HELP("multiworld.command.world.version.help", PermissionDefault.OP),
     COMMAND_WORLD_VERSION_INFO("multiworld.command.world.version.info", PermissionDefault.OP),
-    COMMAND_WORLD_VERSION_REPORT("multiworld.command.world.version.report", PermissionDefault.OP);
+    COMMAND_WORLD_VERSION_REPORT("multiworld.command.world.version.report", PermissionDefault.OP),
+
+    // /world whitelist
+    COMMAND_WORLD_WHITELIST_ADD("multiworld.command.world.whitelist.add", PermissionDefault.OP),
+    COMMAND_WORLD_WHITELIST_DISABLE("multiworld.command.world.whitelist.disable", PermissionDefault.OP),
+    COMMAND_WORLD_WHITELIST_ENABLE("multiworld.command.world.whitelist.enable", PermissionDefault.OP),
+    COMMAND_WORLD_WHITELIST_HELP("multiworld.command.world.whitelist.help", PermissionDefault.OP),
+    COMMAND_WORLD_WHITELIST_LIST("multiworld.command.world.whitelist.list", PermissionDefault.OP),
+    COMMAND_WORLD_WHITELIST_REMOVE("multiworld.command.world.whitelist.remove", PermissionDefault.OP);
 
     private final String node;
     private final PermissionDefault defaultValue;
