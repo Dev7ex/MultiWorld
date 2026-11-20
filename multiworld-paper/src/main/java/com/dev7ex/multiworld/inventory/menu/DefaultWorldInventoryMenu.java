@@ -13,11 +13,11 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class DefaultWorldInventoryMenu extends WorldInventoryMenu {
 
-    public DefaultWorldInventoryMenu(@NotNull final Player player, @NotNull final Component title, final int rows) {
+    protected DefaultWorldInventoryMenu(@NotNull final Player player, @NotNull final Component title, final int rows) {
         super(player, title, rows);
     }
 
-    public DefaultWorldInventoryMenu(@NotNull final Player player, @NotNull final Component title, final int rows, @Nullable final InventoryMenuContext parent) {
+    protected DefaultWorldInventoryMenu(@NotNull final Player player, @NotNull final Component title, final int rows, @Nullable final InventoryMenuContext parent) {
         super(player, title, rows, parent);
     }
 
