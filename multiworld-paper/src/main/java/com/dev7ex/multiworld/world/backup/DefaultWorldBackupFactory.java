@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.logging.Level;
 
 /**
  * @author Dev7ex
@@ -93,6 +94,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
 
                     return backup;
                 } catch (final Exception e) {
+                    this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't create Backup for World %s", context.getName()), e);
                     audience.sendMessage(Component.text("§cFehler beim Erstellen des Backups: " + e.getMessage()));
                     throw new CompletionException(e);
                 }
