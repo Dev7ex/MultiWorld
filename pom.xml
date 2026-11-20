@@ -30,6 +30,7 @@
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <maven.shade.plugin.version>3.6.0</maven.shade.plugin.version>
         <maven.javadoc.plugin.version>3.8.0</maven.javadoc.plugin.version>
+        <maven.surefire.plugin.version>3.5.2</maven.surefire.plugin.version>
 
         <dependency.adventure.platform.version>4.3.3</dependency.adventure.platform.version>
         <dependency.adventure.api.version>4.17.0</dependency.adventure.api.version>
@@ -37,6 +38,7 @@
         <dependency.multicommon.version>1.0.0-SNAPSHOT</dependency.multicommon.version>
         <dependency.nbt.version>2.12.0</dependency.nbt.version>
         <dependency.commons.io.version>2.14.0</dependency.commons.io.version>
+        <dependency.junit.version>5.11.4</dependency.junit.version>
         <dependency.lombok.version>1.18.34</dependency.lombok.version>
         <dependency.paper.api.version>1.21.4-R0.1-SNAPSHOT</dependency.paper.api.version>
     </properties>
