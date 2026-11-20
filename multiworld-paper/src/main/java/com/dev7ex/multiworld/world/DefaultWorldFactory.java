@@ -53,7 +53,6 @@ public class DefaultWorldFactory implements WorldFactory {
         if (world != null) {
             return this.create(audience, world);
         }
-
         return this.create(audience, new WorldBuilder(this.createWorldKey(worldName))
                 .seed(ThreadLocalRandom.current().nextLong())
         );
