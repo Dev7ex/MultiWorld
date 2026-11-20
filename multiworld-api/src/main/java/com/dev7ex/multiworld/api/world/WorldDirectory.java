@@ -18,6 +18,10 @@ public class WorldDirectory extends File {
     @Serial
     private static final long serialVersionUID = 411210630915638932L;
 
+    public WorldDirectory(@NotNull final File directory) {
+        super(directory.getPath());
+    }
+
     public WorldDirectory(@NotNull final String worldName) {
         super(Bukkit.getWorldContainer().toPath()
                 .resolve(worldName)
