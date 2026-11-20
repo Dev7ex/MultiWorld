@@ -46,7 +46,7 @@ public class DefaultWorldRegistry extends DefaultWorldModule implements WorldReg
                     .orElseGet(this.groupRegistry::getDefaultGroup);
 
             worldContext.setGroup(group);
-            worldContext.setDirectory(new WorldDirectory(worldContext.getName()));
+            worldContext.setDirectory(new WorldDirectory(super.getMultiWorldApi().getWorldResolver().resolveDirectory(worldContext)));
 
             this.repository.update(worldContext, WorldProperty.GROUP_ID, group.getId());
             this.register(worldContext);
@@ -77,7 +77,7 @@ public class DefaultWorldRegistry extends DefaultWorldModule implements WorldReg
                     .setSeed(world.getSeed())
                     .build();
 
-            worldContext.setDirectory(new WorldDirectory(worldContext.getName()));
+            worldContext.setDirectory(new WorldDirectory(world.getWorldFolder()));
 
             if (!this.repository.exists(worldKey)) {
                 this.repository.insert(worldContext);

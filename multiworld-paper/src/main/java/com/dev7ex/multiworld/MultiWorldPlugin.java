@@ -16,6 +16,7 @@ import com.dev7ex.multiworld.api.world.WorldFactory;
 import com.dev7ex.multiworld.api.world.WorldManager;
 import com.dev7ex.multiworld.api.world.WorldRegistry;
 import com.dev7ex.multiworld.api.world.WorldRepository;
+import com.dev7ex.multiworld.api.world.WorldResolver;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupFactory;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupManager;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupRegistry;
@@ -36,6 +37,7 @@ import com.dev7ex.multiworld.world.DefaultWorldFactory;
 import com.dev7ex.multiworld.world.DefaultWorldManager;
 import com.dev7ex.multiworld.world.DefaultWorldRegistry;
 import com.dev7ex.multiworld.world.DefaultWorldRepository;
+import com.dev7ex.multiworld.world.DefaultWorldResolver;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupFactory;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupManager;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupRegistry;
@@ -71,6 +73,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
     private WorldModuleManager moduleManager;
     private WorldBackupManager backupManager;
     private WorldManager worldManager;
+    private WorldResolver worldResolver;
 
     private WorldLocalizationRegistry localizationRegistry;
     private WorldUserInventoryRegistry userInventoryRegistry;
@@ -171,6 +174,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         this.moduleManager = new DefaultWorldModuleManager();
         this.backupManager = new DefaultWorldBackupManager(this);
         this.worldManager = new DefaultWorldManager(this);
+        this.worldResolver = new DefaultWorldResolver(this);
     }
 
     @Override

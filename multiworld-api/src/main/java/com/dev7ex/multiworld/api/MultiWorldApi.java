@@ -10,6 +10,7 @@ import com.dev7ex.multiworld.api.world.WorldFactory;
 import com.dev7ex.multiworld.api.world.WorldManager;
 import com.dev7ex.multiworld.api.world.WorldRegistry;
 import com.dev7ex.multiworld.api.world.WorldRepository;
+import com.dev7ex.multiworld.api.world.WorldResolver;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupFactory;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupManager;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupRegistry;
@@ -139,6 +140,9 @@ public interface MultiWorldApi extends Plugin, ConfigurationHolder {
     WorldManager getWorldManager();
 
     void setWorldManager(@NotNull final WorldManager worldManager);
+
+    @NotNull
+    WorldResolver getWorldResolver();
 
     @NotNull
     WorldRegistry getWorldRegistry();
