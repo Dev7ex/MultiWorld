@@ -6,47 +6,39 @@
 
     <groupId>com.dev7ex</groupId>
     <artifactId>multiworld</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <version>1.7.8-SNAPSHOT</version>
 
     <name>MultiWorld</name>
     <description>World Management for Minecraft</description>
     <url>https://github.com/Dev7ex/MultiWorld</url>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub Dev7ex Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/Dev7ex/MultiWorld</url>
-        </repository>
-    </distributionManagement>
-
     <modules>
-        <module>multiworld-bukkit</module>
         <module>multiworld-api</module>
-        <module>multiworld-resources</module>
+        <module>multiworld-paper</module>
     </modules>
 
     <properties>
         <maven.compiler.source>${project.source.version}</maven.compiler.source>
         <maven.compiler.target>${project.source.version}</maven.compiler.target>
 
-        <project.source.version>17</project.source.version>
+        <project.minecraft.version>1.17</project.minecraft.version>
+        <project.source.version>21</project.source.version>
         <project.source.encoding>UTF-8</project.source.encoding>
 
+        <maven.jar.plugin.version>3.4.2</maven.jar.plugin.version>
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <maven.shade.plugin.version>3.6.0</maven.shade.plugin.version>
         <maven.javadoc.plugin.version>3.8.0</maven.javadoc.plugin.version>
 
-        <dependency.multiperms.version>1.1.2-SNAPSHOT</dependency.multiperms.version>
         <dependency.adventure.platform.version>4.3.3</dependency.adventure.platform.version>
         <dependency.adventure.api.version>4.17.0</dependency.adventure.api.version>
         <dependency.annotations.version>24.1.0</dependency.annotations.version>
-        <dependency.facilis.common.version>1.0.7-SNAPSHOT</dependency.facilis.common.version>
-        <dependency.commons.io.version>2.16.1</dependency.commons.io.version>
+        <dependency.multicommon.version>1.0.0-SNAPSHOT</dependency.multicommon.version>
+        <dependency.nbt.version>2.12.0</dependency.nbt.version>
+        <dependency.commons.io.version>2.14.0</dependency.commons.io.version>
         <dependency.lombok.version>1.18.34</dependency.lombok.version>
-        <dependency.spigot.api.version>1.17.1-R0.1-SNAPSHOT</dependency.spigot.api.version>
-        <dependency.placeholder.api.version>2.11.6</dependency.placeholder.api.version>
+        <dependency.paper.api.version>1.21.4-R0.1-SNAPSHOT</dependency.paper.api.version>
     </properties>
 
 </project>

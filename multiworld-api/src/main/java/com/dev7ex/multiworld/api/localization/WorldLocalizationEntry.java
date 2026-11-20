@@ -1,0 +1,266 @@
+package com.dev7ex.multiworld.api.localization;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+@Getter(AccessLevel.PUBLIC)
+public enum WorldLocalizationEntry  {
+
+    // /world backup clear
+    COMMAND_WORLD_BACKUP_CLEAR_USAGE,
+    COMMAND_WORLD_BACKUP_CLEAR_STARTING,
+    COMMAND_WORLD_BACKUP_CLEAR_CANCELLED,
+    COMMAND_WORLD_BACKUP_CLEAR_FINISHING,
+
+    // /world backup create
+    COMMAND_WORLD_BACKUP_CREATE_USAGE,
+    COMMAND_WORLD_BACKUP_CREATE_STARTING,
+    COMMAND_WORLD_BACKUP_CREATE_CANCELLED,
+    COMMAND_WORLD_BACKUP_CREATE_FINISHING,
+
+    // /world backup delete
+    COMMAND_WORLD_BACKUP_DELETE_USAGE,
+    COMMAND_WORLD_BACKUP_DELETE_STARTING,
+    COMMAND_WORLD_BACKUP_DELETE_CANCELLED,
+    COMMAND_WORLD_BACKUP_DELETE_FINISHING,
+
+    // /world backup help
+    COMMAND_WORLD_BACKUP_HELP,
+    COMMAND_WORLD_BACKUP_HELP_USAGE,
+
+    // /world backup list
+    COMMAND_WORLD_BACKUP_LIST_USAGE,
+    COMMAND_WORLD_BACKUP_LIST_MESSAGE,
+
+    // /world backup restore
+    COMMAND_WORLD_BACKUP_RESTORE_USAGE,
+    COMMAND_WORLD_BACKUP_RESTORE_STARTING,
+    COMMAND_WORLD_BACKUP_RESTORE_CANCELLED,
+    COMMAND_WORLD_BACKUP_RESTORE_FINISHING,
+
+    // /world clone
+    COMMAND_WORLD_CLONE_USAGE,
+    COMMAND_WORLD_CLONE_STARTING,
+    COMMAND_WORLD_CLONE_CANCELLED,
+    COMMAND_WORLD_CLONE_FINISHING,
+
+    // /world config
+    COMMAND_WORLD_CONFIG_HELP,
+    COMMAND_WORLD_CONFIG_HELP_USAGE,
+
+    // /world config reload
+    COMMAND_WORLD_CONFIG_RELOAD_USAGE,
+    COMMAND_WORLD_CONFIG_RELOAD_STARTING,
+    COMMAND_WORLD_CONFIG_RELOAD_FINISHING,
+
+    // /world create
+    COMMAND_WORLD_CREATE_USAGE,
+    COMMAND_WORLD_CREATE_STARTING,
+    COMMAND_WORLD_CREATE_CANCELLED,
+    COMMAND_WORLD_CREATE_FINISHING,
+
+    // /world debug
+    COMMAND_WORLD_DEBUG_USAGE,
+    COMMAND_WORLD_DEBUG_ENABLED(),
+    COMMAND_WORLD_DEBUG_DISABLED(),
+
+    COMMAND_WORLD_CONFIRM_USAGE,
+    COMMAND_WORLD_CONFIRM_REQUEST_STARTING("command.world.confirm.request-starting"),
+    COMMAND_WORLD_CONFIRM_REQUEST_EXPIRED("command.world.confirm.request-expired"),
+    COMMAND_WORLD_CONFIRM_REQUEST_CANCELLED("command.world.confirm.request-cancelled"),
+    COMMAND_WORLD_CONFIRM_SUCCESSFULLY_CONFIRMED("command.world.confirm.successfully-confirmed"),
+
+
+    COMMAND_WORLD_DELETE_USAGE,
+    COMMAND_WORLD_DELETE_STARTING,
+    COMMAND_WORLD_DELETE_CANCELLED,
+    COMMAND_WORLD_DELETE_FINISHING,
+
+    COMMAND_WORLD_FLAG_USAGE,
+
+    COMMAND_WORLD_GAMERULE_USAGE,
+    COMMAND_WORLD_GAMERULE_SUCCESSFULLY_SET("command.world.gamerule.successfully-set"),
+
+    COMMAND_WORLD_GROUP_CREATE_USAGE,
+    COMMAND_WORLD_GROUP_CREATE_SUCCESSFULLY_CREATED("command.world.group.create.successfully-created"),
+
+    COMMAND_WORLD_GROUP_DELETE_USAGE,
+
+    COMMAND_WORLD_GROUP_EDIT_USAGE,
+
+    COMMAND_WORLD_GROUP_GUI_USAGE,
+
+    COMMAND_WORLD_GROUP_HELP,
+
+    COMMAND_WORLD_GROUP_LIST_USAGE,
+    COMMAND_WORLD_GROUP_LIST_MESSAGE,
+
+    COMMAND_WORLD_GUI_USAGE,
+
+    COMMAND_WORLD_HELP,
+    COMMAND_WORLD_HELP_USAGE,
+
+    COMMAND_WORLD_IMPORT_USAGE,
+
+    COMMAND_WORLD_INFO_USAGE,
+
+    COMMAND_WORLD_LANGUAGE_HELP,
+
+    COMMAND_WORLD_LANGUAGE_INFO_USAGE,
+
+    COMMAND_WORLD_LANGUAGE_LIST_USAGE,
+    COMMAND_WORLD_LANGUAGE_LIST_MESSAGE,
+
+    COMMAND_WORLD_LINK_USAGE,
+
+    COMMAND_WORLD_LIST_USAGE,
+    COMMAND_WORLD_LIST_MESSAGE,
+
+    COMMAND_WORLD_LOAD_USAGE,
+
+    COMMAND_WORLD_SETSPAWN_USAGE,
+    COMMAND_WORLD_SETSPAWN_SUCCESSFULLY_SET("command.world.setspawn.successfully-set"),
+
+    COMMAND_WORLD_TELEPORT_USAGE_ADMIN,
+    COMMAND_WORLD_TELEPORT_USAGE_USER,
+
+    COMMAND_WORLD_UNLOAD_USAGE,
+    COMMAND_WORLD_UNLOAD_STARTING,
+    COMMAND_WORLD_UNLOAD_FINISHING,
+
+    COMMAND_WORLD_USER_HELP,
+
+    COMMAND_WORLD_USER_INFO_USAGE,
+
+    COMMAND_WORLD_VERSION_CHECK_USAGE,
+
+    COMMAND_WORLD_VERSION_HELP,
+    COMMAND_WORLD_VERSION_HELP_USAGE,
+
+    COMMAND_WORLD_VERSION_INFO_USAGE,
+    COMMAND_WORLD_VERSION_INFO_MESSAGE,
+
+    COMMAND_WORLD_VERSION_REPORT_USAGE,
+
+    COMMAND_WORLD_WHITELIST_ADD_USAGE,
+
+    COMMAND_WORLD_WHITELIST_DISABLE_USAGE,
+
+    COMMAND_WORLD_WHITELIST_ENABLE_USAGE,
+
+    COMMAND_WORLD_WHITELIST_HELP,
+
+    COMMAND_WORLD_WHITELIST_LIST_USAGE,
+
+    COMMAND_WORLD_WHITELIST_REMOVE_USAGE,
+
+    COMMAND_WORLDS_USAGE,
+
+    NO_PERMISSION,
+    NO_CONSOLE_COMMAND,
+    NO_PLAYER_COMMAND,
+    NO_PLAYER_FOUND,
+
+    TIME_FORMAT("time-format"),
+
+    HEADER,
+    FOOTER,
+
+    // MESSAGE START
+    MESSAGE_NO_PERMISSION("message.no-permission"),
+
+    MESSAGE_NO_CONSOLE_COMMAND("message.no-console-command"),
+
+    MESSAGE_NO_PLAYER_COMMAND("message.no-player-command"),
+
+    MESSAGE_NO_PLAYER_FOUND("message.no-player-found"),
+
+    MESSAGE_CHUNK_UNLOAD_STARTING,
+    MESSAGE_CHUNK_UNLOAD_FINISHING,
+
+    MESSAGE_LAYOUT_HEADER("message.layout.header"),
+
+    MESSAGE_LAYOUT_FOOTER("message.layout.header"),
+
+    MESSAGE_PAGINATION_INDICATOR("message.pagination.indicator"),
+
+    MESSAGE_PAGINATION_PREVIOUS("message.pagination.previous"),
+
+    MESSAGE_PAGINATION_NEXT("message.pagination.next"),
+
+    MESSAGE_PAGINATION_GOTO("message.pagination.goto"),
+
+    MESSAGE_PAGINATION_NOT_FOUND("message.pagination.not-found"),
+
+    MESSAGE_PAGINATION_OUT_OF_RANGE("message.pagination.out-of-range"),
+
+    MESSAGE_WORLD_BACKUP_CREATION_DELAY("message.world.backup.creation-delay"),
+    MESSAGE_WORLD_BACKUP_NO_ENTRIES("message.world.backup.no-entries"),
+    MESSAGE_WORLD_BACKUP_NOT_EXISTS("message.world.backup.not-exists"),
+
+    MESSAGE_WORLD_FLAG_SUCCESSFULLY_SET("message.world.flag.successfully-set"),
+
+    MESSAGE_WORLD_GAMERULE_NOT_EXISTS,
+    MESSAGE_WORLD_GAMERULE_INVALID_VALUE,
+
+
+
+    MESSAGE_WORLD_GROUP_ALREADY_EXISTS_NAME("message.world.group.already-exists.name"),
+    MESSAGE_WORLD_GROUP_ALREADY_EXISTS_ID("message.world.group.already-exists.id"),
+
+    MESSAGE_WORLD_GROUP_DELETE_PROTECTED("message.world.group.delete-protected"),
+
+    MESSAGE_WORLD_GROUP_NOT_EXISTS_NAME("message.world.group.not-exists.name"),
+    MESSAGE_WORLD_GROUP_NOT_EXISTS_ID("message.world.group.not-exists.id"),
+
+    MESSAGE_WORLD_ALREADY_EXISTS("message.world.already-exists"),
+
+    MESSAGE_WORLD_ALREADY_LOADED("message.world.already-loaded"),
+
+    MESSAGE_WORLD_DELETE_PROTECTED("message.world.delete-protected"),
+
+    MESSAGE_WORLD_DIRECTORY_NOT_FOUND("message.world.directory-not-found"),
+
+    MESSAGE_WORLD_ENVIRONMENT_INVALID("message.world.environment-invalid"),
+
+    MESSAGE_WORLD_GENERATOR_INVALID("message.world.generator-invalid"),
+
+    MESSAGE_WORLD_NOT_EXISTS("message.world.not-exists"),
+
+    MESSAGE_WORLD_NOT_LOADED("message.world.not-loaded"),
+
+    MESSAGE_WORLD_INVALID_SEED("message.world.invalid-seed"),
+
+    MESSAGE_WORLD_INVALID_TYPE("message.world.invalid-type"),
+
+    MESSAGE_WORLD_UNLOAD_PROTECTED("message.world.unload-protected"),
+
+    MESSAGE_WORLD_WHITELIST_BLOCKED("message.world.whitelist-blocked"),
+
+    FORMAT_DATE("format.date"),
+
+    FORMAT_DATE_TIME("format.date-time"),
+
+    FORMAT_TIME("format.time"),
+
+    MESSAGE_VALIDATION_INVALID_NUMBER("message.validation.invalid-number"),
+    MESSAGE_VALIDATION_INVALID_BOOLEAN("message.validation.invalid-boolean"),
+    MESSAGE_VALIDATION_INVALID_SELECTOR("message.validation.invalid-selector");
+    // MESSAGE STOP
+
+    private final String key;
+
+    WorldLocalizationEntry() {
+        this.key = this.name().toLowerCase().replace("_", ".");
+    }
+
+    WorldLocalizationEntry(@NotNull final String key) {
+        this.key = key;
+    }
+
+    public String getKeyForPage(final int page) {
+        return this.key + "." + page;
+    }
+
+}

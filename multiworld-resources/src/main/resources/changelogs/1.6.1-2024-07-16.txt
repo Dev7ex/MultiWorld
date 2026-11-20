@@ -1,2 +1,0 @@
-Fixing: https://github.com/Dev7ex/MultiWorld/issues/37
-Fixing: Missing Dependency https://github.com/Dev7ex/MultiWorld/issues/39

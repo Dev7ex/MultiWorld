@@ -1,0 +1,21 @@
+api-version: 1.17
+author: Dev7ex
+database: false
+depend: [ MultiCommon ]
+description: ${project.description}
+libraries:
+  - commons-io:commons-io:${dependency.commons.io.version}
+load: POSTWORLD
+loadbefore: [ ]
+main: com.dev7ex.multiworld.MultiWorldPlugin
+name: MultiWorld
+prefix: MultiWorld
+softdepend: [ PlaceholderAPI, MultiPerms ]
+version: ${project.version}
+website: https://github.com/Dev7ex/MultiWorld
+commands:
+  world:
+    aliases: [ multiworld, mw ]
+    description: Main Command for all World Commands
+    permission: multiworld.command.world
+    usage: /world
