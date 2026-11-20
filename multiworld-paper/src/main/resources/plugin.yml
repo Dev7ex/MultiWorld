@@ -1,5 +1,5 @@
 api-version: 1.17
-author: Dev7ex
+authors: [Dev7ex, MGG]
 database: false
 depend: [ MultiCommon ]
 description: ${project.description}
@@ -10,7 +10,7 @@ loadbefore: [ ]
 main: com.dev7ex.multiworld.MultiWorldPlugin
 name: MultiWorld
 prefix: MultiWorld
-softdepend: [ PlaceholderAPI, MultiPerms ]
+softdepend: [ PlaceholderAPI ]
 version: ${project.version}
 website: https://github.com/Dev7ex/MultiWorld
 commands:
