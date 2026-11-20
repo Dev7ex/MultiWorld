@@ -4,18 +4,20 @@ import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.event.world.backup.WorldBackupRestoreEvent;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.world.WorldContext;
+import com.dev7ex.multiworld.api.world.WorldDirectory;
 import com.dev7ex.multiworld.api.world.backup.WorldBackup;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupManager;
+import com.dev7ex.multiworld.api.world.result.WorldDeletionResult;
 import com.dev7ex.multiworld.util.ZipUtil;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -51,12 +53,23 @@ public class DefaultWorldBackupManager implements WorldBackupManager {
                 return;
             }
 
-            this.multiWorldApi.getWorldFactory().delete(audience, worldContext);
+            final File worldDirectory = this.multiWorldApi.getWorldResolver().resolveDirectory(worldContext);
+
+            if (this.multiWorldApi.getWorldResolver().isLevelDirectory(worldDirectory)) {
+                audience.sendMessage(Component.text("The main world contains all dimensions on this server version and can't be restored", NamedTextColor.RED));
+                future.complete(null);
+                return;
+            }
+            worldContext.setDirectory(new WorldDirectory(worldDirectory));
+
+            if (this.multiWorldApi.getWorldFactory().delete(audience, worldContext) != WorldDeletionResult.SUCCESS) {
+                future.complete(null);
+                return;
+            }
 
             CompletableFuture.runAsync(() -> {
-                final Path targetDir = new File(Bukkit.getWorldContainer(), worldContext.getName()).toPath();
                 try {
-                    ZipUtil.unzipWorld(backup.getPath().toFile(), targetDir.toFile());
+                    ZipUtil.unzipWorld(backup.getPath().toFile(), worldDirectory);
                 } catch (final IOException e) {
                     throw new RuntimeException(e);
                 }

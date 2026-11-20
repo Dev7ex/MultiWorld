@@ -13,6 +13,7 @@ import com.dev7ex.multiworld.api.world.backup.WorldBackupFactory;
 import com.dev7ex.multiworld.util.ZipUtil;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +24,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 /**
@@ -41,7 +43,17 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
 
     @Override
     public @NotNull CompletableFuture<WorldBackup> create(@NotNull final Audience audience, @NotNull final WorldContext context) {
+        final AtomicReference<Path> worldFolder = new AtomicReference<>();
+
         return this.sync(() -> {
+            final File directory = this.multiWorldApi.getWorldResolver().resolveDirectory(context);
+
+            if (this.multiWorldApi.getWorldResolver().isLevelDirectory(directory)) {
+                audience.sendMessage(Component.text("The main world contains all dimensions on this server version and can't be backed up", NamedTextColor.RED));
+                return null;
+            }
+            worldFolder.set(directory.toPath());
+
             final long timestamp = System.currentTimeMillis();
             final WorldBackup backup = new DefaultWorldBackup(context, timestamp);
             final WorldBackupCreateEvent event = new WorldBackupCreateEvent(context, audience, backup);
@@ -73,10 +85,8 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
             return CompletableFuture.supplyAsync(() -> {
                 try {
                     final Path worldBackupDirectory = this.backupDirectory.toPath().resolve(context.getName());
-                    final Path worldFolder = Path.of(context.getDirectory().getPath());
-
-                    if (!Files.isDirectory(worldFolder)) {
-                        audience.sendMessage(Component.text("§cDas Weltverzeichnis wurde nicht gefunden: " + worldFolder));
+                    if (!Files.isDirectory(worldFolder.get())) {
+                        audience.sendMessage(Component.text("§cDas Weltverzeichnis wurde nicht gefunden: " + worldFolder.get()));
                         return null;
                     }
 
@@ -84,7 +94,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
 
                     final WorldBackup backup = event.getWorldBackup();
 
-                    ZipUtil.zipWorld(worldFolder.toFile(), worldBackupDirectory.toFile(), backup.getTimestamp());
+                    ZipUtil.zipWorld(worldFolder.get().toFile(), worldBackupDirectory.toFile(), backup.getTimestamp());
 
                     this.multiWorldApi.getBackupRegistry().register(event.getContext(), backup);
 
