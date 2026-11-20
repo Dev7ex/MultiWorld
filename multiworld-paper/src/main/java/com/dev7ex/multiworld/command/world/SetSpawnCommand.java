@@ -7,7 +7,6 @@ import com.dev7ex.multicommon.api.command.completer.EmptyTabCompleter;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
-import com.dev7ex.multiworld.api.permission.MultiWorldPermission;
 import io.papermc.paper.registry.keys.SoundEventKeys;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.World;
@@ -21,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  * @since 05.01.2025
  *
  */
-@PaperCommandProperties(name = "setspawn", permission = MultiWorldPermission.COMMAND_WORLD_SETSPAWN)
+@PaperCommandProperties(name = "setspawn", permission = "multiworld.command.world.setspawn")
 public class SetSpawnCommand extends PaperCommand implements EmptyTabCompleter {
 
     private static final Sound SUCCESS_SOUND = Sound.sound()
