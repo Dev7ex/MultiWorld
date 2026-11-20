@@ -35,6 +35,7 @@ public class WorldCommand extends PaperCommand implements ArgumentTabCompleter {
         super.registerSubCommand(new HelpCommand(plugin));
         this.registerSubCommand(new ListCommand(plugin));
         this.registerSubCommand(new TeleportCommand(plugin));
+        this.registerSubCommand(new SetSpawnCommand(plugin));
     }
 
     @Override
