@@ -1,5 +1,5 @@
 api-version: 1.17
-authors: [Dev7ex, MGG]
+authors: [ Dev7ex, MGG ]
 database: false
 depend: [ MultiCommon ]
 description: ${project.description}
