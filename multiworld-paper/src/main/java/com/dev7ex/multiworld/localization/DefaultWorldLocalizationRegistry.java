@@ -40,6 +40,8 @@ import java.util.logging.Level;
 @Getter(AccessLevel.PUBLIC)
 public class DefaultWorldLocalizationRegistry extends DefaultWorldModule implements WorldLocalizationRegistry {
 
+    private static final String DEFAULT_DATE_TIME_PATTERN = "dd.MM.yyyy-HH:mm:ss";
+
     private final Map<Locale, FileConfiguration> translationConfigurations = new HashMap<>();
     private final Locale defaultLocale = Locale.of("en", "US");
 
@@ -584,7 +586,9 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
         final Locale locale = (audience instanceof final Player player) ? player.locale() : this.defaultLocale;
         final FileConfiguration config = this.translationConfigurations.getOrDefault(locale, this.translationConfigurations.get(this.defaultLocale));
 
-        return DateTimeFormatter.ofPattern(config.getString(WorldLocalizationEntry.FORMAT_DATE_TIME.getKey()), locale);
+        final String pattern = config.getString(WorldLocalizationEntry.FORMAT_DATE_TIME.getKey(), "");
+
+        return DateTimeFormatter.ofPattern(pattern.isBlank() ? DefaultWorldLocalizationRegistry.DEFAULT_DATE_TIME_PATTERN : pattern, locale);
     }
 
     private static ClickEvent parseClickEvent(@NotNull final String action, @NotNull final String value) {
