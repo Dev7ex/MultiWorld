@@ -46,6 +46,12 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
         final AtomicReference<Path> worldFolder = new AtomicReference<>();
 
         return this.sync(() -> {
+            if (this.multiWorldApi.getBackupRegistry().isLocked(context)) {
+                audience.sendMessage(this.multiWorldApi.getLocalizationRegistry()
+                        .getComponent(audience, WorldLocalizationEntry.MESSAGE_WORLD_BACKUP_IN_PROGRESS)
+                        .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(context.getName())));
+                return null;
+            }
             final File directory = this.multiWorldApi.getWorldResolver().resolveDirectory(context);
 
             if (this.multiWorldApi.getWorldResolver().isLevelDirectory(directory)) {
@@ -75,6 +81,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                     world.save();
                 }
             }
+            this.multiWorldApi.getBackupRegistry().lock(context);
 
             return event;
         }).thenCompose(event -> {
@@ -108,7 +115,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                     audience.sendMessage(Component.text("§cFehler beim Erstellen des Backups: " + e.getMessage()));
                     throw new CompletionException(e);
                 }
-            });
+            }).whenComplete((backup, throwable) -> this.multiWorldApi.getBackupRegistry().unlock(context));
         });
     }
 

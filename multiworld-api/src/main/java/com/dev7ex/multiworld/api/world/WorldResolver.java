@@ -17,4 +17,6 @@ public interface WorldResolver {
 
     boolean isLevelDirectory(@NotNull final File directory);
 
+    boolean isDeletable(@NotNull final File directory);
+
 }

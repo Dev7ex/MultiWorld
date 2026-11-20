@@ -75,6 +75,42 @@ public class DefaultWorldResolver implements WorldResolver {
         return (levelDirectory != null) && (this.isSamePath(directory.toPath(), levelDirectory));
     }
 
+    @Override
+    public boolean isDeletable(@NotNull final File directory) {
+        final Path path = this.normalize(directory.toPath());
+        final Path levelDirectory = this.getLevelDirectory();
+        boolean worldDirectory = (this.normalize(Bukkit.getWorldContainer().toPath()).equals(path.getParent()))
+                && ((!directory.exists()) || (new File(directory, DefaultWorldResolver.LEVEL_FILE).isFile()));
+
+        if (levelDirectory != null) {
+            final Path dimensionsDirectory = this.normalize(levelDirectory).resolve(DefaultWorldResolver.DIMENSIONS_DIRECTORY);
+
+            if ((path.startsWith(dimensionsDirectory)) && (path.getNameCount() == dimensionsDirectory.getNameCount() + 2)) {
+                worldDirectory = true;
+            }
+
+            if (this.isSamePath(path, levelDirectory)) {
+                return false;
+            }
+        }
+
+        if (!worldDirectory) {
+            return false;
+        }
+
+        for (final World world : Bukkit.getWorlds()) {
+            if (this.normalize(world.getWorldFolder().toPath()).startsWith(path)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @NotNull
+    private Path normalize(@NotNull final Path path) {
+        return path.toAbsolutePath().normalize();
+    }
+
     private boolean isSamePath(@NotNull final Path first, @NotNull final Path second) {
         if ((Files.exists(first)) && (Files.exists(second))) {
             try {
@@ -84,7 +120,7 @@ public class DefaultWorldResolver implements WorldResolver {
                 this.multiWorldApi.getLogger().log(Level.WARNING, "Can't compare world directories, falling back to path comparison", exception);
             }
         }
-        return first.toAbsolutePath().normalize().equals(second.toAbsolutePath().normalize());
+        return this.normalize(first).equals(this.normalize(second));
     }
 
     @Nullable

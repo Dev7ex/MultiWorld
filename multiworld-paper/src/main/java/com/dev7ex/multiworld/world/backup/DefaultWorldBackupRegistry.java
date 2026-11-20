@@ -11,12 +11,14 @@ import com.dev7ex.multiworld.module.DefaultWorldModule;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.kyori.adventure.audience.Audience;
+import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Dev7ex
@@ -26,6 +28,7 @@ import java.util.*;
 public class DefaultWorldBackupRegistry extends DefaultWorldModule implements WorldBackupRegistry {
 
     private final Map<WorldContext, NavigableSet<WorldBackup>> worldBackups = new HashMap<>();
+    private final Set<NamespacedKey> lockedWorlds = ConcurrentHashMap.newKeySet();
     private final WorldLocalizationRegistry localizationRegistry;
     private final WorldRegistry worldRegistry;
     private final File backupDirectory;
@@ -103,6 +106,7 @@ public class DefaultWorldBackupRegistry extends DefaultWorldModule implements Wo
 
     @Override
     public void onDisable() {
+        this.lockedWorlds.clear();
         this.worldBackups.clear();
     }
 
@@ -176,6 +180,21 @@ public class DefaultWorldBackupRegistry extends DefaultWorldModule implements Wo
                 .map(Map.Entry::getKey)
                 .sorted(Comparator.comparing(WorldContext::getName))
                 .collect(LinkedHashSet::new, LinkedHashSet::add, LinkedHashSet::addAll);
+    }
+
+    @Override
+    public boolean lock(@NotNull final WorldContext context) {
+        return this.lockedWorlds.add(context.getKey());
+    }
+
+    @Override
+    public void unlock(@NotNull final WorldContext context) {
+        this.lockedWorlds.remove(context.getKey());
+    }
+
+    @Override
+    public boolean isLocked(@NotNull final WorldContext context) {
+        return this.lockedWorlds.contains(context.getKey());
     }
 
 }

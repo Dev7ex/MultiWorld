@@ -12,6 +12,7 @@ import com.dev7ex.multiworld.api.user.WorldUserFactory;
 import com.dev7ex.multiworld.api.user.WorldUserRegistry;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryFactory;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryRegistry;
+import com.dev7ex.multiworld.api.world.WorldContext;
 import com.dev7ex.multiworld.api.world.WorldFactory;
 import com.dev7ex.multiworld.api.world.WorldManager;
 import com.dev7ex.multiworld.api.world.WorldRegistry;
@@ -27,6 +28,7 @@ import com.dev7ex.multiworld.api.world.generator.WorldGeneratorRepository;
 import com.dev7ex.multiworld.api.world.group.WorldGroupFactory;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRegistry;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRepository;
+import com.dev7ex.multiworld.api.world.result.WorldLifecycleResult;
 import com.dev7ex.multiworld.command.WorldCommand;
 import com.dev7ex.multiworld.listener.plugin.MultiWorldFileChangeListener;
 import com.dev7ex.multiworld.localization.DefaultWorldLocalizationRegistry;
@@ -50,11 +52,14 @@ import com.dev7ex.multiworld.world.group.DefaultWorldGroupRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author Dev7ex
@@ -139,6 +144,13 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         this.registerTasks();
 
         this.moduleManager.enableAll();
+
+        Bukkit.getScheduler().runTask(this, () -> {
+            if (this.worldManager instanceof final DefaultWorldManager defaultWorldManager) {
+                defaultWorldManager.cleanup();
+            }
+            this.loadWorlds();
+        });
     }
 
     @Override
@@ -149,6 +161,25 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         super.getServer().getServicesManager().unregisterAll(this);
 
         this.fileMonitor.stop();
+    }
+
+    private void loadWorlds() {
+        final List<WorldContext> worlds = this.worldRegistry.getUnloadedWorlds()
+                .stream()
+                .sorted(Comparator.comparing(WorldContext::getName))
+                .toList();
+
+        if (worlds.isEmpty()) {
+            return;
+        }
+        int loaded = 0;
+
+        for (final WorldContext context : worlds) {
+            if (this.worldManager.load(super.getServer().getConsoleSender(), context.getKey()) == WorldLifecycleResult.SUCCESS) {
+                loaded++;
+            }
+        }
+        super.getLogger().info(String.format("Loaded [%d/%d] World(s)", loaded, worlds.size()));
     }
 
     @Override
