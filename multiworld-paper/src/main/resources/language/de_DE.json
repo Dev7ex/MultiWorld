@@ -306,6 +306,12 @@
         "message": "%prefix% §7Welten: %world_names%",
         "hover": "§e§lInfo §7Klicke auf eine Welt, um dorthin zu teleportieren"
       },
+      "load": {
+        "usage": "%prefix% §cVerwendung: /world load <Welt>",
+        "starting": "%prefix% §7Die Welt §a%world_name% §7wird geladen...",
+        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich geladen!",
+        "failed": "%prefix% §cDie Welt §6%world_name% §ckonnte nicht geladen werden. Details stehen in der Konsole"
+      },
       "setspawn": {
         "usage": "%prefix% §cVerwendung: /world setspawn",
         "successfully-set": "%prefix% §7Du hast den Spawnpunkt der Welt §a%world_name% §7gesetzt"
@@ -334,6 +340,12 @@
             "multiple": "%prefix% §7Du wurdest in die Welt §a%world_name% §7teleportiert."
           }
         }
+      },
+      "unload": {
+        "usage": "%prefix% §cVerwendung: /world unload <Welt>",
+        "starting": "%prefix% §7Die Welt §a%world_name% §7wird entladen...",
+        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich entladen!",
+        "failed": "%prefix% §cDie Welt §6%world_name% §ckonnte nicht entladen werden. Details stehen in der Konsole"
       }
     }
   },
