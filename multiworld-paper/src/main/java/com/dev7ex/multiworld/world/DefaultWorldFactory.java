@@ -8,18 +8,22 @@ import com.dev7ex.multiworld.api.world.*;
 import com.dev7ex.multiworld.api.world.WorldType;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRegistry;
 import com.dev7ex.multiworld.api.world.result.WorldDeletionResult;
+import com.dev7ex.multiworld.api.world.result.WorldLifecycleResult;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 
 /**
  * @author Dev7ex
@@ -108,14 +112,14 @@ public class DefaultWorldFactory implements WorldFactory {
         worldContext.setEnvironment(WorldEnvironment.ofBukkit(world.getEnvironment()));
         worldContext.setType(WorldType.ofBukkit(worldCreator.type()));
         worldContext.setSeed(world.getSeed());
+        worldContext.setDirectory(new WorldDirectory(world.getWorldFolder()));
+
+        final WorldContext registeredContext = this.register(worldContext);
 
         audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_FINISHING)
-                .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(worldContext.getName())));
+                .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(registeredContext.getName())));
 
-        this.repository.insert(worldContext);
-        this.registry.register(worldContext);
-
-        return worldContext;
+        return registeredContext;
     }
 
     @Override
@@ -134,20 +138,50 @@ public class DefaultWorldFactory implements WorldFactory {
             return WorldDeletionResult.CANCELLED;
         }
 
-        if (context.isLoaded()) {
-            this.multiWorldApi.getWorldManager().unload(audience, context.getKey(), true);
+        if (this.multiWorldApi.getBackupRegistry().isLocked(context)) {
+            audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.MESSAGE_WORLD_BACKUP_IN_PROGRESS)
+                    .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(context.getName())));
+            return WorldDeletionResult.CANCELLED;
+        }
+        final WorldResolver resolver = this.multiWorldApi.getWorldResolver();
+        final File directory = resolver.resolveDirectory(context);
+        final boolean loaded = Bukkit.getWorld(context.getKey()) != null;
+
+        if ((loaded) && (this.multiWorldApi.getWorldManager().unload(audience, context.getKey(), true) != WorldLifecycleResult.SUCCESS)) {
+            this.sendDeleteFailed(audience, context);
+            return WorldDeletionResult.UNLOAD_FAILED;
         }
 
-        try {
-            FileUtils.deleteDirectory(context.getDirectory());
-
-        } catch (final IOException exception) {
-            audience.sendMessage(Component.text("An error has occurred. View the logs", NamedTextColor.RED));
+        if (!resolver.isDeletable(directory)) {
+            this.multiWorldApi.getLogger().severe(String.format("Refusing to delete World %s: unsafe directory %s", context.getName(), directory));
+            this.restoreAfterFailedDelete(audience, context, loaded);
             return WorldDeletionResult.DELETE_FAILED;
         }
+        final File trashDirectory = new File(directory.getAbsoluteFile().getParentFile(), String.format("%s.deleted-%d", directory.getName(), System.currentTimeMillis()));
 
+        if (directory.exists()) {
+            try {
+                Files.move(directory.toPath(), trashDirectory.toPath());
+
+            } catch (final IOException exception) {
+                this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't delete World %s", context.getName()), exception);
+                this.restoreAfterFailedDelete(audience, context, loaded);
+                return WorldDeletionResult.DELETE_FAILED;
+            }
+        }
         this.repository.delete(context);
         this.registry.unregister(context);
+
+        if (trashDirectory.exists()) {
+            Bukkit.getScheduler().runTaskAsynchronously(this.multiWorldApi, () -> {
+                try {
+                    FileUtils.deleteDirectory(trashDirectory);
+
+                } catch (final IOException exception) {
+                    this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't remove deleted World directory %s", trashDirectory), exception);
+                }
+            });
+        }
 
         audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.COMMAND_WORLD_DELETE_FINISHING)
                 .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(context.getName())));
@@ -175,12 +209,38 @@ public class DefaultWorldFactory implements WorldFactory {
                 .setEnvironment(WorldEnvironment.ofBukkit(world.getEnvironment()))
                 .setType(WorldType.ofBukkit(world.getWorldType()))
                 .setSeed(world.getSeed())
+                .setDirectory(new WorldDirectory(world.getWorldFolder()))
                 .build();
 
-        this.repository.insert(worldContext);
-        this.registry.register(worldContext);
+        return this.register(worldContext);
+    }
 
-        return worldContext;
+    @NotNull
+    private WorldContext register(@NotNull final WorldContext context) {
+        final Optional<WorldContext> registeredContext = this.registry.find(context.getKey());
+
+        if (registeredContext.isPresent()) {
+            return registeredContext.get();
+        }
+
+        if (this.repository.exists(context)) {
+            this.repository.delete(context);
+        }
+        this.repository.insert(context);
+        this.registry.register(context);
+        return context;
+    }
+
+    private void restoreAfterFailedDelete(@NotNull final Audience audience, @NotNull final WorldContext context, final boolean loaded) {
+        if (loaded) {
+            this.multiWorldApi.getWorldManager().load(audience, context.getKey());
+        }
+        this.sendDeleteFailed(audience, context);
+    }
+
+    private void sendDeleteFailed(@NotNull final Audience audience, @NotNull final WorldContext context) {
+        audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.COMMAND_WORLD_DELETE_FAILED)
+                .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(context.getName())));
     }
 
 }

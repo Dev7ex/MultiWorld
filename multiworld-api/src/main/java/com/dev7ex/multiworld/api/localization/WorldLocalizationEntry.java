@@ -38,6 +38,7 @@ public enum WorldLocalizationEntry  {
     COMMAND_WORLD_BACKUP_RESTORE_STARTING,
     COMMAND_WORLD_BACKUP_RESTORE_CANCELLED,
     COMMAND_WORLD_BACKUP_RESTORE_FINISHING,
+    COMMAND_WORLD_BACKUP_RESTORE_FAILED,
 
     // /world clone
     COMMAND_WORLD_CLONE_USAGE,
@@ -76,6 +77,7 @@ public enum WorldLocalizationEntry  {
     COMMAND_WORLD_DELETE_STARTING,
     COMMAND_WORLD_DELETE_CANCELLED,
     COMMAND_WORLD_DELETE_FINISHING,
+    COMMAND_WORLD_DELETE_FAILED,
 
     COMMAND_WORLD_FLAG_USAGE,
 
@@ -198,6 +200,7 @@ public enum WorldLocalizationEntry  {
     MESSAGE_WORLD_BACKUP_CREATION_DELAY("message.world.backup.creation-delay"),
     MESSAGE_WORLD_BACKUP_NO_ENTRIES("message.world.backup.no-entries"),
     MESSAGE_WORLD_BACKUP_NOT_EXISTS("message.world.backup.not-exists"),
+    MESSAGE_WORLD_BACKUP_IN_PROGRESS("message.world.backup.in-progress"),
 
     MESSAGE_WORLD_FLAG_SUCCESSFULLY_SET("message.world.flag.successfully-set"),
 

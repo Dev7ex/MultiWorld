@@ -66,7 +66,8 @@
           "usage": "%prefix% §cVerwendung: /world backup restore <Welt> <Backup>",
           "starting": "%prefix% §7Stelle Backup §a%world_backup_name% §7für Welt §a%world_name% §7wieder her...",
           "cancelled": "%prefix% §7Das Wiederherstellen des §a%world_backup_name% §7wurde §cabgebrochen §8[§cREASON§8]",
-          "finishing": "%prefix% §7Backup §a%world_backup_name% §7für Welt §a%world_name% §7wurde erfolgreich wiederhergestellt"
+          "finishing": "%prefix% §7Backup §a%world_backup_name% §7für Welt §a%world_name% §7wurde erfolgreich wiederhergestellt",
+          "failed": "%prefix% §cDas Backup §6%world_backup_name% §cfür die Welt §6%world_name% §ckonnte nicht wiederhergestellt werden. Details stehen in der Konsole"
         }
       },
       "blacklist": {
@@ -147,7 +148,8 @@
         "usage": "%prefix% §cVerwendung: /world delete <World>",
         "starting": "%prefix% §7Die Welt §a%world_name% §7wird gelöscht...",
         "cancelled": "%prefix% §7Das Löschen der Welt §a%world_name% §7wurde §cabgebrochen",
-        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich gelöscht!"
+        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich gelöscht!",
+        "failed": "%prefix% §cDie Welt §6%world_name% §ckonnte nicht gelöscht werden. Details stehen in der Konsole"
       },
       "help": {
         "usage": "%prefix% §cVerwendung: /world help <Seite>",
@@ -375,7 +377,8 @@
       "backup": {
         "creation-delay": "%prefix% §7Bitte warte noch §a%seconds% §7Sekunden bevor du ein neues Backup für §a%world_name% §7erstellst",
         "no-entries": "%prefix% §cDie Welt §6%world_name% §chat keine Backups",
-        "not-exists": "%prefix% §cEs wurde kein Backup mit dem Zeitstempel §6%world_backup_name% §cgefunden"
+        "not-exists": "%prefix% §cEs wurde kein Backup mit dem Zeitstempel §6%world_backup_name% §cgefunden",
+        "in-progress": "%prefix% §cFür die Welt §6%world_name% §cläuft gerade ein anderer Backup-Vorgang"
       },
       "flag": {
         "successfully-set": "%prefix% §7Du hast den Wert §a%value% §7für die Flag §a%flag_name% §7in der Welt §a%world_name% §7erfolgreich gesetzt"

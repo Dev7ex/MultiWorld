@@ -41,4 +41,10 @@ public interface WorldBackupRegistry extends WorldModule {
     @NotNull
     Map<WorldContext, NavigableSet<WorldBackup>> getWorldBackups();
 
+    boolean lock(@NotNull final WorldContext context);
+
+    void unlock(@NotNull final WorldContext context);
+
+    boolean isLocked(@NotNull final WorldContext context);
+
 }
