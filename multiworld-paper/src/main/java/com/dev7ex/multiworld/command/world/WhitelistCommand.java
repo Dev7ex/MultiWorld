@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * @author Dev7ex
- * @since 04.01.2025
+ * @since 29.06.2023
  */
 @PaperCommandProperties(name = "whitelist", permission = "multiworld.command.world.whitelist")
 public class WhitelistCommand extends PaperCommand implements ArgumentTabCompleter {
