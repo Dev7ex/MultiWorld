@@ -73,6 +73,12 @@ public class DefaultWorldFactory implements WorldFactory {
 
     @Override
     public @Nullable WorldContext create(@NotNull final Audience audience, @NotNull final WorldCreator worldCreator) {
+        if (this.multiWorldApi.getScheduler().isRegionized()) {
+            this.multiWorldApi.getLogger().warning(String.format("Can't create World %s: Folia doesn't support creating Worlds while running", worldCreator.name()));
+            audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.MESSAGE_WORLD_RUNTIME_UNSUPPORTED)
+                    .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(worldCreator.name())));
+            return null;
+        }
         audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_STARTING)
                 .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(worldCreator.name())));
 
@@ -173,7 +179,7 @@ public class DefaultWorldFactory implements WorldFactory {
         this.registry.unregister(context);
 
         if (trashDirectory.exists()) {
-            Bukkit.getScheduler().runTaskAsynchronously(this.multiWorldApi, () -> {
+            this.multiWorldApi.getScheduler().runTaskAsynchronously(() -> {
                 try {
                     FileUtils.deleteDirectory(trashDirectory);
 

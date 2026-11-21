@@ -47,7 +47,7 @@ public class DefaultWorldBackupManager implements WorldBackupManager {
     public @NotNull CompletableFuture<Void> restore(@NotNull final Audience audience, @NotNull final WorldContext worldContext, @NotNull final WorldBackup backup) {
         final CompletableFuture<Void> future = new CompletableFuture<>();
 
-        Bukkit.getScheduler().runTask(this.multiWorldApi, () -> {
+        this.multiWorldApi.getScheduler().runTask(() -> {
             try {
                 this.startRestore(audience, worldContext, backup, future);
 
@@ -117,7 +117,7 @@ public class DefaultWorldBackupManager implements WorldBackupManager {
             return;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(this.multiWorldApi, () -> {
+        this.multiWorldApi.getScheduler().runTaskAsynchronously(() -> {
             Throwable failure = null;
 
             try {
@@ -129,7 +129,7 @@ public class DefaultWorldBackupManager implements WorldBackupManager {
             final Throwable result = failure;
 
             try {
-                Bukkit.getScheduler().runTask(this.multiWorldApi, () -> {
+                this.multiWorldApi.getScheduler().runTask(() -> {
                     backupRegistry.unlock(worldContext);
                     this.completeRestore(audience, worldContext, backup, loaded, result, future);
                 });

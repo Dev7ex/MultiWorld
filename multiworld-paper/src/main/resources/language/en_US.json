@@ -424,6 +424,7 @@
       "invalid-seed": "%prefix% §7Der angegebene Seed §6%seed% §7ist §cnicht gültig§7",
       "invalid-type": "%prefix% §7Der Welt-Typ §6%world_type% §7ist §cnicht gültig§7",
       "unload-protected": "%prefix% §7Die Welt §a%world_name% §7ist gegen das Entladen geschützt",
+      "runtime-unsupported": "%prefix% §7The world §a%world_name% §7can't be created, loaded or unloaded at runtime on Folia",
       "whitelist-blocked": "%prefix% §7Du darfst diese Welt nicht betreten, da du §cnicht §7auf der Whitelist stehst"
     },
     "validation": {

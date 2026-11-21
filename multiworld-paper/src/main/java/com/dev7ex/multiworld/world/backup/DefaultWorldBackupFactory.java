@@ -1,7 +1,6 @@
 
 package com.dev7ex.multiworld.world.backup;
 
-import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.event.world.backup.WorldBackupClearEvent;
 import com.dev7ex.multiworld.api.event.world.backup.WorldBackupCreateEvent;
@@ -252,7 +251,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                 future.completeExceptionally(throwable);
             }
         } else {
-            Bukkit.getScheduler().runTask(MultiWorldPlugin.getInstance(), () -> {
+            this.multiWorldApi.getScheduler().runTask(() -> {
                 try {
                     future.complete(supplier.get());
                 } catch (final Throwable throwable) {
