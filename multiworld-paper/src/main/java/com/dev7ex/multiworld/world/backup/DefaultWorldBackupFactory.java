@@ -15,15 +15,27 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.plugin.IllegalPluginAccessException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BooleanSupplier;
 import java.util.logging.Level;
 
 /**
@@ -32,8 +44,13 @@ import java.util.logging.Level;
  */
 public class DefaultWorldBackupFactory implements WorldBackupFactory {
 
+    private static final String REGION_FILE_IO_CLASS = "ca.spottedleaf.moonrise.patches.chunk_system.io.MoonriseRegionFileIO";
+    private static final long WRITE_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(2);
+    private static final long WRITE_POLL_MILLIS = 250L;
+
     private final MultiWorldApi multiWorldApi;
     private final File backupDirectory;
+    private final Map<UUID, Boolean> pausedAutoSaves = new ConcurrentHashMap<>();
 
     public DefaultWorldBackupFactory(@NotNull final MultiWorldApi multiWorldApi) {
         this.multiWorldApi = multiWorldApi;
@@ -43,6 +60,8 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
     @Override
     public @NotNull CompletableFuture<WorldBackup> create(@NotNull final Audience audience, @NotNull final WorldContext context) {
         final AtomicReference<Path> worldFolder = new AtomicReference<>();
+        final AtomicReference<UUID> worldId = new AtomicReference<>();
+        final AtomicReference<BooleanSupplier> pendingWrites = new AtomicReference<>();
 
         return this.sync(() -> {
             if (this.multiWorldApi.getBackupRegistry().isLocked(context)) {
@@ -74,13 +93,24 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                 return null;
             }
 
+            this.multiWorldApi.getBackupRegistry().lock(context);
+
             if (context.isLoaded()) {
                 final World world = context.getWorld();
                 if (world != null) {
-                    world.save();
+                    worldId.set(world.getUID());
+                    this.pauseAutoSave(world);
+
+                    try {
+                        pendingWrites.set(this.saveWorld(world));
+
+                    } catch (final RuntimeException | Error exception) {
+                        this.resumeAutoSave(world.getUID());
+                        this.multiWorldApi.getBackupRegistry().unlock(context);
+                        throw exception;
+                    }
                 }
             }
-            this.multiWorldApi.getBackupRegistry().lock(context);
 
             return event;
         }).thenCompose(event -> {
@@ -97,6 +127,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                     }
 
                     Files.createDirectories(worldBackupDirectory);
+                    this.awaitWrites(pendingWrites.get(), context);
 
                     final WorldBackup backup = event.getWorldBackup();
 
@@ -114,8 +145,138 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                     audience.sendMessage(Component.text("§cFehler beim Erstellen des Backups: " + e.getMessage()));
                     throw new CompletionException(e);
                 }
-            }).whenComplete((backup, throwable) -> this.multiWorldApi.getBackupRegistry().unlock(context));
+            }).whenComplete((backup, throwable) -> {
+                pendingWrites.set(null);
+                this.finishBackup(context, worldId.get());
+            });
         });
+    }
+
+    public void resumeAutoSaves() {
+        for (final UUID worldId : List.copyOf(this.pausedAutoSaves.keySet())) {
+            this.resumeAutoSave(worldId);
+        }
+    }
+
+    private void pauseAutoSave(@NotNull final World world) {
+        this.pausedAutoSaves.putIfAbsent(world.getUID(), world.isAutoSave());
+        world.setAutoSave(false);
+    }
+
+    private void resumeAutoSave(@NotNull final UUID worldId) {
+        final Boolean autoSave = this.pausedAutoSaves.remove(worldId);
+
+        if (autoSave == null) {
+            return;
+        }
+        final World world = Bukkit.getWorld(worldId);
+
+        if (world != null) {
+            world.setAutoSave(autoSave);
+        }
+    }
+
+    private void finishBackup(@NotNull final WorldContext context, @Nullable final UUID worldId) {
+        if (worldId == null) {
+            this.multiWorldApi.getBackupRegistry().unlock(context);
+            return;
+        }
+
+        try {
+            this.sync(() -> {
+                try {
+                    this.resumeAutoSave(worldId);
+
+                } finally {
+                    this.multiWorldApi.getBackupRegistry().unlock(context);
+                }
+                return null;
+            });
+
+        } catch (final IllegalPluginAccessException exception) {
+            this.multiWorldApi.getBackupRegistry().unlock(context);
+        }
+    }
+
+    @Nullable
+    private BooleanSupplier saveWorld(@NotNull final World world) {
+        final BooleanSupplier pendingWrites = this.findPendingWrites(world);
+
+        if (pendingWrites != null) {
+            world.save();
+            return pendingWrites;
+        }
+
+        this.multiWorldApi.getLogger().info(String.format("Region write tracking isn't available, flushing World %s on the main thread", world.getName()));
+
+        try {
+            world.save(true);
+
+        } catch (final NoSuchMethodError exception) {
+            world.save();
+        }
+        return null;
+    }
+
+    @Nullable
+    private BooleanSupplier findPendingWrites(@NotNull final World world) {
+        try {
+            final ClassLoader classLoader = world.getClass().getClassLoader();
+            final Object level = world.getClass().getMethod("getHandle").invoke(world);
+            final Class<?> regionFileIoClass = Class.forName(DefaultWorldBackupFactory.REGION_FILE_IO_CLASS, false, classLoader);
+            final Class<?> regionFileTypeClass = Class.forName(DefaultWorldBackupFactory.REGION_FILE_IO_CLASS + "$RegionFileType", false, classLoader);
+            final Class<?> controllerClass = Class.forName(DefaultWorldBackupFactory.REGION_FILE_IO_CLASS + "$RegionDataController", false, classLoader);
+            final Method controllerMethod = Arrays.stream(regionFileIoClass.getMethods())
+                    .filter(method -> (method.getName().equals("getControllerFor")) && (method.getParameterCount() == 2))
+                    .findFirst()
+                    .orElseThrow(() -> new NoSuchMethodException("getControllerFor"));
+            final Method hasTasksMethod = controllerClass.getMethod("hasTasks");
+            final List<Object> controllers = new ArrayList<>();
+
+            for (final Object regionFileType : regionFileTypeClass.getEnumConstants()) {
+                controllers.add(controllerMethod.invoke(null, level, regionFileType));
+            }
+
+            final BooleanSupplier pendingWrites = () -> {
+                for (final Object controller : controllers) {
+                    try {
+                        if ((boolean) hasTasksMethod.invoke(controller)) {
+                            return true;
+                        }
+
+                    } catch (final IllegalAccessException | InvocationTargetException exception) {
+                        throw new IllegalStateException("Can't check pending region writes", exception);
+                    }
+                }
+                return false;
+            };
+            pendingWrites.getAsBoolean();
+            return pendingWrites;
+
+        } catch (final ReflectiveOperationException | RuntimeException | LinkageError exception) {
+            return null;
+        }
+    }
+
+    private void awaitWrites(@Nullable final BooleanSupplier pendingWrites, @NotNull final WorldContext context) {
+        if (pendingWrites == null) {
+            return;
+        }
+        final long deadline = System.currentTimeMillis() + DefaultWorldBackupFactory.WRITE_TIMEOUT_MILLIS;
+
+        while (pendingWrites.getAsBoolean()) {
+            if (System.currentTimeMillis() > deadline) {
+                throw new IllegalStateException(String.format("World %s is still writing region files, backup aborted", context.getName()));
+            }
+
+            try {
+                Thread.sleep(DefaultWorldBackupFactory.WRITE_POLL_MILLIS);
+
+            } catch (final InterruptedException exception) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException(String.format("Backup of World %s was interrupted", context.getName()), exception);
+            }
+        }
     }
 
     @Override
