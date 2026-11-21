@@ -155,6 +155,9 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
     @Override
     public void onDisable() {
+        if (this.backupFactory instanceof final DefaultWorldBackupFactory defaultBackupFactory) {
+            defaultBackupFactory.resumeAutoSaves();
+        }
         this.moduleManager.disableAll();
 
         MultiWorldApiProvider.unregister();
