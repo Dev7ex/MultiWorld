@@ -20,6 +20,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
+/**
+ * @author Dev7ex
+ * @since 20.05.2021
+ */
 @PaperCommandProperties(name = "list", permission = "multiworld.command.world.list")
 public class ListCommand extends PaperCommand implements EmptyTabCompleter {
 
