@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 
 /**
  * @author Dev7ex
- * @since 18.04.2025
+ * @since 18.06.2023
  */
 @PaperCommandProperties(name = "help", permission = "multiworld.command.world")
 public class HelpCommand extends PaperCommand implements ArgumentTabCompleter {
