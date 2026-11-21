@@ -15,10 +15,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
- *
  * @author Dev7ex
  * @since 05.01.2025
- *
  */
 @PaperCommandProperties(name = "setspawn", permission = "multiworld.command.world.setspawn")
 public class SetSpawnCommand extends PaperCommand implements EmptyTabCompleter {
