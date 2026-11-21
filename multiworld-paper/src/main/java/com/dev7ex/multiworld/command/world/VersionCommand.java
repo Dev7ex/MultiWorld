@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * @author Dev7ex
- * @since 04.01.2025
+ * @since 22.07.2024
  */
 @PaperCommandProperties(name = "version", permission = "multiworld.command.world.version")
 public class VersionCommand extends PaperCommand implements ArgumentTabCompleter {
@@ -31,12 +31,12 @@ public class VersionCommand extends PaperCommand implements ArgumentTabCompleter
     }
 
     @Override
-    public void execute(@NotNull CommandSender commandSender, @NotNull PaperCommandArgument[] paperCommandArguments) {
+    public void execute(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] paperCommandArguments) {
 
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull PaperCommandArgument[] paperCommandArguments) {
+    public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] paperCommandArguments) {
         return List.of();
     }
 
