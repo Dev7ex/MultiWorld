@@ -21,7 +21,7 @@ import java.util.Objects;
 
 /**
  * @author Dev7ex
- * @since 04.01.2025
+ * @since 19.06.2023
  */
 @PaperCommandProperties(name = "backup", permission = "multiworld.command.world.backup")
 public class BackupCommand extends PaperCommand implements ArgumentTabCompleter {
