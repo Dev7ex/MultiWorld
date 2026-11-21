@@ -1,3 +1,4 @@
+
 package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.multicommon.api.command.PaperCommand;
@@ -7,17 +8,14 @@ import com.dev7ex.multicommon.api.command.completer.ArgumentTabCompleter;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
-import com.dev7ex.multiworld.command.world.backup.*;
-import com.dev7ex.multiworld.command.world.backup.CreateCommand;
-import com.dev7ex.multiworld.command.world.backup.DeleteCommand;
-import com.dev7ex.multiworld.command.world.backup.HelpCommand;
-import com.dev7ex.multiworld.command.world.backup.ListCommand;
+import com.dev7ex.multiworld.command.world.backup.ClearCommand;
+import com.dev7ex.multiworld.command.world.backup.RestoreCommand;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 
 /**
  * @author Dev7ex
@@ -27,26 +25,28 @@ import java.util.Objects;
 public class BackupCommand extends PaperCommand implements ArgumentTabCompleter {
 
     private final WorldLocalizationRegistry localizationRegistry;
+    private final HelpCommand helpCommand;
 
     public BackupCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
         this.localizationRegistry = plugin.getLocalizationRegistry();
+        this.helpCommand = new HelpCommand(plugin);
 
         this.registerSubCommand(new ClearCommand(plugin));
         this.registerSubCommand(new CreateCommand(plugin));
         this.registerSubCommand(new DeleteCommand(plugin));
-        this.registerSubCommand(new HelpCommand(plugin));
+        this.registerSubCommand(this.helpCommand);
         this.registerSubCommand(new ListCommand(plugin));
         this.registerSubCommand(new RestoreCommand(plugin));
     }
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        if ((arguments.length == 1) || (arguments.length > 5)) {
-            Objects.requireNonNull(super.findSubCommand(HelpCommand.class)).execute(commandSender, arguments);
+        if ((arguments.length < 2) || (arguments.length > 5)) {
+            this.helpCommand.execute(commandSender, arguments);
             return;
         }
-        final String subCommandName = arguments[1].asString().toLowerCase();
+        final String subCommandName = arguments[1].asString().toLowerCase(Locale.ROOT);
 
         super.findSubCommand(subCommandName).ifPresentOrElse(subCommand -> {
             if ((subCommand.hasPermission()) && (!commandSender.hasPermission(subCommand.getPermission()))) {
@@ -55,7 +55,7 @@ public class BackupCommand extends PaperCommand implements ArgumentTabCompleter 
             }
             subCommand.execute(commandSender, arguments);
 
-        }, () -> Objects.requireNonNull(super.findSubCommand(HelpCommand.class)).execute(commandSender, arguments));
+        }, () -> this.helpCommand.execute(commandSender, arguments));
     }
 
     @Override
@@ -65,12 +65,15 @@ public class BackupCommand extends PaperCommand implements ArgumentTabCompleter 
         }
 
         if (arguments.length == 2) {
+            final String input = arguments[1].asString().toLowerCase(Locale.ROOT);
+
             return super.getSubCommands().values().stream()
                     .filter(subCommand -> !subCommand.hasPermission() || commandSender.hasPermission(subCommand.getPermission()))
-                    .map(subCommand -> subCommand.getName().toLowerCase())
+                    .map(subCommand -> subCommand.getName().toLowerCase(Locale.ROOT))
+                    .filter(name -> name.startsWith(input))
                     .toList();
         }
-        final String subCommandName = arguments[1].asString().toLowerCase();
+        final String subCommandName = arguments[1].asString().toLowerCase(Locale.ROOT);
 
         return super.findSubCommand(subCommandName)
                 .filter(subCommand -> !subCommand.hasPermission() || commandSender.hasPermission(subCommand.getPermission()))
