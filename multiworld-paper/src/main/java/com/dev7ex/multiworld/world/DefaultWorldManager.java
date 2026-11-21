@@ -57,6 +57,11 @@ public class DefaultWorldManager implements WorldManager {
         if (Bukkit.getWorld(key) != null) {
             return WorldLifecycleResult.ALREADY_LOADED;
         }
+
+        if (this.multiWorldApi.getScheduler().isRegionized()) {
+            this.multiWorldApi.getLogger().warning(String.format("Can't load World %s: Folia doesn't support loading Worlds while running", key));
+            return WorldLifecycleResult.UNSUPPORTED;
+        }
         final Optional<WorldContext> optionalContext = this.multiWorldApi.getWorldRegistry().find(key);
 
         if (optionalContext.isEmpty()) {
@@ -116,6 +121,11 @@ public class DefaultWorldManager implements WorldManager {
 
         if (world == null) {
             return WorldLifecycleResult.NOT_LOADED;
+        }
+
+        if (this.multiWorldApi.getScheduler().isRegionized()) {
+            this.multiWorldApi.getLogger().warning(String.format("Can't unload World %s: Folia doesn't support unloading Worlds while running", world.getName()));
+            return WorldLifecycleResult.UNSUPPORTED;
         }
         final World defaultWorld = Bukkit.getWorlds().get(0);
 
@@ -217,7 +227,7 @@ public class DefaultWorldManager implements WorldManager {
         if (leftovers.isEmpty()) {
             return;
         }
-        Bukkit.getScheduler().runTaskAsynchronously(this.multiWorldApi, () -> {
+        this.multiWorldApi.getScheduler().runTaskAsynchronously(() -> {
             for (final File leftover : leftovers) {
                 try {
                     FileUtils.deleteDirectory(leftover);

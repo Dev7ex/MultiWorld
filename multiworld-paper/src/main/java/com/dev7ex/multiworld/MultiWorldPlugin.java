@@ -8,10 +8,12 @@ import com.dev7ex.multiworld.api.MultiWorldApiProvider;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
 import com.dev7ex.multiworld.api.module.WorldModuleManager;
 import com.dev7ex.multiworld.api.permission.MultiWorldPermission;
+import com.dev7ex.multiworld.api.scheduler.WorldScheduler;
 import com.dev7ex.multiworld.api.user.WorldUserFactory;
 import com.dev7ex.multiworld.api.user.WorldUserRegistry;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryFactory;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryRegistry;
+import com.dev7ex.multiworld.api.util.BukkitUtil;
 import com.dev7ex.multiworld.api.world.WorldContext;
 import com.dev7ex.multiworld.api.world.WorldFactory;
 import com.dev7ex.multiworld.api.world.WorldManager;
@@ -33,6 +35,8 @@ import com.dev7ex.multiworld.command.WorldCommand;
 import com.dev7ex.multiworld.listener.plugin.MultiWorldFileChangeListener;
 import com.dev7ex.multiworld.localization.DefaultWorldLocalizationRegistry;
 import com.dev7ex.multiworld.module.DefaultWorldModuleManager;
+import com.dev7ex.multiworld.scheduler.BukkitWorldScheduler;
+import com.dev7ex.multiworld.scheduler.PaperWorldScheduler;
 import com.dev7ex.multiworld.user.DefaultWorldUserFactory;
 import com.dev7ex.multiworld.user.DefaultWorldUserRegistry;
 import com.dev7ex.multiworld.world.DefaultWorldFactory;
@@ -52,7 +56,6 @@ import com.dev7ex.multiworld.world.group.DefaultWorldGroupRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -69,6 +72,9 @@ import java.util.List;
 @Setter(AccessLevel.PUBLIC)
 public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, ConfigurationHolder {
 
+    private static final String PAPER_SCHEDULER_CLASS = "io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler";
+    private static final String FOLIA_SERVER_CLASS = "io.papermc.paper.threadedregions.RegionizedServer";
+
     private MultiWorldConfiguration configuration;
 
     private WorldGeneratorRepository generatorRepository;
@@ -79,6 +85,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
     private WorldBackupManager backupManager;
     private WorldManager worldManager;
     private WorldResolver worldResolver;
+    private WorldScheduler scheduler;
 
     private WorldLocalizationRegistry localizationRegistry;
     private WorldUserInventoryRegistry userInventoryRegistry;
@@ -123,6 +130,8 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
     @Override
     public void onEnable() {
+        this.registerScheduler();
+
         MultiWorldApiProvider.register(this);
 
         this.fileMonitor = new PluginFileMonitor(this, new MultiWorldFileChangeListener(this));
@@ -145,7 +154,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
         this.moduleManager.enableAll();
 
-        Bukkit.getScheduler().runTask(this, () -> {
+        this.scheduler.runTask(() -> {
             if (this.worldManager instanceof final DefaultWorldManager defaultWorldManager) {
                 defaultWorldManager.cleanup();
             }
@@ -172,6 +181,11 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         if (worlds.isEmpty()) {
             return;
         }
+
+        if (this.scheduler.isRegionized()) {
+            super.getLogger().warning(String.format("Folia can't load Worlds while running, [%d] World(s) not loaded", worlds.size()));
+            return;
+        }
         int loaded = 0;
 
         for (final WorldContext context : worlds) {
@@ -180,6 +194,14 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
             }
         }
         super.getLogger().info(String.format("Loaded [%d/%d] World(s)", loaded, worlds.size()));
+    }
+
+    private void registerScheduler() {
+        if (!BukkitUtil.isClassPresent(MultiWorldPlugin.PAPER_SCHEDULER_CLASS)) {
+            this.scheduler = new BukkitWorldScheduler(this);
+            return;
+        }
+        this.scheduler = new PaperWorldScheduler(this, BukkitUtil.isClassPresent(MultiWorldPlugin.FOLIA_SERVER_CLASS));
     }
 
     @Override

@@ -939,6 +939,7 @@
       "invalid-seed": "%prefix% §7The specified seed §6%seed% §7is §cinvalid§7",
       "invalid-type": "%prefix% §7Der World-Typ §6%world_type% §7is §cinvalid§7",
       "unload-protected": "%prefix% §7Die World §a%world_name% §7is protected from unloading",
+      "runtime-unsupported": "%prefix% §7The world §a%world_name% §7can't be created, loaded or unloaded at runtime on Folia",
       "whitelist-blocked": "%prefix% §7Du darfst diese World nicht betreten, da du §cnicht §7auf der Whitelist stehst"
     },
     "validation": {

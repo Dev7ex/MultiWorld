@@ -242,6 +242,7 @@ public enum WorldLocalizationEntry  {
     MESSAGE_WORLD_INVALID_TYPE("message.world.invalid-type"),
 
     MESSAGE_WORLD_UNLOAD_PROTECTED("message.world.unload-protected"),
+    MESSAGE_WORLD_RUNTIME_UNSUPPORTED("message.world.runtime-unsupported"),
 
     MESSAGE_WORLD_WHITELIST_BLOCKED("message.world.whitelist-blocked"),
 
