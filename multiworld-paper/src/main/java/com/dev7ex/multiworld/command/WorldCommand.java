@@ -27,17 +27,33 @@ public class WorldCommand extends PaperCommand implements ArgumentTabCompleter {
 
     public WorldCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
-
         this.localizationRegistry = plugin.getLocalizationRegistry();
 
         this.registerSubCommand(new BackupCommand(plugin));
+        this.registerSubCommand(new BlacklistCommand(plugin));
+        this.registerSubCommand(new CloneCommand(plugin));
+        this.registerSubCommand(new ConfigCommand(plugin));
+        this.registerSubCommand(new ConfirmCommand(plugin));
         this.registerSubCommand(new CreateCommand(plugin));
-        super.registerSubCommand(new HelpCommand(plugin));
+        this.registerSubCommand(new DebugCommand(plugin));
+        this.registerSubCommand(new DeleteCommand(plugin));
+        this.registerSubCommand(new FlagCommand(plugin));
+        this.registerSubCommand(new GameRuleCommand(plugin));
+        this.registerSubCommand(new GeneratorCommand(plugin));
+        this.registerSubCommand(new GroupCommand(plugin));
+        this.registerSubCommand(new HelpCommand(plugin));
+        this.registerSubCommand(new ImportCommand(plugin));
+        this.registerSubCommand(new InfoCommand(plugin));
+        this.registerSubCommand(new LanguageCommand(plugin));
+        this.registerSubCommand(new LinkCommand(plugin));
         this.registerSubCommand(new ListCommand(plugin));
         this.registerSubCommand(new LoadCommand(plugin));
-        this.registerSubCommand(new TeleportCommand(plugin));
+        this.registerSubCommand(new RenameCommand(plugin));
         this.registerSubCommand(new SetSpawnCommand(plugin));
+        this.registerSubCommand(new TeleportCommand(plugin));
         this.registerSubCommand(new UnloadCommand(plugin));
+        this.registerSubCommand(new VersionCommand(plugin));
+        this.registerSubCommand(new WhitelistCommand(plugin));
     }
 
     @Override
