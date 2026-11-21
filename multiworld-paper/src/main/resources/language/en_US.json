@@ -3,350 +3,853 @@
     "world": {
       "backup": {
         "clear": {
-          "usage": "%prefix% §cVerwendung: /world backup clear <Welt>",
-          "starting": "%prefix% §7Alle Backups der Welt §a%world_name% §7werden gelöscht",
-          "cancelled": "%prefix% §7Das Löschen der Backups für §a%world_name% §7wurde §cabgebrochen §8[§cREASON§8]",
-          "finishing": "%prefix% §7Alle Backups der Welt §a%world_name% §7wurden erfolgreich gelöscht"
+          "usage": "%prefix% §cUsage: /world backup clear <World>",
+          "starting": "%prefix% §7All backups der World §a%world_name% §7are being deleted",
+          "cancelled": "%prefix% §7Deleting der Backups für §a%world_name% §7wurde §cabgebrochen §8[§cREASON§8]",
+          "finishing": "%prefix% §7All backups der World §a%world_name% §7were successfully deleted"
         },
         "create": {
-          "usage": "%prefix% §cVerwendung: /world backup create <Welt>",
-          "starting": "%prefix% §7Backup für die Welt §a%world_name% §7wird vorbereitet",
-          "cancelled": "%prefix% §7Das Erstellen des Backups für §a%world_name% §7wurde §cabgebrochen §8[§cREASON§8]",
-          "finishing": "%prefix% §7Backup für die Welt §a%world_name% §7wurde erfolgreich erstellt"
+          "usage": "%prefix% §cUsage: /world backup create <World>",
+          "starting": "%prefix% §7Backup für die World §a%world_name% §7is being prepared",
+          "cancelled": "%prefix% §7Creating des Backups für §a%world_name% §7wurde §cabgebrochen §8[§cREASON§8]",
+          "finishing": "%prefix% §7Backup für die World §a%world_name% §7was successfully created"
         },
         "delete": {
-          "usage": "%prefix% §cVerwendung: /world backup delete <Welt> <Backup>",
-          "starting": "%prefix% §7Backup §a%world_backup_name% §7der Welt §a%world_name% §7wird gelöscht",
-          "cancelled": "%prefix% §7Das Löschen des Backups §a%world_backup_name% §7wurde §cabgebrochen §8[§cREASON§8]",
-          "finishing": "%prefix% §7Backup §a%world_backup_name% §7der Welt §a%world_name% §7wurde erfolgreich gelöscht"
+          "usage": "%prefix% §cUsage: /world backup delete <World> <Backup>",
+          "starting": "%prefix% §7Backup §a%world_backup_name% §7der World §a%world_name% §7is being deleted",
+          "cancelled": "%prefix% §7Deleting des Backups §a%world_backup_name% §7wurde §cabgebrochen §8[§cREASON§8]",
+          "finishing": "%prefix% §7Backup §a%world_backup_name% §7der World §a%world_name% §7was successfully deleted"
         },
         "help": {
           "1": [
             {
-              "text": "§7» §7/world backup §bclear §7<Welt>",
-              "hover": "§7Löscht alle Backups dieser Welt \n \n§9Beispiel: §7/world backup clear world \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world backup clear "}
+              "text": "§7» §7/world backup §bclear §7<World>",
+              "hover": "§7Löscht alle Backups dieser World \n \n§9Example: §7/world backup clear world \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world backup clear "
+              }
             },
             {
-              "text": "§7» §7/world backup §bcreate §7<Welt>",
-              "hover": "§7Erstellt ein Backup der angegebenen Welt. \n \n§9Beispiel: §7/world backup create world \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world backup create "}
+              "text": "§7» §7/world backup §bcreate §7<World>",
+              "hover": "§7Creates a backup of the specified world. \n \n§9Example: §7/world backup create world \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world backup create "
+              }
             },
             {
-              "text": "§7» §7/world backup §bdelete §7<Welt> <Backup>",
-              "hover": "§7Löscht ein ausgewähltes Backup dauerhaft \n \n§9Beispiel: \n§7/world backup delete world <Zeit> \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world backup delete "}
+              "text": "§7» §7/world backup §bdelete §7<World> <Backup>",
+              "hover": "§7Permanently deletes the selected backup \n \n§9Example: \n§7/world backup delete world <Time> \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world backup delete "
+              }
             },
             {
-              "text": "§7» §7/world backup §bhelp §7<Seite>",
-              "hover": "§7Zeigt eine Hilfeseite an. \n \n§9Beispiel: §7/world backup help 1 \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world backup help "}
+              "text": "§7» §7/world backup §bhelp §7<Page>",
+              "hover": "§7Displays a help page. \n \n§9Example: §7/world backup help 1 \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world backup help "
+              }
             },
             {
-              "text": "§7» §7/world backup §blist §7<Welt>",
-              "hover": "§7Zeigt alle Backups für die Welt. \n \n§9Beispiel: §7/world backup list world \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world backup list "}
+              "text": "§7» §7/world backup §blist §7<World>",
+              "hover": "§7Zeigt alle Backups für die World. \n \n§9Example: §7/world backup list world \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world backup list "
+              }
             },
             {
-              "text": "§7» §7/world backup §brestore §7<Welt> <Backup>",
-              "hover": "§7Stellt ein Backup wieder her. \n \n§9Beispiel: §7/world backup restore world backup_01 \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world backup restore "}
+              "text": "§7» §7/world backup §brestore §7<World> <Backup>",
+              "hover": "§7Restores a backup. \n \n§9Example: §7/world backup restore world backup_01 \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world backup restore "
+              }
             },
-            {"text": ""},
-            {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-            {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-            {"text": ""}
+            {
+              "text": ""
+            },
+            {
+              "text": "§bTip: §7Use §eTab §7for auto-completion!"
+            },
+            {
+              "text": "§bTip: §7Use the §earrow keys §7to navigate"
+            },
+            {
+              "text": ""
+            }
           ]
         },
         "list": {
-          "usage": "%prefix% §cVerwendung: /world backup list <Welt>",
+          "usage": "%prefix% §cUsage: /world backup list <World>",
           "message": "%prefix% §7Backups: %world_backup_names%"
         },
         "restore": {
-          "usage": "%prefix% §cVerwendung: /world backup restore <Welt> <Backup>",
-          "starting": "%prefix% §7Stelle Backup §a%world_backup_name% §7für Welt §a%world_name% §7wieder her...",
-          "cancelled": "%prefix% §7Das Wiederherstellen des §a%world_backup_name% §7wurde §cabgebrochen §8[§cREASON§8]",
-          "finishing": "%prefix% §7Backup §a%world_backup_name% §7für Welt §a%world_name% §7wurde erfolgreich wiederhergestellt",
-          "failed": "%prefix% §cThe backup §6%world_backup_name% §cfor the world §6%world_name% §ccould not be restored. See the console for details"
+          "usage": "%prefix% §cUsage: /world backup restore <World> <Backup>",
+          "starting": "%prefix% §7Restoring backup §a%world_backup_name% §7für World §a%world_name% §7...",
+          "cancelled": "%prefix% §7Restoring des §a%world_backup_name% §7wurde §cabgebrochen §8[§cREASON§8]",
+          "finishing": "%prefix% §7Backup §a%world_backup_name% §7für World §a%world_name% §7was successfully restored",
+          "failed": "%prefix% §cDas Backup §6%world_backup_name% §cfür die World §6%world_name% §ccould not be restored. See the console for details"
         }
       },
       "blacklist": {
         "add": {
-          "usage": "%prefix% §cVerwendung: /world blacklist <Welt> add <Spieler>",
-          "already-added": "%prefix% §7Der Spieler §a%user_name% §7befindet sich bereits auf der Blacklist",
-          "cancelled": "%prefix% §7Der Spieler §a%user_name% §7wurde §cnicht §7hinzugefügt. Vorgang abgebrochen §8[§cREASON§8]",
-          "successfully-added": "%prefix% §7Du hast den Spieler §a%user_name% §7zur Blacklist der Welt §a%world_name% §7hinzugefügt"
+          "usage": "%prefix% §cUsage: /world blacklist <World> add <Player>",
+          "already-added": "%prefix% §7Der Player §a%user_name% §7is already on the blacklist",
+          "cancelled": "%prefix% §7Der Player §a%user_name% §7was §cnot §7added. Operation cancelled §8[§cREASON§8]",
+          "successfully-added": "%prefix% §7Du hast den Player §a%user_name% §7zur Blacklist der World §a%world_name% §7hinzugefügt"
         },
         "disable": {
-          "usage": "%prefix% §cVerwendung: /world blacklist <Welt> disable",
-          "already-disabled": "%prefix% §7Die Blacklist der Welt §a%world_name% §7ist bereits deaktiviert",
-          "cancelled": "%prefix% §7Das §aAktivieren §7der Blacklist in Welt §a%world_name% §7wurde abgebrochen §8[§cREASON§8]",
-          "successfully-disabled": "%prefix% §7Du hast die Blacklist in der Welt §a%world_name% §7deaktiviert"
+          "usage": "%prefix% §cUsage: /world blacklist <World> disable",
+          "already-disabled": "%prefix% §7The blacklist der World §a%world_name% §7is already disabled",
+          "cancelled": "%prefix% §7Enabling the blacklist in World §a%world_name% §7was cancelled §8[§cREASON§8]",
+          "successfully-disabled": "%prefix% §7You have disabled the blacklist in der World §a%world_name% §7disabled"
         },
         "enable": {
-          "usage": "%prefix% §cVerwendung: /world blacklist <Welt> enable",
-          "already-enabled": "%prefix% §7Die Blacklist der Welt §a%world_name% §7ist bereits aktiviert",
-          "cancelled": "%prefix% §7Das §aAktivieren §7der Blacklist in Welt §a%world_name% §7wurde abgebrochen §8[§cREASON§8]",
-          "successfully-enabled": "%prefix% §7Du hast die Blacklist in der Welt §a%world_name% §7aktiviert"
+          "usage": "%prefix% §cUsage: /world blacklist <World> enable",
+          "already-enabled": "%prefix% §7The blacklist der World §a%world_name% §7is already enabled",
+          "cancelled": "%prefix% §7Enabling the blacklist in World §a%world_name% §7was cancelled §8[§cREASON§8]",
+          "successfully-enabled": "%prefix% §7You have disabled the blacklist in der World §a%world_name% §7enabled"
         },
         "help": {
           "1": [
             {
-              "text": "§7» §7/world blacklist §badd §7<Welt> <Spieler>",
-              "hover": "§7Fügt einen Spieler zur Blacklist hinzu. \n \n§9Beispiel: §7/world blacklist add world Dev7ex \n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world blacklist add "}
+              "text": "§7» §7/world blacklist §badd §7<World> <Player>",
+              "hover": "§7Fügt einen Player zur Blacklist hinzu. \n \n§9Example: §7/world blacklist add world Dev7ex \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world blacklist add "
+              }
             },
             {
-              "text": "§7» §7/world blacklist §bdisable §7<Welt>",
-              "hover": "§7Deaktiviert die Blacklist in der angegebenen Welt. \n \n§9Beispiel: §7/world blacklist disable world \n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world blacklist disable "}
+              "text": "§7» §7/world blacklist §bdisable §7<World>",
+              "hover": "§7Deenabled die Blacklist in der angegebenen World. \n \n§9Example: §7/world blacklist disable world \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world blacklist disable "
+              }
             },
             {
-              "text": "§7» §7/world blacklist §benable §7<Welt>",
-              "hover": "§7Aktiviert die Blacklist in der angegebenen Welt. \n \n§9Beispiel: §7/world blacklist enable world\n\n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world blacklist enable "}
+              "text": "§7» §7/world blacklist §benable §7<World>",
+              "hover": "§7Aktiviert die Blacklist in der angegebenen World. \n \n§9Example: §7/world blacklist enable world\n\n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world blacklist enable "
+              }
             },
             {
               "text": "§7» §7/world blacklist §bhelp",
-              "hover": "§7Zeigt diese Hilfeseite an. \n \n§9Beispiel: §7/world blacklist help 1 \n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world blacklist help"}
+              "hover": "§7Zeigt diese Hilfeseite an. \n \n§9Example: §7/world blacklist help 1 \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world blacklist help"
+              }
             },
             {
-              "text": "§7» §7/world blacklist §blist §7<Welt>",
-              "hover": "§7Zeigt alle Einträge auf der Blacklist dieser Welt. \n \n§9Beispiel: §7/world blacklist list world \n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world blacklist list "}
+              "text": "§7» §7/world blacklist §blist §7<World>",
+              "hover": "§7Zeigt alle Einträge auf der Blacklist dieser World. \n \n§9Example: §7/world blacklist list world \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world blacklist list "
+              }
             },
             {
-              "text": "§7» §7/world blacklist §bremove §7<Welt> <Spieler>",
-              "hover": "§7Entfernt einen Spieler von der Blacklist. \n \n§9Beispiel: §7/world blacklist remove world Dev7ex \n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
-              "click": {"action": "SUGGEST_COMMAND", "text": "/world blacklist remove "}
+              "text": "§7» §7/world blacklist §bremove §7<World> <Player>",
+              "hover": "§7Entfernt einen Player von der Blacklist. \n \n§9Example: §7/world blacklist remove world Dev7ex \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world blacklist remove "
+              }
             },
-            {"text": ""},
-            {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-            {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-            {"text": ""}
+            {
+              "text": ""
+            },
+            {
+              "text": "§bTip: §7Use §eTab §7for auto-completion!"
+            },
+            {
+              "text": "§bTip: §7Use the §earrow keys §7to navigate"
+            },
+            {
+              "text": ""
+            }
           ]
         },
         "list": {
-          "usage": "%prefix% §cVerwendung: /world blacklist <Welt> list",
-          "message": "%prefix% §7Nutzer: %user_names%"
+          "usage": "%prefix% §cUsage: /world blacklist <World> list",
+          "message": "%prefix% §7Users: %user_names%"
         },
         "remove": {
-          "usage": "%prefix% §cVerwendung: /world blacklist <Welt> remove <Spieler>",
-          "already-removed": "%prefix% §7Der Spieler §a%user_name% §7befindet sich nicht auf der Blacklist",
-          "cancelled": "%prefix% §7Der Spieler §a%user_name% §7wurde §cnicht §7entfernt. Vorgang abgebrochen §8[§cREASON§8]",
-          "successfully-removed": "%prefix% §7Du hast den Spieler §a%user_name% §7von der Blacklist der Welt §a%world_name% §7entfernt"
+          "usage": "%prefix% §cUsage: /world blacklist <World> remove <Player>",
+          "already-removed": "%prefix% §7Der Player §a%user_name% §7is not on the blacklist",
+          "cancelled": "%prefix% §7Der Player §a%user_name% §7was §cnot §7removed. Operation cancelled §8[§cREASON§8]",
+          "successfully-removed": "%prefix% §7Du hast den Player §a%user_name% §7von der Blacklist der World §a%world_name% §7entfernt"
         }
       },
+      "clone": {
+        "usage": "%prefix% §cUsage: /world clone <World> <Name>",
+        "starting": "%prefix% §7Cloning process für World §a%world_name% §7is starting...",
+        "cancelled": "%prefix% §7Cloning der World §a%world_name% §7was cancelled",
+        "finishing": "%prefix% §7World §a%world_name% §7wurde erfolgreich geklont als §a%clone_world_name%"
+      },
+      "config": {
+        "help": {
+          "1": [
+            {
+              "text": "§7» §7/world config §bhelp §7<Page>",
+              "hover": "§7Displays a help page. \n \n§9Example: §7/world config help 1 \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world config help "
+              }
+            },
+            {
+              "text": "§7» §7/world config §breload",
+              "hover": "§7Reloads the MultiWorld config.json \n \n§9Info: §cA server restart is recommended \n \n§a§n§oClick to execute this command",
+              "click": {
+                "action": "RUN_COMMAND",
+                "text": "/world config reload"
+              }
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": "§bTip: §7Use §eTab §7for auto-completion!"
+            },
+            {
+              "text": "§bTip: §7Use the §earrow keys §7to navigate"
+            },
+            {
+              "text": ""
+            }
+          ]
+        },
+        "reload": {
+          "usage": "%prefix% §cUsage: /world config reload",
+          "starting": "%prefix% §7Die §aconfiguration file §7is being reloaded...",
+          "finishing": "%prefix% §7Die §aconfiguration file §7was successfully reloaded"
+        }
+      },
+      "confirm": {
+        "usage": "%prefix% §cUsage: /world confirm",
+        "request-starting": "%prefix% §7Confirmation requested. Please confirm within %seconds% seconds using §a/world confirm §7to confirm",
+        "request-cancelled": "%prefix% §cThe confirmation request was cancelled",
+        "request-expired": "%prefix% §cThe confirmation has expired. Please try again",
+        "successfully-confirmed": "%prefix% §aConfirmation successful. Operation completed"
+      },
       "create": {
-        "usage": "%prefix% §cVerwendung: /world create <Name> <Umgebung> <-g, -s, -t> <Generator | Seed | Type>",
-        "starting": "%prefix% §7Die Welt §a%world_name% §7wird erstellt...",
-        "cancelled": "%prefix% §7Das Erstellen der Welt §a%world_name% §7wurde §cabgebrochen",
-        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich erstellt"
+        "usage": "%prefix% §cUsage: /world create <Name> <Environment> <-g, -s, -t> <Generator | Seed | Type>",
+        "starting": "%prefix% §7Die World §a%world_name% §7is being created...",
+        "cancelled": "%prefix% §7Creating der World §a%world_name% §7wurde §cabgebrochen",
+        "finishing": "%prefix% §7Die World §a%world_name% §7was successfully created"
+      },
+      "debug": {
+        "usage": "%prefix% §cUsage: /world debug",
+        "enabled": "%prefix% §7Debug mode has been §aenabled",
+        "disabled": "%prefix% §7Debug mode has been §cdisabled"
       },
       "delete": {
-        "usage": "%prefix% §cVerwendung: /world delete <World>",
-        "starting": "%prefix% §7Die Welt §a%world_name% §7wird gelöscht...",
-        "cancelled": "%prefix% §7Das Löschen der Welt §a%world_name% §7wurde §cabgebrochen",
-        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich gelöscht!",
-        "failed": "%prefix% §cThe world §6%world_name% §ccould not be deleted. See the console for details"
+        "usage": "%prefix% §cUsage: /world delete <World>",
+        "starting": "%prefix% §7Die World §a%world_name% §7is being deleted...",
+        "cancelled": "%prefix% §7Deleting der World §a%world_name% §7wurde §cabgebrochen",
+        "finishing": "%prefix% §7Die World §a%world_name% §7was successfully deleted!",
+        "failed": "%prefix% §cDie World §6%world_name% §ccould not be deleted. See the console for details"
+      },
+      "flag": {
+        "usage": "%prefix% §cUsage: /world flag <World> <Flag> <Value>"
+      },
+      "gamerule": {
+        "usage": "%prefix% §cUsage: /world gamerule <World> <Spielregel> <Value>"
+      },
+      "generator": {
+        "help": {
+          "1": [
+            {
+              "text": "§7» §7/world generator §bhelp §7<Page>",
+              "hover": "§7Displays a help page. \n \n§9Example: §7/world generator help 1 \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world config help "
+              }
+            },
+            {
+              "text": "§7» §7/world generator §binfo §7<Generator>",
+              "hover": "§7Displays information about the world generator\n \n§9Example: §7/world generator info TerraformGenerator \n \n§a§n§oClick to execute this command",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world generator info "
+              }
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": "§bTip: §7Use §eTab §7for auto-completion!"
+            },
+            {
+              "text": "§bTip: §7Use the §earrow keys §7to navigate"
+            },
+            {
+              "text": ""
+            }
+          ]
+        }
+      },
+      "group": {
+        "create": {
+          "usage": "%prefix% §cUsage: /world group create <Name> <Id>",
+          "successfully-created": "%prefix% §7Die Group §a%colored_group_display_name% §7mit der ID §a%group_id% §7was successfully created"
+        },
+        "delete": {
+          "usage": "%prefix% §cUsage: /world group delete <Group>"
+        },
+        "edit": {
+          "usage": "%prefix% §cUsage: /world group edit <Group> <Property> <Value>"
+        },
+        "gui": {
+          "usage": "%prefix% §cUsage: /world group gui"
+        },
+        "info": {
+          "usage": "%prefix% §cUsage: /world group info <Group>"
+        },
+        "list": {
+          "usage": "%prefix% §cUsage: /world group list",
+          "message": "%prefix% §7Groups: %world_group_names%"
+        },
+        "help": {
+          "1": [
+            {
+              "text": "§7» §7/world group §bcreate §7<Name> <Id>",
+              "hover": "§7Erstellt eine neue Group \n \n§9Example: §7/world group create farming 5 \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world group create "
+              }
+            },
+            {
+              "text": "§7» §7/world group §bdelete §7<Group>",
+              "hover": "§7Löscht eine existierende Group \n \n§9Example: §7/world group delete farming \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world group delete "
+              }
+            },
+            {
+              "text": "§7» §7/world group §bedit §7<Group> <Property> <Value>",
+              "hover": "",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world group edit "
+              }
+            },
+            {
+              "text": "§7» §7/world group §bhelp §7<Page>",
+              "hover": "",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world group help "
+              }
+            },
+            {
+              "text": "§7» §7/world group §blist",
+              "hover": "",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world group list "
+              }
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": "§bTip: §7Use §eTab §7for auto-completion!"
+            },
+            {
+              "text": "§bTip: §7Use the §earrow keys §7to navigate"
+            },
+            {
+              "text": ""
+            }
+          ]
+        }
+      },
+      "gui": {
+        "usage": "%prefix% §cUsage: /world gui"
       },
       "help": {
-        "usage": "%prefix% §cVerwendung: /world help <Seite>",
+        "usage": "%prefix% §cUsage: /world help <Page>",
         "1": [
           {
-            "text": "§7» §7/world §bbackup §7<Befehl>",
-            "hover": "§7Ermöglicht es Backups von Welten zu verwalten \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oKlicke um die Hilfe seite zu öffnen",
-            "click": {"action": "RUN_COMMAND", "text": "/world backup help "}
+            "text": "§7» §7/world §bbackup §7<Command>",
+            "hover": "§7Ermöglicht es Backups von Worlds zu verwalten \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oClick to open the help page",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world backup help "
+            }
           },
-
           {
-            "text": "§7» §7/world §bblacklist §7<Befehl>",
-            "hover": "§7Ermöglicht das Verwalten der Blacklist einer Welt \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oKlicke um die Hilfe seite zu öffnen",
-            "click": {"action": "RUN_COMMAND", "text": "/world blacklist help 1"
+            "text": "§7» §7/world §bblacklist §7<Command>",
+            "hover": "§7Ermöglicht das Verwalten der Blacklist einer World \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oClick to open the help page",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world blacklist help 1"
             }
           },
           {
             "text": "§7» §7/world §bclone §7<World> <Name>",
-            "hover": "§7Ermöglicht es eine Welt zu klonen \n \n§9Beispiel: §7/world clone world cloned_world \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world clone "}
+            "hover": "§7Ermöglicht es eine World zu klonen \n \n§9Example: §7/world clone world cloned_world \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world clone "
+            }
           },
           {
-            "text": "§7» §7/world §bconfig §7<Befehl>",
-            "hover": "§7Ermöglicht die Verwaltung der Standard Konfiguration \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oKlicke um die Hilfe seite zu öffnen",
-            "click": {"action": "RUN_COMMAND", "text": "/world config help "}
+            "text": "§7» §7/world §bconfig §7<Command>",
+            "hover": "§7Allows you to manage the default configuration \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oClick to open the help page",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world config help "
+            }
           },
           {
             "text": "§7» §7/world §bconfirm",
-            "hover": "§7Bestätigt eine aufgegebene Aufgabe \n \n§9Beispiel: §7/world confirm \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world confirm "}
+            "hover": "§7Confirms a pending operation \n \n§9Example: §7/world confirm \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world confirm "
+            }
           },
           {
-            "text": "§7» §7/world §bcreate §7<Name> <Umgebung> <Option>",
-            "hover": "§7Erstellt eine neue Welt mit benutzerdefinierten Einstellungen \n \n§9Beispiel: \n§7/world create Terraform NORMAL -g §eTerraformGenerator \n§7/world create Canyon NORMAL -s §e81781890028 \n§7/world create LargeBiomes NORMAL -t §eLARGE_BIOMES \n \n§9Parameter: \n§8» §7<Name> §8- §7Der Name der neuen Welt \n§8» §7<Umgebung> §8- §7Weltumgebung: \n     §8» §aNORMAL §7(Oberwelt) \n     §8» §cNETHER §7(Hölle) \n     §8» §5THE_END §7(Das Ende) \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world create "}
+            "text": "§7» §7/world §bcreate §7<Name> <Environment> <Option>",
+            "hover": "§7Erstellt eine neue World mit benutzerdefinierten Einstellungen \n \n§9Example: \n§7/world create Terraform NORMAL -g §eTerraformGenerator \n§7/world create Canyon NORMAL -s §e81781890028 \n§7/world create LargeBiomes NORMAL -t §eLARGE_BIOMES \n \n§9Parameters: \n§8» §7<Name> §8- §7Der Name der neuen World \n§8» §7<Environment> §8- §7Worldumgebung: \n     §8» §aNORMAL §7(Overworld) \n     §8» §cNETHER §7(Nether) \n     §8» §5THE_END §7(The End) \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world create "
+            }
           },
-          {"text": ""},
-          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-          {"text": ""}
+          {
+            "text": ""
+          },
+          {
+            "text": "§bTip: §7Use §eTab §7for auto-completion!"
+          },
+          {
+            "text": "§bTip: §7Use the §earrow keys §7to navigate"
+          },
+          {
+            "text": ""
+          }
         ],
         "2": [
           {
             "text": "§7» §7/world §bdebug",
-            "hover": "§7Aktiviert den Debug Modus (Vorgesehen für Fehlersuche oder Entwicklung \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "RUN_COMMAND", "text": "/world debug "}
-          },
-          {
-            "text": "§7» §7/world §bdelete §7<Welt>",
-            "hover": "§7Ermöglicht das löschen von Welten \n \n§9Beispiel: §7/world delete world \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world delete "
+            "hover": "§7Enables debug mode (intended for troubleshooting or development) \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world debug "
             }
           },
           {
-            "text": "§7» §7/world §bflag §7<Welt> <Eigenschaft> <Wert>",
-            "hover": "§7Ermöglicht es einzelne Flags der Welt anzupassen \n \n§9Beispiel: §7/world flag world SPAWN_ANIMALS false \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world flag "}
+            "text": "§7» §7/world §bdelete §7<World>",
+            "hover": "§7Ermöglicht das löschen von Worlds \n \n§9Example: §7/world delete world \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world delete "
+            }
           },
           {
-            "text": "§7» §7/world §bgamerule §7<Welt> <Spielregel> <Wert>",
-            "hover": "§7Ermöglicht es einzelne Spielregeln der Welt anzupassen \n \n§9Beispiel: §7/world gamerule world doFireTick false \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world gamerule "}
+            "text": "§7» §7/world §bflag §7<World> <Property> <Value>",
+            "hover": "§7Ermöglicht es einzelne Flags der World anzupassen \n \n§9Example: §7/world flag world SPAWN_ANIMALS false \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world flag "
+            }
+          },
+          {
+            "text": "§7» §7/world §bgamerule §7<World> <Spielregel> <Value>",
+            "hover": "§7Ermöglicht es einzelne Spielregeln der World anzupassen \n \n§9Example: §7/world gamerule world doFireTick false \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world gamerule "
+            }
           },
           {
             "text": "§7» §7/world §bgroup §7<Create, Delete, Edit, Gui, Help, Info, List>",
-            "hover": "§7Zum Verwalten von Welt spezifischen Gruppen \n \n§9Beispiel: §7/world group help 1 \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world group help "}
-          },
-          {
-            "text": "§7» §7/world §bhelp §7<Seite>",
-            "hover": "§7Zeigt eine Hilfeseite an. \n \n§9Beispiel: §7/world help 1 \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world help "
+            "hover": "§7Zum Verwalten von World spezifischen Groups \n \n§9Example: §7/world group help 1 \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world group help "
             }
           },
           {
-            "text": "§7» §7/world §bimport §7<Welt> <Umgebung> <-g, -t> <Generator | Type>",
-            "hover": "§7Ermöglicht es eine nicht installierte Welt in das MultiWorld System zu übernehmen \n \n§9Beispiel: §7/world import Lobby NORMAL -g VoidWorldGenerator \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world import "}
+            "text": "§7» §7/world §bhelp §7<Page>",
+            "hover": "§7Displays a help page. \n \n§9Example: §7/world help 1 \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world help "
+            }
           },
-          {"text": ""},
-          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-          {"text": ""}
+          {
+            "text": "§7» §7/world §bimport §7<World> <Environment> <-g, -t> <Generator | Type>",
+            "hover": "§7Ermöglicht es eine nicht installierte World in das MultiWorld System zu übernehmen \n \n§9Example: §7/world import Lobby NORMAL -g VoidWorldGenerator \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world import "
+            }
+          },
+          {
+            "text": ""
+          },
+          {
+            "text": "§bTip: §7Use §eTab §7for auto-completion!"
+          },
+          {
+            "text": "§bTip: §7Use the §earrow keys §7to navigate"
+          },
+          {
+            "text": ""
+          }
         ],
         "3": [
           {
-            "text": "§7» §7/world §binfo §7<Welt> <Seite>",
-            "hover": "§7Zeigt Informationen zu einer Welt \n \n§9Beispiel: §7/world info world \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world info "
+            "text": "§7» §7/world §binfo §7<World> <Page>",
+            "hover": "§7Zeigt Informationen zu einer World \n \n§9Example: §7/world info world \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world info "
             }
           },
           {
-            "text": "§7» §7/world §blink §7<Welt> <Nether | End> <Welt>",
-            "hover": "§7Verknüpft mehrere Welten über die Standard Portale miteinander\n \n§9Beispiel: §7/world link world2 NETHER world_nether \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world link "
+            "text": "§7» §7/world §blink §7<World> <Nether | End> <World>",
+            "hover": "§7Verknüpft mehrere Worlds über die Standard Portale miteinander\n \n§9Example: §7/world link world2 NETHER world_nether \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world link "
             }
           },
           {
             "text": "§7» §7/world §blist",
-            "hover": "§7Erstellt eine Liste mit allen Welten \n \n§7Die Unterstrichene Welt ist die in der du dich befindest \n \n§9Beispiel: /world list \n \n§a§n§oKlicke um diesen Befehl auszuführen",
-            "click": {"action": "RUN_COMMAND", "text": "/world list "
+            "hover": "§7Erstellt eine Liste mit allen Worlds \n \n§7Die Unterstrichene World ist die in der du dich befindest \n \n§9Example: /world list \n \n§a§n§oClick to execute this command",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world list "
             }
           },
           {
-            "text": "§7» §7/world §bload §7<Welt>",
-            "hover": "§7Lädt eine inaktive Welt \n \n§9Beispiel: §7/world load world_nether \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world load "
+            "text": "§7» §7/world §bload §7<World>",
+            "hover": "§7Lädt eine inaktive World \n \n§9Example: §7/world load world_nether \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world load "
             }
           },
           {
             "text": "§7» §7/world §bsetspawn",
-            "hover": "§7Setzt den Spawnpunkt in einer Welt auf die Position an der du aktuell stehst \n \n§9Beispiel: §7/world setspawn \n \n§a§n§oKlicke um diesen Befehl auszuführen",
-            "click": {"action": "RUN_COMMAND", "text": "/world setspawn"
+            "hover": "§7Setzt den Spawnpunkt in einer World auf die Position an der du aktuell stehst \n \n§9Example: §7/world setspawn \n \n§a§n§oClick to execute this command",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world setspawn"
             }
           },
           {
-            "text": "§7» §7/world §bteleport §7<Selektor> <Welt>",
-            "hover": "§7Teleportiert dich oder/und andere in eine andere Welt \n \n§9Beispiel: \n§7/world teleport @a world_nether \n§7/world teleport world_nether \n§7/world teleport Dev7ex world_nether \n \n§9Parameter: \n§8» §7@a §8- §7Alle Spieler \n§8» §7@e §8- §7Alle Entities \n§8» §7@p §8- §7Den nächsten Spieler \n§8» §7@r §8- §7Einen Zufälligen Spieler \n§8» §7@s §8- §7Der Spieler der diesen Befehl ausführt \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world teleport "
+            "text": "§7» §7/world §bteleport §7<Selektor> <World>",
+            "hover": "§7Teleportiert dich oder/und andere in eine andere World \n \n§9Example: \n§7/world teleport @a world_nether \n§7/world teleport world_nether \n§7/world teleport Dev7ex world_nether \n \n§9Parameters: \n§8» §7@a §8- §7Alle Player \n§8» §7@e §8- §7All entities \n§8» §7@p §8- §7Den nächsten Player \n§8» §7@r §8- §7Einen Zufälligen Player \n§8» §7@s §8- §7Der Player der diesen Command ausführt \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world teleport "
             }
           },
-          {"text": ""},
-          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-          {"text": ""}
+          {
+            "text": ""
+          },
+          {
+            "text": "§bTip: §7Use §eTab §7for auto-completion!"
+          },
+          {
+            "text": "§bTip: §7Use the §earrow keys §7to navigate"
+          },
+          {
+            "text": ""
+          }
         ],
         "4": [
           {
-            "text": "§7» §7/world §bunload §7<Welt>",
-            "hover": "§7Entlädt eine aktive Welt \n \n§9Beispiel: §7/world unload Aether \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
-            "click": {"action": "SUGGEST_COMMAND", "text": "/world unload "
+            "text": "§7» §7/world §bunload §7<World>",
+            "hover": "§7Entlädt eine aktive World \n \n§9Example: §7/world unload Aether \n \n§a§n§oClick to insert this command into chat",
+            "click": {
+              "action": "SUGGEST_COMMAND",
+              "text": "/world unload "
             }
           },
           {
             "text": "§7» §7/world §bversion §7<Check | Help | Report>",
-            "hover": "§7Bietet die Möglichkeit, nach Updates zu suchen und Fehler zu melden \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oKlicke um die Hilfe seite zu öffnen",
-            "click": {"action": "RUN_COMMAND", "text": "/world version help 1"
+            "hover": "§7Allows you to check for updates and report bugs \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oClick to open the help page",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world version help 1"
             }
           },
           {
-            "text": "§7» §7/world §bwhitelist §7<Welt> <Enable | Disable | Add | Remove | List> <Name>",
-            "hover": "§7Ermöglicht das Verwalten der Whitelist einer Welt \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oKlicke um die Hilfe seite zu öffnen",
-            "click": {"action": "RUN_COMMAND", "text": "/world whitelist help 1"
+            "text": "§7» §7/world §bwhitelist §7<World> <Enable | Disable | Add | Remove | List> <Name>",
+            "hover": "§7Ermöglicht das Verwalten der Whitelist einer World \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oClick to open the help page",
+            "click": {
+              "action": "RUN_COMMAND",
+              "text": "/world whitelist help 1"
             }
           },
-          {"text": ""},
-          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-          {"text": ""}
+          {
+            "text": ""
+          },
+          {
+            "text": "§bTip: §7Use §eTab §7for auto-completion!"
+          },
+          {
+            "text": "§bTip: §7Use the §earrow keys §7to navigate"
+          },
+          {
+            "text": ""
+          }
         ]
       },
+      "import": {
+        "usage": "%prefix% §cUsage: /world import <?>"
+      },
+      "info": {
+        "usage": "%prefix% §cUsage: /world info <World>"
+      },
+      "language": {
+        "help": {
+          "usage": "%prefix% §cUsage: /world language help <Page>"
+        },
+        "info": {
+          "usage": "%prefix% §cUsage: /world language info <Sprache>",
+          "message": {
+            "1": [
+              {
+                "text": "§7Created by: %name%",
+                "hover": "Translation author"
+              },
+              {
+                "text": "§7Website: %website%",
+                "hover": "Visit the website"
+              },
+              {
+                "text": "§7Contact: %contact%",
+                "hover": "How to get in touch"
+              },
+              {
+                "text": "§7Contributors: %contributors%",
+                "hover": "Everyone who contributed"
+              },
+              {
+                "text": "§7Plugin version: %version%",
+                "hover": "Supported plugin versions"
+              },
+              {
+                "text": "§7Notes: %notes%",
+                "hover": "Additional information"
+              },
+              {
+                "text": "§7Last update: §a%last-update%",
+                "hover": "Date of the last update"
+              }
+            ]
+          }
+        },
+        "list": {
+          "usage": "%prefix% §cUsage: ",
+          "message": "%prefix% §7Languages: %locale_names%"
+        }
+      },
+      "link": {
+        "usage": "%prefix% §cUsage: "
+      },
       "list": {
-        "usage": "%prefix% §cVerwendung: §c/world list",
-        "message": "%prefix% §7Welten: %world_names%",
-        "hover": "§e§lInfo §7Klicke auf eine Welt, um dorthin zu teleportieren"
+        "usage": "%prefix% §cUsage: §c/world list",
+        "message": "%prefix% §7Worlds: %world_names%",
+        "hover": "§e§lInfo §7Klicke auf eine World, um dorthin zu teleportieren"
       },
       "load": {
         "usage": "%prefix% §cUsage: /world load <World>",
-        "starting": "%prefix% §7Loading the world §a%world_name%§7...",
-        "finishing": "%prefix% §7The world §a%world_name% §7was loaded successfully!",
-        "failed": "%prefix% §cThe world §6%world_name% §ccould not be loaded. See the console for details"
+        "starting": "%prefix% §7Die World §a%world_name% §7is being loaded...",
+        "finishing": "%prefix% §7Die World §a%world_name% §7was successfully loaded!",
+        "failed": "%prefix% §cDie World §6%world_name% §ccould not be loaded. See the console for details"
+      },
+      "rename": {
+        "usage": "%prefix% §cUsage: "
       },
       "setspawn": {
-        "usage": "%prefix% §cVerwendung: /world setspawn",
-        "successfully-set": "%prefix% §7Du hast den Spawnpunkt der Welt §a%world_name% §7gesetzt"
+        "usage": "%prefix% §cUsage: /world setspawn",
+        "successfully-set": "%prefix% §7Du hast den Spawnpunkt der World §a%world_name% §7set"
       },
       "teleport": {
         "usage": {
-          "admin": "%prefix% §cVerwendung: §c/world teleport <Selector> <Welt>",
-          "user": "%prefix% §cVerwendung: §c/world teleport <Welt>"
+          "admin": "%prefix% §cUsage: §c/world teleport <Selector> <World>",
+          "user": "%prefix% §cUsage: §c/world teleport <World>"
         },
         "failure": {
           "sender": {
-            "missing-permission": "%prefix% §cDu hast keine Berechtigung, die Welt §6%world_name% §7zu betreten"
+            "missing-permission": "%prefix% §cDu hast keine Berechtigung, die World §6%world_name% §7"
           },
           "target": {
-            "already-there": "%prefix% §7Du befindest dich bereits in der Welt §6%world_name%"
+            "already-there": "%prefix% §7Du befindest dich bereits in der World §6%world_name%"
           }
         },
-        "success" : {
+        "success": {
           "sender": {
-            "self": "%prefix% §7Du wurdest in die Welt §a%world_name% §7teleportiert.",
-            "single": "%prefix% §a%player_name% §7wurde in die Welt §a%world_name% §7teleportiert.",
-            "multiple": "%prefix% §7%amount% Spieler wurden in die Welt §a%world_name% §7teleportiert."
+            "self": "%prefix% §7Du wurdest in die World §a%world_name% §7teleported.",
+            "single": "%prefix% §a%player_name% §7wurde in die World §a%world_name% §7teleported.",
+            "multiple": "%prefix% §7%amount% Player wurden in die World §a%world_name% §7teleported."
           },
           "target": {
-            "single": "%prefix% §7Du wurdest von §a%sender_name% §7in die Welt §a%world_name% §7teleportiert.",
-            "multiple": "%prefix% §7Du wurdest in die Welt §a%world_name% §7teleportiert."
+            "single": "%prefix% §7You were teleported by §a%sender_name% §7in die World §a%world_name% §7teleported.",
+            "multiple": "%prefix% §7Du wurdest in die World §a%world_name% §7teleported."
           }
         }
       },
       "unload": {
         "usage": "%prefix% §cUsage: /world unload <World>",
-        "starting": "%prefix% §7Unloading the world §a%world_name%§7...",
-        "finishing": "%prefix% §7The world §a%world_name% §7was unloaded successfully!",
-        "failed": "%prefix% §cThe world §6%world_name% §ccould not be unloaded. See the console for details"
+        "starting": "%prefix% §7Die World §a%world_name% §7is being unloaded...",
+        "finishing": "%prefix% §7Die World §a%world_name% §7was successfully unloaded!",
+        "failed": "%prefix% §cDie World §6%world_name% §ccould not be unloaded. See the console for details"
+      },
+      "version": {
+        "check": {
+          "usage": "%prefix% §cUsage: /version check",
+          "message": {
+            "text": "",
+            "hover": "",
+            "click": {
+              "action": "OPEN_URL",
+              "text": "https://modrinth.com/plugin/multiworld-bukkit"
+            }
+          }
+        },
+        "help": {
+          "usage": "%prefix% §cUsage: /world version help <Page>",
+          "1": [
+            {
+              "text": "§7» §7/world version §bcheck",
+              "hover": "§7Checks whether a new version is available \n \n§9Example: §7/world version check \n \n§a§n§oClick to execute this command",
+              "click": {
+                "action": "RUN_COMMAND",
+                "text": "/world version check "
+              }
+            },
+            {
+              "text": "§7» §7/world version §bhelp §7<Page>",
+              "hover": "§7Displays a help page. \n \n§9Example: §7/world version help 1 \n \n§a§n§oClick to insert this command into chat",
+              "click": {
+                "action": "SUGGEST_COMMAND",
+                "text": "/world version help "
+              }
+            },
+            {
+              "text": "§7» §7/world version §binfo",
+              "hover": "§7Displays detailed information about the installed plugin version \n \n§9Example: \n§7/world version info \n \n§a§n§oClick to execute this command",
+              "click": {
+                "action": "RUN_COMMAND",
+                "text": "/world version info "
+              }
+            },
+            {
+              "text": "§7» §7/world version §breport",
+              "hover": "§7Creates a report to report bugs or issues \n \n§9Example: §7/world backup help 1 \n \n§a§n§oClick to execute this command",
+              "click": {
+                "action": "RUN_COMMAND",
+                "text": "/world version report "
+              }
+            },
+            {
+              "text": ""
+            },
+            {
+              "text": "§bTip: §7Use §eTab §7for auto-completion!"
+            },
+            {
+              "text": "§bTip: §7Use the §earrow keys §7to navigate"
+            }
+          ]
+        },
+        "info": {
+          "usage": "%prefix% §cUsage: /version info",
+          "message": {
+            "1": [
+              {
+                "text": "§7Developer: §bDev7ex",
+                "hover": "§8» §bDev7ex §8– §7Founder and lead developer of §bMultiWorld \n \n§a§n§oClick to join the Discord",
+                "click": {
+                  "action": "OPEN_URL",
+                  "text": "https://discord.dev7ex.com"
+                }
+              },
+              {
+                "text": "§7Contributors: §b%authors%",
+                "hover": "§8» §7Supporters and co-developers of §bMultiWorld \n§8» §7Thank you for your contributions!"
+              },
+              {
+                "text": "§7Plugin version: §b%plugin_version%",
+                "hover": "§8» §7Current version of §bMultiWorld \n§8» §7For bug fixes and features: §e/world version report"
+              },
+              {
+                "text": "§7Server software: §b%server_software%",
+                "hover": "§8» §7The server platform in use \n§8» §bExample: §ePaper, Purpur"
+              },
+              {
+                "text": "§7Minecraft version: §b%server_version%",
+                "hover": "§8» §7Current §bMinecraft §7server version \n§8» §7Important for plugin compatibility"
+              },
+              {
+                "text": "§7Java version: §b%java_version%",
+                "hover": "§8» §7Running §bJava Runtime \n§8» §7Recommended: §eJava ${project.source.version} or higher"
+              },
+              {
+                "text": "§7Operating system: §b%os_name% §8(§7%os_arch%§8)",
+                "hover": "§8» §7Server operating system \n§8» §bExample: §eLinux x64, Windows ARM"
+              },
+              {
+                "text": "§7Useful links: §bModrinth",
+                "hover": "§8» §7To the §bplugin page §7on Modrinth \n \n §a§oClick to open the page",
+                "click": {
+                  "action": "OPEN_URL",
+                  "text": "https://modrinth.com/plugin/multiworld"
+                }
+              }
+            ]
+          }
+        },
+        "report": {
+          "usage": "%prefix% §cUsage: /version report"
+        }
+      },
+      "whitelist": {
+        "add": {
+          "usage": "%prefix% §cUsage: "
+        },
+        "disable": {
+          "usage": "%prefix% §cUsage: "
+        },
+        "enable": {
+          "usage": "%prefix% §cUsage: "
+        },
+        "help": {
+          "usage": "%prefix% §cUsage: "
+        },
+        "list": {
+          "usage": "%prefix% §cUsage: "
+        },
+        "remove": {
+          "usage": "%prefix% §cUsage: "
+        }
       }
+    },
+    "worlds": {
+      "usage": "%prefix% §cUsage: /worlds"
     }
   },
   "format": {
@@ -355,90 +858,104 @@
     "time": "HH:mm:ss"
   },
   "message": {
-    "no-permission": "§cEs tut mir leid, aber Sie haben nicht die Berechtigung, diesen Befehl auszuführen. Bitte wenden Sie sich an die Serveradministratoren, wenn Sie glauben, dass dies ein Fehler ist.",
-    "no-console-command": "%prefix% §cDer Befehl §6%command_name% §ckann nur von einem Spieler ausgeführt werden!",
-    "no-player-command": "%prefix% §cDer Befehl §6%command_name% §ckann nur von der Konsole ausgeführt werden!",
-    "no-player-found": "%prefix% §cDer Spieler §6%player_name% §cwurde nicht gefunden",
+    "no-permission": "§cSorry, you do not have permission to execute this command. Please contact the server administrators if you believe this is an error.",
+    "no-console-command": "%prefix% §cDer Command §6%command_name% §ckann nur von einem Player ausgeführt werden!",
+    "no-player-command": "%prefix% §cDer Command §6%command_name% §ccan only be executed from the console!",
+    "no-player-found": "%prefix% §cDer Player §6%player_name% §cwas not found",
     "chunk": {
       "unload": {
-        "starting": "%prefix% §7Die Chunks in §a%world_name% §7werden entladen...",
-        "finishing": "%prefix% §7Die Chunks in §a%world_name% §7wurden erfolgreich entladen!"
+        "starting": "%prefix% §7The chunks in §a%world_name% §7are being unloaded...",
+        "finishing": "%prefix% §7The chunks in §a%world_name% §7were successfully unloaded!"
       }
     },
     "layout": {
       "header": [
-        {"text": " "},
-        {"text": "§8§m                         §r§r %placeholder% §8§m                         §8"},
-        {"text": " "}
+        {
+          "text": " "
+        },
+        {
+          "text": "§8§m                         §r§r %placeholder% §8§m                         §8"
+        },
+        {
+          "text": " "
+        }
       ],
       "footer": [
-        {"text": " "},
-        {"text": "§8§m                         §r§r %placeholder% §8§m                         §8"},
-        {"text": " "}
+        {
+          "text": " "
+        },
+        {
+          "text": "§8§m                         §r§r %placeholder% §8§m                         §8"
+        },
+        {
+          "text": " "
+        }
       ]
     },
     "pagination": {
-      "indicator": "§7Seite: ",
-      "previous": "§7Vorherige Seite",
-      "next": "§7Nächste Seite",
-      "goto": "§7Gehe zu Seite: §a%page_index%",
-      "not-found": "%prefix% §cDie seite §6%page% §cwurde nicht gefunden",
-      "out-of-range": "%prefix% §cUngültige Seite. Gültiger Bereich: 1 - %maximum_pages%"
+      "indicator": "§7Page: ",
+      "previous": "§7Vorherige Page",
+      "next": "§7Nächste Page",
+      "goto": "§7Gehe zu Page: §a%page_index%",
+      "not-found": "%prefix% §cThe page §6%page% §cwas not found",
+      "out-of-range": "%prefix% §cUngültige Page. Gültiger Bereich: 1 - %maximum_pages%"
     },
     "world": {
       "backup": {
-        "creation-delay": "%prefix% §7Bitte warte noch §a%seconds% §7Sekunden bevor du ein neues Backup für §a%world_name% §7erstellst",
-        "no-entries": "%prefix% §cDie Welt §6%world_name% §chat keine Backups",
-        "not-exists": "%prefix% §cEs wurde kein Backup mit dem Zeitstempel §6%world_backup_name% §cgefunden",
-        "in-progress": "%prefix% §cAnother backup operation is already running for the world §6%world_name%"
+        "creation-delay": "%prefix% §7Please wait another §a%seconds% §7seconds before creating another backup für §a%world_name% §7",
+        "no-entries": "%prefix% §cDie World §6%world_name% §chas no backups",
+        "not-exists": "%prefix% §cNo backup found with timestamp §6%world_backup_name% §cfound",
+        "in-progress": "%prefix% §cFür die World §6%world_name% §canother backup operation is already in progress"
       },
       "flag": {
-        "successfully-set": "%prefix% §7Du hast den Wert §a%value% §7für die Flag §a%flag_name% §7in der Welt §a%world_name% §7erfolgreich gesetzt"
+        "successfully-set": "%prefix% §7Du hast den Value §a%value% §7for the flag §a%flag_name% §7in der World §a%world_name% §7successfully"
       },
       "gamerule": {
-        "not-exists": "%prefix% §cDie Gamerule §6%gamerule% §cexistiert nicht",
-        "invalid-value": "%prefix% §cDer angegebene Wert §6%value% §cist für die Gamerule §6%gamerule% §cungültig"
+        "not-exists": "%prefix% §cThe game rule §6%gamerule% §cdoes not exist",
+        "invalid-value": "%prefix% §cDer angegebene Value §6%value% §cis invalid for game rule §6%gamerule% §cinvalid"
       },
       "group": {
         "already-exists": {
-          "name": "%prefix% §7Es existiert bereits eine Gruppe mit dem Namen §a%group_name%§7",
-          "id": "%prefix% §7Es existiert bereits eine Gruppe mit der ID §a%group_id%§7"
+          "name": "%prefix% §7Es existiert bereits eine Group mit dem Namen §a%group_name%§7",
+          "id": "%prefix% §7Es existiert bereits eine Group mit der ID §a%group_id%§7"
         },
         "delete": {
-          "protected": "%prefix% §7Die Gruppe §a%group_colored_display_name% §7ist gegen das Löschen geschützt",
+          "protected": "%prefix% §7Die Group §a%group_colored_display_name% §7is protected from deletion",
           "successfully-deleted": ""
         },
         "not-exists": {
-          "name": "%prefix% §cEs existiert keine Gruppe mit dem Namen §6%group_name%",
-          "id": "%prefix% §cEs existiert keine Gruppe mit der ID §6%group_id%"
+          "name": "%prefix% §cEs existiert keine Group mit dem Namen §6%group_name%",
+          "id": "%prefix% §cEs existiert keine Group mit der ID §6%group_id%"
         }
       },
-      "already-exists": "%prefix% §7Es existiert bereits eine Welt mit dem Namen §a%world_colored_display_name%§7",
-      "already-loaded": "%prefix% §7Die Welt §a%world_name% §7ist bereits geladen",
-      "delete-protected": "%prefix% §7Die Welt §a%world_name% §7ist gegen das Löschen geschützt",
-      "directory-not-found": "%prefix% §7Es existiert kein Weltenordner mit dem Namen §a%world_name%§7",
-      "environment-invalid": "%prefix% §7Die Umgebung §6%environment_name% §7ist §cnicht gültig§7",
-      "generator-invalid": "%prefix% §7Der Generator §6%generator_name% §7ist §cnicht gültig§7",
-      "not-exists": "%prefix% §cDie Welt §6%world_name% §cexistiert nicht§7",
-      "not-loaded": "%prefix% §7Die Welt §a%world_name% §7ist nicht geladen.",
-      "invalid-seed": "%prefix% §7Der angegebene Seed §6%seed% §7ist §cnicht gültig§7",
-      "invalid-type": "%prefix% §7Der Welt-Typ §6%world_type% §7ist §cnicht gültig§7",
-      "unload-protected": "%prefix% §7Die Welt §a%world_name% §7ist gegen das Entladen geschützt",
+      "already-exists": "%prefix% §7Es existiert bereits eine World mit dem Namen §a%world_colored_display_name%§7",
+      "already-loaded": "%prefix% §7Die World §a%world_name% §7is already loaded",
+      "delete-protected": "%prefix% §7Die World §a%world_name% §7is protected from deletion",
+      "directory-not-found": "%prefix% §7Es existiert kein Worldsordner mit dem Namen §a%world_name%§7",
+      "environment-invalid": "%prefix% §7Die Environment §6%environment_name% §7is §cinvalid§7",
+      "generator-invalid": "%prefix% §7The generator §6%generator_name% §7is §cinvalid§7",
+      "not-exists": "%prefix% §cDie World §6%world_name% §cdoes not exist§7",
+      "not-loaded": "%prefix% §7Die World §a%world_name% §7is not loaded.",
+      "invalid-seed": "%prefix% §7The specified seed §6%seed% §7is §cinvalid§7",
+      "invalid-type": "%prefix% §7Der World-Typ §6%world_type% §7is §cinvalid§7",
+      "unload-protected": "%prefix% §7Die World §a%world_name% §7is protected from unloading",
       "runtime-unsupported": "%prefix% §7The world §a%world_name% §7can't be created, loaded or unloaded at runtime on Folia",
-      "whitelist-blocked": "%prefix% §7Du darfst diese Welt nicht betreten, da du §cnicht §7auf der Whitelist stehst"
+      "whitelist-blocked": "%prefix% §7Du darfst diese World nicht betreten, da du §cnicht §7auf der Whitelist stehst"
     },
     "validation": {
-      "invalid-number": "%prefix% §cDie Eingabe §6%input%§c ist keine gültige Zahl",
-      "invalid-boolean": "%prefix% §cDie Eingabe §6%input%§c ist kein gültiger Wahrheitswert",
-      "invalid-selector": "%prefix% §cDie Eingabe §6%input%§c ist kein gültiger Selektor"
+      "invalid-number": "%prefix% §cThe input §6%input%§c is not a valid number",
+      "invalid-boolean": "%prefix% §cThe input §6%input%§c is not a valid boolean",
+      "invalid-selector": "%prefix% §cThe input §6%input%§c is not a valid selector"
     }
   },
   "meta": {
     "author": "§aDev7ex",
     "website": "§9https://github.com/Dev7ex",
     "contact": "§9https://discord.dev7ex.com",
-    "contributors": ["§eChatGPT"],
-    "notes": "§7Sprachdatei für §bMultiWorld §7von §aDev7ex",
+    "contributors": [
+      "§eChatGPT"
+    ],
+    "notes": "§7Language file for §bMultiWorld §7von §aDev7ex",
     "file-version": "§a1.0.0",
     "supported-plugin-version": {
       "min": "§a1.8.0-SNAPSHOT",
