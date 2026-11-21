@@ -43,7 +43,7 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
     private static final String DEFAULT_DATE_TIME_PATTERN = "dd.MM.yyyy-HH:mm:ss";
 
     private final Map<Locale, FileConfiguration> translationConfigurations = new HashMap<>();
-    private final Locale defaultLocale = Locale.of("en", "US");
+    private final Locale defaultLocale = new Locale("en", "US");
 
     public DefaultWorldLocalizationRegistry(@NotNull final MultiWorldApi multiWorldApi) {
         super(multiWorldApi);
@@ -57,7 +57,7 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
         for (final File file : Files.getFiles(Objects.requireNonNull(super.getMultiWorldApi().getLanguageDirectory()))) {
             if ((file.isFile()) && (file.getName().endsWith(".json"))) {
                 final String[] parts = file.getName().replaceAll(".json", "").split("_");
-                final Locale locale = Locale.of(parts[0], parts[1]);
+                final Locale locale = new Locale(parts[0], parts[1]);
 
                 try {
                     final FileConfiguration nextConfiguration = ConfigurationProvider.getProvider(JsonConfiguration.class).load(file);
@@ -107,7 +107,7 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
         if (parts.length != 2) {
             throw new IllegalArgumentException("Invalid localeCode format. Expected format: 'language_COUNTRY', e.g., 'en_US'.");
         }
-        this.translationConfigurations.remove(Locale.of(parts[0], parts[1]));
+        this.translationConfigurations.remove(new Locale(parts[0], parts[1]));
     }
 
 
@@ -126,7 +126,7 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
         if (parts.length != 2) {
             throw new IllegalArgumentException("Invalid localeCode format. Expected format: 'language_COUNTRY', e.g., 'en_US'.");
         }
-        return this.translationConfigurations.containsKey(Locale.of(parts[0], parts[1]));
+        return this.translationConfigurations.containsKey(new Locale(parts[0], parts[1]));
     }
 
     @Override

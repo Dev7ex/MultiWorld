@@ -134,8 +134,14 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
         MultiWorldApiProvider.register(this);
 
-        this.fileMonitor = new PluginFileMonitor(this, new MultiWorldFileChangeListener(this));
-        this.fileMonitor.start();
+        try {
+            this.fileMonitor = new PluginFileMonitor(this, new MultiWorldFileChangeListener(this));
+            this.fileMonitor.start();
+
+        } catch (final LinkageError exception) {
+            this.fileMonitor = null;
+            super.getLogger().warning("File monitoring isn't available on this server version");
+        }
 
         super.getServer().getServicesManager().register(MultiWorldApi.class, this, this, ServicePriority.Normal);
 
@@ -172,7 +178,9 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         MultiWorldApiProvider.unregister();
         super.getServer().getServicesManager().unregisterAll(this);
 
-        this.fileMonitor.stop();
+        if (this.fileMonitor != null) {
+            this.fileMonitor.stop();
+        }
     }
 
     private void loadWorlds() {
