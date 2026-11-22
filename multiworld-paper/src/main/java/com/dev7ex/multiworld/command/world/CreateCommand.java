@@ -112,12 +112,18 @@ public class CreateCommand extends PaperCommand implements ArgumentTabCompleter 
     }
 
     @Override
-    public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        if ((arguments.length < 2) || (arguments.length > 5)) {
+    public List<String> onTabComplete(
+            @NotNull final CommandSender commandSender,
+            @NotNull final PaperCommandArgument[] arguments
+    ) {
+        if (arguments.length < 2 || arguments.length > 5) {
             return Collections.emptyList();
         }
-        if ((arguments.length == 2) && (this.registry.find(commandSender.getName()).isEmpty())) {
-            return List.of("%creator_name%");
+
+        if (arguments.length == 2) {
+            return this.registry.find(commandSender.getName()).isEmpty()
+                    ? List.of("%creator_name%")
+                    : Collections.emptyList();
         }
 
         if (arguments.length == 3) {
@@ -127,9 +133,10 @@ public class CreateCommand extends PaperCommand implements ArgumentTabCompleter 
         if (arguments.length == 4) {
             return List.of("-g", "-s", "-t");
         }
+
         return switch (arguments[3].asString()) {
-            //case "-g" -> new ArrayList<>(this.worldGeneratorProvider.getAllGenerators());
-            case "-s" -> Collections.singletonList(String.valueOf(new Random().nextLong()));
+            // case "-g" -> new ArrayList<>(this.worldGeneratorProvider.getAllGenerators());
+            case "-s" -> List.of(String.valueOf(new Random().nextLong()));
             case "-t" -> WorldType.names();
             default -> Collections.emptyList();
         };
