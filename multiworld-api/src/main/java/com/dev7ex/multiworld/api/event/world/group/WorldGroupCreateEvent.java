@@ -3,6 +3,8 @@ package com.dev7ex.multiworld.api.event.world.group;
 import com.dev7ex.multiworld.api.world.group.WorldGroup;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,9 +13,12 @@ import org.jetbrains.annotations.NotNull;
  * @since 19.07.2025
  */
 @Getter(AccessLevel.PUBLIC)
-public class WorldGroupCreateEvent extends WorldGroupEvent {
+@Setter(AccessLevel.PUBLIC)
+public class WorldGroupCreateEvent extends WorldGroupEvent implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
+    private boolean cancelled = false;
+    private boolean notifyOnCancel = true;
 
     public WorldGroupCreateEvent(@NotNull final WorldGroup group) {
         super(group);
