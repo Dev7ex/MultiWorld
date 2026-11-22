@@ -1,6 +1,9 @@
 package com.dev7ex.multiworld.api.world.group;
 
+import net.kyori.adventure.audience.Audience;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 /**
  * @author Dev7ex
@@ -8,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface WorldGroupManager {
 
-    WorldGroup create(final int id, @NotNull final String groupName, @NotNull final String creatorName);
+    Optional<WorldGroup> create(@NotNull final Audience audience, final int groupId, @NotNull final String groupName, @NotNull final String creatorName);
+
+    void delete(final int id);
 
 }
