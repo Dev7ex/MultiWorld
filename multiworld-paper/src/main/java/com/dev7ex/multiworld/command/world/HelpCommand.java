@@ -1,3 +1,4 @@
+
 package com.dev7ex.multiworld.command.world;
 
 import com.dev7ex.multicommon.api.command.PaperCommand;
@@ -34,18 +35,13 @@ public class HelpCommand extends PaperCommand implements ArgumentTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        final int page;
-        final String command = "/mw help ";
-
         if (arguments.length > 2) {
             commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.COMMAND_WORLD_HELP_USAGE));
             return;
         }
+        int page = 1;
 
-        if ((arguments.length == 0) || (arguments.length == 1)) {
-            page = 1;
-
-        } else {
+        if (arguments.length == 2) {
             final String pageArgument = arguments[1].asString();
 
             try {
@@ -53,7 +49,7 @@ public class HelpCommand extends PaperCommand implements ArgumentTabCompleter {
 
             } catch (final NumberFormatException ignored) {
                 commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.MESSAGE_PAGINATION_NOT_FOUND)
-                        .replaceText(builder -> builder.match("%page%").replacement(pageArgument)));
+                        .replaceText(builder -> builder.matchLiteral("%page%").replacement(pageArgument)));
                 return;
             }
         }
@@ -61,26 +57,27 @@ public class HelpCommand extends PaperCommand implements ArgumentTabCompleter {
 
         if ((page < 1) || (page > maxAvailablePages)) {
             commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.MESSAGE_PAGINATION_OUT_OF_RANGE)
-                    .replaceText(builder -> builder.match("%maximum_pages%").replacement(String.valueOf(maxAvailablePages))));
+                    .replaceText(builder -> builder.matchLiteral("%maximum_pages%").replacement(String.valueOf(maxAvailablePages))));
             return;
         }
         commandSender.sendMessage(this.localizationRegistry.getHeader(commandSender, this.configuration.getPrefix()));
         this.localizationRegistry.getComponentList(commandSender, WorldLocalizationEntry.COMMAND_WORLD_HELP.getKeyForPage(page)).forEach(commandSender::sendMessage);
         commandSender.sendMessage(Component.empty());
-        commandSender.sendMessage(this.localizationRegistry.getNavigablePaginationComponent(commandSender, page, command, WorldLocalizationEntry.COMMAND_WORLD_HELP));
+        commandSender.sendMessage(this.localizationRegistry.getNavigablePaginationComponent(commandSender, page, "/mw help ", WorldLocalizationEntry.COMMAND_WORLD_HELP));
         commandSender.sendMessage(this.localizationRegistry.getFooter(commandSender, this.configuration.getPrefix()));
     }
-
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
         if (arguments.length != 2) {
             return Collections.emptyList();
         }
-        final int maxPages = this.localizationRegistry.getMaxAvailablePages(commandSender, WorldLocalizationEntry.COMMAND_WORLD_HELP);
+        final String input = arguments[1].asString();
+        final int maxAvailablePages = this.localizationRegistry.getMaxAvailablePages(commandSender, WorldLocalizationEntry.COMMAND_WORLD_HELP);
 
-        return IntStream.rangeClosed(1, maxPages)
+        return IntStream.rangeClosed(1, maxAvailablePages)
                 .mapToObj(String::valueOf)
+                .filter(page -> page.startsWith(input))
                 .toList();
     }
 
