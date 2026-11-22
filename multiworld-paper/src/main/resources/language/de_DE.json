@@ -229,19 +229,6 @@
         "delete": {
           "usage": "%prefix% §cVerwendung: /world group delete <Gruppe>"
         },
-        "edit": {
-          "usage": "%prefix% §cVerwendung: /world group edit <Gruppe> <Eigenschaft> <Wert>"
-        },
-        "gui": {
-          "usage": "%prefix% §cVerwendung: /world group gui"
-        },
-        "info": {
-          "usage": "%prefix% §cVerwendung: /world group info <Gruppe>"
-        },
-        "list": {
-          "usage": "%prefix% §cVerwendung: /world group list",
-          "message": "%prefix% §7Gruppen: %world_group_names%"
-        },
         "help": {
           "1": [
             {
@@ -274,6 +261,13 @@
             {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
             {"text": ""}
           ]
+        },
+        "info": {
+          "usage": "%prefix% §cVerwendung: /world group info <Gruppe>"
+        },
+        "list": {
+          "usage": "%prefix% §cVerwendung: /world group list",
+          "message": "%prefix% §7Gruppen: %world_group_names%"
         }
       },
       "gui": {
@@ -339,9 +333,25 @@
             "click": {"action": "SUGGEST_COMMAND", "text": "/world gamerule "}
           },
           {
+            "text": "§7» §7/world §bgenerator §7....",
+            "hover": "§7Ermöglicht es, den Weltgenerator einer Welt anzuzeigen oder zu verwalten \n \n§9Beispiel: §7/world generator help 1 \n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
+            "click": {"action": "SUGGEST_COMMAND", "text": "/world generator help "}
+          },
+          {
             "text": "§7» §7/world §bgroup §7<Create, Delete, Edit, Gui, Help, Info, List>",
             "hover": "§7Zum Verwalten von Welt spezifischen Gruppen \n \n§9Beispiel: §7/world group help 1 \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
             "click": {"action": "SUGGEST_COMMAND", "text": "/world group help "}
+          },
+          {"text": ""},
+          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
+          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
+          {"text": ""}
+        ],
+        "3": [
+          {
+            "text": "§7» §7/world §bgui",
+            "hover": "§7Öffnet eine grafische Benutzeroberfläche zur einfachen Verwaltung deiner Welten.\n \n§9Beispiel: §7/world gui\n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
+            "click": {"action": "RUN_COMMAND", "text": "/world gui"}
           },
           {
             "text": "§7» §7/world §bhelp §7<Seite>",
@@ -353,22 +363,27 @@
             "hover": "§7Ermöglicht es eine nicht installierte Welt in das MultiWorld System zu übernehmen \n \n§9Beispiel: §7/world import Lobby NORMAL -g VoidWorldGenerator \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
             "click": {"action": "SUGGEST_COMMAND", "text": "/world import "}
           },
-          {"text": ""},
-          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-          {"text": ""}
-        ],
-        "3": [
           {
             "text": "§7» §7/world §binfo §7<Welt> <Seite>",
             "hover": "§7Zeigt Informationen zu einer Welt \n \n§9Beispiel: §7/world info world \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
             "click": {"action": "SUGGEST_COMMAND", "text": "/world info "}
           },
           {
+            "text": "§7» §7/world §blanguage §7...",
+            "hover": "§7Ermöglicht es, verfügbare Sprachen aufzulisten und Informationen zu einzelnen Sprachen anzuzeigen \n \n§9Beispiel: §7/world language help 1 \n \n§a§n§oKlicke, um diesen Befehl in den Chat zu übernehmen",
+            "click": {"action": "SUGGEST_COMMAND", "text": "/world language help "}
+          },
+          {
             "text": "§7» §7/world §blink §7<Welt> <Nether | End> <Welt>",
             "hover": "§7Verknüpft mehrere Welten über die Standard Portale miteinander\n \n§9Beispiel: §7/world link world2 NETHER world_nether \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
             "click": {"action": "SUGGEST_COMMAND", "text": "/world link "}
           },
+          {"text": ""},
+          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
+          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
+          {"text": ""}
+        ],
+        "4": [
           {
             "text": "§7» §7/world §blist",
             "hover": "§7Erstellt eine Liste mit allen Welten \n \n§7Die Unterstrichene Welt ist die in der du dich befindest \n \n§9Beispiel: /world list \n \n§a§n§oKlicke um diesen Befehl auszuführen",
@@ -389,12 +404,6 @@
             "hover": "§7Teleportiert dich oder/und andere in eine andere Welt \n \n§9Beispiel: \n§7/world teleport @a world_nether \n§7/world teleport world_nether \n§7/world teleport Dev7ex world_nether \n \n§9Parameter: \n§8» §7@a §8- §7Alle Spieler \n§8» §7@e §8- §7Alle Entities \n§8» §7@p §8- §7Den nächsten Spieler \n§8» §7@r §8- §7Einen Zufälligen Spieler \n§8» §7@s §8- §7Der Spieler der diesen Befehl ausführt \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
             "click": {"action": "SUGGEST_COMMAND", "text": "/world teleport "}
           },
-          {"text": ""},
-          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
-          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
-          {"text": ""}
-        ],
-        "4": [
           {
             "text": "§7» §7/world §bunload §7<Welt>",
             "hover": "§7Entlädt eine aktive Welt \n \n§9Beispiel: §7/world unload Aether \n \n§a§n§oKlicke um diesen Befehl in den Chat zu übernehmen",
@@ -405,6 +414,12 @@
             "hover": "§7Bietet die Möglichkeit, nach Updates zu suchen und Fehler zu melden \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oKlicke um die Hilfe seite zu öffnen",
             "click": {"action": "RUN_COMMAND", "text": "/world version help 1"}
           },
+          {"text": ""},
+          {"text": "§bTipp: §7Verwende §eTab §7für Auto-Vervollständigung!"},
+          {"text": "§bTipp: §7Verwende die §ePfeile §7zum Navigieren"},
+          {"text": ""}
+        ],
+        "5": [
           {
             "text": "§7» §7/world §bwhitelist §7<Welt> <Enable | Disable | Add | Remove | List> <Name>",
             "hover": "§7Ermöglicht das Verwalten der Whitelist einer Welt \n \n§9Info: §7Verwende die Hilfe seite für weitere Informationen \n \n§a§n§oKlicke um die Hilfe seite zu öffnen",
