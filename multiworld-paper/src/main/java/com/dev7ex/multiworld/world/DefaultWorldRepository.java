@@ -3,6 +3,7 @@ package com.dev7ex.multiworld.world;
 
 import com.dev7ex.multicommon.api.configuration.*;
 import com.dev7ex.multiworld.api.MultiWorldApi;
+import com.dev7ex.multiworld.api.util.FileUtil;
 import com.dev7ex.multiworld.api.util.ParserUtil;
 import com.dev7ex.multiworld.api.world.*;
 import org.bukkit.NamespacedKey;
@@ -11,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +35,7 @@ public final class DefaultWorldRepository extends Configuration implements World
         this.multiWorldApi = multiWorldApi;
     }
 
+
     @Override
     public synchronized void saveFile() {
         final File file = super.getConfigurationFile();
@@ -41,25 +43,31 @@ public final class DefaultWorldRepository extends Configuration implements World
 
         try {
             if (this.backupPending) {
-                this.multiWorldApi.getLogger().info(String.format("Created backup %s before saving %s", this.createBackup().getName(), file.getName()));
+                final File backup = this.createBackup();
+
+                this.multiWorldApi.getLogger().log(Level.INFO, "Created backup {0} before saving {1}", new Object[]{backup.getName(), file.getName()});
                 this.backupPending = false;
             }
             ConfigurationProvider.getProvider(super.getProvider()).save(super.getFileConfiguration(), temporaryFile);
-
-            try {
-                Files.move(temporaryFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-
-            } catch (final AtomicMoveNotSupportedException exception) {
-                Files.move(temporaryFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            }
+            FileUtil.moveFile(temporaryFile, file);
 
         } catch (final IOException exception) {
-            throw new UncheckedIOException(String.format("Can't save File %s", file.getName()), exception);
+            throw new UncheckedIOException("Can't save file " + file.getName(), exception);
 
         } finally {
-            temporaryFile.delete();
+            try {
+                Files.deleteIfExists(temporaryFile.toPath());
+
+            } catch (final IOException exception) {
+                this.multiWorldApi.getLogger().log(
+                        Level.WARNING,
+                        exception,
+                        () -> "Could not delete temporary file " + temporaryFile.getName()
+                );
+            }
         }
     }
+
 
     @Override
     public void insert(@NotNull final WorldContext context) {
