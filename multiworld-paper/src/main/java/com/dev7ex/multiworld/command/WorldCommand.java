@@ -11,10 +11,10 @@ import com.dev7ex.multiworld.command.world.*;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * @author Dev7ex
@@ -24,10 +24,12 @@ import java.util.Objects;
 public class WorldCommand extends PaperCommand implements ArgumentTabCompleter {
 
     private final WorldLocalizationRegistry localizationRegistry;
+    private final HelpCommand helpCommand;
 
     public WorldCommand(@NotNull final MultiWorldPlugin plugin) {
         super(plugin);
         this.localizationRegistry = plugin.getLocalizationRegistry();
+        this.helpCommand = new HelpCommand(plugin);
 
         this.registerSubCommand(new BackupCommand(plugin));
         this.registerSubCommand(new BlacklistCommand(plugin));
@@ -41,7 +43,8 @@ public class WorldCommand extends PaperCommand implements ArgumentTabCompleter {
         this.registerSubCommand(new GameRuleCommand(plugin));
         this.registerSubCommand(new GeneratorCommand(plugin));
         this.registerSubCommand(new GroupCommand(plugin));
-        this.registerSubCommand(new HelpCommand(plugin));
+        this.registerSubCommand(new GuiCommand(plugin));
+        this.registerSubCommand(this.helpCommand);
         this.registerSubCommand(new ImportCommand(plugin));
         this.registerSubCommand(new InfoCommand(plugin));
         this.registerSubCommand(new LanguageCommand(plugin));
@@ -58,11 +61,11 @@ public class WorldCommand extends PaperCommand implements ArgumentTabCompleter {
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        if ((arguments.length == 0) || (arguments.length > 5)) {
-            Objects.requireNonNull(super.findSubCommand(HelpCommand.class)).execute(commandSender, arguments);
+        if (arguments.length == 0) {
+            this.helpCommand.execute(commandSender, arguments);
             return;
         }
-        final String subCommandName = arguments[0].asString().toLowerCase();
+        final String subCommandName = arguments[0].asString().toLowerCase(Locale.ROOT);
 
         super.findSubCommand(subCommandName).ifPresentOrElse(subCommand -> {
             if (!commandSender.hasPermission(subCommand.getPermission())) {
@@ -71,21 +74,28 @@ public class WorldCommand extends PaperCommand implements ArgumentTabCompleter {
             }
             subCommand.execute(commandSender, arguments);
 
-        }, () -> Objects.requireNonNull(super.findSubCommand(HelpCommand.class)).execute(commandSender, arguments));
+        }, () -> this.helpCommand.execute(commandSender, arguments));
     }
 
     @Override
     public List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        if (arguments.length == 1) {
-            return new ArrayList<>(super.getSubCommands().keySet());
+        if (arguments.length == 0) {
+            return Collections.emptyList();
         }
-        final String subCommandName = arguments[0].asString().toLowerCase();
+        final String subCommandName = arguments[0].asString().toLowerCase(Locale.ROOT);
 
+        if (arguments.length == 1) {
+            return super.getSubCommands().entrySet().stream()
+                    .filter(entry -> commandSender.hasPermission(entry.getValue().getPermission()))
+                    .map(Map.Entry::getKey)
+                    .filter(name -> name.toLowerCase(Locale.ROOT).startsWith(subCommandName))
+                    .toList();
+        }
         return super.findSubCommand(subCommandName)
-                .filter(sub -> commandSender.hasPermission(sub.getPermission()))
+                .filter(subCommand -> commandSender.hasPermission(subCommand.getPermission()))
                 .filter(ArgumentTabCompleter.class::isInstance)
-                .map(sub -> ((ArgumentTabCompleter) sub).onTabComplete(commandSender, arguments))
-                .orElse(Collections.emptyList());
+                .map(subCommand -> ((ArgumentTabCompleter) subCommand).onTabComplete(commandSender, arguments))
+                .orElseGet(Collections::emptyList);
     }
 
 }
