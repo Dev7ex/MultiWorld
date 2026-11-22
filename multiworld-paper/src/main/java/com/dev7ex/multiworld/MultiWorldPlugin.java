@@ -11,6 +11,7 @@ import com.dev7ex.multiworld.api.permission.MultiWorldPermission;
 import com.dev7ex.multiworld.api.scheduler.WorldScheduler;
 import com.dev7ex.multiworld.api.user.WorldUserFactory;
 import com.dev7ex.multiworld.api.user.WorldUserRegistry;
+import com.dev7ex.multiworld.api.user.WorldUserRepository;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryFactory;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryRegistry;
 import com.dev7ex.multiworld.api.util.BukkitUtil;
@@ -27,6 +28,7 @@ import com.dev7ex.multiworld.api.world.group.WorldGroupManager;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRegistry;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRepository;
 import com.dev7ex.multiworld.command.WorldCommand;
+import com.dev7ex.multiworld.listener.player.PlayerConnectionListener;
 import com.dev7ex.multiworld.listener.plugin.MultiWorldFileChangeListener;
 import com.dev7ex.multiworld.localization.DefaultWorldLocalizationRegistry;
 import com.dev7ex.multiworld.module.DefaultWorldModuleManager;
@@ -34,6 +36,7 @@ import com.dev7ex.multiworld.scheduler.BukkitWorldScheduler;
 import com.dev7ex.multiworld.scheduler.PaperWorldScheduler;
 import com.dev7ex.multiworld.user.DefaultWorldUserFactory;
 import com.dev7ex.multiworld.user.DefaultWorldUserRegistry;
+import com.dev7ex.multiworld.user.DefaultWorldUserRepository;
 import com.dev7ex.multiworld.world.*;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupFactory;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupManager;
@@ -89,6 +92,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
     private WorldUserInventoryFactory userInventoryFactory;
     private WorldUserFactory userFactory;
+    private WorldUserRepository userRepository;
     private WorldBackupFactory backupFactory;
     private WorldGeneratorFactory generatorFactory;
     private WorldGroupFactory groupFactory;
@@ -190,7 +194,9 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
     @Override
     public void registerListeners() {
-
+        if (this.userRegistry instanceof final DefaultWorldUserRegistry defaultUserRegistry) {
+            super.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this, defaultUserRegistry), this);
+        }
     }
 
     @Override
@@ -226,6 +232,8 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         this.worldRepository = new DefaultWorldRepository(this);
         this.worldRepository.createFile();
         this.worldRepository.loadFile();
+
+        this.userRepository = new DefaultWorldUserRepository(this);
     }
 
     public static MultiWorldPlugin getInstance() {

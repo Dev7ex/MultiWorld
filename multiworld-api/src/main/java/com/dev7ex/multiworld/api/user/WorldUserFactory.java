@@ -14,6 +14,8 @@ public interface WorldUserFactory {
 
     WorldUser create(@NotNull final UUID uniqueId, @NotNull final String name);
 
+    WorldUser create(@NotNull final UUID uniqueId, @NotNull final String name, final long firstLogin, final long lastLogin);
+
     WorldUser create(@NotNull final Player player);
 
     WorldUser create(@NotNull final PlayerProfile profile);

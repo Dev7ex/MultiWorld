@@ -6,6 +6,7 @@ import com.dev7ex.multiworld.api.module.WorldModuleManager;
 import com.dev7ex.multiworld.api.scheduler.WorldScheduler;
 import com.dev7ex.multiworld.api.user.WorldUserFactory;
 import com.dev7ex.multiworld.api.user.WorldUserRegistry;
+import com.dev7ex.multiworld.api.user.WorldUserRepository;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryFactory;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryRegistry;
 import com.dev7ex.multiworld.api.world.*;
@@ -162,6 +163,10 @@ public interface MultiWorldApi extends Plugin, ConfigurationHolder {
     WorldGroupRepository getGroupRepository();
 
     void setGroupRepository(@NotNull final WorldGroupRepository groupRepository);
+
+    WorldUserRepository getUserRepository();
+
+    void setUserRepository(@NotNull final WorldUserRepository userRepository);
 
 
 }
