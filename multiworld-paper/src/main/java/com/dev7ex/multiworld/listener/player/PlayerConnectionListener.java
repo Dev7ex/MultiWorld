@@ -4,15 +4,21 @@ import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.event.MultiWorldListener;
 import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.user.DefaultWorldUserRegistry;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Optional;
@@ -54,7 +60,7 @@ public class PlayerConnectionListener extends MultiWorldListener {
         final long previousSweep = this.lastSweep.get();
 
         if (((now - previousSweep) > PlayerConnectionListener.SWEEP_INTERVAL_NANOS) && (this.lastSweep.compareAndSet(previousSweep, now))) {
-            this.pendingUsers.values().removeIf(pendingUser -> (now - pendingUser.createdNanos()) > PlayerConnectionListener.PENDING_EXPIRE_NANOS);
+            this.pendingUsers.values().removeIf(pendingUser -> (now - pendingUser.getCreatedNanos()) > PlayerConnectionListener.PENDING_EXPIRE_NANOS);
         }
         final CompletableFuture<Optional<WorldUser>> future = this.multiWorldApi.getUserRepository().find(event.getUniqueId());
 
@@ -90,7 +96,7 @@ public class PlayerConnectionListener extends MultiWorldListener {
         final Player player = event.getPlayer();
         final PendingUser pendingUser = this.pendingUsers.remove(player.getUniqueId());
 
-        this.userRegistry.login(player.getUniqueId(), player.getName(), (pendingUser == null) ? null : pendingUser.user());
+        this.userRegistry.login(player.getUniqueId(), player.getName(), (pendingUser == null) ? null : pendingUser.getUser());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -102,9 +108,37 @@ public class PlayerConnectionListener extends MultiWorldListener {
             return;
         }
         this.pendingUsers.remove(player.getUniqueId());
-        this.userRegistry.logout(player.getUniqueId());
+        this.userRegistry.logout(player.getUniqueId(), player.getLocation());
     }
 
-    private record PendingUser(@NotNull WorldUser user, long createdNanos) {}
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void handlePlayerTeleport(final PlayerTeleportEvent event) {
+        this.changeWorld(event.getPlayer(), event.getFrom(), event.getTo());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void handlePlayerPortal(final PlayerPortalEvent event) {
+        this.changeWorld(event.getPlayer(), event.getFrom(), event.getTo());
+    }
+
+    private void changeWorld(@NotNull final Player player, @NotNull final Location from, @Nullable final Location to) {
+        if ((to == null) || (from.getWorld() == null) || (from.getWorld().equals(to.getWorld()))) {
+            return;
+        }
+        this.userRegistry.changeWorld(player.getUniqueId(), from);
+    }
+
+    @Getter(AccessLevel.PRIVATE)
+    private static class PendingUser {
+
+        private final WorldUser user;
+        private final long createdNanos;
+
+        private PendingUser(@NotNull final WorldUser user, final long createdNanos) {
+            this.user = user;
+            this.createdNanos = createdNanos;
+        }
+
+    }
 
 }

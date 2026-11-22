@@ -20,6 +20,9 @@ public interface WorldUserRepository {
     CompletableFuture<Void> save(@NotNull final WorldUser user);
 
     @NotNull
+    CompletableFuture<Void> saveLocation(@NotNull final UUID uniqueId, @NotNull final WorldUserLocation location);
+
+    @NotNull
     CompletableFuture<Void> saveAll(@NotNull final Collection<? extends WorldUser> users);
 
 }

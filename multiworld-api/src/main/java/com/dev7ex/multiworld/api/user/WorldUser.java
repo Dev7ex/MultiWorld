@@ -2,9 +2,14 @@ package com.dev7ex.multiworld.api.user;
 
 import com.dev7ex.multiworld.api.user.offline.WorldOfflineUser;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Optional;
 
 /**
  *
@@ -20,6 +25,16 @@ public interface WorldUser extends WorldOfflineUser {
     long getLastLogin();
 
     void setLastLogin(final long lastLogin);
+
+    @NotNull
+    Map<NamespacedKey, WorldUserLocation> getLastLocations();
+
+    @NotNull
+    Optional<Location> getLastLocation(@NotNull final NamespacedKey worldKey);
+
+    void setLastLocation(@NotNull final Location location);
+
+    void setLastLocation(@NotNull final WorldUserLocation location);
 
     void sendMessage(@NotNull final Component component);
 

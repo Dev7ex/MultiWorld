@@ -2,7 +2,11 @@ package com.dev7ex.multiworld.user;
 
 import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.user.WorldUser;
+import com.dev7ex.multiworld.api.user.WorldUserLocation;
 import com.dev7ex.multiworld.api.user.WorldUserRepository;
+import lombok.AccessLevel;
+import lombok.Getter;
+import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -13,7 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.UUID;
@@ -34,7 +40,7 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
     private static final String DRIVER_CLASS = "org.sqlite.JDBC";
     private static final String FILE_NAME = "user.db";
     private static final String THREAD_NAME = "MultiWorld-UserStorage";
-    private static final int SCHEMA_VERSION = 1;
+    private static final int SCHEMA_VERSION = 2;
     private static final int SQLITE_IOERR = 10;
     private static final int SQLITE_CORRUPT = 11;
     private static final int SQLITE_CANTOPEN = 14;
@@ -43,6 +49,14 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
     private static final long FAILURE_LOG_INTERVAL_MILLIS = TimeUnit.MINUTES.toMillis(1);
     private static final long SHUTDOWN_TIMEOUT_SECONDS = 10;
 
+    private static final String CREATE_WORLD_TABLE = "CREATE TABLE IF NOT EXISTS world (id INTEGER PRIMARY KEY, world_key TEXT NOT NULL UNIQUE)";
+    private static final String CREATE_LOCATION_TABLE = "CREATE TABLE IF NOT EXISTS user_location (unique_id TEXT NOT NULL, world_id INTEGER NOT NULL, "
+            + "x REAL NOT NULL, y REAL NOT NULL, z REAL NOT NULL, yaw REAL NOT NULL, pitch REAL NOT NULL, PRIMARY KEY (unique_id, world_id)) WITHOUT ROWID";
+    private static final String SELECT_WORLDS = "SELECT id, world_key FROM world";
+    private static final String INSERT_WORLD = "INSERT INTO world (world_key) VALUES (?)";
+    private static final String SELECT_LOCATIONS = "SELECT world_id, x, y, z, yaw, pitch FROM user_location WHERE unique_id = ?";
+    private static final String SAVE_LOCATION = "INSERT INTO user_location (unique_id, world_id, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?, ?) "
+            + "ON CONFLICT (unique_id, world_id) DO UPDATE SET x = excluded.x, y = excluded.y, z = excluded.z, yaw = excluded.yaw, pitch = excluded.pitch";
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS user (unique_id TEXT PRIMARY KEY, name TEXT NOT NULL, first_login INTEGER NOT NULL, last_login INTEGER NOT NULL)";
     private static final String SELECT_USER = "SELECT name, first_login, last_login FROM user WHERE unique_id = ?";
     private static final String SAVE_USER = "INSERT INTO user (unique_id, name, first_login, last_login) VALUES (?, ?, ?, ?) "
@@ -51,7 +65,10 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
     private final MultiWorldApi multiWorldApi;
     private final File file;
     private final ExecutorService executor;
+    private final Map<NamespacedKey, Integer> worldIds = new HashMap<>();
+    private final Map<Integer, NamespacedKey> worldKeys = new HashMap<>();
     private Connection connection;
+    private boolean worldsLoaded;
     private long lastOpenFailure;
     private long lastFailureLog;
     private int suppressedFailures;
@@ -98,57 +115,91 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
             try (final PreparedStatement statement = this.getConnection().prepareStatement(DefaultWorldUserRepository.SELECT_USER)) {
                 statement.setString(1, uniqueId.toString());
 
+                final WorldUser user;
+
                 try (final ResultSet resultSet = statement.executeQuery()) {
                     if (!resultSet.next()) {
                         return Optional.empty();
                     }
-                    return Optional.of(this.multiWorldApi.getUserFactory().create(uniqueId, resultSet.getString(1), resultSet.getLong(2), resultSet.getLong(3)));
+                    user = this.multiWorldApi.getUserFactory().create(uniqueId, resultSet.getString(1), resultSet.getLong(2), resultSet.getLong(3));
                 }
+                this.loadLocations(user);
+                return Optional.of(user);
             }
         });
     }
 
     @Override
     public @NotNull CompletableFuture<Void> save(@NotNull final WorldUser user) {
-        return this.saveAll(List.of(user));
+        final UserSnapshot snapshot = new UserSnapshot(user, false);
+        return this.submit(() -> this.write(List.of(snapshot), List.of()));
+    }
+
+    @Override
+    public @NotNull CompletableFuture<Void> saveLocation(@NotNull final UUID uniqueId, @NotNull final WorldUserLocation location) {
+        final LocationSnapshot snapshot = new LocationSnapshot(uniqueId.toString(), location);
+        return this.submit(() -> this.write(List.of(), List.of(snapshot)));
     }
 
     @Override
     public @NotNull CompletableFuture<Void> saveAll(@NotNull final Collection<? extends WorldUser> users) {
         final List<UserSnapshot> snapshots = users.stream()
-                .map(user -> new UserSnapshot(user.getUniqueId().toString(), user.getName(), user.getFirstLogin(), user.getLastLogin()))
+                .map(user -> new UserSnapshot(user, true))
+                .toList();
+        final List<LocationSnapshot> locations = snapshots.stream()
+                .flatMap(snapshot -> snapshot.getLocations().stream())
                 .toList();
 
-        return this.submit(() -> {
-            final Connection connection = this.getConnection();
-            connection.setAutoCommit(false);
+        return this.submit(() -> this.write(snapshots, locations));
+    }
 
-            try (final PreparedStatement statement = connection.prepareStatement(DefaultWorldUserRepository.SAVE_USER)) {
-                for (final UserSnapshot snapshot : snapshots) {
-                    statement.setString(1, snapshot.uniqueId());
-                    statement.setString(2, snapshot.name());
-                    statement.setLong(3, snapshot.firstLogin());
-                    statement.setLong(4, snapshot.lastLogin());
-                    statement.executeUpdate();
-                }
-                connection.commit();
+    private Void write(@NotNull final List<UserSnapshot> snapshots, @NotNull final List<LocationSnapshot> locations) throws Exception {
+        final Connection connection = this.getConnection();
+        connection.setAutoCommit(false);
 
-            } catch (final Exception exception) {
-                try {
-                    connection.rollback();
+        try (final PreparedStatement statement = connection.prepareStatement(DefaultWorldUserRepository.SAVE_USER);
+             final PreparedStatement locationStatement = connection.prepareStatement(DefaultWorldUserRepository.SAVE_LOCATION)) {
 
-                } catch (final SQLException rollbackException) {
-                    exception.addSuppressed(rollbackException);
-                }
-                throw exception;
-
-            } finally {
-                if (!connection.isClosed()) {
-                    connection.setAutoCommit(true);
-                }
+            for (final UserSnapshot snapshot : snapshots) {
+                statement.setString(1, snapshot.getUniqueId());
+                statement.setString(2, snapshot.getName());
+                statement.setLong(3, snapshot.getFirstLogin());
+                statement.setLong(4, snapshot.getLastLogin());
+                statement.executeUpdate();
             }
-            return null;
-        });
+
+            for (final LocationSnapshot snapshot : locations) {
+                final WorldUserLocation location = snapshot.getLocation();
+                locationStatement.setString(1, snapshot.getUniqueId());
+                locationStatement.setInt(2, this.getWorldId(connection, location.getWorldKey()));
+                locationStatement.setDouble(3, location.getX());
+                locationStatement.setDouble(4, location.getY());
+                locationStatement.setDouble(5, location.getZ());
+                locationStatement.setFloat(6, location.getYaw());
+                locationStatement.setFloat(7, location.getPitch());
+                locationStatement.executeUpdate();
+            }
+            connection.commit();
+
+        } catch (final Exception exception) {
+            this.worldIds.clear();
+            this.worldKeys.clear();
+            this.worldsLoaded = false;
+
+            try {
+                connection.rollback();
+
+            } catch (final SQLException rollbackException) {
+                exception.addSuppressed(rollbackException);
+            }
+            throw exception;
+
+        } finally {
+            if (!connection.isClosed()) {
+                connection.setAutoCommit(true);
+            }
+        }
+        return null;
     }
 
     private <T> CompletableFuture<T> submit(@NotNull final Callable<T> task) {
@@ -235,6 +286,8 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
 
             if (version < DefaultWorldUserRepository.SCHEMA_VERSION) {
                 statement.executeUpdate(DefaultWorldUserRepository.CREATE_TABLE);
+                statement.executeUpdate(DefaultWorldUserRepository.CREATE_WORLD_TABLE);
+                statement.executeUpdate(DefaultWorldUserRepository.CREATE_LOCATION_TABLE);
                 statement.executeUpdate("PRAGMA user_version = " + DefaultWorldUserRepository.SCHEMA_VERSION);
             }
 
@@ -243,6 +296,73 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
             throw exception;
         }
         return connection;
+    }
+
+    private void loadLocations(@NotNull final WorldUser user) throws SQLException {
+        final Connection connection = this.getConnection();
+
+        if (!this.worldsLoaded) {
+            this.loadWorlds(connection);
+        }
+
+        try (final PreparedStatement statement = connection.prepareStatement(DefaultWorldUserRepository.SELECT_LOCATIONS)) {
+            statement.setString(1, user.getUniqueId().toString());
+
+            try (final ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    final NamespacedKey worldKey = this.worldKeys.get(resultSet.getInt(1));
+
+                    if (worldKey == null) {
+                        continue;
+                    }
+                    user.setLastLocation(new DefaultWorldUserLocation(worldKey, resultSet.getDouble(2), resultSet.getDouble(3), resultSet.getDouble(4),
+                            resultSet.getFloat(5), resultSet.getFloat(6)));
+                }
+            }
+        }
+    }
+
+    private void loadWorlds(@NotNull final Connection connection) throws SQLException {
+        try (final Statement statement = connection.createStatement();
+             final ResultSet resultSet = statement.executeQuery(DefaultWorldUserRepository.SELECT_WORLDS)) {
+
+            while (resultSet.next()) {
+                final NamespacedKey worldKey = NamespacedKey.fromString(resultSet.getString(2));
+
+                if (worldKey == null) {
+                    continue;
+                }
+                this.worldIds.put(worldKey, resultSet.getInt(1));
+                this.worldKeys.put(resultSet.getInt(1), worldKey);
+            }
+        }
+        this.worldsLoaded = true;
+    }
+
+    private int getWorldId(@NotNull final Connection connection, @NotNull final NamespacedKey worldKey) throws SQLException {
+        if (!this.worldsLoaded) {
+            this.loadWorlds(connection);
+        }
+        final Integer cachedId = this.worldIds.get(worldKey);
+
+        if (cachedId != null) {
+            return cachedId;
+        }
+
+        try (final PreparedStatement statement = connection.prepareStatement(DefaultWorldUserRepository.INSERT_WORLD, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, worldKey.toString());
+            statement.executeUpdate();
+
+            try (final ResultSet resultSet = statement.getGeneratedKeys()) {
+                if (!resultSet.next()) {
+                    throw new SQLException("No id was generated for World " + worldKey);
+                }
+                final int id = resultSet.getInt(1);
+                this.worldIds.put(worldKey, id);
+                this.worldKeys.put(id, worldKey);
+                return id;
+            }
+        }
     }
 
     private boolean isCorrupt(@NotNull final SQLException exception) {
@@ -280,6 +400,9 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
             this.multiWorldApi.getLogger().log(Level.WARNING, "Can't close the user storage", exception);
         }
         this.connection = null;
+        this.worldIds.clear();
+        this.worldKeys.clear();
+        this.worldsLoaded = false;
     }
 
     private void handleFailure(@NotNull final Exception exception) {
@@ -310,6 +433,38 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
         this.suppressedFailures = 0;
     }
 
-    private record UserSnapshot(@NotNull String uniqueId, @NotNull String name, long firstLogin, long lastLogin) {}
+    @Getter(AccessLevel.PRIVATE)
+    private static class UserSnapshot {
+
+        private final String uniqueId;
+        private final String name;
+        private final long firstLogin;
+        private final long lastLogin;
+        private final List<LocationSnapshot> locations;
+
+        private UserSnapshot(@NotNull final WorldUser user, final boolean withLocations) {
+            this.uniqueId = user.getUniqueId().toString();
+            this.name = user.getName();
+            this.firstLogin = user.getFirstLogin();
+            this.lastLogin = user.getLastLogin();
+            this.locations = withLocations
+                    ? user.getLastLocations().values().stream().map(location -> new LocationSnapshot(this.uniqueId, location)).toList()
+                    : List.of();
+        }
+
+    }
+
+    @Getter(AccessLevel.PRIVATE)
+    private static class LocationSnapshot {
+
+        private final String uniqueId;
+        private final WorldUserLocation location;
+
+        private LocationSnapshot(@NotNull final String uniqueId, @NotNull final WorldUserLocation location) {
+            this.uniqueId = uniqueId;
+            this.location = location;
+        }
+
+    }
 
 }

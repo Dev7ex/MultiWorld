@@ -6,6 +6,8 @@ import com.dev7ex.multiworld.api.user.WorldUserRegistry;
 import com.dev7ex.multiworld.api.user.offline.WorldOfflineUser;
 import com.dev7ex.multiworld.module.DefaultWorldModule;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,7 +47,18 @@ public class DefaultWorldUserRegistry extends DefaultWorldModule implements Worl
                 .map(user -> (WorldUser) user)
                 .toList();
 
-        onlineUsers.forEach(user -> user.setLastLogin(now));
+        onlineUsers.forEach(user -> {
+            user.setLastLogin(now);
+
+            if (super.getMultiWorldApi().getScheduler().isRegionized()) {
+                return;
+            }
+            final Player player = Bukkit.getPlayer(user.getUniqueId());
+
+            if (player != null) {
+                user.setLastLocation(player.getLocation());
+            }
+        });
         super.getMultiWorldApi().getUserRepository().saveAll(onlineUsers);
 
         if (super.getMultiWorldApi().getUserRepository() instanceof final DefaultWorldUserRepository repository) {
@@ -59,6 +72,9 @@ public class DefaultWorldUserRegistry extends DefaultWorldModule implements Worl
         final long firstLogin = (storedUser == null) ? now : storedUser.getFirstLogin();
         final WorldUser user = super.getMultiWorldApi().getUserFactory().create(uniqueId, name, firstLogin, now);
 
+        if (storedUser != null) {
+            storedUser.getLastLocations().values().forEach(user::setLastLocation);
+        }
         this.register(user);
 
         if ((storedUser != null) && (storedUser.getName().equals(name))) {
@@ -70,17 +86,41 @@ public class DefaultWorldUserRegistry extends DefaultWorldModule implements Worl
             return;
         }
         saved.thenCompose(ignored -> super.getMultiWorldApi().getUserRepository().find(uniqueId))
-                .thenAccept(found -> found.ifPresent(stored -> user.setFirstLogin(stored.getFirstLogin())));
+                .thenAccept(found -> found.ifPresent(stored -> {
+                    user.setFirstLogin(stored.getFirstLogin());
+                    stored.getLastLocations().values().stream()
+                            .filter(location -> !user.getLastLocations().containsKey(location.getWorldKey()))
+                            .forEach(user::setLastLocation);
+                }));
     }
 
-    public void logout(@NotNull final UUID uniqueId) {
+    public void logout(@NotNull final UUID uniqueId, @Nullable final Location location) {
         final WorldOfflineUser user = this.users.remove(uniqueId);
 
         if (!(user instanceof final WorldUser worldUser)) {
             return;
         }
+
         worldUser.setLastLogin(System.currentTimeMillis());
         super.getMultiWorldApi().getUserRepository().save(worldUser);
+
+        if ((location != null) && (location.getWorld() != null)) {
+            worldUser.setLastLocation(location);
+            Optional.ofNullable(worldUser.getLastLocations().get(location.getWorld().getKey()))
+                    .ifPresent(lastLocation -> super.getMultiWorldApi().getUserRepository().saveLocation(uniqueId, lastLocation));
+        }
+    }
+
+    public void changeWorld(@NotNull final UUID uniqueId, @NotNull final Location from) {
+        if (!(this.users.get(uniqueId) instanceof final WorldUser worldUser)) {
+            return;
+        }
+        if (from.getWorld() == null) {
+            return;
+        }
+        worldUser.setLastLocation(from);
+        Optional.ofNullable(worldUser.getLastLocations().get(from.getWorld().getKey()))
+                .ifPresent(location -> super.getMultiWorldApi().getUserRepository().saveLocation(uniqueId, location));
     }
 
     @Override
