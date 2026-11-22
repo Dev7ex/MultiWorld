@@ -89,18 +89,20 @@ public class CreateCommand extends PaperCommand implements EmptyTabCompleter {
             );
             return;
         }
-        final WorldGroup group = this.groupManager.create(id, groupName, commandSender.getName());
+        this.groupManager.create(commandSender, id, groupName, commandSender.getName()).ifPresentOrElse(worldGroup -> {
+            commandSender.sendMessage(
+                    this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.COMMAND_WORLD_GROUP_CREATE_SUCCESSFULLY_CREATED)
+                            .replaceText(builder -> builder.matchLiteral("%group_id%").replacement(String.valueOf(worldGroup.getId())))
+                            .replaceText(builder -> builder.matchLiteral("%group_name%").replacement(worldGroup.getName()))
+                            .replaceText(builder -> builder.matchLiteral("%group_display_name%").replacement(worldGroup.getDisplayName()))
+                            .replaceText(builder -> builder.matchLiteral("%colored_group_display_name%").replacement(worldGroup.getColoredDisplayName()))
+            );
 
-        this.groupRepository.insert(group); // TODO: MOVE
-        this.groupRegistry.register(group);
+        }, () -> {
 
-        commandSender.sendMessage(
-                this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.COMMAND_WORLD_GROUP_CREATE_SUCCESSFULLY_CREATED)
-                        .replaceText(builder -> builder.matchLiteral("%group_id%").replacement(String.valueOf(group.getId())))
-                        .replaceText(builder -> builder.matchLiteral("%group_name%").replacement(group.getName()))
-                        .replaceText(builder -> builder.matchLiteral("%group_display_name%").replacement(group.getDisplayName()))
-                        .replaceText(builder -> builder.matchLiteral("%colored_group_display_name%").replacement(group.getColoredDisplayName()))
-        );
+        });
+
+
     }
 
 }
