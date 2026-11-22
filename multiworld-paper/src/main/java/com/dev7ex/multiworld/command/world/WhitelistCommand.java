@@ -9,7 +9,6 @@ import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
 import com.dev7ex.multiworld.command.world.whitelist.*;
 import com.dev7ex.multiworld.command.world.whitelist.HelpCommand;
-import com.dev7ex.multiworld.command.world.whitelist.ListCommand;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,14 +42,14 @@ public class WhitelistCommand extends PaperCommand implements ArgumentTabComplet
 
     @Override
     public void execute(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        if ((arguments.length < 2) || (arguments.length > 5)) {
+        if (arguments.length < 2) {
             this.helpCommand.execute(commandSender, arguments);
             return;
         }
         final String subCommandName = arguments[1].asString().toLowerCase(Locale.ROOT);
 
         super.findSubCommand(subCommandName).ifPresentOrElse(subCommand -> {
-            if ((subCommand.hasPermission()) && (!commandSender.hasPermission(subCommand.getPermission()))) {
+            if (subCommand.hasPermission() && !commandSender.hasPermission(subCommand.getPermission())) {
                 commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.MESSAGE_NO_PERMISSION));
                 return;
             }
@@ -61,26 +60,23 @@ public class WhitelistCommand extends PaperCommand implements ArgumentTabComplet
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        if ((arguments.length < 2) || (arguments.length > 4)) {
+        if (arguments.length < 2) {
             return Collections.emptyList();
-        }
-
-        if (arguments.length == 2) {
-            final String input = arguments[1].asString().toLowerCase(Locale.ROOT);
-
-            return super.getSubCommands().values().stream()
-                    .filter(subCommand -> !subCommand.hasPermission() || commandSender.hasPermission(subCommand.getPermission()))
-                    .map(subCommand -> subCommand.getName().toLowerCase(Locale.ROOT))
-                    .filter(name -> name.startsWith(input))
-                    .toList();
         }
         final String subCommandName = arguments[1].asString().toLowerCase(Locale.ROOT);
 
+        if (arguments.length == 2) {
+            return super.getSubCommands().values().stream()
+                    .filter(subCommand -> !subCommand.hasPermission() || commandSender.hasPermission(subCommand.getPermission()))
+                    .map(subCommand -> subCommand.getName().toLowerCase(Locale.ROOT))
+                    .filter(name -> name.startsWith(subCommandName))
+                    .toList();
+        }
         return super.findSubCommand(subCommandName)
                 .filter(subCommand -> !subCommand.hasPermission() || commandSender.hasPermission(subCommand.getPermission()))
                 .filter(ArgumentTabCompleter.class::isInstance)
                 .map(subCommand -> ((ArgumentTabCompleter) subCommand).onTabComplete(commandSender, arguments))
-                .orElse(Collections.emptyList());
+                .orElseGet(Collections::emptyList);
     }
 
 }
