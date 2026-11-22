@@ -21,6 +21,14 @@ public class DefaultWorldUserFactory implements WorldUserFactory {
     }
 
     @Override
+    public WorldUser create(@NotNull final UUID uniqueId, @NotNull final String name, final long firstLogin, final long lastLogin) {
+        final WorldUser user = new DefaultWorldUser(uniqueId, name);
+        user.setFirstLogin(firstLogin);
+        user.setLastLogin(lastLogin);
+        return user;
+    }
+
+    @Override
     public WorldUser create(@NotNull final Player player) {
         return new DefaultWorldUser(player.getUniqueId(), player.getName());
     }

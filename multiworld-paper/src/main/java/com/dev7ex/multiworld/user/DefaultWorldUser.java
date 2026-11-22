@@ -22,8 +22,8 @@ public class DefaultWorldUser implements WorldUser {
 
     private final UUID uniqueId;
     private final String name;
-    private long firstLogin;
-    private long lastLogin;
+    private volatile long firstLogin;
+    private volatile long lastLogin;
 
     public DefaultWorldUser(@NotNull final UUID uniqueId, @NotNull final String name) {
         this.uniqueId = uniqueId;
