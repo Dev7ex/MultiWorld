@@ -14,12 +14,7 @@ import com.dev7ex.multiworld.api.user.WorldUserRegistry;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryFactory;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryRegistry;
 import com.dev7ex.multiworld.api.util.BukkitUtil;
-import com.dev7ex.multiworld.api.world.WorldContext;
-import com.dev7ex.multiworld.api.world.WorldFactory;
-import com.dev7ex.multiworld.api.world.WorldManager;
-import com.dev7ex.multiworld.api.world.WorldRegistry;
-import com.dev7ex.multiworld.api.world.WorldRepository;
-import com.dev7ex.multiworld.api.world.WorldResolver;
+import com.dev7ex.multiworld.api.world.*;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupFactory;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupManager;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupRegistry;
@@ -28,6 +23,7 @@ import com.dev7ex.multiworld.api.world.generator.WorldGeneratorFactory;
 import com.dev7ex.multiworld.api.world.generator.WorldGeneratorRegistry;
 import com.dev7ex.multiworld.api.world.generator.WorldGeneratorRepository;
 import com.dev7ex.multiworld.api.world.group.WorldGroupFactory;
+import com.dev7ex.multiworld.api.world.group.WorldGroupManager;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRegistry;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRepository;
 import com.dev7ex.multiworld.api.world.result.WorldLifecycleResult;
@@ -39,11 +35,7 @@ import com.dev7ex.multiworld.scheduler.BukkitWorldScheduler;
 import com.dev7ex.multiworld.scheduler.PaperWorldScheduler;
 import com.dev7ex.multiworld.user.DefaultWorldUserFactory;
 import com.dev7ex.multiworld.user.DefaultWorldUserRegistry;
-import com.dev7ex.multiworld.world.DefaultWorldFactory;
-import com.dev7ex.multiworld.world.DefaultWorldManager;
-import com.dev7ex.multiworld.world.DefaultWorldRegistry;
-import com.dev7ex.multiworld.world.DefaultWorldRepository;
-import com.dev7ex.multiworld.world.DefaultWorldResolver;
+import com.dev7ex.multiworld.world.*;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupFactory;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupManager;
 import com.dev7ex.multiworld.world.backup.DefaultWorldBackupRegistry;
@@ -51,6 +43,7 @@ import com.dev7ex.multiworld.world.flag.DefaultWorldFlagRegistry;
 import com.dev7ex.multiworld.world.generator.DefaultWorldGeneratorRegistry;
 import com.dev7ex.multiworld.world.generator.DefaultWorldGeneratorRepository;
 import com.dev7ex.multiworld.world.group.DefaultWorldGroupFactory;
+import com.dev7ex.multiworld.world.group.DefaultWorldGroupManager;
 import com.dev7ex.multiworld.world.group.DefaultWorldGroupRegistry;
 import com.dev7ex.multiworld.world.group.DefaultWorldGroupRepository;
 import lombok.AccessLevel;
@@ -83,6 +76,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
     private WorldModuleManager moduleManager;
     private WorldBackupManager backupManager;
+    private WorldGroupManager groupManager;
     private WorldManager worldManager;
     private WorldResolver worldResolver;
     private WorldScheduler scheduler;
@@ -224,7 +218,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
     public void registerFactories() {
         this.userFactory = new DefaultWorldUserFactory();
         this.backupFactory = new DefaultWorldBackupFactory(this);
-        this.groupFactory = new DefaultWorldGroupFactory(this);
+        this.groupFactory = new DefaultWorldGroupFactory();
         this.worldFactory = new DefaultWorldFactory(this);
     }
 
@@ -237,6 +231,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
     public void registerManagers() {
         this.moduleManager = new DefaultWorldModuleManager();
         this.backupManager = new DefaultWorldBackupManager(this);
+        this.groupManager = new DefaultWorldGroupManager(this);
         this.worldManager = new DefaultWorldManager(this);
         this.worldResolver = new DefaultWorldResolver(this);
     }

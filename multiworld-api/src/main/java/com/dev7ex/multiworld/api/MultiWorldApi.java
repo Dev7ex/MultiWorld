@@ -1,4 +1,5 @@
 package com.dev7ex.multiworld.api;
+
 import com.dev7ex.multicommon.api.configuration.ConfigurationHolder;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
 import com.dev7ex.multiworld.api.module.WorldModuleManager;
@@ -7,11 +8,7 @@ import com.dev7ex.multiworld.api.user.WorldUserFactory;
 import com.dev7ex.multiworld.api.user.WorldUserRegistry;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryFactory;
 import com.dev7ex.multiworld.api.user.inventory.WorldUserInventoryRegistry;
-import com.dev7ex.multiworld.api.world.WorldFactory;
-import com.dev7ex.multiworld.api.world.WorldManager;
-import com.dev7ex.multiworld.api.world.WorldRegistry;
-import com.dev7ex.multiworld.api.world.WorldRepository;
-import com.dev7ex.multiworld.api.world.WorldResolver;
+import com.dev7ex.multiworld.api.world.*;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupFactory;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupManager;
 import com.dev7ex.multiworld.api.world.backup.WorldBackupRegistry;
@@ -19,6 +16,7 @@ import com.dev7ex.multiworld.api.world.flag.WorldFlagRegistry;
 import com.dev7ex.multiworld.api.world.generator.WorldGeneratorFactory;
 import com.dev7ex.multiworld.api.world.generator.WorldGeneratorRegistry;
 import com.dev7ex.multiworld.api.world.group.WorldGroupFactory;
+import com.dev7ex.multiworld.api.world.group.WorldGroupManager;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRegistry;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRepository;
 import org.bukkit.NamespacedKey;
@@ -127,6 +125,10 @@ public interface MultiWorldApi extends Plugin, ConfigurationHolder {
 
     void setGroupFactory(@NotNull final WorldGroupFactory groupFactory);
 
+    @NotNull WorldGroupManager getGroupManager();
+
+    void setGroupManager(@NotNull final WorldGroupManager groupManager);
+
     @NotNull
     WorldGroupRegistry getGroupRegistry();
 
@@ -160,7 +162,6 @@ public interface MultiWorldApi extends Plugin, ConfigurationHolder {
     WorldGroupRepository getGroupRepository();
 
     void setGroupRepository(@NotNull final WorldGroupRepository groupRepository);
-
 
 
 }

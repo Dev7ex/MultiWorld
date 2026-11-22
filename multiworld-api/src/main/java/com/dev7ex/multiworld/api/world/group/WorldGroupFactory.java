@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface WorldGroupFactory {
 
-    WorldGroup create(final int id, @NotNull final String groupName);
+    WorldGroup create(final int id, @NotNull final String groupName, @NotNull final String creatorName);
 
-    void delete(final int id);
+    @NotNull WorldGroupBuilder builder();
 
 }

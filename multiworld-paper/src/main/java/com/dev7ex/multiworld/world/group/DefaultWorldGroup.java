@@ -13,7 +13,7 @@ import org.bukkit.Material;
  */
 @Getter(AccessLevel.PUBLIC)
 @Setter(AccessLevel.PUBLIC)
-@Builder(setterPrefix = "set")
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 public class DefaultWorldGroup implements WorldGroup {
@@ -33,7 +33,7 @@ public class DefaultWorldGroup implements WorldGroup {
 
     @Override
     public Component getColoredDisplayName() {
-        return Component.text(this.displayName).color(this.color);
+        return Component.text(this.displayName, this.color);
     }
 
 }

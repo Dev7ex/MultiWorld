@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public interface WorldGroupRepository extends ConfigurationBase {
 
-    void create(@NotNull final WorldGroup group);
+    void insert(@NotNull final WorldGroup group);
 
     void delete(@NotNull final WorldGroup group);
 

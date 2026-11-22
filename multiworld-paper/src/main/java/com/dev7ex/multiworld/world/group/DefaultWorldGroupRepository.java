@@ -28,7 +28,7 @@ public class DefaultWorldGroupRepository extends Configuration implements WorldG
     }
 
     @Override
-    public void create(@NotNull final WorldGroup group) {
+    public void insert(@NotNull final WorldGroup group) {
         final String path = group.getId() + ".";
 
         super.getFileConfiguration().set(path + WorldGroupProperty.NAME.getKey(), group.getName());
@@ -82,7 +82,7 @@ public class DefaultWorldGroupRepository extends Configuration implements WorldG
             return Optional.empty();
         }
         try {
-            return Optional.of(DefaultWorldGroup.builder()
+            return Optional.of(new DefaultWorldGroupBuilder()
                     .setId(id)
                     .setName(super.getFileConfiguration().getString(id + "." + WorldGroupProperty.NAME.getKey()))
                     .setDisplayName(super.getFileConfiguration().getString(id + "." + WorldGroupProperty.DISPLAY_NAME.getKey()))

@@ -1,5 +1,6 @@
 package com.dev7ex.multiworld.world.group;
 
+import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.world.group.WorldGroup;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRegistry;
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class DefaultWorldGroupRegistry extends DefaultWorldModule implements WorldGroupRegistry {
 
     private final Map<Integer, WorldGroup> groups = new HashMap<>();
-    private WorldGroupRepository repository;
+    private final WorldGroupRepository repository;
     private WorldGroup defaultGroup;
 
     public DefaultWorldGroupRegistry(@NotNull final MultiWorldApi multiWorldApi) {
@@ -38,7 +39,7 @@ public class DefaultWorldGroupRegistry extends DefaultWorldModule implements Wor
         this.groups.putAll(this.repository.findAll());
 
         if (!this.groups.containsKey(0)) {
-            this.defaultGroup = DefaultWorldGroup.builder()
+            this.defaultGroup = MultiWorldPlugin.getInstance().getGroupFactory().builder()
                     .setId(0)
                     .setName("default")
                     .setDisplayName("Default")
@@ -47,7 +48,7 @@ public class DefaultWorldGroupRegistry extends DefaultWorldModule implements Wor
                     .setCreatorName(Bukkit.getConsoleSender().getName())
                     .setRegistrationTimestamp(System.currentTimeMillis())
                     .build();
-            this.repository.create(this.defaultGroup);
+            this.repository.insert(this.defaultGroup);
             this.groups.put(0, this.defaultGroup);
 
         } else {
@@ -65,17 +66,17 @@ public class DefaultWorldGroupRegistry extends DefaultWorldModule implements Wor
     }
 
     @Override
-    public void register(@NotNull WorldGroup group) {
+    public void register(@NotNull final WorldGroup group) {
         this.groups.put(group.getId(), group);
     }
 
     @Override
-    public void unregister(@NotNull WorldGroup group) {
+    public void unregister(@NotNull final WorldGroup group) {
         this.groups.remove(group.getId());
     }
 
     @Override
-    public void unregister(int id) {
+    public void unregister(final int id) {
         this.groups.remove(id);
     }
 

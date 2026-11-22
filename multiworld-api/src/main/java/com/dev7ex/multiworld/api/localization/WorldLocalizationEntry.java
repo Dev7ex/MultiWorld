@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 @Getter(AccessLevel.PUBLIC)
-public enum WorldLocalizationEntry  {
+public enum WorldLocalizationEntry {
 
     // /world backup clear
     COMMAND_WORLD_BACKUP_CLEAR_USAGE,
@@ -95,6 +95,7 @@ public enum WorldLocalizationEntry  {
     COMMAND_WORLD_GROUP_GUI_USAGE,
 
     COMMAND_WORLD_GROUP_HELP,
+    COMMAND_WORLD_GROUP_HELP_USAGE,
 
     COMMAND_WORLD_GROUP_LIST_USAGE,
     COMMAND_WORLD_GROUP_LIST_MESSAGE,
@@ -211,7 +212,6 @@ public enum WorldLocalizationEntry  {
 
     MESSAGE_WORLD_GAMERULE_NOT_EXISTS,
     MESSAGE_WORLD_GAMERULE_INVALID_VALUE,
-
 
 
     MESSAGE_WORLD_GROUP_ALREADY_EXISTS_NAME("message.world.group.already-exists.name"),
