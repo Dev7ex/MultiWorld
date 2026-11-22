@@ -7,7 +7,7 @@ import com.dev7ex.multicommon.api.command.completer.EmptyTabCompleter;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
-import io.papermc.paper.registry.keys.SoundEventKeys;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -21,9 +21,7 @@ import org.jetbrains.annotations.NotNull;
 @PaperCommandProperties(name = "setspawn", permission = "multiworld.command.world.setspawn")
 public class SetSpawnCommand extends PaperCommand implements EmptyTabCompleter {
 
-    private static final Sound SUCCESS_SOUND = Sound.sound()
-            .type(SoundEventKeys.ENTITY_PLAYER_LEVELUP)
-            .build();
+    private static final Sound SUCCESS_SOUND = Sound.sound(Key.key("entity.player.levelup"), Sound.Source.MASTER, 1.0F, 1.0F);
 
     private final WorldLocalizationRegistry localizationRegistry;
 

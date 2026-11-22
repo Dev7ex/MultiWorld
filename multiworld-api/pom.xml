@@ -119,6 +119,7 @@
                     <showWarnings>true</showWarnings>
                     <source>${project.source.version}</source>
                     <target>${project.source.version}</target>
+                    <release>${project.source.version}</release>
                 </configuration>
             </plugin>
 

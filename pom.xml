@@ -23,7 +23,7 @@
         <maven.compiler.target>${project.source.version}</maven.compiler.target>
 
         <project.minecraft.version>1.17</project.minecraft.version>
-        <project.source.version>21</project.source.version>
+        <project.source.version>17</project.source.version>
         <project.source.encoding>UTF-8</project.source.encoding>
 
         <maven.jar.plugin.version>3.4.2</maven.jar.plugin.version>
