@@ -1,7 +1,6 @@
 package com.dev7ex.multiworld.world;
 
 import com.dev7ex.multiworld.api.MultiWorldApi;
-import com.dev7ex.multiworld.api.event.world.WorldCreateEvent;
 import com.dev7ex.multiworld.api.event.world.WorldDeleteEvent;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.world.*;
@@ -73,59 +72,7 @@ public class DefaultWorldFactory implements WorldFactory {
 
     @Override
     public @Nullable WorldContext create(@NotNull final Audience audience, @NotNull final WorldCreator worldCreator) {
-        if (this.multiWorldApi.getScheduler().isRegionized()) {
-            this.multiWorldApi.getLogger().warning(String.format("Can't create World %s: Folia doesn't support creating Worlds while running", worldCreator.name()));
-            audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.MESSAGE_WORLD_RUNTIME_UNSUPPORTED)
-                    .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(worldCreator.name())));
-            return null;
-        }
-        audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_STARTING)
-                .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(worldCreator.name())));
-
-        final WorldContext worldContext = DefaultWorldContext.builder()
-                .setKey(worldCreator.key())
-                .setName(worldCreator.name())
-                .setDisplayName(worldCreator.name())
-                .setColor(NamedTextColor.GRAY)
-                .setIcon(Material.GRASS_BLOCK)
-                .setCreatorName(audience.get(Identity.NAME).orElse("Unknown"))
-                .setRegistrationTimestamp(System.currentTimeMillis())
-                .setGroupId(this.groupRegistry.getDefaultGroup().getId())
-                .setGroup(this.groupRegistry.getDefaultGroup())
-                .setEnvironment(WorldEnvironment.ofBukkit(worldCreator.environment()))
-                .setType(WorldType.ofBukkit(worldCreator.type()))
-                .setSeed(worldCreator.seed())
-                .build();
-
-        final WorldCreateEvent event = new WorldCreateEvent(worldContext, audience);
-        Bukkit.getPluginManager().callEvent(event);
-
-        if (event.isCancelled()) {
-            if (event.isNotifyOnCancel()) {
-                audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_CANCELLED)
-                        .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(worldCreator.name())));
-            }
-            return null;
-        }
-        final World world = worldCreator.createWorld();
-
-        if (world == null) {
-            return null;
-        }
-
-        worldContext.setKey(world.getKey());
-        worldContext.setName(world.getName());
-        worldContext.setEnvironment(WorldEnvironment.ofBukkit(world.getEnvironment()));
-        worldContext.setType(WorldType.ofBukkit(worldCreator.type()));
-        worldContext.setSeed(world.getSeed());
-        worldContext.setDirectory(new WorldDirectory(world.getWorldFolder()));
-
-        final WorldContext registeredContext = this.register(worldContext);
-
-        audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_FINISHING)
-                .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(registeredContext.getName())));
-
-        return registeredContext;
+        return this.multiWorldApi.getWorldManager().create(audience, worldCreator);
     }
 
     @Override

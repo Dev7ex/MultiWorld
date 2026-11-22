@@ -60,6 +60,7 @@ public enum WorldLocalizationEntry  {
     COMMAND_WORLD_CREATE_STARTING,
     COMMAND_WORLD_CREATE_CANCELLED,
     COMMAND_WORLD_CREATE_FINISHING,
+    COMMAND_WORLD_CREATE_FAILED,
 
     // /world debug
     COMMAND_WORLD_DEBUG_USAGE,
@@ -243,6 +244,8 @@ public enum WorldLocalizationEntry  {
 
     MESSAGE_WORLD_UNLOAD_PROTECTED("message.world.unload-protected"),
     MESSAGE_WORLD_RUNTIME_UNSUPPORTED("message.world.runtime-unsupported"),
+    MESSAGE_WORLD_NAME_INVALID("message.world.name-invalid"),
+    MESSAGE_WORLD_DIRECTORY_EXISTS("message.world.directory-exists"),
 
     MESSAGE_WORLD_WHITELIST_BLOCKED("message.world.whitelist-blocked"),
 

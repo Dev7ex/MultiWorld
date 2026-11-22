@@ -180,7 +180,8 @@
         "usage": "%prefix% §cVerwendung: /world create <Name> <Umgebung> <-g, -s, -t> <Generator | Seed | Type>",
         "starting": "%prefix% §7Die Welt §a%world_name% §7wird erstellt...",
         "cancelled": "%prefix% §7Das Erstellen der Welt §a%world_name% §7wurde §cabgebrochen",
-        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich erstellt"
+        "finishing": "%prefix% §7Die Welt §a%world_name% §7wurde erfolgreich erstellt",
+        "failed": "%prefix% §7Die Welt §a%world_name% §7konnte §cnicht §7erstellt werden"
       },
       "debug": {
         "usage": "%prefix% §cVerwendung: /world debug",
@@ -691,6 +692,8 @@
       "invalid-type": "%prefix% §7Der Welt-Typ §6%world_type% §7ist §cnicht gültig§7",
       "unload-protected": "%prefix% §7Die Welt §a%world_name% §7ist gegen das Entladen geschützt",
       "runtime-unsupported": "%prefix% §7Die Welt §a%world_name% §7kann auf Folia nicht während der Laufzeit erstellt, geladen oder entladen werden",
+      "name-invalid": "%prefix% §7Der Weltname §6%world_name% §7ist §cnicht gültig§7. Erlaubt sind §aA-Z, a-z, 0-9, _ §7und §a- §7(max. 64 Zeichen)",
+      "directory-exists": "%prefix% §7Es existiert bereits ein Weltenordner mit dem Namen §a%world_name%§7. Nutze §a/world import",
       "whitelist-blocked": "%prefix% §7Du darfst diese Welt nicht betreten, da du §cnicht §7auf der Whitelist stehst"
     },
     "validation": {

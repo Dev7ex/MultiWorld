@@ -1,21 +1,31 @@
 package com.dev7ex.multiworld.world;
 
 import com.dev7ex.multiworld.api.MultiWorldApi;
+import com.dev7ex.multiworld.api.event.world.WorldCreateEvent;
+import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.util.BukkitUtil;
 import com.dev7ex.multiworld.api.world.WorldBuilder;
 import com.dev7ex.multiworld.api.world.WorldContext;
 import com.dev7ex.multiworld.api.world.WorldDirectory;
+import com.dev7ex.multiworld.api.world.WorldEnvironment;
 import com.dev7ex.multiworld.api.world.WorldManager;
+import com.dev7ex.multiworld.api.world.WorldType;
+import com.dev7ex.multiworld.api.world.group.WorldGroup;
 import com.dev7ex.multiworld.api.world.result.WorldLifecycleResult;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.identity.Identity;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +48,8 @@ public class DefaultWorldManager implements WorldManager {
     private static final String LEVEL_FILE = "level.dat";
     private static final String PREVIOUS_SUFFIX = "previous";
     private static final String DIMENSIONS_DIRECTORY = "dimensions";
+    private static final Pattern WORLD_NAME_PATTERN = Pattern.compile("^[A-Za-z0-9_-]{1,64}$");
+    private static final String UNKNOWN_CREATOR = "Unknown";
     private static final Pattern LEFTOVER_PATTERN = Pattern.compile("^(.+)\\.(previous|restoring|deleted)-\\d{13}$");
     private static final Set<NamespacedKey> PROTECTED_WORLD_KEYS = Set.of(
             NamespacedKey.minecraft("overworld"),
@@ -48,6 +60,97 @@ public class DefaultWorldManager implements WorldManager {
 
     public DefaultWorldManager(@NotNull final MultiWorldApi multiWorldApi) {
         this.multiWorldApi = multiWorldApi;
+    }
+
+    @Override
+    public @Nullable WorldContext create(@NotNull final Audience audience, @NotNull final WorldCreator worldCreator) {
+        BukkitUtil.checkPrimaryThread();
+
+        final String worldName = worldCreator.name();
+
+        if (this.multiWorldApi.getScheduler().isRegionized()) {
+            this.multiWorldApi.getLogger().warning(String.format("Can't create World %s: Folia doesn't support creating Worlds while running", worldName));
+            this.sendMessage(audience, WorldLocalizationEntry.MESSAGE_WORLD_RUNTIME_UNSUPPORTED, worldName);
+            return null;
+        }
+
+        if (!DefaultWorldManager.WORLD_NAME_PATTERN.matcher(worldName).matches()) {
+            this.sendMessage(audience, WorldLocalizationEntry.MESSAGE_WORLD_NAME_INVALID, worldName);
+            return null;
+        }
+
+        if ((Bukkit.getWorld(worldCreator.key()) != null) || (Bukkit.getWorld(worldName) != null)
+                || (this.multiWorldApi.getWorldRegistry().find(worldCreator.key()).isPresent())
+                || (this.multiWorldApi.getWorldRegistry().find(worldName).isPresent())) {
+            this.sendMessage(audience, WorldLocalizationEntry.MESSAGE_WORLD_ALREADY_EXISTS, worldName);
+            return null;
+        }
+        final WorldGroup defaultGroup = this.multiWorldApi.getGroupRegistry().getDefaultGroup();
+        final WorldContext context = DefaultWorldContext.builder()
+                .setKey(worldCreator.key())
+                .setName(worldName)
+                .setDisplayName(worldName)
+                .setColor(NamedTextColor.GRAY)
+                .setIcon(Material.GRASS_BLOCK)
+                .setCreatorName(audience.get(Identity.NAME).orElse(DefaultWorldManager.UNKNOWN_CREATOR))
+                .setRegistrationTimestamp(System.currentTimeMillis())
+                .setGroupId(defaultGroup.getId())
+                .setGroup(defaultGroup)
+                .setEnvironment(WorldEnvironment.ofBukkit(worldCreator.environment()))
+                .setType(WorldType.ofBukkit(worldCreator.type()))
+                .setSeed(worldCreator.seed())
+                .build();
+        final File directory = this.multiWorldApi.getWorldResolver().resolveDirectory(context);
+
+        if (directory.exists()) {
+            this.sendMessage(audience, WorldLocalizationEntry.MESSAGE_WORLD_DIRECTORY_EXISTS, worldName);
+            return null;
+        }
+        this.sendMessage(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_STARTING, worldName);
+
+        final WorldCreateEvent event = new WorldCreateEvent(context, audience);
+        Bukkit.getPluginManager().callEvent(event);
+
+        if (event.isCancelled()) {
+            if (event.isNotifyOnCancel()) {
+                this.sendMessage(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_CANCELLED, worldName);
+            }
+            return null;
+        }
+        World world = null;
+
+        try {
+            world = worldCreator.createWorld();
+
+            if (world == null) {
+                throw new IllegalStateException("The server returned no World");
+            }
+            context.setKey(world.getKey());
+            context.setName(world.getName());
+            context.setEnvironment(WorldEnvironment.ofBukkit(world.getEnvironment()));
+            context.setSeed(world.getSeed());
+            context.setDirectory(new WorldDirectory(world.getWorldFolder()));
+
+            if (this.multiWorldApi.getWorldRepository().exists(context)) {
+                this.multiWorldApi.getWorldRepository().delete(context);
+            }
+            this.multiWorldApi.getWorldRepository().insert(context);
+            this.multiWorldApi.getWorldRegistry().register(context);
+
+        } catch (final RuntimeException | LinkageError exception) {
+            this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't create World %s", worldName), exception);
+            this.sendMessage(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_FAILED, worldName);
+
+            try {
+                this.rollbackCreate(context, world, directory);
+
+            } catch (final RuntimeException rollbackException) {
+                this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't roll back the failed World %s", worldName), rollbackException);
+            }
+            return null;
+        }
+        this.sendMessage(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_FINISHING, worldName);
+        return context;
     }
 
     @Override
@@ -238,6 +341,53 @@ public class DefaultWorldManager implements WorldManager {
                 }
             }
         });
+    }
+
+    private void rollbackCreate(@NotNull final WorldContext context, @Nullable final World createdWorld, @NotNull final File directory) {
+        try {
+            this.multiWorldApi.getWorldRegistry().unregister(context);
+
+            if (this.multiWorldApi.getWorldRepository().exists(context)) {
+                this.multiWorldApi.getWorldRepository().delete(context);
+            }
+
+        } catch (final RuntimeException exception) {
+            this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't remove the registration of World %s", context.getName()), exception);
+        }
+        final World world = (createdWorld != null) ? createdWorld : Bukkit.getWorld(context.getKey());
+        final File worldDirectory = (world != null) ? world.getWorldFolder() : directory;
+
+        if ((world != null) && (!Bukkit.unloadWorld(world, false))) {
+            this.multiWorldApi.getLogger().severe(String.format("Can't unload the failed World %s, its directory is kept", context.getName()));
+            return;
+        }
+
+        if ((!worldDirectory.exists()) || (!this.multiWorldApi.getWorldResolver().isDeletable(worldDirectory))) {
+            return;
+        }
+        final File trashDirectory = new File(worldDirectory.getAbsoluteFile().getParentFile(), String.format("%s.deleted-%d", worldDirectory.getName(), System.currentTimeMillis()));
+
+        try {
+            Files.move(worldDirectory.toPath(), trashDirectory.toPath());
+
+        } catch (final IOException exception) {
+            this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't remove the directory of the failed World %s", context.getName()), exception);
+            return;
+        }
+        this.multiWorldApi.getScheduler().runTaskAsynchronously(() -> {
+            try {
+                FileUtils.deleteDirectory(trashDirectory);
+
+            } catch (final IOException exception) {
+                this.multiWorldApi.getLogger().log(Level.WARNING, String.format("Can't remove the directory of the failed World %s", context.getName()), exception);
+            }
+        });
+    }
+
+    private void sendMessage(@NotNull final Audience audience, @NotNull final WorldLocalizationEntry entry, @NotNull final String worldName) {
+        audience.sendMessage(this.multiWorldApi.getLocalizationRegistry().getComponent(audience, entry)
+                .replaceText(builder -> builder.matchLiteral("%world_name%").replacement(worldName))
+                .replaceText(builder -> builder.matchLiteral("%world_colored_display_name%").replacement(worldName)));
     }
 
     @NotNull
