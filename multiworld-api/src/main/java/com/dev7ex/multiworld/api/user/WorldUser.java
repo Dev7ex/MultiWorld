@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Optional;
@@ -25,6 +26,8 @@ public interface WorldUser extends WorldOfflineUser {
     long getLastLogin();
 
     void setLastLogin(final long lastLogin);
+
+    void setSkin(@Nullable final WorldUserSkin skin);
 
     @NotNull
     Map<NamespacedKey, WorldUserLocation> getLastLocations();

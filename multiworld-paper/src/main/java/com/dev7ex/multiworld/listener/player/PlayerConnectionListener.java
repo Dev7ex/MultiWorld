@@ -4,6 +4,7 @@ import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.event.MultiWorldListener;
 import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.user.DefaultWorldUserRegistry;
+import com.dev7ex.multiworld.user.DefaultWorldUserSkin;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -96,7 +97,7 @@ public class PlayerConnectionListener extends MultiWorldListener {
         final Player player = event.getPlayer();
         final PendingUser pendingUser = this.pendingUsers.remove(player.getUniqueId());
 
-        this.userRegistry.login(player.getUniqueId(), player.getName(), (pendingUser == null) ? null : pendingUser.getUser());
+        this.userRegistry.login(player.getUniqueId(), player.getName(), DefaultWorldUserSkin.fromProfile(player.getPlayerProfile()), (pendingUser == null) ? null : pendingUser.getUser());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

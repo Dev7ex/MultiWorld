@@ -3,6 +3,7 @@ package com.dev7ex.multiworld.user;
 import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.api.user.WorldUserRegistry;
+import com.dev7ex.multiworld.api.user.WorldUserSkin;
 import com.dev7ex.multiworld.api.user.offline.WorldOfflineUser;
 import com.dev7ex.multiworld.module.DefaultWorldModule;
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +37,7 @@ public class DefaultWorldUserRegistry extends DefaultWorldModule implements Worl
         if (super.getMultiWorldApi().getUserRepository() instanceof final DefaultWorldUserRepository repository) {
             repository.open();
         }
-        Bukkit.getOnlinePlayers().forEach(player -> this.login(player.getUniqueId(), player.getName(), null));
+        Bukkit.getOnlinePlayers().forEach(player -> this.login(player.getUniqueId(), player.getName(), DefaultWorldUserSkin.fromProfile(player.getPlayerProfile()), null));
     }
 
     @Override
@@ -67,17 +69,20 @@ public class DefaultWorldUserRegistry extends DefaultWorldModule implements Worl
         this.users.clear();
     }
 
-    public void login(@NotNull final UUID uniqueId, @NotNull final String name, @Nullable final WorldUser storedUser) {
+    public void login(@NotNull final UUID uniqueId, @NotNull final String name, @Nullable final WorldUserSkin skin, @Nullable final WorldUser storedUser) {
         final long now = System.currentTimeMillis();
         final long firstLogin = (storedUser == null) ? now : storedUser.getFirstLogin();
         final WorldUser user = super.getMultiWorldApi().getUserFactory().create(uniqueId, name, firstLogin, now);
+
+        final WorldUserSkin storedSkin = (storedUser == null) ? null : storedUser.getSkin();
+        user.setSkin((skin == null) ? storedSkin : skin);
 
         if (storedUser != null) {
             storedUser.getLastLocations().values().forEach(user::setLastLocation);
         }
         this.register(user);
 
-        if ((storedUser != null) && (storedUser.getName().equals(name))) {
+        if ((storedUser != null) && (storedUser.getName().equals(name)) && (!this.isSkinChanged(storedSkin, skin))) {
             return;
         }
         final CompletableFuture<Void> saved = super.getMultiWorldApi().getUserRepository().save(user);
@@ -88,10 +93,25 @@ public class DefaultWorldUserRegistry extends DefaultWorldModule implements Worl
         saved.thenCompose(ignored -> super.getMultiWorldApi().getUserRepository().find(uniqueId))
                 .thenAccept(found -> found.ifPresent(stored -> {
                     user.setFirstLogin(stored.getFirstLogin());
+
+                    if (user.getSkin() == null) {
+                        user.setSkin(stored.getSkin());
+                    }
                     stored.getLastLocations().values().stream()
                             .filter(location -> !user.getLastLocations().containsKey(location.getWorldKey()))
                             .forEach(user::setLastLocation);
                 }));
+    }
+
+    private boolean isSkinChanged(@Nullable final WorldUserSkin storedSkin, @Nullable final WorldUserSkin skin) {
+        if (skin == null) {
+            return false;
+        }
+
+        if (storedSkin == null) {
+            return true;
+        }
+        return (!skin.getValue().equals(storedSkin.getValue())) || (!Objects.equals(skin.getSignature(), storedSkin.getSignature()));
     }
 
     public void logout(@NotNull final UUID uniqueId, @Nullable final Location location) {
