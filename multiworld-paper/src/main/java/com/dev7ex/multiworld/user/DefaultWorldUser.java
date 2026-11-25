@@ -2,6 +2,7 @@ package com.dev7ex.multiworld.user;
 
 import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.api.user.WorldUserLocation;
+import com.dev7ex.multiworld.api.user.WorldUserSkin;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public class DefaultWorldUser implements WorldUser {
     private final String name;
     private volatile long firstLogin;
     private volatile long lastLogin;
+    private volatile WorldUserSkin skin;
     @Getter(AccessLevel.NONE)
     private final Map<NamespacedKey, WorldUserLocation> lastLocations = new ConcurrentHashMap<>();
 

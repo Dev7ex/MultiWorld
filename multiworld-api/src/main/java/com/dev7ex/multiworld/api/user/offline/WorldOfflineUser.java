@@ -1,6 +1,8 @@
 package com.dev7ex.multiworld.api.user.offline;
 
+import com.dev7ex.multiworld.api.user.WorldUserSkin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -15,5 +17,8 @@ public interface WorldOfflineUser {
 
     @NotNull
     String getName();
+
+    @Nullable
+    WorldUserSkin getSkin();
 
 }

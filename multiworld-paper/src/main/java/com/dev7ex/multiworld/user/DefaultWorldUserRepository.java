@@ -4,6 +4,7 @@ import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.user.WorldUser;
 import com.dev7ex.multiworld.api.user.WorldUserLocation;
 import com.dev7ex.multiworld.api.user.WorldUserRepository;
+import com.dev7ex.multiworld.api.user.WorldUserSkin;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.NamespacedKey;
@@ -16,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +42,7 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
     private static final String DRIVER_CLASS = "org.sqlite.JDBC";
     private static final String FILE_NAME = "user.db";
     private static final String THREAD_NAME = "MultiWorld-UserStorage";
-    private static final int SCHEMA_VERSION = 2;
+    private static final int SCHEMA_VERSION = 3;
     private static final int SQLITE_IOERR = 10;
     private static final int SQLITE_CORRUPT = 11;
     private static final int SQLITE_CANTOPEN = 14;
@@ -57,10 +59,16 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
     private static final String SELECT_LOCATIONS = "SELECT world_id, x, y, z, yaw, pitch FROM user_location WHERE unique_id = ?";
     private static final String SAVE_LOCATION = "INSERT INTO user_location (unique_id, world_id, x, y, z, yaw, pitch) VALUES (?, ?, ?, ?, ?, ?, ?) "
             + "ON CONFLICT (unique_id, world_id) DO UPDATE SET x = excluded.x, y = excluded.y, z = excluded.z, yaw = excluded.yaw, pitch = excluded.pitch";
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS user (unique_id TEXT PRIMARY KEY, name TEXT NOT NULL, first_login INTEGER NOT NULL, last_login INTEGER NOT NULL)";
-    private static final String SELECT_USER = "SELECT name, first_login, last_login FROM user WHERE unique_id = ?";
-    private static final String SAVE_USER = "INSERT INTO user (unique_id, name, first_login, last_login) VALUES (?, ?, ?, ?) "
-            + "ON CONFLICT (unique_id) DO UPDATE SET name = excluded.name, last_login = excluded.last_login";
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS user (unique_id TEXT PRIMARY KEY, name TEXT NOT NULL, first_login INTEGER NOT NULL, last_login INTEGER NOT NULL, "
+            + "skin_value TEXT, skin_signature TEXT)";
+    private static final String SELECT_USER_COLUMNS = "PRAGMA table_info(user)";
+    private static final String ADD_SKIN_VALUE = "ALTER TABLE user ADD COLUMN skin_value TEXT";
+    private static final String ADD_SKIN_SIGNATURE = "ALTER TABLE user ADD COLUMN skin_signature TEXT";
+    private static final String SELECT_USER = "SELECT name, first_login, last_login, skin_value, skin_signature FROM user WHERE unique_id = ?";
+    private static final String SAVE_USER = "INSERT INTO user (unique_id, name, first_login, last_login, skin_value, skin_signature) VALUES (?, ?, ?, ?, ?, ?) "
+            + "ON CONFLICT (unique_id) DO UPDATE SET name = excluded.name, last_login = excluded.last_login, "
+            + "skin_signature = CASE WHEN excluded.skin_value IS NULL THEN skin_signature ELSE excluded.skin_signature END, "
+            + "skin_value = COALESCE(excluded.skin_value, skin_value)";
 
     private final MultiWorldApi multiWorldApi;
     private final File file;
@@ -122,6 +130,11 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
                         return Optional.empty();
                     }
                     user = this.multiWorldApi.getUserFactory().create(uniqueId, resultSet.getString(1), resultSet.getLong(2), resultSet.getLong(3));
+                    final String skinValue = resultSet.getString(4);
+
+                    if (skinValue != null) {
+                        user.setSkin(new DefaultWorldUserSkin(skinValue, resultSet.getString(5)));
+                    }
                 }
                 this.loadLocations(user);
                 return Optional.of(user);
@@ -165,6 +178,8 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
                 statement.setString(2, snapshot.getName());
                 statement.setLong(3, snapshot.getFirstLogin());
                 statement.setLong(4, snapshot.getLastLogin());
+                statement.setString(5, snapshot.getSkinValue());
+                statement.setString(6, snapshot.getSkinSignature());
                 statement.executeUpdate();
             }
 
@@ -288,6 +303,7 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
                 statement.executeUpdate(DefaultWorldUserRepository.CREATE_TABLE);
                 statement.executeUpdate(DefaultWorldUserRepository.CREATE_WORLD_TABLE);
                 statement.executeUpdate(DefaultWorldUserRepository.CREATE_LOCATION_TABLE);
+                this.addSkinColumns(statement);
                 statement.executeUpdate("PRAGMA user_version = " + DefaultWorldUserRepository.SCHEMA_VERSION);
             }
 
@@ -296,6 +312,24 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
             throw exception;
         }
         return connection;
+    }
+
+    private void addSkinColumns(@NotNull final Statement statement) throws SQLException {
+        final List<String> columns = new ArrayList<>();
+
+        try (final ResultSet resultSet = statement.executeQuery(DefaultWorldUserRepository.SELECT_USER_COLUMNS)) {
+            while (resultSet.next()) {
+                columns.add(resultSet.getString("name"));
+            }
+        }
+
+        if (!columns.contains("skin_value")) {
+            statement.executeUpdate(DefaultWorldUserRepository.ADD_SKIN_VALUE);
+        }
+
+        if (!columns.contains("skin_signature")) {
+            statement.executeUpdate(DefaultWorldUserRepository.ADD_SKIN_SIGNATURE);
+        }
     }
 
     private void loadLocations(@NotNull final WorldUser user) throws SQLException {
@@ -440,6 +474,8 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
         private final String name;
         private final long firstLogin;
         private final long lastLogin;
+        private final String skinValue;
+        private final String skinSignature;
         private final List<LocationSnapshot> locations;
 
         private UserSnapshot(@NotNull final WorldUser user, final boolean withLocations) {
@@ -447,6 +483,9 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
             this.name = user.getName();
             this.firstLogin = user.getFirstLogin();
             this.lastLogin = user.getLastLogin();
+            final WorldUserSkin skin = user.getSkin();
+            this.skinValue = (skin == null) ? null : skin.getValue();
+            this.skinSignature = (skin == null) ? null : skin.getSignature();
             this.locations = withLocations
                     ? user.getLastLocations().values().stream().map(location -> new LocationSnapshot(this.uniqueId, location)).toList()
                     : List.of();
