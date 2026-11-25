@@ -12,11 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -45,8 +41,8 @@ public class DefaultWorldUserRegistry extends DefaultWorldModule implements Worl
         final long now = System.currentTimeMillis();
         final List<WorldUser> onlineUsers = this.users.values()
                 .stream()
-                .filter(user -> user instanceof WorldUser)
-                .map(user -> (WorldUser) user)
+                .filter(WorldUser.class::isInstance)
+                .map(WorldUser.class::cast)
                 .toList();
 
         onlineUsers.forEach(user -> {
