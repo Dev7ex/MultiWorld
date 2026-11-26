@@ -19,6 +19,7 @@ import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * @author Dev7ex
@@ -27,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter(AccessLevel.PUBLIC)
 public class DefaultWorldBackupRegistry extends DefaultWorldModule implements WorldBackupRegistry {
 
-    private final Map<WorldContext, NavigableSet<WorldBackup>> worldBackups = new HashMap<>();
+    private final Map<WorldContext, NavigableSet<WorldBackup>> worldBackups = new ConcurrentHashMap<>();
     private final Set<NamespacedKey> lockedWorlds = ConcurrentHashMap.newKeySet();
     private final WorldLocalizationRegistry localizationRegistry;
     private final WorldRegistry worldRegistry;
@@ -51,7 +52,7 @@ public class DefaultWorldBackupRegistry extends DefaultWorldModule implements Wo
                 worldBackupDirectory.mkdirs();
             }
 
-            this.worldBackups.putIfAbsent(worldContext, new TreeSet<>(Comparator.comparing(WorldBackup::getCreatedAt)));
+            this.worldBackups.putIfAbsent(worldContext, new ConcurrentSkipListSet<>(Comparator.comparing(WorldBackup::getCreatedAt)));
         }
 
         // Load existing backups.
@@ -78,7 +79,7 @@ public class DefaultWorldBackupRegistry extends DefaultWorldModule implements Wo
 
             final NavigableSet<WorldBackup> backups = this.worldBackups.computeIfAbsent(
                     worldContext,
-                    context -> new TreeSet<>(Comparator.comparing(WorldBackup::getCreatedAt))
+                    context -> new ConcurrentSkipListSet<>(Comparator.comparing(WorldBackup::getCreatedAt))
             );
 
             for (final File file : backupFiles) {
@@ -113,7 +114,7 @@ public class DefaultWorldBackupRegistry extends DefaultWorldModule implements Wo
     @Override
     public void register(@NotNull final WorldContext context, @NotNull final WorldBackup backup) {
         this.worldBackups
-                .computeIfAbsent(context, holder -> new TreeSet<>(Comparator.comparing(WorldBackup::getCreatedAt)))
+                .computeIfAbsent(context, holder -> new ConcurrentSkipListSet<>(Comparator.comparing(WorldBackup::getCreatedAt)))
                 .add(backup);
     }
 
@@ -161,16 +162,18 @@ public class DefaultWorldBackupRegistry extends DefaultWorldModule implements Wo
     public @NonNull Optional<WorldBackup> findLatest(@NotNull final WorldContext context) {
         final NavigableSet<WorldBackup> backups = this.worldBackups.get(context);
 
-        if (backups == null || backups.isEmpty()) {
+        if (backups == null) {
             return Optional.empty();
         }
 
-        return Optional.of(backups.last());
+        return backups.descendingSet().stream().findFirst();
     }
 
     @Override
     public @NonNull NavigableSet<WorldBackup> getBackups(@NotNull final WorldContext context) {
-        return this.worldBackups.get(context) == null ? Collections.emptyNavigableSet() : this.worldBackups.get(context);
+        final NavigableSet<WorldBackup> backups = this.worldBackups.get(context);
+
+        return backups == null ? Collections.emptyNavigableSet() : backups;
     }
 
     @Override
