@@ -100,6 +100,10 @@ public class DefaultWorldManager implements WorldManager {
                 .setType(WorldType.ofBukkit(worldCreator.type()))
                 .setSeed(worldCreator.seed())
                 .build();
+
+        if ((worldCreator instanceof final WorldBuilder worldBuilder) && (worldBuilder.getGeneratorName() != null)) {
+            context.setGeneratorName(worldBuilder.getGeneratorName());
+        }
         final File directory = this.multiWorldApi.getWorldResolver().resolveDirectory(context);
 
         if (directory.exists()) {
@@ -196,10 +200,8 @@ public class DefaultWorldManager implements WorldManager {
                     .type(context.getType())
                     .seed(context.getSeed());
 
-            final String generatorName = context.getGeneratorName();
-
-            if ((generatorName != null) && (!generatorName.isBlank()) && (!generatorName.equals(DefaultWorldManager.UNKNOWN_GENERATOR))) {
-                worldBuilder.generator(generatorName);
+            if (DefaultWorldManager.isKnownGenerator(context.getGeneratorName())) {
+                worldBuilder.generator(context.getGeneratorName());
             }
             final World world = worldBuilder.createWorld();
 
@@ -393,6 +395,10 @@ public class DefaultWorldManager implements WorldManager {
     @NotNull
     private Path normalize(@NotNull final File file) {
         return file.toPath().toAbsolutePath().normalize();
+    }
+
+    static boolean isKnownGenerator(@Nullable final String generatorName) {
+        return (generatorName != null) && (!generatorName.isBlank()) && (!generatorName.equals(DefaultWorldManager.UNKNOWN_GENERATOR));
     }
 
 }
