@@ -63,11 +63,15 @@ public class DefaultWorldFactory implements WorldFactory {
 
     @Override
     public @Nullable WorldContext create(@NotNull final Audience audience, @NotNull final WorldContext context) {
-        return this.create(audience, new WorldBuilder(context.getKey())
+        final WorldBuilder worldBuilder = new WorldBuilder(context.getKey())
                 .environment(context.getEnvironment())
                 .type(context.getType())
-                .seed(context.getSeed())
-        );
+                .seed(context.getSeed());
+
+        if (DefaultWorldManager.isKnownGenerator(context.getGeneratorName())) {
+            worldBuilder.generator(context.getGeneratorName());
+        }
+        return this.create(audience, worldBuilder);
     }
 
     @Override
