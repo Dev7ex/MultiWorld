@@ -8,7 +8,6 @@ import com.dev7ex.multicommon.api.command.completer.ArgumentTabCompleter;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
-import com.dev7ex.multiworld.command.world.generator.*;
 import com.dev7ex.multiworld.command.world.generator.HelpCommand;
 import com.dev7ex.multiworld.command.world.generator.InfoCommand;
 import org.bukkit.command.CommandSender;
