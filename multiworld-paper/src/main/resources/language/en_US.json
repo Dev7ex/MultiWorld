@@ -265,7 +265,8 @@
         "usage": "%prefix% §cUsage: /world flag <World> <Flag> <Value>"
       },
       "gamerule": {
-        "usage": "%prefix% §cUsage: /world gamerule <World> <Spielregel> <Value>"
+        "usage": "%prefix% §cUsage: /world gamerule <World> <GameRule> <Value>",
+        "successfully-set": "%prefix% §7You have set the game rule §a%gamerule% §7to §a%value%§7."
       },
       "generator": {
         "help": {
