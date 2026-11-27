@@ -11,26 +11,9 @@ import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.sql.*;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 /**
@@ -83,7 +66,7 @@ public class DefaultWorldUserRepository implements WorldUserRepository {
 
     public DefaultWorldUserRepository(@NotNull final MultiWorldApi multiWorldApi) {
         this.multiWorldApi = multiWorldApi;
-        this.file = new File(multiWorldApi.getDataFolder(), DefaultWorldUserRepository.FILE_NAME);
+        this.file = new File(multiWorldApi.getDatabaseDirectory(), DefaultWorldUserRepository.FILE_NAME);
         this.executor = Executors.newSingleThreadExecutor(runnable -> {
             final Thread thread = new Thread(runnable, DefaultWorldUserRepository.THREAD_NAME);
             thread.setDaemon(true);

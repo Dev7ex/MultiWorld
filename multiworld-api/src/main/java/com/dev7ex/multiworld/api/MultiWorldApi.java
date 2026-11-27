@@ -43,6 +43,11 @@ public interface MultiWorldApi extends Plugin, ConfigurationHolder {
     void setBackupDirectory(@NotNull final File backupDirectory);
 
     @Nullable
+    File getDatabaseDirectory();
+
+    void setDatabaseDirectory(@NotNull final File databaseDirectory);
+
+    @Nullable
     File getGeneratorDirectory();
 
     void setGeneratorDirectory(@NotNull final File generatorDirectory);

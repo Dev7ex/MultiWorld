@@ -99,6 +99,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
     private WorldFactory worldFactory;
 
     private File backupDirectory;
+    private File databaseDirectory;
     private File generatorDirectory;
     private File languageDirectory;
     private File logDirectory;
@@ -111,6 +112,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         this.createDataDirectory();
 
         this.backupDirectory = super.createSubDirectory("backup");
+        this.databaseDirectory = super.createSubDirectory("database");
         this.generatorDirectory = this.createSubDirectory("generator");
         this.languageDirectory = super.createSubDirectory("language");
         this.logDirectory = this.createSubDirectory("log");

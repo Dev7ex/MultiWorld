@@ -51,6 +51,11 @@ public abstract class MultiWorldListener implements Listener {
     }
 
     @Nullable
+    public File getDatabaseDirectory() {
+        return this.multiWorldApi.getDatabaseDirectory();
+    }
+
+    @Nullable
     public File getGeneratorDirectory() {
         return this.multiWorldApi.getGeneratorDirectory();
     }
