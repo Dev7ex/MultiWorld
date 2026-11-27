@@ -199,7 +199,8 @@
         "usage": "%prefix% §cVerwendung: /world flag <Welt> <Flag> <Wert>"
       },
       "gamerule": {
-        "usage": "%prefix% §cVerwendung: /world gamerule <Welt> <Spielregel> <Wert>"
+        "usage": "%prefix% §cVerwendung: /world gamerule <Welt> <Spielregel> <Wert>",
+        "successfully-set": "%prefix% §7Du hast die Spielregel §a%gamerule% §7auf den Wert §a%value% §7gesetzt."
       },
       "generator": {
         "help": {
