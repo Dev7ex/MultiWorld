@@ -28,6 +28,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BooleanSupplier;
@@ -42,14 +44,36 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
     private static final String REGION_FILE_IO_CLASS = "ca.spottedleaf.moonrise.patches.chunk_system.io.MoonriseRegionFileIO";
     private static final long WRITE_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(2);
     private static final long WRITE_POLL_MILLIS = 250L;
+    private static final String THREAD_NAME = "MultiWorld-Backup";
+    private static final long SHUTDOWN_TIMEOUT_SECONDS = 5L;
 
     private final MultiWorldApi multiWorldApi;
     private final File backupDirectory;
     private final Map<UUID, Boolean> pausedAutoSaves = new ConcurrentHashMap<>();
+    private final ExecutorService executor;
 
     public DefaultWorldBackupFactory(@NotNull final MultiWorldApi multiWorldApi) {
         this.multiWorldApi = multiWorldApi;
         this.backupDirectory = multiWorldApi.getBackupDirectory();
+        this.executor = Executors.newSingleThreadExecutor(runnable -> {
+            final Thread thread = new Thread(runnable, DefaultWorldBackupFactory.THREAD_NAME);
+            thread.setDaemon(true);
+            return thread;
+        });
+    }
+
+    public void shutdown() {
+        this.executor.shutdown();
+
+        try {
+            if (!this.executor.awaitTermination(DefaultWorldBackupFactory.SHUTDOWN_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+                this.executor.shutdownNow();
+            }
+
+        } catch (final InterruptedException exception) {
+            this.executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override
@@ -140,7 +164,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                     audience.sendMessage(Component.text("§cFehler beim Erstellen des Backups: " + e.getMessage()));
                     throw new CompletionException(e);
                 }
-            }).whenComplete((backup, throwable) -> {
+            }, this.executor).whenComplete((backup, throwable) -> {
                 pendingWrites.set(null);
                 this.finishBackup(context, worldId.get());
             });
@@ -324,7 +348,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                 }
 
                 return deleted;
-            }).thenCompose(deleted -> this.sync(() -> {
+            }, this.executor).thenCompose(deleted -> this.sync(() -> {
                 this.multiWorldApi.getBackupRegistry().getBackups(context)
                         .stream()
                         .filter(backup -> !Files.exists(backup.getPath()))
@@ -382,7 +406,7 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
                 } catch (final Exception e) {
                     throw new CompletionException(e);
                 }
-            }).thenCompose(deleted -> this.sync(() -> {
+            }, this.executor).thenCompose(deleted -> this.sync(() -> {
                 if (Boolean.TRUE.equals(deleted)) {
                     this.multiWorldApi.getBackupRegistry().unregister(context, backup);
 
@@ -400,7 +424,9 @@ public class DefaultWorldBackupFactory implements WorldBackupFactory {
     private <T> CompletableFuture<T> sync(@NotNull final java.util.function.Supplier<T> supplier) {
         final CompletableFuture<T> future = new CompletableFuture<>();
 
-        if (Bukkit.isPrimaryThread()) {
+        final boolean regionized = this.multiWorldApi.getScheduler().isRegionized();
+
+        if (regionized ? Bukkit.isGlobalTickThread() : Bukkit.isPrimaryThread()) {
             try {
                 future.complete(supplier.get());
             } catch (final Throwable throwable) {

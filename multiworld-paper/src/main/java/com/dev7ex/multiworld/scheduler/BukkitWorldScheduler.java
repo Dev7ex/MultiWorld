@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.scheduler;
 
 import com.dev7ex.multiworld.api.scheduler.WorldScheduler;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +25,16 @@ public class BukkitWorldScheduler implements WorldScheduler {
     @Override
     public void runTaskAsynchronously(@NotNull final Runnable task) {
         this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, task);
+    }
+
+    @Override
+    public void runGlobalLater(final long delayTicks, @NotNull final Runnable task) {
+        this.plugin.getServer().getScheduler().runTaskLater(this.plugin, task, delayTicks);
+    }
+
+    @Override
+    public void runOnEntity(@NotNull final Entity entity, @NotNull final Runnable task) {
+        this.plugin.getServer().getScheduler().runTask(this.plugin, task);
     }
 
     @Override

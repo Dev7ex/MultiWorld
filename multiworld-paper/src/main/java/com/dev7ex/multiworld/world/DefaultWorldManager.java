@@ -57,6 +57,7 @@ public class DefaultWorldManager implements WorldManager {
             NamespacedKey.minecraft("the_end"));
 
     private final MultiWorldApi multiWorldApi;
+    private volatile boolean runtimeUnsupported = false;
 
     public DefaultWorldManager(@NotNull final MultiWorldApi multiWorldApi) {
         this.multiWorldApi = multiWorldApi;
@@ -68,8 +69,8 @@ public class DefaultWorldManager implements WorldManager {
 
         final String worldName = worldCreator.name();
 
-        if (this.multiWorldApi.getScheduler().isRegionized()) {
-            this.multiWorldApi.getLogger().warning(String.format("Can't create World %s: Folia doesn't support creating Worlds while running", worldName));
+        if (this.runtimeUnsupported) {
+            this.multiWorldApi.getLogger().warning(String.format("Can't create World %s: the server doesn't support creating Worlds while running", worldName));
             this.sendMessage(audience, WorldLocalizationEntry.MESSAGE_WORLD_RUNTIME_UNSUPPORTED, worldName);
             return null;
         }
@@ -100,6 +101,10 @@ public class DefaultWorldManager implements WorldManager {
                 .setType(WorldType.ofBukkit(worldCreator.type()))
                 .setSeed(worldCreator.seed())
                 .build();
+
+        if ((worldCreator instanceof final WorldBuilder worldBuilder) && (worldBuilder.getGeneratorName() != null)) {
+            context.setGeneratorName(worldBuilder.getGeneratorName());
+        }
         final File directory = this.multiWorldApi.getWorldResolver().resolveDirectory(context);
 
         if (directory.exists()) {
@@ -138,8 +143,14 @@ public class DefaultWorldManager implements WorldManager {
             this.multiWorldApi.getWorldRegistry().register(context);
 
         } catch (final RuntimeException | LinkageError exception) {
-            this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't create World %s", worldName), exception);
-            this.sendMessage(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_FAILED, worldName);
+            if (this.isRuntimeUnsupported(world, exception)) {
+                this.multiWorldApi.getLogger().warning(String.format("Can't create World %s: the server doesn't support creating Worlds while running", worldName));
+                this.sendMessage(audience, WorldLocalizationEntry.MESSAGE_WORLD_RUNTIME_UNSUPPORTED, worldName);
+
+            } else {
+                this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't create World %s", worldName), exception);
+                this.sendMessage(audience, WorldLocalizationEntry.COMMAND_WORLD_CREATE_FAILED, worldName);
+            }
 
             try {
                 this.rollbackCreate(context, world, directory);
@@ -161,8 +172,8 @@ public class DefaultWorldManager implements WorldManager {
             return WorldLifecycleResult.ALREADY_LOADED;
         }
 
-        if (this.multiWorldApi.getScheduler().isRegionized()) {
-            this.multiWorldApi.getLogger().warning(String.format("Can't load World %s: Folia doesn't support loading Worlds while running", key));
+        if (this.runtimeUnsupported) {
+            this.multiWorldApi.getLogger().warning(String.format("Can't load World %s: the server doesn't support loading Worlds while running", key));
             return WorldLifecycleResult.UNSUPPORTED;
         }
         final Optional<WorldContext> optionalContext = this.multiWorldApi.getWorldRegistry().find(key);
@@ -196,10 +207,8 @@ public class DefaultWorldManager implements WorldManager {
                     .type(context.getType())
                     .seed(context.getSeed());
 
-            final String generatorName = context.getGeneratorName();
-
-            if ((generatorName != null) && (!generatorName.isBlank()) && (!generatorName.equals(DefaultWorldManager.UNKNOWN_GENERATOR))) {
-                worldBuilder.generator(generatorName);
+            if (DefaultWorldManager.isKnownGenerator(context.getGeneratorName())) {
+                worldBuilder.generator(context.getGeneratorName());
             }
             final World world = worldBuilder.createWorld();
 
@@ -211,6 +220,10 @@ public class DefaultWorldManager implements WorldManager {
             return WorldLifecycleResult.SUCCESS;
 
         } catch (final RuntimeException | LinkageError exception) {
+            if (this.isRuntimeUnsupported(null, exception)) {
+                this.multiWorldApi.getLogger().warning(String.format("Can't load World %s: the server doesn't support loading Worlds while running", context.getName()));
+                return WorldLifecycleResult.UNSUPPORTED;
+            }
             this.multiWorldApi.getLogger().log(Level.SEVERE, String.format("Can't load World %s", context.getName()), exception);
             return WorldLifecycleResult.FAILED;
         }
@@ -343,6 +356,14 @@ public class DefaultWorldManager implements WorldManager {
         });
     }
 
+    private boolean isRuntimeUnsupported(@Nullable final World createdWorld, @NotNull final Throwable exception) {
+        if ((createdWorld != null) || (!(exception instanceof UnsupportedOperationException)) || (!this.multiWorldApi.getScheduler().isRegionized())) {
+            return false;
+        }
+        this.runtimeUnsupported = true;
+        return true;
+    }
+
     private void rollbackCreate(@NotNull final WorldContext context, @Nullable final World createdWorld, @NotNull final File directory) {
         try {
             this.multiWorldApi.getWorldRegistry().unregister(context);
@@ -393,6 +414,10 @@ public class DefaultWorldManager implements WorldManager {
     @NotNull
     private Path normalize(@NotNull final File file) {
         return file.toPath().toAbsolutePath().normalize();
+    }
+
+    static boolean isKnownGenerator(@Nullable final String generatorName) {
+        return (generatorName != null) && (!generatorName.isBlank()) && (!generatorName.equals(DefaultWorldManager.UNKNOWN_GENERATOR));
     }
 
 }

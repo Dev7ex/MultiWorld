@@ -8,10 +8,11 @@ import com.dev7ex.multiworld.MultiWorldConfiguration;
 import com.dev7ex.multiworld.MultiWorldPlugin;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationEntry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
-import io.papermc.paper.registry.keys.SoundEventKeys;
+import com.dev7ex.multiworld.api.scheduler.WorldScheduler;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,19 +41,29 @@ public class ReloadCommand extends PaperCommand implements EmptyTabCompleter {
             return;
         }
         commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.COMMAND_WORLD_CONFIG_RELOAD_STARTING));
-        commandSender.playSound(Sound.sound().type(SoundEventKeys.BLOCK_NOTE_BLOCK_HARP).build());
+        commandSender.playSound(Sound.sound(Key.key("block.note_block.harp"), Sound.Source.MASTER, 1.0F, 1.0F));
 
-        Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
+        final MultiWorldPlugin multiWorldPlugin = (MultiWorldPlugin) this.plugin;
+        final WorldScheduler scheduler = multiWorldPlugin.getScheduler();
+
+        scheduler.runGlobalLater(10L, () -> scheduler.runTaskAsynchronously(() -> {
             try {
                 this.configuration.loadFile();
 
-                commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.COMMAND_WORLD_CONFIG_RELOAD_FINISHING));
-                commandSender.playSound(Sound.sound().type(SoundEventKeys.BLOCK_NOTE_BLOCK_PLING).build());
-
             } catch (final Exception exception) {
                 this.plugin.getLogger().severe("Failed to reload the configuration: " + exception.getMessage());
+                return;
             }
-        }, 10L);
+            final Runnable finishing = () -> {
+                commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.COMMAND_WORLD_CONFIG_RELOAD_FINISHING));
+                commandSender.playSound(Sound.sound(Key.key("block.note_block.pling"), Sound.Source.MASTER, 1.0F, 1.0F));
+            };
+            if (commandSender instanceof Entity entity) {
+                scheduler.runOnEntity(entity, finishing);
+                return;
+            }
+            scheduler.runTask(finishing);
+        }));
     }
 
     @Override

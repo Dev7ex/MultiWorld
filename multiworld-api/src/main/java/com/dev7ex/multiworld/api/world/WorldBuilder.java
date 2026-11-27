@@ -2,9 +2,12 @@
 package com.dev7ex.multiworld.api.world;
 
 import com.dev7ex.multiworld.api.util.BukkitUtil;
+import lombok.AccessLevel;
+import lombok.Getter;
 import net.kyori.adventure.util.TriState;
 import org.bukkit.*;
 import org.bukkit.WorldType;
+import org.bukkit.command.CommandSender;
 import org.bukkit.generator.BiomeProvider;
 import org.bukkit.generator.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -19,6 +22,9 @@ import java.util.concurrent.ThreadLocalRandom;
  * @since 28.10.2026
  */
 public final class WorldBuilder extends WorldCreator {
+
+    @Getter(AccessLevel.PUBLIC)
+    private String generatorName;
 
     public WorldBuilder(@NotNull final String name) {
         super(Objects.requireNonNull(name, "name"));
@@ -97,6 +103,7 @@ public final class WorldBuilder extends WorldCreator {
     @NotNull
     public WorldBuilder generator(@Nullable final ChunkGenerator generator) {
         super.generator(generator);
+        this.generatorName = null;
         return this;
     }
 
@@ -104,6 +111,15 @@ public final class WorldBuilder extends WorldCreator {
     @NotNull
     public WorldBuilder generator(@Nullable final String generator) {
         super.generator(generator);
+        this.generatorName = (super.generator() == null) ? null : generator;
+        return this;
+    }
+
+    @Override
+    @NotNull
+    public WorldBuilder generator(@Nullable final String generator, @Nullable final CommandSender output) {
+        super.generator(generator, output);
+        this.generatorName = (super.generator() == null) ? null : generator;
         return this;
     }
 

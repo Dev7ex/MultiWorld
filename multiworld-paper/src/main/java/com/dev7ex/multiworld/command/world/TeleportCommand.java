@@ -76,7 +76,7 @@ public class TeleportCommand extends PaperCommand implements ArgumentTabComplete
             final Player player = (Player) commandSender;
 
             if (!player.getWorld().equals(world)) {
-                player.teleport(world.getSpawnLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                player.teleportAsync(world.getSpawnLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
             }
             return;
         }
@@ -101,7 +101,7 @@ public class TeleportCommand extends PaperCommand implements ArgumentTabComplete
             if (entity.getWorld().equals(world)) {
                 continue;
             }
-            entity.teleport(world.getSpawnLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+            entity.teleportAsync(world.getSpawnLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
     }
 

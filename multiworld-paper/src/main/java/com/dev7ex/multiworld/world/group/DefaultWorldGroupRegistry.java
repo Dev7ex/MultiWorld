@@ -13,10 +13,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Dev7ex
@@ -25,9 +25,9 @@ import java.util.Optional;
 @Getter(AccessLevel.PUBLIC)
 public class DefaultWorldGroupRegistry extends DefaultWorldModule implements WorldGroupRegistry {
 
-    private final Map<Integer, WorldGroup> groups = new HashMap<>();
+    private final Map<Integer, WorldGroup> groups = new ConcurrentHashMap<>();
     private final WorldGroupRepository repository;
-    private WorldGroup defaultGroup;
+    private volatile WorldGroup defaultGroup;
 
     public DefaultWorldGroupRegistry(@NotNull final MultiWorldApi multiWorldApi) {
         super(multiWorldApi);
