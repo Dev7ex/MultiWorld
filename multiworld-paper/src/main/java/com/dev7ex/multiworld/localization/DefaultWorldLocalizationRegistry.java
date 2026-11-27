@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
@@ -42,7 +43,7 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
 
     private static final String DEFAULT_DATE_TIME_PATTERN = "dd.MM.yyyy-HH:mm:ss";
 
-    private final Map<Locale, FileConfiguration> translationConfigurations = new HashMap<>();
+    private final Map<Locale, FileConfiguration> translationConfigurations = new ConcurrentHashMap<>();
     private final Locale defaultLocale = new Locale("en", "US");
 
     public DefaultWorldLocalizationRegistry(@NotNull final MultiWorldApi multiWorldApi) {
