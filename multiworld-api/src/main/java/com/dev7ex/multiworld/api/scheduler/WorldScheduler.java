@@ -42,7 +42,7 @@ public interface WorldScheduler {
      * thread or the global region after the given delay.
      *
      * @param delayTicks the delay before execution, measured in ticks
-     * @param task the task to execute
+     * @param task       the task to execute
      */
     void runGlobalLater(final long delayTicks, @NotNull final Runnable task);
 
@@ -58,7 +58,7 @@ public interface WorldScheduler {
      * the task may not be executed if the entity has been removed.</p>
      *
      * @param entity the entity associated with the task
-     * @param task the task to execute
+     * @param task   the task to execute
      */
     void runOnEntity(@NotNull final Entity entity, @NotNull final Runnable task);
 
@@ -66,7 +66,7 @@ public interface WorldScheduler {
      * Returns whether the server uses region-based multithreading.
      *
      * @return {@code true} if the server uses region-based multithreading,
-     *         {@code false} otherwise
+     * {@code false} otherwise
      */
     boolean isRegionized();
 
