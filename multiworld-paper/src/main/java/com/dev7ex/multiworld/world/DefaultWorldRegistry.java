@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DefaultWorldRegistry extends DefaultWorldModule implements WorldRegistry {
 
@@ -25,7 +26,7 @@ public class DefaultWorldRegistry extends DefaultWorldModule implements WorldReg
     private final WorldFlagRegistry flagRegistry;
     private final WorldGroupRegistry groupRegistry;
     private final WorldFactory factory;
-    private final Map<NamespacedKey, WorldContext> worldContexts = new HashMap<>();
+    private final Map<NamespacedKey, WorldContext> worldContexts = new ConcurrentHashMap<>();
 
     public DefaultWorldRegistry(@NotNull final MultiWorldApi multiWorldApi) {
         super(multiWorldApi);
@@ -168,7 +169,7 @@ public class DefaultWorldRegistry extends DefaultWorldModule implements WorldReg
 
     @Override
     public @NotNull List<WorldContext> getWorlds() {
-        return new ArrayList<>(this.worldContexts.values());
+        return List.copyOf(this.worldContexts.values());
     }
 
     @Override
