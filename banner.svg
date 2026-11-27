@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+<title id="title">MultiWorld</title><desc id="desc">Multiple worlds. One server. World management for Minecraft Paper.</desc>
+<defs>
+<linearGradient id="brand" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#50c4d4"/><stop offset="1" stop-color="#80ffee"/></linearGradient>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0d1117"/><stop offset="1" stop-color="#10262e"/></linearGradient>
+<clipPath id="clip"><rect width="1200" height="320" rx="14"/></clipPath>
+</defs>
+<g clip-path="url(#clip)">
+<rect width="1200" height="320" fill="url(#bg)"/>
+<path d="M0 278 C230 207 440 334 690 270 S1030 198 1200 237 V320 H0Z" fill="#50c4d4" opacity=".055"/>
+<path d="M0 300 C240 239 440 348 720 286 S1020 230 1200 260 V320 H0Z" fill="url(#brand)" opacity=".09"/>
+<path d="M0 300 C240 239 440 348 720 286 S1020 230 1200 260" fill="none" stroke="url(#brand)" stroke-opacity=".35"/>
+<g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+<text x="600" y="59" font-size="13" letter-spacing="4" fill="#9aafb8">MINECRAFT · PAPER</text>
+<text x="600" y="153" font-size="94" font-weight="700" letter-spacing="-3" fill="url(#brand)">MultiWorld</text>
+<rect x="574" y="177" width="52" height="3" rx="1.5" fill="url(#brand)"/>
+<text x="600" y="219" font-size="25" fill="#e6edf3">Multiple worlds. One server.</text>
+<text x="600" y="251" font-size="17" fill="#9aafb8">Create, manage and switch between your worlds.</text>
+</g></g>
+<rect x=".5" y=".5" width="1199" height="319" rx="14" fill="none" stroke="#50c4d4" stroke-opacity=".28"/>
+</svg>
