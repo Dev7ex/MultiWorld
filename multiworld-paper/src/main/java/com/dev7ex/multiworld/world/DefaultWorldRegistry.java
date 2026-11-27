@@ -114,15 +114,19 @@ public class DefaultWorldRegistry extends DefaultWorldModule implements WorldReg
             return;
         }
 
-        if (super.getMultiWorldApi().getScheduler().isRegionized()) {
-            super.getMultiWorldApi().getLogger().warning(String.format("Folia can't load Worlds while running, [%d] World(s) not loaded", worlds.size()));
-            return;
-        }
         int loaded = 0;
 
         for (final WorldContext context : worlds) {
-            if (this.worldManager.load(Bukkit.getConsoleSender(), context.getKey()) == WorldLifecycleResult.SUCCESS) {
+            final WorldLifecycleResult result = this.worldManager.load(Bukkit.getConsoleSender(), context.getKey());
+
+            if (result == WorldLifecycleResult.SUCCESS) {
                 loaded++;
+                continue;
+            }
+
+            if ((result == WorldLifecycleResult.UNSUPPORTED) && (super.getMultiWorldApi().getScheduler().isRegionized())) {
+                super.getMultiWorldApi().getLogger().warning(String.format("The server can't load Worlds while running, [%d] World(s) not loaded", worlds.size() - loaded));
+                return;
             }
         }
         super.getMultiWorldApi().getLogger().info(String.format("Loaded [%d/%d] World(s)", loaded, worlds.size()));
