@@ -163,6 +163,10 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         }
         this.moduleManager.disableAll();
 
+        if (this.worldRepository instanceof final DefaultWorldRepository defaultWorldRepository) {
+            defaultWorldRepository.shutdown();
+        }
+
         MultiWorldApiProvider.unregister();
         super.getServer().getServicesManager().unregisterAll(this);
 

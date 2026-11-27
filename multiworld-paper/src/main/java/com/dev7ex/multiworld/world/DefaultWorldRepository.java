@@ -11,12 +11,18 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -27,17 +33,71 @@ import java.util.stream.Collectors;
 @ConfigurationProperties(fileName = "world.json", provider = JsonConfiguration.class)
 public final class DefaultWorldRepository extends Configuration implements WorldRepository {
 
+    private static final String THREAD_NAME = "MultiWorld-WorldStorage";
+    private static final long SHUTDOWN_TIMEOUT_SECONDS = 10;
+
     private final MultiWorldApi multiWorldApi;
+    private final ExecutorService executor;
+    private final AtomicReference<String> pendingSnapshot = new AtomicReference<>();
+    private final Object writeLock = new Object();
     private boolean backupPending;
 
     public DefaultWorldRepository(@NotNull final MultiWorldApi multiWorldApi) {
         super(multiWorldApi);
         this.multiWorldApi = multiWorldApi;
+        this.executor = Executors.newSingleThreadExecutor(runnable -> {
+            final Thread thread = new Thread(runnable, DefaultWorldRepository.THREAD_NAME);
+            thread.setDaemon(true);
+            return thread;
+        });
     }
 
 
     @Override
-    public synchronized void saveFile() {
+    public void saveFile() {
+        synchronized (this) {
+            final StringWriter writer = new StringWriter();
+
+            ConfigurationProvider.getProvider(super.getProvider()).save(super.getFileConfiguration(), writer);
+            this.pendingSnapshot.set(writer.toString());
+        }
+
+        try {
+            this.executor.execute(this::flush);
+
+        } catch (final RejectedExecutionException exception) {
+            this.flush();
+        }
+    }
+
+    public void shutdown() {
+        this.executor.shutdown();
+
+        try {
+            if (!this.executor.awaitTermination(DefaultWorldRepository.SHUTDOWN_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+                this.executor.shutdownNow();
+                this.multiWorldApi.getLogger().warning("World storage didn't finish writing in time, some world data may not be saved");
+            }
+
+        } catch (final InterruptedException exception) {
+            this.executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+        this.flush();
+    }
+
+    private void flush() {
+        synchronized (this.writeLock) {
+            this.writeSnapshot();
+        }
+    }
+
+    private void writeSnapshot() {
+        final String snapshot = this.pendingSnapshot.getAndSet(null);
+
+        if (snapshot == null) {
+            return;
+        }
         final File file = super.getConfigurationFile();
         final File temporaryFile = new File(file.getParentFile(), file.getName() + ".tmp");
 
@@ -48,11 +108,12 @@ public final class DefaultWorldRepository extends Configuration implements World
                 this.multiWorldApi.getLogger().log(Level.INFO, "Created backup {0} before saving {1}", new Object[]{backup.getName(), file.getName()});
                 this.backupPending = false;
             }
-            ConfigurationProvider.getProvider(super.getProvider()).save(super.getFileConfiguration(), temporaryFile);
+            Files.write(temporaryFile.toPath(), snapshot.getBytes(StandardCharsets.UTF_8));
             FileUtil.moveFile(temporaryFile, file);
 
-        } catch (final IOException exception) {
-            throw new UncheckedIOException("Can't save file " + file.getName(), exception);
+        } catch (final IOException | RuntimeException exception) {
+            this.pendingSnapshot.compareAndSet(null, snapshot);
+            this.multiWorldApi.getLogger().log(Level.SEVERE, "Can't save file " + file.getName(), exception);
 
         } finally {
             try {
@@ -77,7 +138,7 @@ public final class DefaultWorldRepository extends Configuration implements World
             throw new IllegalStateException("World already exists: " + context.getKey());
         }
         this.write(context);
-        super.saveFile();
+        this.saveFile();
     }
 
     @Override
@@ -90,7 +151,7 @@ public final class DefaultWorldRepository extends Configuration implements World
         Objects.requireNonNull(worldKey, "worldKey");
 
         super.getFileConfiguration().set(this.path(worldKey), null);
-        super.saveFile();
+        this.saveFile();
     }
 
     @Override
@@ -108,7 +169,7 @@ public final class DefaultWorldRepository extends Configuration implements World
         for (final String key : super.getFileConfiguration().getKeys()) {
             super.getFileConfiguration().set(key, null);
         }
-        super.saveFile();
+        this.saveFile();
     }
 
     @Override
@@ -121,7 +182,7 @@ public final class DefaultWorldRepository extends Configuration implements World
             throw new IllegalStateException("World does not exist: " + context.getKey());
         }
         super.getFileConfiguration().set(this.path(context.getKey()) + "." + property.getKey(), value);
-        super.saveFile();
+        this.saveFile();
     }
 
     @Override
