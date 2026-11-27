@@ -5,6 +5,7 @@ import com.dev7ex.multicommon.api.plugin.AdvancedPlugin;
 import com.dev7ex.multicommon.api.plugin.PluginFileMonitor;
 import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.MultiWorldApiProvider;
+import com.dev7ex.multiworld.api.inventory.WorldInventoryRegistry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
 import com.dev7ex.multiworld.api.module.WorldModuleManager;
 import com.dev7ex.multiworld.api.permission.MultiWorldPermission;
@@ -28,7 +29,9 @@ import com.dev7ex.multiworld.api.world.group.WorldGroupManager;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRegistry;
 import com.dev7ex.multiworld.api.world.group.WorldGroupRepository;
 import com.dev7ex.multiworld.command.WorldCommand;
+import com.dev7ex.multiworld.inventory.DefaultWorldInventoryRegistry;
 import com.dev7ex.multiworld.listener.player.PlayerConnectionListener;
+import com.dev7ex.multiworld.listener.player.PlayerInteractInventoryListener;
 import com.dev7ex.multiworld.listener.plugin.MultiWorldFileChangeListener;
 import com.dev7ex.multiworld.localization.DefaultWorldLocalizationRegistry;
 import com.dev7ex.multiworld.module.DefaultWorldModuleManager;
@@ -81,6 +84,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
     private WorldResolver worldResolver;
     private WorldScheduler scheduler;
 
+    private WorldInventoryRegistry inventoryRegistry;
     private WorldLocalizationRegistry localizationRegistry;
     private WorldUserInventoryRegistry userInventoryRegistry;
     private WorldUserRegistry userRegistry;
@@ -204,6 +208,8 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
         if (this.userRegistry instanceof final DefaultWorldUserRegistry defaultUserRegistry) {
             super.getServer().getPluginManager().registerEvents(new PlayerConnectionListener(this, defaultUserRegistry), this);
         }
+
+        super.registerListener(new PlayerInteractInventoryListener(this));
     }
 
     @Override
@@ -217,6 +223,7 @@ public class MultiWorldPlugin extends AdvancedPlugin implements MultiWorldApi, C
 
     @Override
     public void registerModules() {
+        this.moduleManager.register(this.inventoryRegistry = new DefaultWorldInventoryRegistry(this));
         this.moduleManager.register(this.localizationRegistry = new DefaultWorldLocalizationRegistry(this));
         this.moduleManager.register(this.userRegistry = new DefaultWorldUserRegistry(this));
         this.moduleManager.register(this.flagRegistry = new DefaultWorldFlagRegistry(this));

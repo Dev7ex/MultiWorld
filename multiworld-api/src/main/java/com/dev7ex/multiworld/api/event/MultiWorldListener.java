@@ -3,6 +3,7 @@ package com.dev7ex.multiworld.api.event;
 
 import com.dev7ex.multiworld.api.MultiWorldApi;
 import com.dev7ex.multiworld.api.MultiWorldApiConfiguration;
+import com.dev7ex.multiworld.api.inventory.WorldInventoryRegistry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
 import com.dev7ex.multiworld.api.module.WorldModuleManager;
 import com.dev7ex.multiworld.api.user.WorldUserFactory;
@@ -73,6 +74,10 @@ public abstract class MultiWorldListener implements Listener {
     @Nullable
     public File getUserDirectory() {
         return this.multiWorldApi.getUserDirectory();
+    }
+
+    public WorldInventoryRegistry getInventoryRegistry() {
+        return this.multiWorldApi.getInventoryRegistry();
     }
 
     @NotNull

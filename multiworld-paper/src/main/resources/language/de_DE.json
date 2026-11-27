@@ -625,6 +625,98 @@
     "date-time": "dd.MM.yyyy-HH:mm:ss",
     "time": "HH:mm:ss"
   },
+  "inventory": {
+    "world": {
+      "main": {
+        "admin": {
+          "title": "§bWelten §7| §fSeite %current_page%",
+          "item": {
+            "world": {
+              "name": "%world_colored_display_name%",
+              "lore": [
+                "",
+                "§7Ersteller: §a%creator_name%",
+                "§7Registriert am: §a%registration_timestamp%",
+                "§7Whitelist aktiv: %whitelist_enabled%",
+                "§7Geladen: %loaded%",
+                "§7Spieler: %world_player_count%",
+                "§7Gruppe: %world_group_display_name%",
+                ""
+              ]
+            },
+            "create-world": {
+              "name": "§7Erstelle eine neue §bWelt",
+              "lore": [
+                "",
+                "§7Öffnet ein §eMenü §7in dem du eine Umgebung",
+                "§eauswählen §7sollst",
+                ""
+              ]
+            },
+            "import-world": {
+              "name": "§7Importiere eine existierende §bWelt",
+              "lore": [
+                "",
+                "§7Öffnet ein §eMenü §7in dem du einen Ordner",
+                "§eauswählen §7sollst den du importieren möchtest",
+                ""
+              ]
+            }
+          }
+        },
+        "guest": {
+          "title": "§bWelten §7| §fSeite %current_page%",
+          "world": {
+            "name": "%world_colored_display_name%",
+            "lore": [
+              "",
+              "§7Ersteller: §a%creator_name%",
+              "§7Registriert am: §a%registration_timestamp%",
+              "§7Whitelist aktiv: %whitelist_enabled%",
+              "§7Geladen: %loaded%",
+              ""
+            ]
+          }
+        }
+      }
+    }
+  },
+  "item": {
+    "navigation-close": {
+      "name": "§c« §7Menü schließen",
+      "lore": [
+        "",
+        "§7Schließt dieses Menü",
+        ""
+      ]
+    },
+    "navigation-previous": {
+      "name": "§c« §7Vorherige Seite",
+      "lore": [
+        "",
+        "§7Bringt dich auf die vorherige",
+        "§7Seite sofern vorhanden",
+        ""
+      ]
+    },
+    "navigation-next": {
+      "name": "§7Nächste Seite §a»",
+      "lore": [
+        "",
+        "§7Bringt dich auf die nächste",
+        "§7Seite sofern vorhanden",
+        ""
+      ]
+    },
+    "navigation-overview": {
+      "name": "§7Seitenübersicht",
+      "lore": [
+        "",
+        "§7Seiten: §a%current_page%§7/§a%maximal_pages%",
+        ""
+      ]
+    }
+  },
   "message": {
     "no-permission": "§cEs tut mir leid, aber Sie haben nicht die Berechtigung, diesen Befehl auszuführen. Bitte wenden Sie sich an die Serveradministratoren, wenn Sie glauben, dass dies ein Fehler ist.",
     "no-console-command": "%prefix% §cDer Befehl §6%command_name% §ckann nur von einem Spieler ausgeführt werden!",

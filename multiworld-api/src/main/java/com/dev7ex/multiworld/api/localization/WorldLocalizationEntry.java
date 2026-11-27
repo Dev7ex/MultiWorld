@@ -257,8 +257,42 @@ public enum WorldLocalizationEntry {
 
     MESSAGE_VALIDATION_INVALID_NUMBER("message.validation.invalid-number"),
     MESSAGE_VALIDATION_INVALID_BOOLEAN("message.validation.invalid-boolean"),
-    MESSAGE_VALIDATION_INVALID_SELECTOR("message.validation.invalid-selector");
+    MESSAGE_VALIDATION_INVALID_SELECTOR("message.validation.invalid-selector"),
     // MESSAGE STOP
+
+    // INVENTORY WORLD MAIN ADMIN START
+    INVENTORY_WORLD_MAIN_ADMIN_TITLE("inventory.world.main.admin.title"),
+
+    INVENTORY_WORLD_MAIN_ADMIN_ITEM_WORLD_NAME("inventory.world.main.admin.item.world.name"),
+
+    INVENTORY_WORLD_MAIN_ADMIN_ITEM_WORLD_LORE("inventory.world.main.admin.item.world.lore"),
+
+    INVENTORY_WORLD_MAIN_ADMIN_ITEM_CREATE_WORLD_NAME("inventory.world.main.admin.item.create-world.name"),
+
+    INVENTORY_WORLD_MAIN_ADMIN_ITEM_CREATE_WORLD_LORE("inventory.world.main.admin.item.create-world.lore"),
+
+    INVENTORY_WORLD_MAIN_ADMIN_ITEM_IMPORT_WORLD_NAME("inventory.world.main.admin.item.import-world.name"),
+
+    INVENTORY_WORLD_MAIN_ADMIN_ITEM_IMPORT_WORLD_LORE("inventory.world.main.admin.item.import-world.lore"),
+    // INVENTORY WORLD MAIN ADMIN STOP
+
+    // ITEM START
+    ITEM_NAVIGATION_CLOSE_NAME("item.navigation-close.name"),
+
+    ITEM_NAVIGATION_CLOSE_LORE("item.navigation-close.lore"),
+
+    ITEM_NAVIGATION_PREVIOUS_NAME("item.navigation-previous.name"),
+
+    ITEM_NAVIGATION_PREVIOUS_LORE("item.navigation-previous.lore"),
+
+    ITEM_NAVIGATION_NEXT_NAME("item.navigation-next.name"),
+
+    ITEM_NAVIGATION_NEXT_LORE("item.navigation-next.lore"),
+
+    ITEM_NAVIGATION_OVERVIEW_NAME("item.navigation-overview.name"),
+
+    ITEM_NAVIGATION_OVERVIEW_LORE("item.navigation-overview.lore");
+    // ITEM STOP
 
     private final String key;
 

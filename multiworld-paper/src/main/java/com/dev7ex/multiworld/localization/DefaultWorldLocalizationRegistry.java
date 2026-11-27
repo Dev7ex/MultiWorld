@@ -33,6 +33,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * @author Dev7ex
@@ -172,7 +173,7 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
      * hover event, and click event based on the configuration.
      *
      * @param audience the command sender (used to determine locale)
-     * @param path   the path to the translation key in the config (e.g., "world.help.command")
+     * @param path     the path to the translation key in the config (e.g., "world.help.command")
      * @return a Component representing the formatted text, with hover and click events, or an error message
      */
     @Override
@@ -590,6 +591,66 @@ public class DefaultWorldLocalizationRegistry extends DefaultWorldModule impleme
         final String pattern = config.getString(WorldLocalizationEntry.FORMAT_DATE_TIME.getKey(), "");
 
         return DateTimeFormatter.ofPattern(pattern.isBlank() ? DefaultWorldLocalizationRegistry.DEFAULT_DATE_TIME_PATTERN : pattern, locale);
+    }
+
+    @Override
+    public List<Component> getItemLore(@NotNull final CommandSender commandSender, @NotNull final WorldLocalizationEntry entry, @NotNull final Map<String, String> placeholders) {
+        final Locale locale = (commandSender instanceof final Player player) ? player.locale() : this.defaultLocale;
+        final FileConfiguration config = this.translationConfigurations.getOrDefault(locale, this.translationConfigurations.get(this.defaultLocale));
+
+        final List<?> rawList = config.getList(entry.getKey());
+        if (rawList != null && !rawList.isEmpty()) {
+            // Annahme: Liste von Strings
+            final List<String> lines = rawList.stream()
+                    .filter(o -> o instanceof String)
+                    .map(o -> (String) o)
+                    .toList();
+
+            return lines.stream()
+                    .map(line -> {
+                        for (final Map.Entry<String, String> nextEntry : placeholders.entrySet()) {
+                            line = line.replace(entry.getKey(), nextEntry.getValue());
+                        }
+                        return Component.text(line);
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        // Falls keine Liste, versuche String einzeln
+        String singleLine = config.getString(entry.getKey());
+        if (singleLine != null) {
+            for (final Map.Entry<String, String> nextEntry : placeholders.entrySet()) {
+                singleLine = singleLine.replace(entry.getKey(), nextEntry.getValue());
+            }
+            return Collections.singletonList(Component.text(singleLine));
+        }
+
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Component> getItemLore(@NotNull final CommandSender commandSender, @NotNull final WorldLocalizationEntry entry) {
+        final Locale locale = (commandSender instanceof final Player player) ? player.locale() : this.defaultLocale;
+        final FileConfiguration config = this.translationConfigurations.getOrDefault(locale, this.translationConfigurations.get(this.defaultLocale));
+
+        final List<?> entries = config.getList(entry.getKey());
+
+        if ((entries != null) && (!entries.isEmpty())) {
+            final List<String> lines = entries.stream()
+                    .filter(String.class::isInstance)
+                    .map(o -> (String) o)
+                    .toList();
+
+            return lines.stream()
+                    .map(TextFormatter::parse)
+                    .toList();
+        }
+
+        final String singleLine = config.getString(entry.getKey());
+        if (singleLine != null) {
+            return Collections.singletonList(Component.text(singleLine));
+        }
+        return Collections.emptyList();
     }
 
     private static ClickEvent parseClickEvent(@NotNull final String action, @NotNull final String value) {

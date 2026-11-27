@@ -1,6 +1,7 @@
 package com.dev7ex.multiworld.api;
 
 import com.dev7ex.multicommon.api.configuration.ConfigurationHolder;
+import com.dev7ex.multiworld.api.inventory.WorldInventoryRegistry;
 import com.dev7ex.multiworld.api.localization.WorldLocalizationRegistry;
 import com.dev7ex.multiworld.api.module.WorldModuleManager;
 import com.dev7ex.multiworld.api.scheduler.WorldScheduler;
@@ -66,6 +67,8 @@ public interface MultiWorldApi extends Plugin, ConfigurationHolder {
     File getUserDirectory();
 
     void setUserDirectory(@NotNull final File userDirectory);
+
+    @NotNull WorldInventoryRegistry getInventoryRegistry();
 
     @NotNull
     WorldLocalizationRegistry getLocalizationRegistry();

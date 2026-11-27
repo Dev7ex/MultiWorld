@@ -5,6 +5,7 @@ import com.dev7ex.multiworld.api.module.WorldModule;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
@@ -50,5 +51,9 @@ public interface WorldLocalizationRegistry extends WorldModule, LocalizationRegi
 
     @NotNull
     DateTimeFormatter getDateTimeFormat(@NotNull final Audience audience);
+
+    List<Component> getItemLore(@NotNull final CommandSender commandSender, @NotNull final WorldLocalizationEntry entry, @NotNull final Map<String, String> placeholders);
+
+    List<Component> getItemLore(@NotNull final CommandSender commandSender, @NotNull final WorldLocalizationEntry entry);
 
 }
