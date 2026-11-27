@@ -14,9 +14,6 @@ import net.kyori.adventure.sound.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
  * @author Dev7ex
@@ -58,17 +55,12 @@ public class ReloadCommand extends PaperCommand implements EmptyTabCompleter {
                 commandSender.sendMessage(this.localizationRegistry.getComponent(commandSender, WorldLocalizationEntry.COMMAND_WORLD_CONFIG_RELOAD_FINISHING));
                 commandSender.playSound(Sound.sound(Key.key("block.note_block.pling"), Sound.Source.MASTER, 1.0F, 1.0F));
             };
-            if (commandSender instanceof Entity entity) {
+            if (commandSender instanceof final Entity entity) {
                 scheduler.runOnEntity(entity, finishing);
                 return;
             }
             scheduler.runTask(finishing);
         }));
-    }
-
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull final CommandSender commandSender, @NotNull final PaperCommandArgument[] arguments) {
-        return List.of();
     }
 
 }
